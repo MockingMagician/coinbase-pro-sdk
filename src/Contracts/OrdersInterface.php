@@ -6,6 +6,16 @@ namespace MockingMagician\CoinbaseProSdk\Contracts;
 
 interface OrdersInterface
 {
+    const STATUS_OPEN = 'open';
+    const STATUS_PENDING = 'pending';
+    const STATUS_ACTIVE = 'active';
+
+    const STATUS = [
+        self::STATUS_OPEN,
+        self::STATUS_PENDING,
+        self::STATUS_ACTIVE,
+    ];
+
     /**
      * !!! Open orders do not expire and will remain open until they are either filled or canceled.
      *
@@ -18,29 +28,29 @@ interface OrdersInterface
      * PARAMETERS
      * These parameters are common to all order types. Depending on the order type, additional parameters will be required (see below).
      *
-     * Param	Description
-     * client_oid	[optional] Order ID selected by you to identify your order
-     * type	[optional] limit or market (default is limit)
-     * side	buy or sell
-     * product_id	A valid product id
-     * stp	[optional] Self-trade prevention flag
-     * stop	[optional] Either loss or entry. Requires stop_price to be defined.
-     * stop_price	[optional] Only if stop is defined. Sets trigger price for stop order.
+     * Param    Description
+     * client_oid    [optional] Order ID selected by you to identify your order
+     * type    [optional] limit or market (default is limit)
+     * side    buy or sell
+     * product_id    A valid product id
+     * stp    [optional] Self-trade prevention flag
+     * stop    [optional] Either loss or entry. Requires stop_price to be defined.
+     * stop_price    [optional] Only if stop is defined. Sets trigger price for stop order.
      * LIMIT ORDER PARAMETERS
-     * Param	Description
-     * price	Price per bitcoin
-     * size	Amount of base currency to buy or sell
-     * time_in_force	[optional] GTC, GTT, IOC, or FOK (default is GTC)
-     * cancel_after	[optional]* min, hour, day
-     * post_only	[optional]** Post only flag
+     * Param    Description
+     * price    Price per bitcoin
+     * size    Amount of base currency to buy or sell
+     * time_in_force    [optional] GTC, GTT, IOC, or FOK (default is GTC)
+     * cancel_after    [optional]* min, hour, day
+     * post_only    [optional]** Post only flag
      *  * Requires time_in_force to be GTT
      *
      *  ** Invalid when time_in_force is IOC or FOK
      *
      * MARKET ORDER PARAMETERS
-     * Param	Description
-     * size	[optional]* Desired amount in base currency
-     * funds	[optional]* Desired amount of quote currency to use
+     * Param    Description
+     * size    [optional]* Desired amount in base currency
+     * funds    [optional]* Desired amount of quote currency to use
      *  * One of size or funds is required.
      *
      * PRODUCT ID
@@ -154,11 +164,11 @@ interface OrdersInterface
      * Two orders from the same user will not be allowed to match with one another.
      * To change the self-trade behavior, specify the stp flag.
      *
-     * Flag	Name
-     * dc	Decrease and Cancel (default)
-     * co	Cancel oldest
-     * cn	Cancel newest
-     * cb	Cancel both
+     * Flag    Name
+     * dc    Decrease and Cancel (default)
+     * co    Cancel oldest
+     * cn    Cancel newest
+     * cb    Cancel both
      * See the self-trade prevention documentation for details about these fields.
      *
      * ORDER LIFECYCLE
@@ -175,7 +185,137 @@ interface OrdersInterface
      * RESPONSE
      * A successful order will be assigned an order id. A successful order is defined as one that has been accepted by the matching engine.
      *
+     * @param CommonOrderToPlaceInterface $orderToPlace
+     * @return OrderDataInterface
+     * @throws ApiError
+     */
+    public function placeOrder(CommonOrderToPlaceInterface $orderToPlace): OrderDataInterface;
+
+    /**
+     * Cancel an Order
+     * Cancel a previously placed order. Order must belong to the profile that the API key belongs to.
+     *
+     * If the order had no matches during its lifetime its record may be purged.
+     * This means the order details will not be available with GET /orders/<id>.
+     *
+     * HTTP REQUEST
+     * DELETE /orders/<id>
+     * DELETE /orders/client:<client_oid>
+     *
+     * API KEY PERMISSIONS
+     * This endpoint requires the "trade" permission.
+     *
+     * Orders may be canceled using either the exchange assigned id or the client assigned client_oid.
+     * When using client_oid it must be preceded by the client: namespace.
+     *
+     * QUERY PARAMETERS
+     * Param    Default    Description
+     * product_id    [optional]    The product ID of the order.
+     * While not required, the request will be more performant if you include it.
+     *
+     * CANCEL REJECT
+     * If the order could not be canceled (already filled or previously canceled, etc),
+     * then an error response will indicate the reason in the message field.
+     *
+     * @param string $orderId
+     * @param string|null $productId
+     * @return bool
+     */
+    public function cancelOrderById(string $orderId, string $productId = null): bool;
+    public function cancelOrderByClientOrderId(string $clientOrderId, string $productId = null): bool;
+
+    /**
+     * Cancel all
+     * With best effort, cancel all open orders from the profile that the API key belongs to. The response is a list of ids of the canceled orders.
+     *
+     * [
+     *   "144c6f8e-713f-4682-8435-5280fbe8b2b4",
+     *   "debe4907-95dc-442f-af3b-cec12f42ebda",
+     *   "cf7aceee-7b08-4227-a76c-3858144323ab",
+     *   "dfc5ae27-cadb-4c0c-beef-8994936fde8a",
+     *   "34fecfbf-de33-4273-b2c6-baf8e8948be4"
+     * ]
+     *
+     * HTTP REQUEST
+     * DELETE /orders
+     *
+     * API KEY PERMISSIONS
+     * This endpoint requires the "trade" permission.
+     *
+     * QUERY PARAMETERS
+     * Param    Default    Description
+     * product_id    [optional]    Only cancel orders open for a specific product
+     *
+     * @param CommonOrderToPlaceInterface $orderToPlace
+     * @param string|null $productId
+     * @return array
+     */
+    public function cancelAllOrders(CommonOrderToPlaceInterface $orderToPlace, string $productId = null): array;
+
+    /**
+     * List Orders
+     *
+     * List your current open orders from the profile that the API key belongs to.
+     * Only open or un-settled orders are returned. As soon as an order is no longer open and settled, it will no longer appear in the default request.
+     *
+     * HTTP REQUEST
+     * GET /orders
+     *
+     * API KEY PERMISSIONS
+     * This endpoint requires either the "view" or "trade" permission.
+     *
+     * QUERY PARAMETERS
+     * Param    Default    Description
+     * status    [open, pending, active]    Limit list of orders to these statuses. Passing all returns orders of all statuses.
+     * product_id    [optional]    Only list orders for a specific product
+     * To specify multiple statuses, use the status query argument multiple times: /orders?status=done&status=pending.
+     *
+     * This request is paginated.
+     * ORDER STATUS AND SETTLEMENT
+     * Orders which are no longer resting on the order book, will be marked with the done status.
+     * There is a small window between an order being done and settled.
+     * An order is settled when all of the fills have settled and the remaining holds (if any) have been removed.
+     *
+     * POLLING
+     * For high-volume trading it is strongly recommended that you maintain your own list of open orders
+     * and use one of the streaming market data feeds to keep it updated.
+     * You should poll the open orders endpoint once when you start trading to obtain the current state of any open orders.
+     *
+     * executed_value is the cumulative match size * price and is only present for orders placed after 2016-05-20.
+     *
+     * Open orders may change state between the request and the response depending on market conditions.
+     *
+     * @param array $status one or more of self::STATUS
+     * @param string|null $productId
+     * @param PaginationInterface|null $pagination
+     * @return OrderDataInterface[]
+     */
+    public function listOrders(
+        array $status = self::STATUS,
+        string $productId = null,
+        PaginationInterface $pagination = null
+    ): array;
+
+    /**
+     * Get an Order
+     * Get a single order by order id from the profile that the API key belongs to.
+     *
+     * HTTP REQUEST
+     * GET /orders/<id>
+     * GET /orders/client:<client_oid>
+     *
+     * API KEY PERMISSIONS
+     * This endpoint requires either the "view" or "trade" permission.
+     *
+     * Orders may be queried using either the exchange assigned id or the client assigned client_oid.
+     * When using client_oid it must be preceded by the client: namespace.
+     *
+     * If the order is canceled the response may have status code 404 if the order had no matches.
+     *
+     * Open orders may change state between the request and the response depending on market conditions.
+     * @param string $orderId
      * @return OrderDataInterface
      */
-    public function placeOrder(): OrderDataInterface;
+    public function getOrderById(string $orderId): OrderDataInterface;
+    public function getOrderByClientOrderId(string $clientOrderId): OrderDataInterface;
 }
