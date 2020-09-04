@@ -253,6 +253,7 @@ interface OrdersInterface
     public function cancelAllOrders(CommonOrderToPlaceInterface $orderToPlace, string $productId = null): array;
 
     /**
+     * !!! This request is paginated.
      * List Orders
      *
      * List your current open orders from the profile that the API key belongs to.
