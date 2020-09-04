@@ -33,7 +33,7 @@ interface AccountsInterface
     public function getAccount(string $id): AccountDataInterface;
 
     /**
-     * !!!This request is paginated
+     * !!! This request is paginated
      *
      * HTTP REQUEST
      * GET /accounts/<account-id>/ledger
@@ -44,15 +44,15 @@ interface AccountsInterface
      * ENTRY TYPES
      * Entry type indicates the reason for the account change.
      *
-     * Type	Description
-     * transfer	Funds moved to/from Coinbase to Coinbase Pro
-     * match	Funds moved as a result of a trade
-     * fee	Fee as a result of a trade
-     * rebate	Fee rebate as per our fee schedule
-     * conversion	Funds converted between fiat currency and a stablecoin
+     * Type    Description
+     * transfer    Funds moved to/from Coinbase to Coinbase Pro
+     * match    Funds moved as a result of a trade
+     * fee    Fee as a result of a trade
+     * rebate    Fee rebate as per our fee schedule
+     * conversion    Funds converted between fiat currency and a stablecoin
      *
-     * @todo here an example of what is show in the conbase pro api return example
-     * @todo need to realy check it
+     * TODO here an example of what is show in the conbase pro api return example
+     * TODO need to realy check it
      *
      * [
      *   {
@@ -70,11 +70,41 @@ interface AccountsInterface
      * ]
      *
      * @param string $id
+     * @param PaginationInterface|null $pagination null if get history from beginning
+     *
      * @return AccountHistoryDataInterface[]
      */
-    public function getAccountHistory(string $id): array;
+    public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array;
 
     /**
+     * !!! This request is paginated
+     *
+     * HTTP REQUEST
+     * GET /accounts/<account_id>/holds
+     *
+     * API KEY PERMISSIONS
+     * This endpoint requires either the "view" or "trade" permission.
+     *
+     * TYPE
+     * The type of the hold will indicate why the hold exists.
+     * The hold type is order for holds related to open orders and transfer for holds related to a withdraw.
+     *
+     * REF
+     * The ref field contains the id of the order or transfer which created the hold.
+     *
+     * TODO check returned data from api to define HoldDataInterface
+     * [
+     *   {
+     *     "id": "82dcd140-c3c7-4507-8de4-2c529cd1a28f",
+     *     "account_id": "e0b3f39a-183d-453e-b754-0c13e5bab0b3",
+     *     "created_at": "2014-11-06T10:34:47.123456Z",
+     *     "updated_at": "2014-11-06T10:40:47.123456Z",
+     *     "amount": "4.23",
+     *     "type": "order",
+     *     "ref": "0a205de4-dd35-4370-a285-fe8fc375a273",
+     *   }
+     * ]
+     *
      * @return array
      */
     public function getHolds(): array;
