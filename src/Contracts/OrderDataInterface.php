@@ -3,7 +3,29 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts;
 
-
+/**
+ * Interface OrderDataInterface
+ * @package MockingMagician\CoinbaseProSdk\Contracts
+ *
+ * TODO check
+ * {
+ *   "id": "d0c5340b-6d6c-49d9-b567-48c4bfca13d2",
+ *   "price": "0.10000000",
+ *   "size": "0.01000000",
+ *   "product_id": "BTC-USD",
+ *   "side": "buy",
+ *   "stp": "dc",
+ *   "type": "limit",
+ *   "time_in_force": "GTC",
+ *   "post_only": false,
+ *   "created_at": "2016-12-08T20:02:28.53864Z",
+ *   "fill_fees": "0.0000000000000000",
+ *   "filled_size": "0.00000000",
+ *   "executed_value": "0.0000000000000000",
+ *   "status": "pending",
+ *   "settled": false
+ * }
+ */
 interface OrderDataInterface
 {
     const SIDE_BUY = 'buy';
@@ -65,46 +87,37 @@ interface OrderDataInterface
     ];
 
     /*
-     * GoodTillCancel (GTC)
-     * This is a type of Time in Force order that is placed by a trader to purchase or sell at a particular price
-     * which remains active until it’s cancelled by the trader.
+     * TIME IN FORCE
      *
-     * In other words, a trader will choose GTC when he/she is willing to wait until the full quantity of the order is filled.
-     * At the same time, the trader enjoys the flexibility to cancel unfilled quantity at any time.
+     * Time in force policies provide guarantees about the lifetime of an order.
+     * There are four policies:
+     * good till canceled GTC,
+     * good till time GTT,
+     * immediate or cancel IOC,
+     * and fill or kill FOK.
      *
-     * ImmediateOrCancel (IOC)
-     * An ImmediateOrCancel order (IOC) is an order to buy or sell at the limit price that executes all
-     * or part immediately and cancels any unfilled portion of the order. If the order can't be filled immediately,
-     * even partially, it will be cancelled immediately.
+     * GTC Good till canceled orders remain open on the book until canceled.
+     * This is the default behavior if no policy is specified.
      *
-     * Traders typically use IOC orders when submitting a large order to avoid having it filled at an array of prices.
-     * An IOC order automatically cancels any part of the order that doesn’t fill immediately.
-     * IOC orders help traders to limit risk, speed execution and provide price improvement by providing greater flexibility.
+     * GTT Good till time orders remain open on the book until canceled
+     * or the allotted cancel_after is depleted on the matching engine.
+     * GTT orders are guaranteed to cancel before any other order is processed
+     * after the cancel_after timestamp which is returned by the API.
+     * A day is considered 24 hours.
      *
-     * Assume, for example, that a trader places a Sell/Short limit order at US$10,500 at 10,000 contracts with IOC time in force strategy.
-     * When the market price goes to US$10,500, there are only 5,000 Buy/Long orders.
-     * Therefore, DueDEX will match buy and sell at US$ 10,500 for 5,000 contracts.
-     * While the remaining 5,000 contracts of Sell/Short will be cancelled.
+     * IOC Immediate or cancel orders instantly cancel the remaining size of the limit order instead of opening it on the book.
      *
-     * FillOrKill (FOK)
-     * Fill or kill (FOK) is a type of Time in Force designation used by traders that instructs a trading platform
-     * to execute a transaction at Limit Price or better immediately and completely, or not at all.
-     * This type of order is most often used by active traders and is usually for a large quantity of stock.
-     * The purpose of a fill or kill (FOK) order is to ensure that a position is entered at a desired price.
+     * FOK Fill or kill orders are rejected if the entire size cannot be matched.
      *
-     * Good Till Trigger (GTT)
-     * These Terms of Use govern the usage of services of the GTT Feature.
-     * By agreeing to use this GTT Feature terms, you agree to have read and understood these clauses,
-     * conditions, the modalities of how the GTT Feature clearly works,
-     * and Zerodha’s policies, procedures and risk disclosure documents.
+     * Note, match also refers to self trades.
      */
     const TIME_IN_FORCE_GOOD_TILL_CANCELED = 'GTC';
-    const TIME_IN_FORCE_GOOD_TILL_TRIGGER = 'GTT';
+    const TIME_IN_FORCE_GOOD_TILL_TIME = 'GTT';
     const TIME_IN_FORCE_IMMEDIATE_OR_CANCEL = 'IOC';
     const TIME_IN_FORCE_FILL_OR_KILL = 'FOK';
     const TIMES_IN_FORCE = [
         self::TIME_IN_FORCE_GOOD_TILL_CANCELED,
-        self::TIME_IN_FORCE_GOOD_TILL_TRIGGER,
+        self::TIME_IN_FORCE_GOOD_TILL_TIME,
         self::TIME_IN_FORCE_IMMEDIATE_OR_CANCEL,
         self::TIME_IN_FORCE_FILL_OR_KILL,
     ];
@@ -206,8 +219,59 @@ interface OrderDataInterface
     public function getSize(): float;
 
     /**
+     * TIME IN FORCE
+     *
+     * Time in force policies provide guarantees about the lifetime of an order.
+     * There are four policies:
+     * good till canceled GTC,
+     * good till time GTT,
+     * immediate or cancel IOC,
+     * and fill or kill FOK.
+     *
+     * GTC Good till canceled orders remain open on the book until canceled.
+     * This is the default behavior if no policy is specified.
+     *
+     * GTT Good till time orders remain open on the book until canceled
+     * or the allotted cancel_after is depleted on the matching engine.
+     * GTT orders are guaranteed to cancel before any other order is processed
+     * after the cancel_after timestamp which is returned by the API.
+     * A day is considered 24 hours.
+     *
+     * IOC Immediate or cancel orders instantly cancel the remaining size of the limit order instead of opening it on the book.
+     *
+     * FOK Fill or kill orders are rejected if the entire size cannot be matched.
+     *
+     * Note, match also refers to self trades.
+     *
      * @return string
      */
     public function getTimeInForce(): string;
+
+    /**
+     * POST ONLY
+     * The post-only flag indicates that the order should only make liquidity.
+     * If any part of the order results in taking liquidity, the order will be rejected and no part of it will execute.
+     *
+     * @return bool
+     */
+    public function isPostOnly(): bool;
+
+    /**
+     * HOLDS
+     * For limit buy orders, we will hold price x size x (1 + fee-percent) USD.
+     * For sell orders, we will hold the number of base currency you wish to sell.
+     * Actual fees are assessed at time of trade. If you cancel a partially filled or unfilled order,
+     * any remaining funds will be released from hold.
+     *
+     * For market buy orders where funds is specified, the funds amount will be put on hold.
+     * If only size is specified, all of your account balance (in the quote account) will be put on
+     * hold for the duration of the market order (usually a trivially short time).
+     * For a sell order, the size in base currency will be put on hold.
+     * If size is not specified (and only funds is specified),
+     * your entire base currency balance will be on hold for the duration of the market order.
+     *
+     * @return float
+     */
+    public function getHolds(): float;
 
 }
