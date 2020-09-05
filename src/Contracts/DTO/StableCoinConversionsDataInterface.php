@@ -16,7 +16,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  *   "to": "USDC"
  * }
  */
-class StableCoinConversionsDataInterface
+interface StableCoinConversionsDataInterface
 {
 
 }
