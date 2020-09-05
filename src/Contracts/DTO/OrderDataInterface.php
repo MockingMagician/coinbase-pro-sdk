@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MockingMagician\CoinbaseProSdk\Contracts;
+namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 /**
  * Interface OrderDataInterface

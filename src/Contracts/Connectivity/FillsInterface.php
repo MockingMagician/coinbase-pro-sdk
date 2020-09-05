@@ -1,8 +1,11 @@
 <?php
 
 
-namespace MockingMagician\CoinbaseProSdk\Contracts;
+namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
+
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\FillDataInterface;
 
 interface FillsInterface
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MockingMagician\CoinbaseProSdk\Contracts;
+namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 /**
  * Class LimitDataInterface
@@ -97,7 +97,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts;
  *   }
  * }
  */
-class LimitsDataInterface
+interface LimitsDataInterface
 {
 
 }

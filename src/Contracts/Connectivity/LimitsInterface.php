@@ -1,8 +1,10 @@
 <?php
 
 
-namespace MockingMagician\CoinbaseProSdk\Contracts;
+namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
+
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\LimitsDataInterface;
 
 interface LimitsInterface
 {

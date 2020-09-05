@@ -1,8 +1,13 @@
 <?php
 
 
-namespace MockingMagician\CoinbaseProSdk\Contracts;
+namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
+
+use MockingMagician\CoinbaseProSdk\Contracts\Build\CommonOrderToPlaceInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Error\ApiError;
 
 interface OrdersInterface
 {
