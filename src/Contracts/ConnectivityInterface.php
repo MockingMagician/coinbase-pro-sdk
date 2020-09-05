@@ -11,6 +11,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FeesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FillsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\LimitsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\MarginInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OracleInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OrdersInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\PaymentMethodsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
