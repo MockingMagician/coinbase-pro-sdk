@@ -6,6 +6,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CurrenciesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\DepositsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FeesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FillsInterface;
@@ -14,6 +15,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\MarginInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OracleInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OrdersInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\PaymentMethodsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProductsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;

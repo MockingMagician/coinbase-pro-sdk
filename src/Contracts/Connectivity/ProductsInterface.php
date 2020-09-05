@@ -4,6 +4,7 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 
+use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRateDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
@@ -179,10 +180,10 @@ interface ProductsInterface
      * This endpoint has a custom rate limit by IP: 1 request per second, up to 2 requests per second in bursts
      *
      * PARAMETERS
-     * Param	Description
-     * start	Start time in ISO 8601
-     * end	End time in ISO 8601
-     * granularity	Desired timeslice in seconds
+     * Param    Description
+     * start    Start time in ISO 8601
+     * end    End time in ISO 8601
+     * granularity    Desired timeslice in seconds
      *
      * DETAILS
      * If either one of the start or end fields are not provided then both fields will be ignored.
@@ -207,12 +208,16 @@ interface ProductsInterface
      * close closing price (last trade) in the bucket interval
      * volume volume of trading activity during the bucket interval
      *
+     * @param string $productId
+     * @param DateTimeInterface $startTime
+     * @param DateTimeInterface $endTime
+     * @param string $granularity
      * @return mixed
      */
     public function getHistoricRates(
         string $productId,
-        \DateTimeInterface $startTime,
-        \DateTimeInterface $endTime,
+        DateTimeInterface $startTime,
+        DateTimeInterface $endTime,
         string $granularity
     ): HistoricRateDataInterface;
 
