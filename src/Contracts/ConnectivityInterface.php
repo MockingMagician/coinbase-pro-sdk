@@ -9,6 +9,9 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\DepositsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FillsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\LimitsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OrdersInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\PaymentMethodsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 
 interface ConnectivityInterface
 {
