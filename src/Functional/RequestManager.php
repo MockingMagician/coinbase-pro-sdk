@@ -10,6 +10,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\ConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestManagerInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 
 class RequestManager implements RequestManagerInterface
 {
@@ -36,8 +37,8 @@ class RequestManager implements RequestManagerInterface
         $this->time = $time;
     }
 
-    public function prepareRequest(string $method, string $routePath, ?string $body = null): RequestInterface
+    public function prepareRequest(string $method, string $routePath, ?string $body = null, ?Pagination $pagination = null): RequestInterface
     {
-        return new Request($method, $routePath, $body, $this->client, $this->apiParams, $this->time);
+        return new Request($method, $routePath, $body, $pagination, $this->client, $this->apiParams, $this->time);
     }
 }

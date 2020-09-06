@@ -7,6 +7,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 
 class Accounts extends AbstractConnectivity implements AccountsInterface
@@ -24,12 +25,22 @@ class Accounts extends AbstractConnectivity implements AccountsInterface
         return AccountData::createCollectionFromJson($this->listRaw());
     }
 
+    public function getAccountRaw(string $id)
+    {
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s', $id))->signAndSend();
+    }
+
     /**
      * @inheritDoc
      */
     public function getAccount(string $id): AccountDataInterface
     {
-        // TODO: Implement getAccount() method.
+        return AccountData::createFromJson($this->getAccountRaw($id));
+    }
+
+    public function getAccountHistoryRaw(string $id, ?PaginationInterface $pagination = null)
+    {
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s/ledger', $id), null, $pagination)->signAndSend();
     }
 
     /**

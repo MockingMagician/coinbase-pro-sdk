@@ -22,19 +22,11 @@ interface PaginationInterface
         self::BEFORE,
     ];
 
-    /**
-     * @param string|null $direction null if first pagination from beginning
-     * @param string|null $offsetAfterOrBeforeDependingOnDirection null if first pagination from beginning
-     * @param int $limit
-     * @return PaginationInterface
-     */
-    public static function getNew(
-        string $direction = null,
-        string $offsetAfterOrBeforeDependingOnDirection = null,
-        int $limit = self::LIMIT
-    ): PaginationInterface;
-
-    public function getNext(string $after, int $limit = self::LIMIT): PaginationInterface;
-
-    public function getPrevious(string $before, int $limit = self::LIMIT): PaginationInterface;
+    public function setDirection(string $direction): void;
+    public function setOffset(string $offset): void;
+    public function setLimit(int $limit): void;
+    public function getDirection(): ?string;
+    public function getOffset(): ?string;
+    public function getLimit(): int;
+    public function getURI(): string;
 }

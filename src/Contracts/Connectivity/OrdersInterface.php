@@ -7,7 +7,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\CommonOrderToPlaceInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Contracts\Error\ApiErrorInterface;
 
 interface OrdersInterface
 {
@@ -192,7 +192,7 @@ interface OrdersInterface
      *
      * @param CommonOrderToPlaceInterface $orderToPlace
      * @return OrderDataInterface
-     * @throws ApiError
+     * @throws ApiErrorInterface
      */
     public function placeOrder(CommonOrderToPlaceInterface $orderToPlace): OrderDataInterface;
 

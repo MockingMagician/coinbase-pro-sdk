@@ -5,6 +5,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
 
 use Dotenv\Dotenv;
+use Exception;
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Functional\ApiParams;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
@@ -22,8 +23,14 @@ abstract class AbstractTest extends TestCase
      */
     protected $time;
 
+    /**
+     * @throws Exception
+     */
     public function setUp(): void
     {
+        if (!$this->isConnected()) {
+            throw new Exception("Functional test require internet connection");
+        }
         parent::setUp();
         $dotenv = Dotenv::createImmutable(__DIR__ . "/../../..");
         $dotenv->load();
@@ -32,5 +39,17 @@ abstract class AbstractTest extends TestCase
         $this->requestManager = new RequestManager($httpClient, $apiParams);
         $this->time = new Time($this->requestManager);
         $this->requestManager->setTimeInterface($this->time);
+    }
+
+    private function isConnected()
+    {
+        $en = $es = null;
+        $connected = @fsockopen("dns.google", 443, $en, $es, 3);
+        if (!$connected){
+            return false;
+        }
+
+        fclose($connected);
+        return true;
     }
 }

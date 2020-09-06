@@ -104,6 +104,11 @@ class AccountData implements AccountDataInterface
         );
     }
 
+    public static function createFromJson(string $json)
+    {
+        return self::createFromArray(json_decode($json, true));
+    }
+
     public static function createCollectionFromJson(string $json)
     {
         $collection = json_decode($json, true);
