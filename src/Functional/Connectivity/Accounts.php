@@ -48,14 +48,19 @@ class Accounts extends AbstractConnectivity implements AccountsInterface
      */
     public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array
     {
-        // TODO: Implement getAccountHistory() method.
+        // TODO: Missing data from test api
+    }
+
+    public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null)
+    {
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s/holds', $id), null, $pagination)->signAndSend();
     }
 
     /**
      * @inheritDoc
      */
-    public function getHolds(): array
+    public function getHolds(string $id, ?PaginationInterface $pagination = null): array
     {
-        // TODO: Implement getHolds() method.
+        // TODO: Missing data from test api
     }
 }

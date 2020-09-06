@@ -82,7 +82,9 @@ interface AccountsInterface
      *   }
      * ]
      *
+     * @param string $id
+     * @param PaginationInterface|null $pagination
      * @return array
      */
-    public function getHolds(): array;
+    public function getHolds(string $id, ?PaginationInterface $pagination = null): array;
 }

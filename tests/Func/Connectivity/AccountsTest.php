@@ -84,4 +84,27 @@ class AccountsTest extends AbstractTest
         $list = $this->accounts->list();
         $raw = $this->accounts->getAccountHistoryRaw($list[0]->getId());
     }
+
+    /**
+     * TODO data is missing for tests
+     */
+    public function testGetAccountHistory()
+    {
+    }
+
+    /**
+     * TODO data is missing for tests
+     */
+    public function testGetHoldsRaw()
+    {
+        $list = $this->accounts->list();
+        $raw = $this->accounts->getHoldsRaw($list[0]->getId());
+    }
+
+    /**
+     * TODO data is missing for tests
+     */
+    public function testGetHolds()
+    {
+    }
 }
