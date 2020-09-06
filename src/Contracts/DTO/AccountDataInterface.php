@@ -29,6 +29,7 @@ interface AccountDataInterface
     public function getCurrency(): string;
     public function getBalance(): float;
     public function getHoldFunds(): float;
-    public function getAvailableFunds(): string;
+    public function getAvailableFunds(): float;
     public function isTradingEnabled(): bool;
+    public function getProfileId(): string;
 }

@@ -19,6 +19,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProductsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 
@@ -27,7 +28,7 @@ interface ConnectivityInterface
     /*
      * Private
      */
-    public function getAccounts(): AccountsInterface;
+    public function accounts(): AccountsInterface;
     public function orders(): OrdersInterface;
     public function fills(): FillsInterface;
     public function limits(): LimitsInterface;

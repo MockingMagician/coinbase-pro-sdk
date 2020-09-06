@@ -14,5 +14,6 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  */
 interface TimeDataInterface
 {
-
+    public function getIso(): string;
+    public function getEpoch(): float;
 }
