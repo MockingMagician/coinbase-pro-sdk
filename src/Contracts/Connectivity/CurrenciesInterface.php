@@ -4,7 +4,7 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyInfoData;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDataInterface;
 
 interface CurrenciesInterface
 {
@@ -23,6 +23,8 @@ interface CurrenciesInterface
      * BTC	Bitcoin
      * ETH	Ether
      * LTC	Litecoin
+     *
+     * @return CurrencyDataInterface[]
      */
-    public function getCurrencies(): CurrencyInfoData;
+    public function getCurrencies(): array;
 }
