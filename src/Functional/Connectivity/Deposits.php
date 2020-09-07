@@ -8,6 +8,7 @@ use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\DepositsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\CryptoDepositAddressData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
@@ -86,19 +87,35 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
         return json_decode($this->doDepositRaw($amount, $currency, $paymentMethodId), true)['id'];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function doDepositFromCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
+    public function doDepositFromCoinbaseRaw(float $amount, string $currency, string $coinbaseAccountId)
     {
-        // TODO: Implement doDepositFromCoinbase() method.
+        $body = [
+            'amount' => $amount,
+            'currency' => $currency,
+            'coinbase_account_id' => $coinbaseAccountId,
+        ];
+
+        return $this->getRequestManager()->prepareRequest('POST', '/deposits/coinbase-account', json_encode($body))->signAndSend();
     }
 
     /**
      * @inheritDoc
      */
-    public function generateCryptoDepositAddress(): CryptoDepositAddressDataInterface
+    public function doDepositFromCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
     {
-        // TODO: Implement generateCryptoDepositAddress() method.
+        return json_decode($this->doDepositFromCoinbaseRaw($amount, $currency, $coinbaseAccountId))['id'];
+    }
+
+    public function generateCryptoDepositAddressRaw(string $coinbaseAccountId)
+    {
+        return $this->getRequestManager()->prepareRequest('POST', sprintf('/coinbase-accounts/%s/addresses', $coinbaseAccountId))->signAndSend();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function generateCryptoDepositAddress(string $coinbaseAccountId): CryptoDepositAddressDataInterface
+    {
+        return CryptoDepositAddressData::createFromJson($this->generateCryptoDepositAddressRaw($coinbaseAccountId));
     }
 }

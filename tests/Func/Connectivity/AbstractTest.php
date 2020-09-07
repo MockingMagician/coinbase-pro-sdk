@@ -29,7 +29,7 @@ abstract class AbstractTest extends TestCase
     public function setUp(): void
     {
         if (!$this->isConnected()) {
-            throw new Exception("Functional test require internet connection");
+            throw new Exception("Functional tests require internet connection");
         }
         ini_set('xdebug.var_display_max_depth', '25');
         ini_set('xdebug.var_display_max_children', '512');

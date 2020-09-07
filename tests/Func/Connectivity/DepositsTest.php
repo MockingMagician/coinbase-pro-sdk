@@ -3,8 +3,11 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressInfoDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Deposits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\CryptoDepositAddressInfoData;
 
 class DepositsTest extends AbstractTest
 {
@@ -16,12 +19,17 @@ class DepositsTest extends AbstractTest
      * @var PaymentMethods
      */
     private $paymentMethods;
+    /**
+     * @var CoinbaseAccounts
+     */
+    private $coinbaseAccounts;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->deposits = new Deposits($this->requestManager);
         $this->paymentMethods = new PaymentMethods($this->requestManager);
+        $this->coinbaseAccounts = new CoinbaseAccounts($this->requestManager);
     }
 
     public function testListDepositsRaw()
@@ -126,5 +134,56 @@ class DepositsTest extends AbstractTest
                 }
             }
         }
+    }
+
+    public function testDoDepositCoinbaseRaw()
+    {
+        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        foreach ($coinbaseAccounts as $ca) {
+            try {
+                $raw = $this->deposits->doDepositFromCoinbaseRaw(5, $ca->getCurrency(), $ca->getId());
+                self::assertStringContainsString('"id":', $raw);
+            } catch (\Throwable $e) {
+            }
+        }
+    }
+
+
+    public function testDoDepositCoinbase()
+    {
+        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        foreach ($coinbaseAccounts as $ca) {
+            try {
+                $id = $this->deposits->doDepositFromCoinbase(5, $ca->getCurrency(), $ca->getId());
+                self::assertIsString($id);
+            } catch (\Throwable $e) {
+            }
+        }
+    }
+
+    public function testGenerateCryptoDepositAddressRaw()
+    {
+        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $raw = $this->deposits->generateCryptoDepositAddressRaw($coinbaseAccounts[0]->getId());
+
+        self::assertStringContainsString('"id":', $raw);
+        self::assertStringContainsString('"address":', $raw);
+        self::assertStringContainsString('"created_at":', $raw);
+        self::assertStringContainsString('"updated_at":', $raw);
+        self::assertStringContainsString('"resource":', $raw);
+        self::assertStringContainsString('"exchange_deposit_address":', $raw);
+    }
+
+    public function testGenerateCryptoDepositAddress()
+    {
+        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $cryptoAddress = $this->deposits->generateCryptoDepositAddress($coinbaseAccounts[0]->getId());
+
+        self::assertIsString($cryptoAddress->getId());
+        self::assertIsString($cryptoAddress->getAddress());
+        self::assertInstanceOf(\DateTimeInterface::class, $cryptoAddress->getCreatedAt());
+        self::assertInstanceOf(\DateTimeInterface::class, $cryptoAddress->getUpdatedAt());
+        self::assertIsString($cryptoAddress->getResource());
+        self::assertIsBool($cryptoAddress->isExchangeDepositAddress());
     }
 }

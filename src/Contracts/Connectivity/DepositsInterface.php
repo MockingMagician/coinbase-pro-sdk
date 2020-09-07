@@ -122,7 +122,8 @@ interface DepositsInterface
      * API KEY PERMISSIONS
      * This endpoint requires the "transfer" permission. API key must belong to default profile.
      *
+     * @param string $coinbaseAccountId
      * @return CryptoDepositAddressDataInterface
      */
-    public function generateCryptoDepositAddress(): CryptoDepositAddressDataInterface;
+    public function generateCryptoDepositAddress(string $coinbaseAccountId): CryptoDepositAddressDataInterface;
 }
