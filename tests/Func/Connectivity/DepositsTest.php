@@ -113,4 +113,18 @@ class DepositsTest extends AbstractTest
             }
         }
     }
+
+    public function testDoDeposit()
+    {
+        $paymentMethods = $this->paymentMethods->listPaymentMethods();
+        foreach ($paymentMethods as $paymentMethod) {
+            foreach ($paymentMethod->getLimits()->getInstantBuy() as $paymentMethodLimitsDetailsData) {
+                if ($paymentMethodLimitsDetailsData->getRemaining()->getAmount() > 15) {
+                    $id = $this->deposits->doDeposit(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
+                    self::assertIsString($id);
+                    break;
+                }
+            }
+        }
+    }
 }

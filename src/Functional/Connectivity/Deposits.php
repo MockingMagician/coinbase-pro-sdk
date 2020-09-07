@@ -83,7 +83,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
      */
     public function doDeposit(float $amount, string $currency, string $paymentMethodId): string
     {
-        // TODO: Implement doDeposit() method.
+        return json_decode($this->doDepositRaw($amount, $currency, $paymentMethodId), true)['id'];
     }
 
     /**
