@@ -31,7 +31,6 @@ interface DepositsInterface
      * after    No    If after is set, then it returns deposits created before the after timestamp, sorted by newest
      * limit    No    Truncate list to this many deposits, capped at 100. Default is 100.
      *
-     * @param string $type
      * @param string|null $profileId
      * @param int|null $beforeTimestamp
      * @param int|null $afterTimestamp
@@ -39,11 +38,10 @@ interface DepositsInterface
      * @return DepositDataInterface[]
      */
     public function listDeposits(
-        string $type = 'deposit',
         ?string $profileId = null,
         ?int $beforeTimestamp = null,
         ?int $afterTimestamp = null,
-        int $limit = 100
+        ?int $limit = 100
     ): array;
 
     /**

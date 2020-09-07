@@ -86,6 +86,7 @@ class Request implements RequestInterface
                 'CB-ACCESS-SIGN' => $sign,
                 'CB-ACCESS-TIMESTAMP' => $time,
                 'CB-ACCESS-PASSPHRASE' => $this->apiParams->getPassphrase(),
+                'Content-Type' => 'application/json',
             ],
             $this->body
         );
@@ -104,7 +105,9 @@ class Request implements RequestInterface
             $request = new GuzzleRequest(
                 $this->method,
                 $uri,
-                [],
+                [
+                    'Content-Type' => 'application/json',
+                ],
                 $this->body
             );
         }

@@ -32,8 +32,6 @@ class CurrenciesTest extends AbstractTest
     {
         $currencies = $this->currencies->getCurrencies();
 
-        var_dump($currencies);
-
         self::assertIsString($currencies[0]->getId());
         self::assertIsString($currencies[0]->getName());
         self::assertIsFloat($currencies[0]->getMinSize());
