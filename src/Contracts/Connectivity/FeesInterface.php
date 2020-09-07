@@ -17,7 +17,7 @@ interface FeesInterface
      * This request will return your current maker & taker fee rates, as well as your 30-day trailing volume.
      * Quoted rates are subject to change. More information on fees can found on our support page.
      *
-     * @return FeeDataInterface[]
+     * @return FeeDataInterface
      */
-    public function getCurrentFees(): array;
+    public function getCurrentFees(): FeeDataInterface;
 }
