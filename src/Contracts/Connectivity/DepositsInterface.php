@@ -4,6 +4,7 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 
+use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 
@@ -32,15 +33,15 @@ interface DepositsInterface
      * limit    No    Truncate list to this many deposits, capped at 100. Default is 100.
      *
      * @param string|null $profileId
-     * @param int|null $beforeTimestamp
-     * @param int|null $afterTimestamp
+     * @param DateTimeInterface|null $before
+     * @param DateTimeInterface|null $after
      * @param int $limit
      * @return DepositDataInterface[]
      */
     public function listDeposits(
         ?string $profileId = null,
-        ?int $beforeTimestamp = null,
-        ?int $afterTimestamp = null,
+        ?DateTimeInterface $before = null,
+        ?DateTimeInterface $after = null,
         ?int $limit = 100
     ): array;
 

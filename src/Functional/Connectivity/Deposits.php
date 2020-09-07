@@ -8,6 +8,7 @@ use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\DepositsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 class Deposits extends AbstractConnectivity implements DepositsInterface
@@ -46,11 +47,11 @@ class Deposits extends AbstractConnectivity implements DepositsInterface
      */
     public function listDeposits(
         ?string $profileId = null,
-        ?int $beforeTimestamp = null,
-        ?int $afterTimestamp = null,
+        ?DateTimeInterface $before = null,
+        ?DateTimeInterface $after = null,
         ?int $limit = 100
     ): array {
-        // TODO: Implement listDeposits() method.
+        return DepositData::createCollectionFromJson($this->listDepositsRaw());
     }
 
     /**
