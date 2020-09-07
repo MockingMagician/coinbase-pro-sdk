@@ -59,7 +59,7 @@ class DepositData implements DepositDataInterface
         ?DateTimeImmutable $processedAt,
         string $accountId,
         string $userId,
-        int $userNonce,
+        ?int $userNonce,
         float $amount,
         array $details
     ) {
@@ -134,7 +134,7 @@ class DepositData implements DepositDataInterface
     /**
      * @return int
      */
-    public function getUserNonce(): int
+    public function getUserNonce(): ?int
     {
         return $this->userNonce;
     }
@@ -169,6 +169,11 @@ class DepositData implements DepositDataInterface
             $array['amount'],
             $array['details']
         );
+    }
+
+    public static function createFromJson(string $json)
+    {
+        return self::createFromArray(json_decode($json, true));
     }
 
     public static function createCollectionFromJson(string $json)

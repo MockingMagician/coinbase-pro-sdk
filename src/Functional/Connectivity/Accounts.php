@@ -9,7 +9,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 
-class Accounts extends AbstractConnectivity implements AccountsInterface
+class Accounts extends AbstractRequestManagerAware implements AccountsInterface
 {
     public function listRaw()
     {

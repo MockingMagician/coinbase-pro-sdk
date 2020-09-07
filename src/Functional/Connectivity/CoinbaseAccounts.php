@@ -7,7 +7,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CoinbaseAccountData;
 
-class CoinbaseAccounts extends AbstractConnectivity implements CoinbaseAccountsInterface
+class CoinbaseAccounts extends AbstractRequestManagerAware implements CoinbaseAccountsInterface
 {
     public function listCoinbaseAccountsRaw()
     {

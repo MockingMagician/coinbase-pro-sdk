@@ -22,9 +22,9 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsI
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\ConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 
-class Connectivity implements ConnectivityInterface
+class ApiConnectivity implements ApiConnectivityInterface
 {
     /**
      * @var AccountsInterface

@@ -7,7 +7,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 use GuzzleHttp\ClientInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\ConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestManagerInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;

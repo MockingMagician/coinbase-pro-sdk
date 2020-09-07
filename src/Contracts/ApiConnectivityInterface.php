@@ -23,7 +23,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 
-interface ConnectivityInterface
+interface ApiConnectivityInterface
 {
     /*
      * Private

@@ -55,10 +55,10 @@ interface DepositsInterface
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permission.
      *
-     * @param string $transferId
+     * @param string $depositId
      * @return DepositDataInterface
      */
-    public function getDeposit(string $transferId): DepositDataInterface;
+    public function getDeposit(string $depositId): DepositDataInterface;
 
     /**
      * Payment method

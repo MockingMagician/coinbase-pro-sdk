@@ -11,7 +11,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class Deposits extends AbstractConnectivity implements DepositsInterface
+class Deposits extends AbstractRequestManagerAware implements DepositsInterface
 {
     public function listDepositsRaw(
         ?string $profileId = null,
@@ -54,12 +54,28 @@ class Deposits extends AbstractConnectivity implements DepositsInterface
         return DepositData::createCollectionFromJson($this->listDepositsRaw());
     }
 
+    public function getDepositRaw(string $depositId)
+    {
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/transfers/%s', $depositId))->signAndSend();
+    }
+
     /**
      * @inheritDoc
      */
-    public function getDeposit(string $transferId): DepositDataInterface
+    public function getDeposit(string $depositId): DepositDataInterface
     {
-        // TODO: Implement getDeposit() method.
+        return DepositData::createFromJson($this->getDepositRaw($depositId));
+    }
+
+    public function doDepositRaw(float $amount, string $currency, string $paymentMethodId): string
+    {
+        $body = [
+            'amount' => $amount,
+            'currency' => $currency,
+            'payment_method_id' => $paymentMethodId,
+        ];
+
+        return $this->getRequestManager()->prepareRequest('POST', '/deposits/payment-method', json_encode($body))->signAndSend();
     }
 
     /**

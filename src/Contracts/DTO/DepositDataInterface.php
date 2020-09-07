@@ -38,7 +38,7 @@ interface DepositDataInterface
     public function getProcessedAt(): ?DateTimeInterface;
     public function getAccountId(): string;
     public function getUserId(): string;
-    public function getUserNonce(): int;
+    public function getUserNonce(): ?int;
     public function getAmount(): float;
     public function getDetails(): array;
 }

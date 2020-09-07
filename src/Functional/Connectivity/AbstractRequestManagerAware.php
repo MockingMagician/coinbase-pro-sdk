@@ -6,7 +6,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Contracts\RequestManagerInterface;
 
-class AbstractConnectivity
+class AbstractRequestManagerAware
 {
     /**
      * @var RequestManagerInterface
