@@ -43,9 +43,9 @@ interface FillsInterface
      * Fills are returned sorted by descending trade_id from the largest trade_id to the smallest trade_id. The CB-BEFORE header will have this first trade id so that future requests using the cb-before parameter will fetch fills with a greater trade id (newer fills).
      *
      * @param string|null $orderId
+     * @param string|null $productId
      * @param PaginationInterface|null $pagination
      * @return FillDataInterface[]
      */
-    public function listFillsForOrder(string $orderId, PaginationInterface $pagination = null): array;
-    public function listFillsForProduct(string $productId, PaginationInterface $pagination = null): array;
+    public function listFills(?string $orderId = null, ?string $productId = null, PaginationInterface $pagination = null): array;
 }

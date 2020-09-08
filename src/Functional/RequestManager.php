@@ -6,6 +6,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 
 use GuzzleHttp\ClientInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
@@ -37,8 +38,22 @@ class RequestManager implements RequestManagerInterface
         $this->time = $time;
     }
 
-    public function prepareRequest(string $method, string $routePath, ?string $body = null, ?Pagination $pagination = null): RequestInterface
-    {
-        return new Request($method, $routePath, $body, $pagination, $this->client, $this->apiParams, $this->time);
+    public function prepareRequest(
+        string $method,
+        string $routePath,
+        array $queryArgs = [],
+        ?string $body = null,
+        ?PaginationInterface $pagination = null
+    ): RequestInterface {
+        return new Request(
+            $this->client,
+            $this->apiParams,
+            $method,
+            $routePath,
+            $queryArgs,
+            $body,
+            $pagination,
+            $this->time
+        );
     }
 }

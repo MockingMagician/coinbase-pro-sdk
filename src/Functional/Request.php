@@ -7,6 +7,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
@@ -44,13 +45,14 @@ class Request implements RequestInterface
     private $pagination;
 
     public function __construct(
-        string $method,
-        string $routePath,
-        ?string $body,
-        ?Pagination $pagination,
         ClientInterface $client,
         ApiParamsInterface $apiParams,
-        ?TimeInterface $time
+        string $method,
+        string $routePath,
+        array $queryArgs = [],
+        ?string $body = null,
+        ?PaginationInterface $pagination = null,
+        ?TimeInterface $time = null
     ) {
         $this->client = $client;
         $this->method = $method;
@@ -67,7 +69,6 @@ class Request implements RequestInterface
         if ($this->time) {
             $time = $this->time->getTime()->getEpoch();
         }
-        $time += 1; //Gives us extra second for processing before send
         if ($this->pagination) {
             $this->routePath .= '?' . $this->pagination->getURI();
         }

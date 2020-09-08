@@ -12,7 +12,7 @@ class Time extends AbstractRequestManagerAware implements TimeInterface
 {
     public function getTimeRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/time', null)->send();
+        return $this->getRequestManager()->prepareRequest('GET', '/time')->send();
     }
 
     public function getTime(): TimeDataInterface

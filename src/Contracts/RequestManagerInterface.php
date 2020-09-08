@@ -4,9 +4,15 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts;
 
 
-use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 
 interface RequestManagerInterface
 {
-    public function prepareRequest(string $method, string $routePath, ?string $body = null, ?Pagination $pagination = null): RequestInterface;
+    public function prepareRequest(
+        string $method,
+        string $routePath,
+        array $queryArgs = [],
+        ?string $body = null,
+        ?PaginationInterface $pagination = null
+    ): RequestInterface;
 }
