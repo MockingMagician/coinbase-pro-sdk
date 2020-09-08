@@ -48,5 +48,13 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  */
 interface OrderBookDataInterface
 {
-
+    public function getSequence(): int;
+    /**
+     * @return OrderBookDetailsDataInterface[]
+     */
+    public function getBids(): array;
+    /**
+     * @return OrderBookDetailsDataInterface[]
+     */
+    public function getAsks(): array;
 }

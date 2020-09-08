@@ -121,11 +121,12 @@ interface ProductsInterface
      * !!! Abuse of Level 3 via polling will cause your access to be limited or blocked.
      * !!! !!! !!! !!!!!!! !!! !!! !!!
      *
+     * @param string $productId
      * @param string $level
      * @param bool $forceLevel3
      * @return OrderBookDataInterface
      */
-    public function getProductOrderBook(string $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface;
+    public function getProductOrderBook(string $productId, string $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface;
 
     /**
      * Get Product Ticker
