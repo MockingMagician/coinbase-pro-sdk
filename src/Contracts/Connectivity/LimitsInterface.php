@@ -8,7 +8,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\LimitsDataInterface;
 
 interface LimitsInterface
 {
-
     /**
      * Limits
      * Get Current Exchange Limits

@@ -11,6 +11,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
+use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 
 class Request implements RequestInterface
@@ -43,6 +44,10 @@ class Request implements RequestInterface
      * @var Pagination|null
      */
     private $pagination;
+    /**
+     * @var array
+     */
+    private $queryArgs;
 
     public function __construct(
         ClientInterface $client,
@@ -61,27 +66,52 @@ class Request implements RequestInterface
         $this->apiParams = $apiParams;
         $this->time = $time;
         $this->pagination = $pagination;
+        $this->queryArgs = $queryArgs;
+    }
+
+    private function getTime()
+    {
+        if ($this->time) {
+            return $this->time->getTime()->getEpoch();
+        }
+
+        return time();
+    }
+
+    private function getQueryString(): string
+    {
+        if ($this->pagination) {
+            return http_build_query(array_merge($this->queryArgs, $this->pagination->getQueryArgs()));
+        }
+
+        return http_build_query($this->queryArgs);
+    }
+
+    private function getFullRoutePath()
+    {
+        if (!empty($query = $this->getQueryString())) {
+            return $this->routePath . '?' . $query;
+        }
+
+        return $this->routePath;
+    }
+
+    private function getUri()
+    {
+        return $this->apiParams->getEndPoint().$this->getFullRoutePath();
     }
 
     public function signAndSend()
     {
-        $time = time();
-        if ($this->time) {
-            $time = $this->time->getTime()->getEpoch();
-        }
-        if ($this->pagination) {
-            $this->routePath .= '?' . $this->pagination->getURI();
-        }
-        $what = $time . $this->method . $this->routePath . ($this->body ?? '');
+        $time = $this->getTime();
+        $what = $time . $this->method . $this->getFullRoutePath() . ($this->body ?? '');
         $key = base64_decode($this->apiParams->getSecret());
         $hmac = hash_hmac('sha256', $what, $key, true);
         $sign = base64_encode($hmac);
 
-        $uri = $this->apiParams->getEndPoint().$this->routePath;
-
         $request = new GuzzleRequest(
             $this->method,
-            $uri,
+            $this->getUri(),
             [
                 'CB-ACCESS-KEY' => $this->apiParams->getKey(),
                 'CB-ACCESS-SIGN' => $sign,
@@ -98,14 +128,9 @@ class Request implements RequestInterface
     public function send(?PsrRequestInterface $request = null)
     {
         if (!$request) {
-            if ($this->pagination) {
-                $this->routePath .= '?' . $this->pagination->getURI();
-            }
-            $uri = $this->apiParams->getEndPoint().$this->routePath;
-
             $request = new GuzzleRequest(
                 $this->method,
-                $uri,
+                $this->getUri(),
                 [
                     'Content-Type' => 'application/json',
                 ],
@@ -113,7 +138,11 @@ class Request implements RequestInterface
             );
         }
 
-        $response = $this->client->send($request);
+        try {
+            $response = $this->client->send($request);
+        } catch (\Throwable $exception) {
+            throw new ApiError($exception->getMessage());
+        }
 
 //        var_dump($response->getHeader(Pagination::HEADER_AFTER));
 //        var_dump($response->getHeader(Pagination::HEADER_BEFORE));

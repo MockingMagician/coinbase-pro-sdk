@@ -28,5 +28,5 @@ interface PaginationInterface
     public function getDirection(): ?string;
     public function getOffset(): ?string;
     public function getLimit(): int;
-    public function getURI(): string;
+    public function getQueryArgs(): array;
 }

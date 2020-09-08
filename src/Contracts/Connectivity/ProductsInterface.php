@@ -11,7 +11,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\SnapshotTickerDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\Stats24hrDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TradeDataInterface;
-use SebastianBergmann\GlobalState\Snapshot;
 
 interface ProductsInterface
 {
@@ -224,12 +223,12 @@ interface ProductsInterface
     /**
      * Get 24hr Stats
     {
-    "open": "6745.61000000",
-    "high": "7292.11000000",
-    "low": "6650.00000000",
-    "volume": "26185.51325269",
-    "last": "6813.19000000",
-    "volume_30day": "1019451.11188405"
+      "open": "6745.61000000",
+      "high": "7292.11000000",
+      "low": "6650.00000000",
+      "volume": "26185.51325269",
+      "last": "6813.19000000",
+      "volume_30day": "1019451.11188405"
     }
     Get 24 hr stats for the product. volume is in base currency units. open, high, low are in quote currency units.
 

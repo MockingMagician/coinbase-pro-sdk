@@ -3,11 +3,9 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressInfoDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Deposits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\CryptoDepositAddressInfoData;
 
 class DepositsTest extends AbstractTest
 {

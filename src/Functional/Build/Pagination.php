@@ -77,14 +77,14 @@ class Pagination implements PaginationInterface
         $this->limit = $limit;
     }
 
-    public function getURI(): string
+    public function getQueryArgs(): array
     {
-        $uri = [];
+        $args = [];
         if ($this->direction && $this->offset) {
-            $uri[] = $this->direction . '=' . $this->offset;
+            $args[$this->direction] = $this->offset;
         }
-        $uri[] = 'limit=' . $this->limit;
+        $args['limit'] = $this->limit;
 
-        return implode('&', $uri);
+        return $args;
     }
 }

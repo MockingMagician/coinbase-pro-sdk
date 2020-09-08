@@ -38,9 +38,8 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
         if ($limit) {
             $query['limit'] = $limit;
         }
-        $query = http_build_query($query);
 
-        return $this->getRequestManager()->prepareRequest('GET', '/transfers?'.$query)->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/transfers', $query)->signAndSend();
     }
 
     /**
@@ -76,7 +75,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             'payment_method_id' => $paymentMethodId,
         ];
 
-        return $this->getRequestManager()->prepareRequest('POST', '/deposits/payment-method', json_encode($body))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('POST', '/deposits/payment-method', [], json_encode($body))->signAndSend();
     }
 
     /**
@@ -95,7 +94,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             'coinbase_account_id' => $coinbaseAccountId,
         ];
 
-        return $this->getRequestManager()->prepareRequest('POST', '/deposits/coinbase-account', json_encode($body))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('POST', '/deposits/coinbase-account', [], json_encode($body))->signAndSend();
     }
 
     /**
