@@ -4,8 +4,12 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\OracleCryptoSignedPricesInterface;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\OracleCryptoSignedPrices;
+
 interface OracleInterface
 {
+    const COINBASE_ORACLE_PUBLIC_KEY = '0xfCEAdAFab14d46e20144F48824d0C09B1a03F2BC';
     /**
      * Get cryptographically signed prices ready to be posted on-chain using Open Oracle smart contracts.
      *
@@ -23,5 +27,5 @@ interface OracleInterface
      * ● prices contains human-readable asset prices
      * @return array
      */
-    public function getCryptographicallySignedPrices(): array;
+    public function getCryptographicallySignedPrices(): OracleCryptoSignedPricesInterface;
 }
