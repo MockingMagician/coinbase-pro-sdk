@@ -178,13 +178,82 @@ class ProductsTest extends AbstractTest
     public function testGetTrades()
     {
         $product = $this->products->getProducts()[0];
-        $trade = $this->products->getTrades($product->getId())[0];
+        $trades = $this->products->getTrades($product->getId());
 
-        self::assertInstanceOf(\DateTimeInterface::class, $trade->getTime());
-        self::assertIsInt($trade->getTradeId());
-        self::assertIsFloat($trade->getPrice());
-        self::assertIsFloat($trade->getSize());
-        self::assertContains($trade->getSide(), TradeData::SIDES);
+        self::assertNotCount(0, $trades);
+        foreach ($trades as $trade) {
+            self::assertInstanceOf(\DateTimeInterface::class, $trade->getTime());
+            self::assertIsInt($trade->getTradeId());
+            self::assertIsFloat($trade->getPrice());
+            self::assertIsFloat($trade->getSize());
+            self::assertContains($trade->getSide(), TradeData::SIDES);
+        }
+    }
 
+    public function testGetHistoricRatesRaw()
+    {
+        $endTime = new \DateTime();
+        $startTime = clone $endTime;
+        $startTime->modify('-1 week');
+        $product = $this->products->getProducts()[0];
+        $raw = $this->products->getHistoricRatesRaw($product->getId(), $startTime, $endTime, Products::GRANULARITY_HOUR);
+
+        self::assertStringContainsString('[[', $raw);
+        self::assertStringContainsString(']]', $raw);
+    }
+
+    public function testGetHistoricRates()
+    {
+        $endTime = new \DateTime();
+        $startTime = clone $endTime;
+        $startTime->modify('-1 week');
+        $product = $this->products->getProducts()[0];
+
+        // Testing rate limit (call only once by second)
+        $t1 = microtime(true);
+        $this->products->getHistoricRates($product->getId(), $startTime, $endTime, Products::GRANULARITY_HOUR);
+        $historicRates = $this->products->getHistoricRates($product->getId(), $startTime, $endTime, Products::GRANULARITY_HOUR);
+        $t2 = microtime(true);
+
+        self::assertGreaterThan(1.0, $t2 - $t1);
+
+        self::assertIsInt($historicRates->getGranularity());
+        self::assertIsArray($historicRates->getCandles());
+        self::assertNotEmpty($historicRates->getCandles());
+
+        $candle = $historicRates->getCandles()[0];
+
+        self::assertIsInt($candle->getStartTime());
+        self::assertIsFloat($candle->getLowestPrice());
+        self::assertIsFloat($candle->getHighestPrice());
+        self::assertIsFloat($candle->getOpeningPrice());
+        self::assertIsFloat($candle->getClosingPrice());
+        self::assertIsFloat($candle->getTradingVolume());
+    }
+
+    public function testGet24hrStatsRaw()
+    {
+        $product = $this->products->getProducts()[0];
+        $raw = $this->products->get24hrStatsRaw($product->getId());
+
+        self::assertStringContainsString('"open":', $raw);
+        self::assertStringContainsString('"high":', $raw);
+        self::assertStringContainsString('"low":', $raw);
+        self::assertStringContainsString('"volume":', $raw);
+        self::assertStringContainsString('"last":', $raw);
+        self::assertStringContainsString('"volume_30day":', $raw);
+    }
+
+    public function testGet24hrStats()
+    {
+        $product = $this->products->getProducts()[0];
+        $stats24hrData = $this->products->get24hrStats($product->getId());
+
+        self::assertIsFloat($stats24hrData->getOpen());
+        self::assertIsFloat($stats24hrData->getHigh());
+        self::assertIsFloat($stats24hrData->getLow());
+        self::assertIsFloat($stats24hrData->getVolume());
+        self::assertIsFloat($stats24hrData->getLast());
+        self::assertIsFloat($stats24hrData->getVolume30day());
     }
 }

@@ -6,8 +6,8 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
 
 interface PaginationInterface
 {
-    const HEADER_AFTER = 'CB-AFTER';
-    const HEADER_BEFORE = 'CB-BEFORE';
+    const HEADER_AFTER = 'Cb-After';
+    const HEADER_BEFORE = 'Cb-Before';
     const HEADERS = [
         self::HEADER_AFTER,
         self::HEADER_BEFORE,

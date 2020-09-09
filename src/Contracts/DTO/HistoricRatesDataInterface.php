@@ -13,7 +13,11 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  * ...
  * ]
  */
-interface HistoricRateDataInterface
+interface HistoricRatesDataInterface
 {
-
+    public function getGranularity(): int;
+    /**
+     * @return HistoricRatesCandlesDataInterface[]
+     */
+    public function getCandles(): array;
 }

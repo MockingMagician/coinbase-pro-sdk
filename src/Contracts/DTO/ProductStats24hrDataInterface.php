@@ -16,7 +16,12 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  *   "volume_30day": "1019451.11188405"
  * }
  */
-interface Stats24hrDataInterface
+interface ProductStats24hrDataInterface
 {
-
+    public function getOpen(): float;
+    public function getHigh(): float;
+    public function getLow(): float;
+    public function getVolume(): float;
+    public function getLast(): float;
+    public function getVolume30day(): float;
 }

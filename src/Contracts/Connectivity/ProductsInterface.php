@@ -6,11 +6,11 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRateDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\Stats24hrDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductStats24hrDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TradeDataInterface;
 
 interface ProductsInterface
@@ -37,6 +37,14 @@ interface ProductsInterface
         self::GRANULARITY_HOUR,
         self::GRANULARITY_SIX_HOUR,
         self::GRANULARITY_DAY,
+    ];
+
+    const MAX_CANDLES = 300;
+
+    const RATE_LIMIT_HISTORIC_RATES = 1.0;
+
+    const RATE_LIMITS = [
+        self::RATE_LIMIT_HISTORIC_RATES,
     ];
 
     /**
@@ -213,31 +221,32 @@ interface ProductsInterface
      * @param string $productId
      * @param DateTimeInterface $startTime
      * @param DateTimeInterface $endTime
-     * @param string $granularity
+     * @param int $granularity
      * @return mixed
      */
     public function getHistoricRates(
         string $productId,
         DateTimeInterface $startTime,
         DateTimeInterface $endTime,
-        string $granularity
-    ): HistoricRateDataInterface;
+        int $granularity
+    ): HistoricRatesDataInterface;
 
     /**
      * Get 24hr Stats
-    {
-      "open": "6745.61000000",
-      "high": "7292.11000000",
-      "low": "6650.00000000",
-      "volume": "26185.51325269",
-      "last": "6813.19000000",
-      "volume_30day": "1019451.11188405"
-    }
-    Get 24 hr stats for the product. volume is in base currency units. open, high, low are in quote currency units.
-
-    HTTP REQUEST
-    GET /products/<product-id>/stats
+     * {
+     * "open": "6745.61000000",
+     * "high": "7292.11000000",
+     * "low": "6650.00000000",
+     * "volume": "26185.51325269",
+     * "last": "6813.19000000",
+     * "volume_30day": "1019451.11188405"
+     * }
+     * Get 24 hr stats for the product. volume is in base currency units. open, high, low are in quote currency units.
+     *
+     * HTTP REQUEST
+     * GET /products/<product-id>/stats
+     * @param string $productId
      * @return mixed
      */
-    public function get24hrStats(): Stats24hrDataInterface;
+    public function get24hrStats(string $productId): ProductStats24hrDataInterface;
 }

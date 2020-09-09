@@ -7,20 +7,26 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProductsInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRateDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\Stats24hrDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\TradeDataInterface;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\LimitsData;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductStats24hrDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\HistoricRatesData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderBookData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProductData;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\ProductStats24hrData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TickerSnapshotData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TradeData;
+use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 class Products extends AbstractRequestManagerAware implements ProductsInterface
 {
+    /**
+     * @var null|float
+     */
+    private static $lastCallToHistoricRates = null;
+
     public function getProductsRaw()
     {
         return $this->getRequestManager()->prepareRequest('GET', '/products')->send();
@@ -94,19 +100,68 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         return TradeData::createCollectionFromJson($this->getTradesRaw($productId, $pagination));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getHistoricRates(string $productId, DateTimeInterface $startTime, DateTimeInterface $endTime, string $granularity): HistoricRateDataInterface
+    public function getHistoricRatesRaw(string $productId, DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity)
     {
-        // TODO: Implement getHistoricRates() method.
+        if (!in_array($granularity, self::GRANULARITY)) {
+            throw new ApiError(sprintf(
+                'Granularity must be one of : %s. See %s docBlock for more information about.',
+                implode(', ', self::GRANULARITY),
+                ProductsInterface::class
+            ));
+        }
+
+        if ($endTime->getTimestamp() - $startTime->getTimestamp() < 1) {
+            throw new ApiError('StartTime must be before EndTime');
+        }
+
+        if (
+            ($expectedCandles = ($endTime->getTimestamp() - $startTime->getTimestamp()) / $granularity)
+            > self::MAX_CANDLES
+        ) {
+            throw new ApiError(sprintf(
+                'This exception happen cause you request a too large set of data. %s candles max is allowed. Please, change one of this value of granularity, startTime, endTime. Current values request an expected set of %s of candles',
+                self::MAX_CANDLES,
+                $expectedCandles
+            ));
+        }
+
+        $query = [
+            'start' => $startTime->format(DateTimeInterface::ISO8601),
+            'end' => $endTime->format(DateTimeInterface::ISO8601),
+            'granularity' => $granularity,
+        ];
+
+        if (!is_null(self::$lastCallToHistoricRates)) {
+            while ((microtime(true) - self::$lastCallToHistoricRates) < self::RATE_LIMIT_HISTORIC_RATES) {
+                continue;
+            }
+        }
+
+        $raw = $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/candles', $productId), $query)->send();
+
+        self::$lastCallToHistoricRates = microtime(true);
+
+        return $raw;
     }
 
     /**
      * @inheritDoc
      */
-    public function get24hrStats(): Stats24hrDataInterface
+    public function getHistoricRates(string $productId, DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity): HistoricRatesDataInterface
     {
-        // TODO: Implement get24hrStats() method.
+        return HistoricRatesData::createFromJson($granularity, $this->getHistoricRatesRaw($productId, $startTime, $endTime, $granularity));
+    }
+
+    public function get24hrStatsRaw(string $productId)
+    {
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/stats', $productId))->send();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get24hrStats(string $productId): ProductStats24hrDataInterface
+    {
+        return ProductStats24hrData::createFromJson($this->get24hrStatsRaw($productId));
     }
 }

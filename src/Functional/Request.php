@@ -12,6 +12,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Throwable;
 
@@ -141,10 +142,11 @@ class Request implements RequestInterface
 
         try {
             $response = $this->client->send($request);
-        } catch (Throwable $exception) {
+        } catch (ClientExceptionInterface $exception) {
             throw new ApiError($exception->getMessage());
         }
 
+        // TODO implement auto pagination based directly on direction and headers
 //        var_dump($response->getHeader(Pagination::HEADER_AFTER));
 //        var_dump($response->getHeader(Pagination::HEADER_BEFORE));
 
