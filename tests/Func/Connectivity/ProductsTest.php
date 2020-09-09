@@ -115,7 +115,9 @@ class ProductsTest extends AbstractTest
     public function testGetProductOrderBookRaw()
     {
         $products = $this->products->getProducts()[0];
-        $raw = $this->products->getProductOrderBookRaw($products->getId(), Products::LEVEL_THREE);
+        $raw = $this->products->getProductOrderBookRaw($products->getId(), Products::LEVEL_THREE, true);
+
+        var_dump($raw);
 
         self::assertStringContainsString('"bids":', $raw);
         self::assertStringContainsString('"asks":', $raw);
