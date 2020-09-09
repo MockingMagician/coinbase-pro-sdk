@@ -8,6 +8,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDetailsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Products;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\TradeData;
 
 class ProductsTest extends AbstractTest
 {
@@ -115,9 +116,7 @@ class ProductsTest extends AbstractTest
     public function testGetProductOrderBookRaw()
     {
         $products = $this->products->getProducts()[0];
-        $raw = $this->products->getProductOrderBookRaw($products->getId(), Products::LEVEL_THREE, true);
-
-        var_dump($raw);
+        $raw = $this->products->getProductOrderBookRaw($products->getId());
 
         self::assertStringContainsString('"bids":', $raw);
         self::assertStringContainsString('"asks":', $raw);
@@ -127,12 +126,65 @@ class ProductsTest extends AbstractTest
     public function testGetProductOrderBook()
     {
         $products = $this->products->getProducts()[0];
-        $productOrderBook = $this->products->getProductOrderBook($products->getId(), Products::LEVEL_THREE, true);
+        $productOrderBook = $this->products->getProductOrderBook($products->getId());
 
         self::assertIsInt($productOrderBook->getSequence());
         self::assertIsArray($productOrderBook->getBids());
         self::assertIsArray($productOrderBook->getAsks());
         self::assertInstanceOf(OrderBookDetailsDataInterface::class, $productOrderBook->getBids()[0]);
         self::assertInstanceOf(OrderBookDetailsDataInterface::class, $productOrderBook->getAsks()[0]);
+    }
+
+    public function testGetProductTickerRaw()
+    {
+        $product = $this->products->getProducts()[0];
+        $raw = $this->products->getProductTickerRaw($product->getId());
+
+        self::assertStringContainsString('"trade_id":', $raw);
+        self::assertStringContainsString('"price":', $raw);
+        self::assertStringContainsString('"size":', $raw);
+        self::assertStringContainsString('"bid":', $raw);
+        self::assertStringContainsString('"ask":', $raw);
+        self::assertStringContainsString('"volume":', $raw);
+        self::assertStringContainsString('"time":', $raw);
+    }
+
+    public function testGetProductTicker()
+    {
+        $product = $this->products->getProducts()[0];
+        $productTicker = $this->products->getProductTicker($product->getId());
+
+        self::assertIsInt($productTicker->getTradeId());
+        self::assertIsFloat($productTicker->getPrice());
+        self::assertIsFloat($productTicker->getSize());
+        self::assertIsFloat($productTicker->getBid());
+        self::assertIsFloat($productTicker->getAsk());
+        self::assertIsFloat($productTicker->getVolume());
+        self::assertInstanceOf(\DateTimeInterface::class, $productTicker->getTime());
+    }
+
+    public function testGetTradesRaw()
+    {
+        $product = $this->products->getProducts()[0];
+        $raw = $this->products->getTradesRaw($product->getId());
+
+        self::assertStringContainsString('"time":', $raw);
+        self::assertStringContainsString('"trade_id":', $raw);
+        self::assertStringContainsString('"price":', $raw);
+        self::assertStringContainsString('"size":', $raw);
+        self::assertStringContainsString('"side":', $raw);
+    }
+
+    public function testGetTrades()
+    {
+        $product = $this->products->getProducts()[0];
+        $trade = $this->products->getTrades($product->getId())[0];
+
+        self::assertInstanceOf(\DateTimeInterface::class, $trade->getTime());
+        self::assertIsInt($trade->getTradeId());
+        self::assertIsFloat($trade->getPrice());
+        self::assertIsFloat($trade->getSize());
+        self::assertContains($trade->getSide(), TradeData::SIDES);
+
     }
 }

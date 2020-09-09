@@ -254,7 +254,7 @@ class ProductData implements ProductDataInterface
             $array['cancel_only'],
             $array['limit_only'],
             $array['post_only'],
-            $array['trading_disabled'],
+            $array['trading_disabled']
         );
     }
 

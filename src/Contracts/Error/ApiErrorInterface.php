@@ -4,7 +4,9 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Error;
 
 
-interface ApiErrorInterface extends \Throwable
+use Throwable;
+
+interface ApiErrorInterface extends Throwable
 {
     public function getApiMessage(): string;
 }

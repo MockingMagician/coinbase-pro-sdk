@@ -5,16 +5,19 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
 
 use DateTimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProductsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRateDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\SnapshotTickerDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\Stats24hrDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TradeDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\LimitsData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderBookData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProductData;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\TickerSnapshotData;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\TradeData;
 
 class Products extends AbstractRequestManagerAware implements ProductsInterface
 {
@@ -65,20 +68,30 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         return OrderBookData::createFromJson($this->getProductOrderBookRaw($productId, $level, $forceLevel3));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getProductTicker(string $productId): SnapshotTickerDataInterface
+    public function getProductTickerRaw(string $productId)
     {
-        // TODO: Implement getProductTicker() method.
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/ticker', $productId))->send();
     }
 
     /**
      * @inheritDoc
      */
-    public function getTrades(string $productId): TradeDataInterface
+    public function getProductTicker(string $productId): TickerSnapshotDataInterface
     {
-        // TODO: Implement getTrades() method.
+        return TickerSnapshotData::createFromJson($this->getProductTickerRaw($productId));
+    }
+
+    public function getTradesRaw(string $productId, ?PaginationInterface $pagination = null)
+    {
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/trades', $productId), [], null, $pagination)->send();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTrades(string $productId, ?PaginationInterface $pagination = null): array
+    {
+        return TradeData::createCollectionFromJson($this->getTradesRaw($productId, $pagination));
     }
 
     /**

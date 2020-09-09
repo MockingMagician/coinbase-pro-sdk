@@ -5,10 +5,11 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 
 use DateTimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRateDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\SnapshotTickerDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\Stats24hrDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TradeDataInterface;
 
@@ -140,9 +141,9 @@ interface ProductsInterface
      * Polling is discouraged in favor of connecting via the websocket stream and listening for match messages.
      *
      * @param string $productId
-     * @return SnapshotTickerDataInterface
+     * @return TickerSnapshotDataInterface
      */
-    public function getProductTicker(string $productId): SnapshotTickerDataInterface;
+    public function getProductTicker(string $productId): TickerSnapshotDataInterface;
 
     /**
      * !!! This request is paginated.
@@ -161,9 +162,10 @@ interface ProductsInterface
      * Conversely, sell side indicates an up-tick.
      *
      * @param string $productId
-     * @return TradeDataInterface
+     * @param PaginationInterface $pagination
+     * @return TradeDataInterface[]
      */
-    public function getTrades(string $productId): TradeDataInterface;
+    public function getTrades(string $productId, ?PaginationInterface $pagination = null): array;
 
     /**
      * Get Historic Rates

@@ -13,6 +13,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
+use Throwable;
 
 class Request implements RequestInterface
 {
@@ -140,7 +141,7 @@ class Request implements RequestInterface
 
         try {
             $response = $this->client->send($request);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             throw new ApiError($exception->getMessage());
         }
 

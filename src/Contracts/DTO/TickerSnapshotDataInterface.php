@@ -3,6 +3,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
+use DateTimeInterface;
+
 /**
  * Interface SnapshotTickerDataInterface
  * @package MockingMagician\CoinbaseProSdk\Contracts\DTO
@@ -16,7 +18,13 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  *   "time": "2015-11-14T20:46:03.511254Z"
  * }
  */
-interface SnapshotTickerDataInterface
+interface TickerSnapshotDataInterface
 {
-
+    public function getTradeId(): int;
+    public function getPrice(): float;
+    public function getSize(): float;
+    public function getBid(): float;
+    public function getAsk(): float;
+    public function getVolume(): float;
+    public function getTime(): DateTimeInterface;
 }

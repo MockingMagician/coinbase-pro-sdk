@@ -3,6 +3,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
+use DateTimeInterface;
+
 /**
  * Interface TradeDataInterface
  * @package MockingMagician\CoinbaseProSdk\Contracts\DTO
@@ -24,5 +26,16 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  */
 interface TradeDataInterface
 {
+    const SIDE_BUY = 'buy';
+    const SIDE_SELL = 'sell';
+    const SIDES = [
+        self::SIDE_BUY,
+        self::SIDE_SELL,
+    ];
 
+    public function getTime(): DateTimeInterface;
+    public function getTradeId(): int;
+    public function getPrice(): float;
+    public function getSize(): float;
+    public function getSide(): string;
 }
