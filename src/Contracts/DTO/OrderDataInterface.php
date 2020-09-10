@@ -50,6 +50,8 @@ use DateTimeInterface;
  *    "status":"pending",
  *    "settled":false
  * }
+ *
+ * Depend on order context
  */
 interface OrderDataInterface
 {
@@ -59,7 +61,7 @@ interface OrderDataInterface
     public function getFunds(): ?float;
     public function getProductId(): string;
     public function getSide(): string;
-    public function getSelfTradePrevention(): string;
+    public function getSelfTradePrevention(): ?string;
     public function getType(): string;
     public function getTimeInForce(): ?string;
     public function isPostOnly(): bool;

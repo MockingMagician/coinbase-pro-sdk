@@ -232,9 +232,48 @@ class OrdersTest extends AbstractTest
         }
     }
 
+    public function testListOrdersRaw()
+    {
+        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $this->orders->placeOrder($orderToPlace);
+        $orderToPlace = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 0.001, null);
+        $this->orders->placeOrder($orderToPlace);
+        $raw = $this->orders->listOrdersRaw();
+
+        self::assertStringContainsString('"id":', $raw);
+        self::assertStringContainsString('"product_id":', $raw);
+        self::assertStringContainsString('"side":', $raw);
+        self::assertStringContainsString('"type":', $raw);
+        self::assertStringContainsString('"post_only":', $raw);
+        self::assertStringContainsString('"created_at":', $raw);
+        self::assertStringContainsString('"fill_fees":', $raw);
+        self::assertStringContainsString('"filled_size":', $raw);
+        self::assertStringContainsString('"executed_value":', $raw);
+        self::assertStringContainsString('"status":', $raw);
+        self::assertStringContainsString('"settled":', $raw);
+    }
+
     public function testListOrders()
     {
-        $raw = $this->orders->listOrdersRaw();
-        var_dump($raw);
+        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $this->orders->placeOrder($orderToPlace);
+        $orderToPlace = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 0.001, null);
+        $this->orders->placeOrder($orderToPlace);
+        $orders = $this->orders->listOrders();
+
+        foreach ($orders as $order) {
+            self::assertIsString($order->getId());
+            self::assertIsFloat($order->getSize());
+            self::assertIsString($order->getProductId());
+            self::assertIsString($order->getSide());
+            self::assertIsString($order->getType());
+            self::assertIsBool($order->isPostOnly());
+            self::assertInstanceOf(\DateTimeInterface::class, $order->getCreatedAt());
+            self::assertIsFloat($order->getFillFees());
+            self::assertIsFloat($order->getFilledSize());
+            self::assertIsFloat($order->getExecutedValue());
+            self::assertIsString($order->getStatus());
+            self::assertIsBool($order->isSettled());
+        }
     }
 }

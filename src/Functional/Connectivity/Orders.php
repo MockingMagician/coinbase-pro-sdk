@@ -98,13 +98,15 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
     public function listOrdersRaw(array $status = self::STATUS, string $productId = null, PaginationInterface $pagination = null)
     {
-        $body = $status;
+        $query = [];
+
+        $query['status'] = $status;
 
         if ($productId) {
-            $body = ['product_id' => $productId];
+            $query = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()->prepareRequest('GET', '/orders', [], json_encode($body), $pagination)->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/orders', $query, null, $pagination)->signAndSend();
     }
 
     /**
@@ -112,7 +114,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
      */
     public function listOrders(array $status = self::STATUS, string $productId = null, PaginationInterface $pagination = null): array
     {
-        // TODO: Implement listOrders() method.
+        return OrderData::createCollectionFromJson($this->listOrdersRaw($status, $productId, $pagination));
     }
 
     /**

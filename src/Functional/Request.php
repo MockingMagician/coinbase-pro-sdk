@@ -76,7 +76,9 @@ class Request implements RequestInterface
     private function getTime()
     {
         if ($this->time) {
-            return $this->time->getTime()->getEpoch();
+            try {
+                return $this->time->getTime()->getEpoch();
+            } catch (Throwable $exception) {}
         }
 
         return time();

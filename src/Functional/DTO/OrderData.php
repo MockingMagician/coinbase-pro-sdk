@@ -35,7 +35,7 @@ class OrderData implements OrderDataInterface
      */
     private $side;
     /**
-     * @var string
+     * @var string|null
      */
     private $selfTradePrevention;
     /**
@@ -82,7 +82,7 @@ class OrderData implements OrderDataInterface
         ?float $funds,
         string $productId,
         string $side,
-        string $selfTradePrevention,
+        ?string $selfTradePrevention,
         string $type,
         ?string $timeInForce,
         bool $postOnly,
@@ -152,9 +152,9 @@ class OrderData implements OrderDataInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSelfTradePrevention(): string
+    public function getSelfTradePrevention(): ?string
     {
         return $this->selfTradePrevention;
     }
@@ -248,7 +248,7 @@ class OrderData implements OrderDataInterface
             $array['funds'] ?? null,
             $array['product_id'],
             $array['side'],
-            $array['stp'],
+            $array['stp'] ?? null,
             $array['type'],
             $array['time_in_force'] ?? null,
             $array['post_only'],
@@ -264,5 +264,15 @@ class OrderData implements OrderDataInterface
     public static function createFromJson(string $json)
     {
         return self::createFromArray(json_decode($json, true));
+    }
+
+    public static function createCollectionFromJson(string $json)
+    {
+        $collection = json_decode($json, true);
+        foreach ($collection as $k => $v) {
+            $collection[$k] = self::createFromArray($v);
+        }
+
+        return $collection;
     }
 }

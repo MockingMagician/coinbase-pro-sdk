@@ -11,11 +11,14 @@ use MockingMagician\CoinbaseProSdk\Contracts\Error\ApiErrorInterface;
 
 interface OrdersInterface
 {
+//    const STATUS_ALL = 'all';
     const STATUS_OPEN = 'open';
     const STATUS_PENDING = 'pending';
     const STATUS_ACTIVE = 'active';
+    const STATUS_DONE = 'done';
 
     const STATUS = [
+        self::STATUS_DONE,
         self::STATUS_OPEN,
         self::STATUS_PENDING,
         self::STATUS_ACTIVE,
