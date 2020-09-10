@@ -33,7 +33,10 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $body = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()->prepareRequest('DELETE', sprintf('/orders/%s', $orderId), [], json_encode($body))->signAndSend();
+        return $this->getRequestManager()
+            ->prepareRequest('DELETE', sprintf('/orders/%s', $orderId), [], $body ? json_encode($body) : null)
+            ->signAndSend()
+        ;
     }
 
     /**
@@ -41,19 +44,56 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
      */
     public function cancelOrderById(string $orderId, string $productId = null): bool
     {
+        return $orderId === json_decode($this->cancelOrderByIdRaw($orderId, $productId), true);
+    }
+
+    public function cancelOrderByClientOrderIdRaw(string $clientOrderId, string $productId = null)
+    {
+        $body = null;
+
+        if ($productId) {
+            $body = ['product_id' => $productId];
+        }
+
+        return $this->getRequestManager()
+            ->prepareRequest('DELETE', sprintf('/orders/client:%s', $clientOrderId), [], $body ? json_encode($body) : null)
+            ->signAndSend()
+        ;
     }
 
     public function cancelOrderByClientOrderId(string $clientOrderId, string $productId = null): bool
     {
-        // TODO: Implement cancelOrderByClientOrderId() method.
+        $this->cancelOrderByClientOrderIdRaw($clientOrderId, $productId);
+
+        return true; // assume error was not throw equals true
+    }
+
+    public function cancelAllOrdersRaw(string $productId = null)
+    {
+        $body = null;
+
+        if ($productId) {
+            $body = ['product_id' => $productId];
+        }
+
+        return $this->getRequestManager()
+            ->prepareRequest('DELETE', '/orders', [], $body ? json_encode($body) : null)
+            ->signAndSend()
+        ;
     }
 
     /**
      * @inheritDoc
      */
-    public function cancelAllOrders(CommonOrderToPlaceInterface $orderToPlace, string $productId = null): array
+    public function cancelAllOrders(string $productId = null): array
     {
-        // TODO: Implement cancelAllOrders() method.
+        $ids = json_decode($this->cancelAllOrdersRaw($productId), true);
+
+        if (is_array($ids)) {
+            return $ids;
+        }
+
+        return [];
     }
 
     /**

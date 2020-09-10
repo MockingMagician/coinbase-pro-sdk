@@ -7,6 +7,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Products;
+use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 class OrdersTest extends AbstractTest
 {
@@ -18,6 +19,19 @@ class OrdersTest extends AbstractTest
      * @var Products
      */
     private $products;
+
+    public static function randomUUID() {
+        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand( 0, 0xffff ),
+            mt_rand( 0, 0xffff ),
+            mt_rand( 0, 0xffff ),
+            mt_rand( 0, 0x0fff ) | 0x4000,
+            mt_rand( 0, 0x3fff ) | 0x8000,
+            mt_rand( 0, 0xffff ),
+            mt_rand( 0, 0xffff ),
+            mt_rand( 0, 0xffff )
+        );
+    }
 
     public function setUp(): void
     {
@@ -109,27 +123,112 @@ class OrdersTest extends AbstractTest
         self::assertIsBool($order->isSettled());
     }
 
-    public function testDeleteOrder()
+    public function testDeleteOrderRaw()
     {
         $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
         $order = $this->orders->placeOrder($limitOrderToPlace);
         $raw = $this->orders->cancelOrderByIdRaw($order->getId());
 
-        var_dump($raw);
+        self::assertIsString($raw);
+        self::assertEquals($order->getId(), json_decode($raw, true));
 
-//        self::assertIsString($order->getId());
-//        self::assertIsFloat($order->getSize());
-//        self::assertIsFloat($order->getFunds());
-//        self::assertIsString($order->getProductId());
-//        self::assertIsString($order->getSide());
-//        self::assertIsString($order->getSelfTradePrevention());
-//        self::assertIsString($order->getType());
-//        self::assertIsBool($order->isPostOnly());
-//        self::assertInstanceOf(\DateTimeInterface::class, $order->getCreatedAt());
-//        self::assertIsFloat($order->getFillFees());
-//        self::assertIsFloat($order->getFilledSize());
-//        self::assertIsFloat($order->getExecutedValue());
-//        self::assertIsString($order->getStatus());
-//        self::assertIsBool($order->isSettled());
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $order = $this->orders->placeOrder($limitOrderToPlace);
+        $raw = $this->orders->cancelOrderByIdRaw($order->getId(), $order->getProductId());
+
+        self::assertIsString($raw);
+        self::assertEquals($order->getId(), json_decode($raw, true));
+    }
+
+    public function testDeleteOrderRawFail()
+    {
+        self::expectException(ApiError::class);
+        self::expectExceptionMessage('Invalid order id');
+        $this->orders->cancelOrderByIdRaw('not_a_valid_id');
+    }
+
+    public function testDeleteOrder()
+    {
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $order = $this->orders->placeOrder($limitOrderToPlace);
+        $isCancelled = $this->orders->cancelOrderById($order->getId());
+
+        self::assertTrue($isCancelled);
+
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $order = $this->orders->placeOrder($limitOrderToPlace);
+        $isCancelled = $this->orders->cancelOrderById($order->getId(), $order->getProductId());
+
+        self::assertTrue($isCancelled);
+    }
+
+    public function testDeleteOrderByClientIdRaw()
+    {
+        $clientOrderId = self::randomUUID();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $order = $this->orders->placeOrder($limitOrderToPlace);
+
+        $raw = $this->orders->cancelOrderByClientOrderIdRaw($clientOrderId);
+
+        self::assertIsString($raw);
+        self::assertEquals($order->getId(), json_decode($raw, true));
+
+        $clientOrderId = self::randomUUID();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $order = $this->orders->placeOrder($limitOrderToPlace);
+
+        $raw = $this->orders->cancelOrderByClientOrderIdRaw($clientOrderId, $order->getProductId());
+
+        self::assertIsString($raw);
+        self::assertEquals($order->getId(), json_decode($raw, true));
+    }
+
+    public function testDeleteOrderByClientId()
+    {
+        $clientOrderId = self::randomUUID();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $order = $this->orders->placeOrder($limitOrderToPlace);
+
+        $isCancelled = $this->orders->cancelOrderByClientOrderId($clientOrderId);
+        self::assertTrue($isCancelled);
+
+        $clientOrderId = self::randomUUID();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $order = $this->orders->placeOrder($limitOrderToPlace);
+
+        $isCancelled = $this->orders->cancelOrderByClientOrderId($clientOrderId, $order->getProductId());
+        self::assertTrue($isCancelled);
+    }
+
+    public function testDeleteAllOrdersRaw()
+    {
+        $this->orders->cancelAllOrdersRaw();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $orders = [];
+        for ($i = 0; $i < 3; $i++) {
+            $orders[] = $this->orders->placeOrder($limitOrderToPlace)->getId();
+        }
+
+        $cancelled = json_decode($this->orders->cancelAllOrdersRaw(), true);
+
+        foreach ($cancelled as $value) {
+            self::assertContains($value, $orders);
+        }
+    }
+
+    public function testDeleteAllOrder()
+    {
+        $this->orders->cancelAllOrders();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $orders = [];
+        for ($i = 0; $i < 3; $i++) {
+            $orders[] = $this->orders->placeOrder($limitOrderToPlace)->getId();
+        }
+
+        $cancelled = $this->orders->cancelAllOrders();
+
+        foreach ($cancelled as $value) {
+            self::assertContains($value, $orders);
+        }
     }
 }

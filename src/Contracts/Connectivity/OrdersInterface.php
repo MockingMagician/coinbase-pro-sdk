@@ -251,11 +251,10 @@ interface OrdersInterface
      * Param    Default    Description
      * product_id    [optional]    Only cancel orders open for a specific product
      *
-     * @param CommonOrderToPlaceInterface $orderToPlace
      * @param string|null $productId
      * @return array
      */
-    public function cancelAllOrders(CommonOrderToPlaceInterface $orderToPlace, string $productId = null): array;
+    public function cancelAllOrders(string $productId = null): array;
 
     /**
      * !!! This request is paginated.
