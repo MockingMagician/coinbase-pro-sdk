@@ -336,4 +336,26 @@ class OrdersTest extends AbstractTest
         self::assertStringContainsString('"status":', $raw);
         self::assertStringContainsString('"settled":', $raw);
     }
+
+    public function testGetOrderByClientOrderId()
+    {
+        $clientOrderId = self::randomUUID();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $this->orders->placeOrder($limitOrderToPlace);
+
+        $order = $this->orders->getOrderByClientOrderId($clientOrderId);
+
+        self::assertIsString($order->getId());
+        self::assertIsFloat($order->getSize());
+        self::assertIsString($order->getProductId());
+        self::assertIsString($order->getSide());
+        self::assertIsString($order->getType());
+        self::assertIsBool($order->isPostOnly());
+        self::assertInstanceOf(\DateTimeInterface::class, $order->getCreatedAt());
+        self::assertIsFloat($order->getFillFees());
+        self::assertIsFloat($order->getFilledSize());
+        self::assertIsFloat($order->getExecutedValue());
+        self::assertIsString($order->getStatus());
+        self::assertIsBool($order->isSettled());
+    }
 }

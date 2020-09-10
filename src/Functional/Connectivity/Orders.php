@@ -137,6 +137,6 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
     public function getOrderByClientOrderId(string $clientOrderId): OrderDataInterface
     {
-        // TODO: Implement getOrderByClientOrderId() method.
+        return OrderData::createFromJson($this->getOrderByClientOrderIdRaw($clientOrderId));
     }
 }
