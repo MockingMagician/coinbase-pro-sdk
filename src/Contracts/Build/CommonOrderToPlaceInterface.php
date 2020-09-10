@@ -78,12 +78,13 @@ interface CommonOrderToPlaceInterface
         self::STOP_LOSS,
     ];
 
-
-    public function getClientOrderId(): string;
     public function getType(): string;
     public function getSide(): string;
     public function getProductId(): string;
-    public function getSelfTradePrevention(): string;
-    public function getStop(): string;
-    public function getStopPrice(): string;
+    public function getSelfTradePrevention(): ?string;
+    public function getStop(): ?string;
+    public function getStopPrice(): ?string;
+    public function getClientOrderId(): ?string;
+
+    public function getBodyForRequest(): array;
 }

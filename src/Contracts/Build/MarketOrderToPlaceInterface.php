@@ -14,8 +14,8 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
  *
  * One of size or funds is required.
  */
-interface MarketOrderToPlace extends CommonOrderToPlaceInterface
+interface MarketOrderToPlaceInterface extends CommonOrderToPlaceInterface
 {
     public function getSize(): ?float;
-    public function getFund(): ?float;
+    public function getFunds(): ?float;
 }

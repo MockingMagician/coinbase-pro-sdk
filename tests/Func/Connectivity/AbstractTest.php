@@ -32,8 +32,8 @@ abstract class AbstractTest extends TestCase
             throw new Exception("Functional tests require internet connection");
         }
         ini_set('xdebug.var_display_max_depth', '16');
-        ini_set('xdebug.var_display_max_children', '64');
-        ini_set('xdebug.var_display_max_data', '256');
+        ini_set('xdebug.var_display_max_children', '128');
+        ini_set('xdebug.var_display_max_data', '1024');
         parent::setUp();
         $dotenv = Dotenv::createImmutable(__DIR__ . "/../../..");
         $dotenv->load();

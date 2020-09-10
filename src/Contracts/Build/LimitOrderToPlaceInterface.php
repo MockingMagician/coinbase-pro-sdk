@@ -15,7 +15,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
  * cancel_after	[optional]* min, hour, day
  * post_only	[optional]** Post only flag
  */
-interface LimitOrderToPlace extends CommonOrderToPlaceInterface
+interface LimitOrderToPlaceInterface extends CommonOrderToPlaceInterface
 {
     /*
      * TIME IN FORCE
@@ -65,7 +65,7 @@ interface LimitOrderToPlace extends CommonOrderToPlaceInterface
 
     public function getPrice(): float;
     public function getSize(): float;
-    public function getTimeInForce(): float;
+    public function getTimeInForce(): ?string;
     public function getCancelAfter(): ?string;
-    public function getPostOnly(): bool;
+    public function isPostOnly(): bool;
 }

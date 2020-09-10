@@ -5,6 +5,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
@@ -13,6 +14,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Throwable;
 
@@ -142,7 +144,17 @@ class Request implements RequestInterface
 
         try {
             $response = $this->client->send($request);
-        } catch (ClientExceptionInterface $exception) {
+        } catch (BadResponseException $exception) {
+            $message = $exception->getMessage();
+            if ($exception->hasResponse()
+                && ($array = json_decode($exception->getResponse()->getBody()->getContents(), true))
+                && isset($array['message'])
+            ) {
+                $message = $array['message'];
+            }
+
+            throw new ApiError($message);
+        } catch (Throwable $exception) {
             throw new ApiError($exception->getMessage());
         }
 
