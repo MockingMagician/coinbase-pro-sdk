@@ -25,12 +25,22 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
         return OrderData::createFromJson($this->placeOrderRaw($orderToPlace));
     }
 
+    public function cancelOrderByIdRaw(string $orderId, string $productId = null)
+    {
+        $body = null;
+
+        if ($productId) {
+            $body = ['product_id' => $productId];
+        }
+
+        return $this->getRequestManager()->prepareRequest('DELETE', sprintf('/orders/%s', $orderId), [], json_encode($body))->signAndSend();
+    }
+
     /**
      * @inheritDoc
      */
     public function cancelOrderById(string $orderId, string $productId = null): bool
     {
-        // TODO: Implement cancelOrderById() method.
     }
 
     public function cancelOrderByClientOrderId(string $clientOrderId, string $productId = null): bool

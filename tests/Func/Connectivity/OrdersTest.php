@@ -108,4 +108,28 @@ class OrdersTest extends AbstractTest
         self::assertIsString($order->getStatus());
         self::assertIsBool($order->isSettled());
     }
+
+    public function testDeleteOrder()
+    {
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $order = $this->orders->placeOrder($limitOrderToPlace);
+        $raw = $this->orders->cancelOrderByIdRaw($order->getId());
+
+        var_dump($raw);
+
+//        self::assertIsString($order->getId());
+//        self::assertIsFloat($order->getSize());
+//        self::assertIsFloat($order->getFunds());
+//        self::assertIsString($order->getProductId());
+//        self::assertIsString($order->getSide());
+//        self::assertIsString($order->getSelfTradePrevention());
+//        self::assertIsString($order->getType());
+//        self::assertIsBool($order->isPostOnly());
+//        self::assertInstanceOf(\DateTimeInterface::class, $order->getCreatedAt());
+//        self::assertIsFloat($order->getFillFees());
+//        self::assertIsFloat($order->getFilledSize());
+//        self::assertIsFloat($order->getExecutedValue());
+//        self::assertIsString($order->getStatus());
+//        self::assertIsBool($order->isSettled());
+    }
 }
