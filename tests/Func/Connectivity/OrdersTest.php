@@ -187,7 +187,7 @@ class OrdersTest extends AbstractTest
     {
         $clientOrderId = self::randomUUID();
         $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
-        $order = $this->orders->placeOrder($limitOrderToPlace);
+        $this->orders->placeOrder($limitOrderToPlace);
 
         $isCancelled = $this->orders->cancelOrderByClientOrderId($clientOrderId);
         self::assertTrue($isCancelled);
@@ -275,5 +275,65 @@ class OrdersTest extends AbstractTest
             self::assertIsString($order->getStatus());
             self::assertIsBool($order->isSettled());
         }
+    }
+
+    public function testGetAnOrderRaw()
+    {
+        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $order = $this->orders->placeOrder($orderToPlace);
+        $raw = $this->orders->getOrderByIdRaw($order->getId());
+
+        self::assertStringContainsString('"id":', $raw);
+        self::assertStringContainsString('"product_id":', $raw);
+        self::assertStringContainsString('"side":', $raw);
+        self::assertStringContainsString('"type":', $raw);
+        self::assertStringContainsString('"post_only":', $raw);
+        self::assertStringContainsString('"created_at":', $raw);
+        self::assertStringContainsString('"fill_fees":', $raw);
+        self::assertStringContainsString('"filled_size":', $raw);
+        self::assertStringContainsString('"executed_value":', $raw);
+        self::assertStringContainsString('"status":', $raw);
+        self::assertStringContainsString('"settled":', $raw);
+    }
+
+    public function testGetAnOrder()
+    {
+        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $orderPlaced = $this->orders->placeOrder($orderToPlace);
+        $order = $this->orders->getOrderById($orderPlaced->getId());
+
+        self::assertIsString($order->getId());
+        self::assertIsFloat($order->getSize());
+        self::assertIsString($order->getProductId());
+        self::assertIsString($order->getSide());
+        self::assertIsString($order->getType());
+        self::assertIsBool($order->isPostOnly());
+        self::assertInstanceOf(\DateTimeInterface::class, $order->getCreatedAt());
+        self::assertIsFloat($order->getFillFees());
+        self::assertIsFloat($order->getFilledSize());
+        self::assertIsFloat($order->getExecutedValue());
+        self::assertIsString($order->getStatus());
+        self::assertIsBool($order->isSettled());
+    }
+
+    public function testGetOrderByClientOrderIdRaw()
+    {
+        $clientOrderId = self::randomUUID();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $this->orders->placeOrder($limitOrderToPlace);
+
+        $raw = $this->orders->getOrderByClientOrderIdRaw($clientOrderId);
+
+        self::assertStringContainsString('"id":', $raw);
+        self::assertStringContainsString('"product_id":', $raw);
+        self::assertStringContainsString('"side":', $raw);
+        self::assertStringContainsString('"type":', $raw);
+        self::assertStringContainsString('"post_only":', $raw);
+        self::assertStringContainsString('"created_at":', $raw);
+        self::assertStringContainsString('"fill_fees":', $raw);
+        self::assertStringContainsString('"filled_size":', $raw);
+        self::assertStringContainsString('"executed_value":', $raw);
+        self::assertStringContainsString('"status":', $raw);
+        self::assertStringContainsString('"settled":', $raw);
     }
 }

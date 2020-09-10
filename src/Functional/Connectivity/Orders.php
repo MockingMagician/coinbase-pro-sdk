@@ -117,12 +117,22 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
         return OrderData::createCollectionFromJson($this->listOrdersRaw($status, $productId, $pagination));
     }
 
+    public function getOrderByIdRaw(string $orderId)
+    {
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/orders/%s', $orderId))->signAndSend();
+    }
+
     /**
      * @inheritDoc
      */
     public function getOrderById(string $orderId): OrderDataInterface
     {
-        // TODO: Implement getOrderById() method.
+        return OrderData::createFromJson($this->getOrderByIdRaw($orderId));
+    }
+
+    public function getOrderByClientOrderIdRaw(string $clientOrderId)
+    {
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/orders/client:%s', $clientOrderId))->signAndSend();
     }
 
     public function getOrderByClientOrderId(string $clientOrderId): OrderDataInterface
