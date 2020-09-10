@@ -231,4 +231,10 @@ class OrdersTest extends AbstractTest
             self::assertContains($value, $orders);
         }
     }
+
+    public function testListOrders()
+    {
+        $raw = $this->orders->listOrdersRaw();
+        var_dump($raw);
+    }
 }
