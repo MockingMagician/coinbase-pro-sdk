@@ -6,6 +6,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FillsInterface;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\FillData;
 
 class Fills extends AbstractRequestManagerAware implements FillsInterface
 {
@@ -29,5 +30,6 @@ class Fills extends AbstractRequestManagerAware implements FillsInterface
      */
     public function listFills(?string $orderId = null, ?string $productId = null, PaginationInterface $pagination = null): array
     {
+        return FillData::createCollectionFromJson($this->listFillsRaw($orderId, $productId));
     }
 }

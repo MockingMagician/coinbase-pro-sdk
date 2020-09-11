@@ -3,6 +3,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
+use DateTimeInterface;
+
 /**
  * Interface FillDataInterface
  * @package MockingMagician\CoinbaseProSdk\Contracts
@@ -24,5 +26,14 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  */
 interface FillDataInterface
 {
-
+    public function getTradeId(): int;
+    public function getProductId(): string;
+    public function getPrice(): float;
+    public function getSize(): float;
+    public function getOrderId(): string;
+    public function getCreatedAt(): DateTimeInterface;
+    public function getLiquidity(): string;
+    public function getFee(): float;
+    public function isSettled(): bool;
+    public function getSide(): string;
 }

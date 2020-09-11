@@ -120,7 +120,7 @@ class AccountsTest extends AbstractTest
         $list = $this->accounts->list();
         foreach ($list as $accountData) {
             $raw = $this->accounts->getHoldsRaw($list[0]->getId());
-//            var_dump($raw);
+            var_dump($raw);
         }
     }
 
