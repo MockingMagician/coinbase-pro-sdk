@@ -6,7 +6,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryEventDataInterface;
 
 interface AccountsInterface
 {
@@ -49,7 +49,7 @@ interface AccountsInterface
      * @param string $id
      * @param PaginationInterface|null $pagination null if get history from beginning
      *
-     * @return AccountHistoryDataInterface[]
+     * @return AccountHistoryEventDataInterface[]
      */
     public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array;
 

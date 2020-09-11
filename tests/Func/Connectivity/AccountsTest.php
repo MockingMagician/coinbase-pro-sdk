@@ -83,6 +83,13 @@ class AccountsTest extends AbstractTest
     {
         $list = $this->accounts->list();
         $raw = $this->accounts->getAccountHistoryRaw($list[0]->getId());
+
+        self::assertStringContainsString('"id":', $raw);
+        self::assertStringContainsString('"created_at":', $raw);
+        self::assertStringContainsString('"amount":', $raw);
+        self::assertStringContainsString('"balance":', $raw);
+        self::assertStringContainsString('"type":', $raw);
+        self::assertStringContainsString('"details":', $raw);
     }
 
     /**
@@ -90,6 +97,16 @@ class AccountsTest extends AbstractTest
      */
     public function testGetAccountHistory()
     {
+        $list = $this->accounts->list();
+        $accountHistory = $this->accounts->getAccountHistory($list[0]->getId());
+        $accountHistoryEvent = $accountHistory[0];
+
+        self::assertIsString($accountHistoryEvent->getId());
+        self::assertInstanceOf(\DateTimeInterface::class, $accountHistoryEvent->getCreatedAt());
+        self::assertIsFloat($accountHistoryEvent->getBalance());
+        self::assertIsFloat($accountHistoryEvent->getAmount());
+        self::assertIsString($accountHistoryEvent->getType());
+        self::assertIsArray($accountHistoryEvent->getDetails());
     }
 
     /**
@@ -97,8 +114,14 @@ class AccountsTest extends AbstractTest
      */
     public function testGetHoldsRaw()
     {
+        $this->markTestIncomplete(
+            'Data is missing for tests'
+        );
         $list = $this->accounts->list();
-        $raw = $this->accounts->getHoldsRaw($list[0]->getId());
+        foreach ($list as $accountData) {
+            $raw = $this->accounts->getHoldsRaw($list[0]->getId());
+//            var_dump($raw);
+        }
     }
 
     /**
@@ -106,5 +129,8 @@ class AccountsTest extends AbstractTest
      */
     public function testGetHolds()
     {
+        $this->markTestIncomplete(
+            'Data is missing for tests'
+        );
     }
 }

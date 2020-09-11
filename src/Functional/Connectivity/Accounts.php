@@ -8,6 +8,8 @@ use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountHistoryEventData;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\HoldData;
 
 class Accounts extends AbstractRequestManagerAware implements AccountsInterface
 {
@@ -47,7 +49,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
      */
     public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array
     {
-        // TODO: Missing data from test api
+        return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($id, $pagination));
     }
 
     public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null)
@@ -60,6 +62,6 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
      */
     public function getHolds(string $id, ?PaginationInterface $pagination = null): array
     {
-        // TODO: Missing data from test api
+        return HoldData::createCollectionFromJson($this->getHoldsRaw($id, $pagination));
     }
 }
