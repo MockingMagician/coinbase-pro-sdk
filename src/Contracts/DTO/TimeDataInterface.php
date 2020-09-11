@@ -1,19 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 /**
- * Interface TimeDataInterface
- * @package MockingMagician\CoinbaseProSdk\Contracts\DTO
- *
- * {
- *   "iso": "2015-01-07T23:47:25.201Z",
- *   "epoch": 1420674445.201
- * }
+ * Interface TimeDataInterface.
  */
 interface TimeDataInterface
 {
     public function getIso(): string;
+
     public function getEpoch(): float;
 }

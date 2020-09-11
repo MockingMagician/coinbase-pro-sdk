@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -57,57 +61,36 @@ class HoldData implements HoldDataInterface
         $this->Ref = $Ref;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->Id;
     }
 
-    /**
-     * @return string
-     */
     public function getAccountId(): string
     {
         return $this->AccountId;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->CreatedAt;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getUpdatedAt(): DateTimeInterface
     {
         return $this->UpdatedAt;
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return $this->Amount;
     }
 
-    /**
-     * @return float
-     */
     public function getType(): float
     {
         return $this->Type;
     }
 
-    /**
-     * @return string
-     */
     public function getRef(): string
     {
         return $this->Ref;

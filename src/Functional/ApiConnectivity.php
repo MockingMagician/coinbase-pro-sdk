@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional;
 
-
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CurrenciesInterface;
@@ -22,7 +27,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsI
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 
 class ApiConnectivity implements ApiConnectivityInterface
 {
@@ -119,7 +123,6 @@ class ApiConnectivity implements ApiConnectivityInterface
         UserAccountsInterface $userAccounts,
         WithdrawalsInterface $withdrawals
     ) {
-
         $this->accounts = $accounts;
         $this->coinbaseAccounts = $coinbaseAccounts;
         $this->currencies = $currencies;

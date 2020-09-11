@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileTransferDataInterface;
@@ -10,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileTransferDataInterface;
 interface ProfilesInterface
 {
     /**
-     * List Profiles
+     * List Profiles.
      *
      * List your profiles.
      *
@@ -24,13 +28,12 @@ interface ProfilesInterface
      * Param    Description
      * active    Only return active profiles if set true
      *
-     * @param bool $active
      * @return ProfileDataInterface[]
      */
     public function listProfiles(bool $active): array;
 
     /**
-     * Get a Profile
+     * Get a Profile.
      *
      * Get a single profile by profile id.
      *
@@ -39,14 +42,11 @@ interface ProfilesInterface
      *
      * API KEY PERMISSIONS
      * This endpoint requires the "view" permission and is accessible by any profile's API key.
-     *
-     * @param string $profileId
-     * @return ProfileDataInterface
      */
     public function getProfile(string $profileId): ProfileDataInterface;
 
     /**
-     * Create profile transfer
+     * Create profile transfer.
      *
      * Transfer funds from API key's profile to another user owned profile.
      *
@@ -62,12 +62,6 @@ interface ProfilesInterface
      * to    The target profile id of where funds will be transferred to
      * currency    i.e. BTC or USD
      * amount    Amount of currency to be transferred
-     *
-     * @param string $fromProfileId
-     * @param string $toProfileId
-     * @param string $currency
-     * @param float $amount
-     * @return ProfileTransferDataInterface
      */
     public function createProfileTransfer(
         string $fromProfileId,

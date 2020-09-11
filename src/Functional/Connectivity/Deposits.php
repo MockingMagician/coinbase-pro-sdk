@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
-
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\DepositsInterface;
@@ -20,7 +24,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
         ?DateTimeInterface $after = null,
         ?int $limit = 100
     ) {
-        if ($limit !== null && ($limit < 1 || $limit > 100)) {
+        if (null !== $limit && ($limit < 1 || $limit > 100)) {
             throw new ApiError(sprintf('Limit must between %s ans %s', 1, 100));
         }
 
@@ -43,7 +47,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function listDeposits(
         ?string $profileId = null,
@@ -60,7 +64,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getDeposit(string $depositId): DepositDataInterface
     {
@@ -79,7 +83,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function doDeposit(float $amount, string $currency, string $paymentMethodId): string
     {
@@ -98,7 +102,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function doDepositFromCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
     {
@@ -111,7 +115,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function generateCryptoDepositAddress(string $coinbaseAccountId): CryptoDepositAddressDataInterface
     {

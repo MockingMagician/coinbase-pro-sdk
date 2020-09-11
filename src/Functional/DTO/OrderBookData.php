@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDetailsDataInterface;
 
 class OrderBookData implements OrderBookDataInterface
 {
@@ -32,31 +35,23 @@ class OrderBookData implements OrderBookDataInterface
         $this->asks = $asks;
     }
 
-    /**
-     * @return int
-     */
     public function getSequence(): int
     {
         return $this->sequence;
     }
 
-    /**
-     * @return array
-     */
     public function getBids(): array
     {
         return $this->bids;
     }
 
-    /**
-     * @return array
-     */
     public function getAsks(): array
     {
         return $this->asks;
     }
 
-    public static function createFromArray(array $array) {
+    public static function createFromArray(array $array)
+    {
         $bids = [];
         foreach ($array['bids'] as $k => $v) {
             $array['bids'][$k] = OrderBookDetailsData::createFromArray($v);
@@ -64,11 +59,12 @@ class OrderBookData implements OrderBookDataInterface
         foreach ($array['asks'] as $k => $v) {
             $array['asks'][$k] = OrderBookDetailsData::createFromArray($v);
         }
+
         return new self($array['sequence'], $array['bids'], $array['asks']);
     }
 
-    public static function createFromJson(string $json) {
+    public static function createFromJson(string $json)
+    {
         return self::createFromArray(json_decode($json, true));
     }
-
 }

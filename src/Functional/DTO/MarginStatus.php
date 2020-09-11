@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 
@@ -31,25 +35,16 @@ class MarginStatus implements MarginStatusDataInterface
         $this->eligible = $eligible;
     }
 
-    /**
-     * @return int
-     */
     public function getTier(): int
     {
         return $this->tier;
     }
 
-    /**
-     * @return bool
-     */
     public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * @return bool
-     */
     public function isEligible(): bool
     {
         return $this->eligible;

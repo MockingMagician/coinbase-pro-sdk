@@ -1,19 +1,15 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
 
 /**
- * Interface LimitOrderToPlace
- * @package MockingMagician\CoinbaseProSdk\Contracts
- *
- * LIMIT ORDER PARAMETERS
- * Param	Description
- * price	Price per bitcoin
- * size	Amount of base currency to buy or sell
- * time_in_force	[optional] GTC, GTT, IOC, or FOK (default is GTC)
- * cancel_after	[optional]* min, hour, day
- * post_only	[optional]** Post only flag
+ * Interface LimitOrderToPlace.
  */
 interface LimitOrderToPlaceInterface extends CommonOrderToPlaceInterface
 {
@@ -64,8 +60,12 @@ interface LimitOrderToPlaceInterface extends CommonOrderToPlaceInterface
     ];
 
     public function getPrice(): float;
+
     public function getSize(): float;
+
     public function getTimeInForce(): ?string;
+
     public function getCancelAfter(): ?string;
+
     public function isPostOnly(): bool;
 }

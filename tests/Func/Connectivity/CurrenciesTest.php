@@ -1,11 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
-
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Currencies;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CurrenciesTest extends AbstractTest
 {
     /**

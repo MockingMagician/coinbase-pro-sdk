@@ -8,20 +8,15 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
-/**
- * Interface OrderBookDataInterface.
- */
-interface OrderBookDataInterface
+interface CreatorInterface
 {
-    public function getSequence(): int;
+    public static function createFromArray(array $array);
+
+    public static function createFromJson(string $json);
 
     /**
-     * @return OrderBookDetailsDataInterface[]
+     * @param string $json
+     * @return self[]
      */
-    public function getBids(): array;
-
-    /**
-     * @return OrderBookDetailsDataInterface[]
-     */
-    public function getAsks(): array;
+    public static function createCollectionFromJson(string $json): array;
 }

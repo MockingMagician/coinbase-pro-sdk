@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\LimitsDataInterface;
 
@@ -23,17 +27,11 @@ class LimitsData implements LimitsDataInterface
         $this->transferLimits = $transferLimits;
     }
 
-    /**
-     * @return string
-     */
     public function getLimitCurrency(): string
     {
         return $this->limitCurrency;
     }
 
-    /**
-     * @return array
-     */
     public function getTransferLimits(): array
     {
         return $this->transferLimits;

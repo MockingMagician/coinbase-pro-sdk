@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
-
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\MarginInterface;
@@ -15,8 +19,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalPowerDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatus;
 
 /**
- * Class Margin
- * @package MockingMagician\CoinbaseProSdk\Functional\Connectivity
+ * Class Margin.
  *
  * @warning Margin api is not yet eligible to consume for now. Do not call any methods except getStatus() to check eligibility
  */
@@ -30,7 +33,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getMarginProfileInformation(string $productId): MarginProfileDataInterface
     {
@@ -45,7 +48,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getBuyingPower(string $productId): BuyingPowerDataInterface
     {
@@ -60,7 +63,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getWithdrawalPower(string $currency): WithdrawalPowerDataInterface
     {
@@ -74,7 +77,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
 
     /**
      * // todo need a real return typed value
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getAllWithdrawalPowers()
     {
@@ -87,7 +90,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getExitPlan(): LiquidationStrategyDataInterface
     {
@@ -106,7 +109,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function listLiquidationHistory(?DateTimeInterface $after = null): array
     {
@@ -118,9 +121,8 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
         return $this->getRequestManager()->prepareRequest('GET', '/margin/position_refresh_amounts')->signAndSend();
     }
 
-
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getPositionsRefreshAmount(): PositionRefreshAmountsData
     {
@@ -133,7 +135,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getMarginStatus(): MarginStatusDataInterface
     {

@@ -1,10 +1,13 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
-use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OracleInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OracleCryptoSignedPricesInterface;
 
 class OracleCryptoSignedPrices implements OracleCryptoSignedPricesInterface
@@ -38,33 +41,21 @@ class OracleCryptoSignedPrices implements OracleCryptoSignedPricesInterface
         $this->prices = $prices;
     }
 
-    /**
-     * @return int
-     */
     public function getTimestamp(): int
     {
         return $this->timestamp;
     }
 
-    /**
-     * @return array
-     */
     public function getMessages(): array
     {
         return $this->messages;
     }
 
-    /**
-     * @return array
-     */
     public function getSignatures(): array
     {
         return $this->signatures;
     }
 
-    /**
-     * @return array
-     */
     public function getPrices(): array
     {
         return $this->prices;

@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDetailsDataInterface;
 
@@ -17,11 +21,11 @@ class OrderBookDetailsData implements OrderBookDetailsDataInterface
      */
     private $size;
     /**
-     * @var int|null
+     * @var null|int
      */
     private $numOrders;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $orderId;
 
@@ -33,33 +37,21 @@ class OrderBookDetailsData implements OrderBookDetailsDataInterface
         $this->orderId = $orderId;
     }
 
-    /**
-     * @return float
-     */
     public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @return float
-     */
     public function getSize(): float
     {
         return $this->size;
     }
 
-    /**
-     * @return int|null
-     */
     public function getNumOrders(): ?int
     {
         return $this->numOrders;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOrderId(): ?string
     {
         return $this->orderId;

@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Build;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -10,11 +14,11 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 class Pagination implements PaginationInterface
 {
     /**
-     * @var string|null
+     * @var null|string
      */
     private $direction;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $offset;
     /**

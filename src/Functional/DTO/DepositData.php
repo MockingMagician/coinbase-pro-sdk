@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -75,17 +79,11 @@ class DepositData implements DepositDataInterface
         $this->details = $details;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
@@ -115,17 +113,11 @@ class DepositData implements DepositDataInterface
         return $this->processedAt;
     }
 
-    /**
-     * @return string
-     */
     public function getAccountId(): string
     {
         return $this->accountId;
     }
 
-    /**
-     * @return string
-     */
     public function getUserId(): string
     {
         return $this->userId;
@@ -139,17 +131,11 @@ class DepositData implements DepositDataInterface
         return $this->userNonce;
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
-     * @return array
-     */
     public function getDetails(): array
     {
         return $this->details;

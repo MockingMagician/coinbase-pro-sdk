@@ -1,34 +1,21 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 /**
- * Class FeeDataInterface
- * @package MockingMagician\CoinbaseProSdk\Contracts\DTO
- *
- * According to doc :
- *
- * [
- *   {
- *     "maker_fee_rate": "0.0015",
- *     "taker_fee_rate": "0.0025",
- *     "usd_volume": "25000.00"
- *   }
- * ]
- *
- * returned by test api :
- *
- *   {
- *     "maker_fee_rate": "0.0015",
- *     "taker_fee_rate": "0.0025",
- *     "usd_volume": "25000.00"
- *   }
- *
+ * Class FeeDataInterface.
  */
 interface FeeDataInterface
 {
     public function getMakerFeeRate(): float;
+
     public function getTakerFeeRate(): float;
+
     public function getUsdVolume(): float;
 }

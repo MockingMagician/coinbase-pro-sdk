@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsAmountDetailsDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsDetailsDataInterface;
@@ -32,25 +36,16 @@ class PaymentMethodLimitsDetailsData implements PaymentMethodLimitsDetailsDataIn
         $this->remaining = $remaining;
     }
 
-    /**
-     * @return int
-     */
     public function getPeriodInDays(): int
     {
         return $this->periodInDays;
     }
 
-    /**
-     * @return PaymentMethodLimitsAmountDetailsDataInterface
-     */
     public function getTotal(): PaymentMethodLimitsAmountDetailsDataInterface
     {
         return $this->total;
     }
 
-    /**
-     * @return PaymentMethodLimitsAmountDetailsDataInterface
-     */
     public function getRemaining(): PaymentMethodLimitsAmountDetailsDataInterface
     {
         return $this->remaining;

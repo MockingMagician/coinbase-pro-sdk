@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductStats24hrDataInterface;
 
@@ -49,49 +53,31 @@ class ProductStats24hrData implements ProductStats24hrDataInterface
         $this->volume30day = $volume30day;
     }
 
-    /**
-     * @return float
-     */
     public function getOpen(): float
     {
         return $this->open;
     }
 
-    /**
-     * @return float
-     */
     public function getHigh(): float
     {
         return $this->high;
     }
 
-    /**
-     * @return float
-     */
     public function getLow(): float
     {
         return $this->low;
     }
 
-    /**
-     * @return float
-     */
     public function getVolume(): float
     {
         return $this->volume;
     }
 
-    /**
-     * @return float
-     */
     public function getLast(): float
     {
         return $this->last;
     }
 
-    /**
-     * @return float
-     */
     public function getVolume30day(): float
     {
         return $this->volume30day;

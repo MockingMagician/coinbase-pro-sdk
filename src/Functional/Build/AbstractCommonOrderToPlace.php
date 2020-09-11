@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Build;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\CommonOrderToPlaceInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -22,19 +26,19 @@ class AbstractCommonOrderToPlace implements CommonOrderToPlaceInterface
      */
     private $productId;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $selfTradePrevention;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $stop;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $stopPrice;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $clientOrderId;
 
@@ -68,57 +72,36 @@ class AbstractCommonOrderToPlace implements CommonOrderToPlaceInterface
         $this->clientOrderId = $clientOrderId;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
     public function getSide(): string
     {
         return $this->side;
     }
 
-    /**
-     * @return string
-     */
     public function getProductId(): string
     {
         return $this->productId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSelfTradePrevention(): ?string
     {
         return $this->selfTradePrevention;
     }
 
-    /**
-     * @return string|null
-     */
     public function getStop(): ?string
     {
         return $this->stop;
     }
 
-    /**
-     * @return string|null
-     */
     public function getStopPrice(): ?string
     {
         return $this->stopPrice;
     }
 
-    /**
-     * @return string|null
-     */
     public function getClientOrderId(): ?string
     {
         return $this->clientOrderId;

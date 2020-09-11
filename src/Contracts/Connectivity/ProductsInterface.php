@@ -1,16 +1,20 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
-
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductStats24hrDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TradeDataInterface;
 
 interface ProductsInterface
@@ -48,7 +52,7 @@ interface ProductsInterface
     ];
 
     /**
-     * Get Products
+     * Get Products.
      *
      * Get a list of available currency pairs for trading.
      *
@@ -81,20 +85,17 @@ interface ProductsInterface
     public function getProducts(): array;
 
     /**
-     * Get Single Product
+     * Get Single Product.
      *
      * Get market data for a specific currency pair.
      *
      * HTTP REQUEST
      * GET /products/<product-id>
-     *
-     * @param string $productId
-     * @return ProductDataInterface
      */
     public function getSingleProduct(string $productId): ProductDataInterface;
 
     /**
-     * Get Product Order Book
+     * Get Product Order Book.
      *
      * Get a list of open orders for a product. The amount of detail shown can be customized with the level parameter.
      *
@@ -129,16 +130,11 @@ interface ProductsInterface
      * !!! Level 3 is only recommended for users wishing to maintain a full real-time order book using the websocket stream.
      * !!! Abuse of Level 3 via polling will cause your access to be limited or blocked.
      * !!! !!! !!! !!!!!!! !!! !!! !!!
-     *
-     * @param string $productId
-     * @param string $level
-     * @param bool $forceLevel3
-     * @return OrderBookDataInterface
      */
     public function getProductOrderBook(string $productId, string $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface;
 
     /**
-     * Get Product Ticker
+     * Get Product Ticker.
      *
      * Snapshot information about the last trade (tick), best bid/ask and 24h volume.
      *
@@ -147,9 +143,6 @@ interface ProductsInterface
      *
      * REAL-TIME UPDATES
      * Polling is discouraged in favor of connecting via the websocket stream and listening for match messages.
-     *
-     * @param string $productId
-     * @return TickerSnapshotDataInterface
      */
     public function getProductTicker(string $productId): TickerSnapshotDataInterface;
 
@@ -169,14 +162,14 @@ interface ProductsInterface
      * buy side indicates a down-tick because the maker was a buy order and their order was removed.
      * Conversely, sell side indicates an up-tick.
      *
-     * @param string $productId
      * @param PaginationInterface $pagination
+     *
      * @return TradeDataInterface[]
      */
     public function getTrades(string $productId, ?PaginationInterface $pagination = null): array;
 
     /**
-     * Get Historic Rates
+     * Get Historic Rates.
      *
      * Historic rates for a product. Rates are returned in grouped buckets based on requested granularity.
      * Historical rate data may be incomplete. No data is published for intervals where there are no ticks.
@@ -218,10 +211,6 @@ interface ProductsInterface
      * close closing price (last trade) in the bucket interval
      * volume volume of trading activity during the bucket interval
      *
-     * @param string $productId
-     * @param DateTimeInterface $startTime
-     * @param DateTimeInterface $endTime
-     * @param int $granularity
      * @return mixed
      */
     public function getHistoricRates(
@@ -245,7 +234,7 @@ interface ProductsInterface
      *
      * HTTP REQUEST
      * GET /products/<product-id>/stats
-     * @param string $productId
+     *
      * @return mixed
      */
     public function get24hrStats(string $productId): ProductStats24hrDataInterface;

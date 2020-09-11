@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\CommonOrderToPlaceInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
@@ -193,8 +197,6 @@ interface OrdersInterface
      * RESPONSE
      * A successful order will be assigned an order id. A successful order is defined as one that has been accepted by the matching engine.
      *
-     * @param CommonOrderToPlaceInterface $orderToPlace
-     * @return OrderDataInterface
      * @throws ApiErrorInterface
      */
     public function placeOrder(CommonOrderToPlaceInterface $orderToPlace): OrderDataInterface;
@@ -224,12 +226,9 @@ interface OrdersInterface
      * CANCEL REJECT
      * If the order could not be canceled (already filled or previously canceled, etc),
      * then an error response will indicate the reason in the message field.
-     *
-     * @param string $orderId
-     * @param string|null $productId
-     * @return bool
      */
     public function cancelOrderById(string $orderId, string $productId = null): bool;
+
     public function cancelOrderByClientOrderId(string $clientOrderId, string $productId = null): bool;
 
     /**
@@ -253,15 +252,12 @@ interface OrdersInterface
      * QUERY PARAMETERS
      * Param    Default    Description
      * product_id    [optional]    Only cancel orders open for a specific product
-     *
-     * @param string|null $productId
-     * @return array
      */
     public function cancelAllOrders(string $productId = null): array;
 
     /**
      * !!! This request is paginated.
-     * List Orders
+     * List Orders.
      *
      * List your current open orders from the profile that the API key belongs to.
      * Only open or un-settled orders are returned. As soon as an order is no longer open and settled, it will no longer appear in the default request.
@@ -294,8 +290,7 @@ interface OrdersInterface
      * Open orders may change state between the request and the response depending on market conditions.
      *
      * @param array $status one or more of self::STATUS
-     * @param string|null $productId
-     * @param PaginationInterface|null $pagination
+     *
      * @return OrderDataInterface[]
      */
     public function listOrders(
@@ -321,9 +316,8 @@ interface OrdersInterface
      * If the order is canceled the response may have status code 404 if the order had no matches.
      *
      * Open orders may change state between the request and the response depending on market conditions.
-     * @param string $orderId
-     * @return OrderDataInterface
      */
     public function getOrderById(string $orderId): OrderDataInterface;
+
     public function getOrderByClientOrderId(string $clientOrderId): OrderDataInterface;
 }

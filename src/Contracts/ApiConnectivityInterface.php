@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterface;
@@ -25,29 +29,41 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 
 interface ApiConnectivityInterface
 {
-    /*
-     * Private
-     */
+    // Private
     public function accounts(): AccountsInterface;
+
     public function orders(): OrdersInterface;
+
     public function fills(): FillsInterface;
+
     public function limits(): LimitsInterface;
+
     public function deposits(): DepositsInterface;
+
     public function withdrawals(): WithdrawalsInterface;
+
     public function stablecoinConversions(): StableCoinConversionsInterface;
+
     public function paymentMethods(): PaymentMethodsInterface;
+
     public function coinbaseAccounts(): CoinbaseAccountsInterface;
+
     public function fees(): FeesInterface;
+
     public function reports(): ReportsInterface;
+
     public function profiles(): ProfilesInterface;
+
     public function userAccounts(): UserAccountsInterface;
+
     public function margin(): MarginInterface;
+
     public function oracle(): OracleInterface;
 
-    /*
-     * Public
-     */
+    // Public
     public function products(): ProductsInterface;
+
     public function currencies(): CurrenciesInterface;
+
     public function time(): TimeInterface;
 }

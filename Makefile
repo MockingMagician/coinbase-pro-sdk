@@ -1,5 +1,5 @@
-.PHONY: test-suite-all-kinds
-est-suite-all-kinds: phpunit phpcs-check phpstan ## Run tests suite of all kinds
+.PHONY: test-all-kinds
+test-all-kinds: tests phpcs-dry-run phpstan ## Run tests suite of all kinds
 
 .PHONY: tests-with-coverge
 tests-with-coverage: ## Launch PHPUnit test suite with coverage

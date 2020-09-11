@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\FeeDataInterface;
 
@@ -28,25 +32,16 @@ class FeeData implements FeeDataInterface
         $this->usdVolume = $usdVolume;
     }
 
-    /**
-     * @return float
-     */
     public function getMakerFeeRate(): float
     {
         return $this->makerFeeRate;
     }
 
-    /**
-     * @return float
-     */
     public function getTakerFeeRate(): float
     {
         return $this->takerFeeRate;
     }
 
-    /**
-     * @return float
-     */
     public function getUsdVolume(): float
     {
         return $this->usdVolume;

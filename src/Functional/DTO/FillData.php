@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -75,81 +79,51 @@ class FillData implements FillDataInterface
         $this->side = $side;
     }
 
-    /**
-     * @return int
-     */
     public function getTradeId(): int
     {
         return $this->tradeId;
     }
 
-    /**
-     * @return string
-     */
     public function getProductId(): string
     {
         return $this->productId;
     }
 
-    /**
-     * @return float
-     */
     public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @return float
-     */
     public function getSize(): float
     {
         return $this->size;
     }
 
-    /**
-     * @return string
-     */
     public function getOrderId(): string
     {
         return $this->orderId;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return string
-     */
     public function getLiquidity(): string
     {
         return $this->liquidity;
     }
 
-    /**
-     * @return float
-     */
     public function getFee(): float
     {
         return $this->fee;
     }
 
-    /**
-     * @return bool
-     */
     public function isSettled(): bool
     {
         return $this->settled;
     }
 
-    /**
-     * @return string
-     */
     public function getSide(): string
     {
         return $this->side;

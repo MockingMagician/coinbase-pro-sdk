@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
-
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
@@ -10,8 +14,8 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProductsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductStats24hrDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\HistoricRatesData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderBookData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProductData;
@@ -33,7 +37,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getProducts(): array
     {
@@ -46,7 +50,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getSingleProduct(string $productId): ProductDataInterface
     {
@@ -56,10 +60,10 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     public function getProductOrderBookRaw(string $productId, string $level = self::LEVEL_ONE, bool $forceLevel3 = false)
     {
         $query = ['level' => 1];
-        if ($level === 2) {
+        if (2 === $level) {
             $query['level'] = 2;
         }
-        if ($level === 3 && $forceLevel3) {
+        if (3 === $level && $forceLevel3) {
             $query['level'] = 3;
         }
 
@@ -67,7 +71,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getProductOrderBook(string $productId, string $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface
     {
@@ -80,7 +84,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getProductTicker(string $productId): TickerSnapshotDataInterface
     {
@@ -93,7 +97,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getTrades(string $productId, ?PaginationInterface $pagination = null): array
     {
@@ -145,7 +149,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getHistoricRates(string $productId, DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity): HistoricRatesDataInterface
     {
@@ -158,7 +162,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function get24hrStats(string $productId): ProductStats24hrDataInterface
     {

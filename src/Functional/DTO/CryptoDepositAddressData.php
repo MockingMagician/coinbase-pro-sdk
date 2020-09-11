@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -20,15 +24,15 @@ class CryptoDepositAddressData implements CryptoDepositAddressDataInterface
      */
     private $address;
     /**
-     * @var int|null
+     * @var null|int
      */
     private $destinationTag;
     /**
-     * @var CryptoDepositAddressInfoDataInterface|null
+     * @var null|CryptoDepositAddressInfoDataInterface
      */
     private $addressInfo;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $callbackUrl;
     /**
@@ -40,7 +44,7 @@ class CryptoDepositAddressData implements CryptoDepositAddressDataInterface
      */
     private $updated_At;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $network;
     /**
@@ -48,11 +52,11 @@ class CryptoDepositAddressData implements CryptoDepositAddressDataInterface
      */
     private $resource;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $resourcePath;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $depositUri;
     /**
@@ -88,106 +92,64 @@ class CryptoDepositAddressData implements CryptoDepositAddressDataInterface
         $this->exchangeDepositAddress = $exchangeDepositAddress;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getAddress(): string
     {
         return $this->address;
     }
 
-    /**
-     * @return int|null
-     */
     public function getDestinationTag(): ?int
     {
         return $this->destinationTag;
     }
 
-    /**
-     * @return CryptoDepositAddressInfoDataInterface|null
-     */
     public function getAddressInfo(): ?CryptoDepositAddressInfoDataInterface
     {
         return $this->addressInfo;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCallbackUrl(): ?string
     {
         return $this->callbackUrl;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getUpdatedAt(): DateTimeInterface
     {
         return $this->updated_At;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNetwork(): ?string
     {
         return $this->network;
     }
 
-    /**
-     * @return string
-     */
     public function getResource(): string
     {
         return $this->resource;
     }
 
-    /**
-     * @return string|null
-     */
     public function getResourcePath(): ?string
     {
         return $this->resourcePath;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDepositUri(): ?string
     {
         return $this->depositUri;
     }
 
-    /**
-     * @return bool
-     */
     public function isExchangeDepositAddress(): bool
     {
         return $this->exchangeDepositAddress;
-    }
-
-
-    public static function createFromJson(string $json)
-    {
-        return self::createFromArray(json_decode($json, true));
     }
 
     public static function createFromArray(array $array)

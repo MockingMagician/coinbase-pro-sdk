@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -51,49 +55,31 @@ class AccountHistoryEventData implements AccountHistoryEventDataInterface
         $this->details = $details;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
-     * @return float
-     */
     public function getBalance(): float
     {
         return $this->balance;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return array
-     */
     public function getDetails(): array
     {
         return $this->details;
@@ -109,15 +95,5 @@ class AccountHistoryEventData implements AccountHistoryEventDataInterface
             $array['type'],
             $array['details']
         );
-    }
-
-    public static function createCollectionFromJson(string $json)
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => $v) {
-            $collection[$k] = self::createFromArray($v);
-        }
-
-        return $collection;
     }
 }

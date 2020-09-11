@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Build;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\MarketOrderToPlaceInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -10,11 +14,11 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 class MarketOrderToPlace extends AbstractCommonOrderToPlace implements MarketOrderToPlaceInterface
 {
     /**
-     * @var float|null
+     * @var null|float
      */
     private $size;
     /**
-     * @var float|null
+     * @var null|float
      */
     private $funds;
 
@@ -39,17 +43,11 @@ class MarketOrderToPlace extends AbstractCommonOrderToPlace implements MarketOrd
         $this->funds = $funds;
     }
 
-    /**
-     * @return float|null
-     */
     public function getSize(): ?float
     {
         return $this->size;
     }
 
-    /**
-     * @return float|null
-     */
     public function getFunds(): ?float
     {
         return $this->funds;

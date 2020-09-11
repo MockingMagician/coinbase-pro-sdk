@@ -1,15 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OracleCryptoSignedPricesInterface;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\OracleCryptoSignedPrices;
 
 interface OracleInterface
 {
     const COINBASE_ORACLE_PUBLIC_KEY = '0xfCEAdAFab14d46e20144F48824d0C09B1a03F2BC';
+
     /**
      * Get cryptographically signed prices ready to be posted on-chain using Open Oracle smart contracts.
      *
@@ -25,6 +29,7 @@ interface OracleInterface
      * timestamp is the time when the price was obtained, key is asset ticker (e.g. 'eth') and value is asset price.
      * ● signatures is an array of Ethereum-compatible ECDSA signatures for each message.
      * ● prices contains human-readable asset prices
+     *
      * @return array
      */
     public function getCryptographicallySignedPrices(): OracleCryptoSignedPricesInterface;

@@ -1,22 +1,15 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
 
 /**
- * Class CommonOrderToMakeInterface
- * @package MockingMagician\CoinbaseProSdk\Contracts
- *
- * PARAMETERS
- * These parameters are common to all order types. Depending on the order type, additional parameters will be required (see below).
- * Param	Description
- * client_oid	[optional] Order ID selected by you to identify your order
- * type	[optional] limit or market (default is limit)
- * side	buy or sell
- * product_id	A valid product id
- * stp	[optional] Self-trade prevention flag
- * top	[optional] Either loss or entry. Requires stop_price to be defined.
- * stop_price	[optional] Only if stop is defined. Sets trigger price for stop order.
+ * Class CommonOrderToMakeInterface.
  */
 interface CommonOrderToPlaceInterface
 {
@@ -79,11 +72,17 @@ interface CommonOrderToPlaceInterface
     ];
 
     public function getType(): string;
+
     public function getSide(): string;
+
     public function getProductId(): string;
+
     public function getSelfTradePrevention(): ?string;
+
     public function getStop(): ?string;
+
     public function getStopPrice(): ?string;
+
     public function getClientOrderId(): ?string;
 
     public function getBodyForRequest(): array;

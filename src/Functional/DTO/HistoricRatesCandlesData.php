@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesCandlesDataInterface;
 
@@ -49,49 +53,31 @@ class HistoricRatesCandlesData implements HistoricRatesCandlesDataInterface
         $this->tradingVolume = $tradingVolume;
     }
 
-    /**
-     * @return int
-     */
     public function getStartTime(): int
     {
         return $this->startTime;
     }
 
-    /**
-     * @return float
-     */
     public function getLowestPrice(): float
     {
         return $this->lowestPrice;
     }
 
-    /**
-     * @return float
-     */
     public function getHighestPrice(): float
     {
         return $this->highestPrice;
     }
 
-    /**
-     * @return float
-     */
     public function getOpeningPrice(): float
     {
         return $this->openingPrice;
     }
 
-    /**
-     * @return float
-     */
     public function getClosingPrice(): float
     {
         return $this->closingPrice;
     }
 
-    /**
-     * @return float
-     */
     public function getTradingVolume(): float
     {
         return $this->tradingVolume;

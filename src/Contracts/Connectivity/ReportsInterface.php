@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
-
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ReportDataInterface;
@@ -24,7 +28,7 @@ interface ReportsInterface
     ];
 
     /**
-     * Create a new report
+     * Create a new report.
      *
      * Reports provide batches of historic information about your profile in various human and machine readable forms.
      *
@@ -51,15 +55,6 @@ interface ReportsInterface
      * EXPIRED REPORTS
      * Reports are only available for download for a few days after being created.
      * Once a report expires, the report is no longer available for download and is deleted.
-     *
-     * @param string $type
-     * @param DateTimeInterface $startDate
-     * @param DateTimeInterface $endDate
-     * @param string $productId
-     * @param string $accountId
-     * @param string $format
-     * @param string|null $email
-     * @return ReportDataInterface
      */
     public function createNewReport(
         string $type,
@@ -72,7 +67,7 @@ interface ReportsInterface
     ): ReportDataInterface;
 
     /**
-     * Get report status
+     * Get report status.
      *
      * HTTP REQUEST
      * GET /reports/:report_id
@@ -88,9 +83,6 @@ interface ReportsInterface
      * pending    The report request has been accepted and is awaiting processing
      * creating    The report is being created
      * ready    The report is ready for download from file_url
-     *
-     * @param string $reportId
-     * @return ReportDataInterface
      */
     public function getReportStatus(string $reportId): ReportDataInterface;
 }

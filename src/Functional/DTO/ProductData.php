@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
 
@@ -109,135 +113,88 @@ class ProductData implements ProductDataInterface
         $this->tradingEnabled = $tradingEnabled;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getDisplayName(): string
     {
         return $this->displayName;
     }
 
-    /**
-     * @return string
-     */
     public function getBaseCurrency(): string
     {
         return $this->baseCurrency;
     }
 
-    /**
-     * @return string
-     */
     public function getQuoteCurrency(): string
     {
         return $this->quoteCurrency;
     }
 
-    /**
-     * @return float
-     */
     public function getBaseIncrement(): float
     {
         return $this->baseIncrement;
     }
 
-    /**
-     * @return float
-     */
     public function getQuoteIncrement(): float
     {
         return $this->quoteIncrement;
     }
 
-    /**
-     * @return float
-     */
     public function getBaseMinSize(): float
     {
         return $this->baseMinSize;
     }
 
-    /**
-     * @return float
-     */
     public function getBaseMaxSize(): float
     {
         return $this->baseMaxSize;
     }
 
-    /**
-     * @return float
-     */
     public function getMinMarketFunds(): float
     {
         return $this->minMarketFunds;
     }
 
-    /**
-     * @return float
-     */
     public function getMaxMarketFunds(): float
     {
         return $this->maxMarketFunds;
     }
 
-    /**
-     * @return string
-     */
     public function getStatus(): string
     {
         return $this->status;
     }
 
-    /**
-     * @return string
-     */
     public function getStatusMessage(): string
     {
         return $this->statusMessage;
     }
 
-    /**
-     * @return bool
-     */
     public function isCancelOnly(): bool
     {
         return $this->cancelOnly;
     }
 
-    /**
-     * @return bool
-     */
     public function isLimitOnly(): bool
     {
         return $this->limitOnly;
     }
 
-    /**
-     * @return bool
-     */
     public function isPostOnly(): bool
     {
         return $this->postOnly;
     }
 
-    /**
-     * @return bool
-     */
     public function isTradingEnabled(): bool
     {
         return $this->tradingEnabled;
     }
 
-    public static function createFromArray(array $array) {
+    public static function createFromArray(array $array)
+    {
         return new self(
             $array['id'],
             $array['display_name'],
@@ -258,15 +215,18 @@ class ProductData implements ProductDataInterface
         );
     }
 
-    public static function createFromJson(string $json) {
+    public static function createFromJson(string $json)
+    {
         return self::createFromArray(json_decode($json, true));
     }
 
-    public static function createCollectionFromJson(string $json) {
+    public static function createCollectionFromJson(string $json)
+    {
         $collection = json_decode($json, true);
         foreach ($collection as $k => $v) {
             $collection[$k] = self::createFromArray($v);
         }
+
         return $collection;
     }
 }

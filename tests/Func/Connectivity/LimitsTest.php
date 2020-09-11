@@ -1,15 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
-
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Fees;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Fills;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Limits;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LimitsTest extends AbstractTest
 {
     /**

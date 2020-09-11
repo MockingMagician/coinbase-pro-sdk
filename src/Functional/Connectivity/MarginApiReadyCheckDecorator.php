@@ -1,25 +1,26 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
-
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\MarginInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\BuyingPowerDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\LiquidationHistoryDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\LiquidationStrategyDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PositionRefreshAmountsData;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalPowerDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestManagerInterface;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatus;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 /**
- * Class Margin
- * @package MockingMagician\CoinbaseProSdk\Functional\Connectivity
+ * Class Margin.
  *
  * @warning Margin api is not yet eligible to consume for now. Do not call any methods except getStatus() to check eligibility
  */
@@ -35,13 +36,8 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
         $this->margin = $margin;
     }
 
-    protected function getRequestManager(): RequestManagerInterface
-    {
-        return $this->margin->getRequestManager();
-    }
-
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getMarginProfileInformation(string $productId): MarginProfileDataInterface
     {
@@ -53,7 +49,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getBuyingPower(string $productId): BuyingPowerDataInterface
     {
@@ -65,7 +61,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getWithdrawalPower(string $currency): WithdrawalPowerDataInterface
     {
@@ -77,7 +73,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getAllWithdrawalPowers()
     {
@@ -89,7 +85,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getExitPlan(): LiquidationStrategyDataInterface
     {
@@ -101,7 +97,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function listLiquidationHistory(?DateTimeInterface $after = null): array
     {
@@ -113,7 +109,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getPositionsRefreshAmount(): PositionRefreshAmountsData
     {
@@ -125,11 +121,16 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getMarginStatus(): MarginStatusDataInterface
     {
         return $this->margin->getMarginStatus();
+    }
+
+    protected function getRequestManager(): RequestManagerInterface
+    {
+        return $this->margin->getRequestManager();
     }
 
     private function isMarginReadyToUse(): bool

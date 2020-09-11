@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesCandlesDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesDataInterface;
@@ -20,7 +24,7 @@ class HistoricRatesData implements HistoricRatesDataInterface
 
     /**
      * HistoricRatesData constructor.
-     * @param int $granularity
+     *
      * @param HistoricRatesCandlesDataInterface[] $candles
      */
     public function __construct(
@@ -31,9 +35,6 @@ class HistoricRatesData implements HistoricRatesDataInterface
         $this->candles = $candles;
     }
 
-    /**
-     * @return int
-     */
     public function getGranularity(): int
     {
         return $this->granularity;

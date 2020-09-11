@@ -1,12 +1,20 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class AccountsTest extends AbstractTest
 {
     /**
@@ -77,7 +85,7 @@ class AccountsTest extends AbstractTest
     }
 
     /**
-     * TODO data is missing for tests
+     * TODO data is missing for tests.
      */
     public function testGetAccountHistoryRaw()
     {
@@ -93,7 +101,7 @@ class AccountsTest extends AbstractTest
     }
 
     /**
-     * TODO data is missing for tests
+     * TODO data is missing for tests.
      */
     public function testGetAccountHistory()
     {
@@ -110,7 +118,7 @@ class AccountsTest extends AbstractTest
     }
 
     /**
-     * TODO data is missing for tests
+     * TODO data is missing for tests.
      */
     public function testGetHoldsRaw()
     {
@@ -125,7 +133,7 @@ class AccountsTest extends AbstractTest
     }
 
     /**
-     * TODO data is missing for tests
+     * TODO data is missing for tests.
      */
     public function testGetHolds()
     {

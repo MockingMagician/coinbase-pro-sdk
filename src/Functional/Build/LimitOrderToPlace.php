@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Build;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\LimitOrderToPlaceInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -18,11 +22,11 @@ class LimitOrderToPlace extends AbstractCommonOrderToPlace implements LimitOrder
      */
     private $size;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $timeInForce;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $cancelAfter;
     /**
@@ -57,7 +61,7 @@ class LimitOrderToPlace extends AbstractCommonOrderToPlace implements LimitOrder
             throw new ApiError(sprintf('cancelAfter must be one of : %s', self::CANCELS_AFTER));
         }
 
-        if ($cancelAfter && $timeInForce !== self::TIME_IN_FORCE_GOOD_TILL_TIME) {
+        if ($cancelAfter && self::TIME_IN_FORCE_GOOD_TILL_TIME !== $timeInForce) {
             throw new ApiError(sprintf(
                 'When cancelAfter is set, timeInForce must be set to %s',
                 self::TIME_IN_FORCE_GOOD_TILL_TIME
@@ -71,41 +75,26 @@ class LimitOrderToPlace extends AbstractCommonOrderToPlace implements LimitOrder
         $this->postOnly = $postOnly;
     }
 
-    /**
-     * @return float
-     */
     public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @return float
-     */
     public function getSize(): float
     {
         return $this->size;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTimeInForce(): ?string
     {
         return $this->timeInForce;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCancelAfter(): ?string
     {
         return $this->cancelAfter;
     }
 
-    /**
-     * @return bool
-     */
     public function isPostOnly(): bool
     {
         return $this->postOnly;
