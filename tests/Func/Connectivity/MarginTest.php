@@ -20,7 +20,7 @@ class MarginTest extends MarginStatusTest
         $status = $this->margin->getMarginStatus();
 
         if (!$status->isEnabled() || !$status->isEligible()) {
-            $this->markTestSkipped('Can test margin cause not enabled or ineligible');
+            $this->markTestSkipped('Can not test Margin because margin APi is  not enabled or ineligible');
         }
     }
 
