@@ -13,7 +13,9 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  *   "eligible": true
  * }
  */
-interface MarginStatusData
+interface MarginStatusDataInterface
 {
-
+    public function getTier(): int;
+    public function isEnabled(): bool;
+    public function isEligible(): bool;
 }

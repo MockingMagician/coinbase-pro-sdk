@@ -4,11 +4,12 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 
+use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\BuyingPowerDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\LiquidationHistoryDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\LiquidationStrategyDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginProfileDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusData;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PositionRefreshAmountsData;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalPowerDataInterface;
 
@@ -79,24 +80,17 @@ interface MarginInterface
     public function getWithdrawalPower(string $currency): WithdrawalPowerDataInterface;
 
     /**
-     * Get withdrawal power
+     * Get all withdrawal powers
      *
-     * Returns the max amount of the given currency that you can withdraw from your margin profile.
+     * Returns the max amount of each currency that you can withdraw from your margin profile.
      *
      * HTTP REQUEST
-     * GET /margin/withdrawal_power
+     * GET /margin/withdrawal_power_all
      *
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permission.
-     *
-     * QUERY PARAMETERS
-     * Param    Default    Description
-     * currency    [required]    The currency to compute withdrawal power for.
-     *
-     * @param string $currency
-     * @return WithdrawalPowerDataInterface[]
      */
-    public function getAllWithdrawalPowers(string $currency): array;
+    public function getAllWithdrawalPowers();
 
     /**
      * Get exit plan
@@ -113,20 +107,21 @@ interface MarginInterface
 
     /**
      * List liquidation history
-    Returns a list of liquidations that were performed to get your equity percentage back to an acceptable level.
-
-    HTTP REQUEST
-    GET /margin/liquidation_history
-
-    API KEY PERMISSIONS
-    This endpoint requires either the "view" or "trade" permission.
-
-    QUERY PARAMETERS
-    Param	Default	Description
-    after	[optional]	Request liquidation history after this date.
+     * Returns a list of liquidations that were performed to get your equity percentage back to an acceptable level.
+     *
+     * HTTP REQUEST
+     * GET /margin/liquidation_history
+     *
+     * API KEY PERMISSIONS
+     * This endpoint requires either the "view" or "trade" permission.
+     *
+     * QUERY PARAMETERS
+     * Param    Default    Description
+     * after    [optional]    Request liquidation history after this date.
+     * @param DateTimeInterface $after
      * @return LiquidationHistoryDataInterface[]
      */
-    public function listLiquidationHistory(): array ;
+    public function listLiquidationHistory(?DateTimeInterface $after = null): array ;
 
     /**
      * Get position refresh amounts
@@ -155,7 +150,7 @@ interface MarginInterface
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permission.
      *
-     * @return MarginStatusData
+     * @return MarginStatusDataInterface
      */
-    public function getMarginStatus(): MarginStatusData;
+    public function getMarginStatus(): MarginStatusDataInterface;
 }

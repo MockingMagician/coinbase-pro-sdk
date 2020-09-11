@@ -13,8 +13,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
-use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Throwable;
 
