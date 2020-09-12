@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 
-class MarginStatus implements MarginStatusDataInterface
+class MarginStatus extends AbstractCreator implements MarginStatusDataInterface
 {
     /**
      * @var int
@@ -50,7 +50,7 @@ class MarginStatus implements MarginStatusDataInterface
         return $this->eligible;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['tier'],
@@ -59,7 +59,7 @@ class MarginStatus implements MarginStatusDataInterface
         );
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
     }

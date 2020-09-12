@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesCandlesDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesDataInterface;
 
-class HistoricRatesData implements HistoricRatesDataInterface
+class HistoricRatesData extends AbstractCreator implements HistoricRatesDataInterface
 {
     /**
      * @var int
@@ -25,14 +25,15 @@ class HistoricRatesData implements HistoricRatesDataInterface
     /**
      * HistoricRatesData constructor.
      *
+     * @param int $granularity
      * @param HistoricRatesCandlesDataInterface[] $candles
      */
     public function __construct(
         int $granularity,
         array $candles
     ) {
-        $this->granularity = $granularity;
         $this->candles = $candles;
+        $this->granularity = $granularity;
     }
 
     public function getGranularity(): int
@@ -48,13 +49,15 @@ class HistoricRatesData implements HistoricRatesDataInterface
         return $this->candles;
     }
 
-    public static function createFromArray(int $granularity, array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self($granularity, HistoricRatesCandlesData::createCollectionFromArray($array));
+        return new self($divers[0], HistoricRatesCandlesData::createCollectionFromArray($array));
     }
 
-    public static function createFromJson(int $granularity, string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
-        return self::createFromArray($granularity, json_decode($json, true));
+        var_dump($json, json_decode($json, true));
+
+        return self::createFromArray(json_decode($json, true), $divers[0]);
     }
 }

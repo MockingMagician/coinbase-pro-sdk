@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsAmountDetailsDataInterface;
 
-class PaymentMethodLimitsAmountDetailsData implements PaymentMethodLimitsAmountDetailsDataInterface
+class PaymentMethodLimitsAmountDetailsData extends AbstractCreator implements PaymentMethodLimitsAmountDetailsDataInterface
 {
     /**
      * @var float
@@ -37,7 +37,7 @@ class PaymentMethodLimitsAmountDetailsData implements PaymentMethodLimitsAmountD
         return $this->currency;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self($array['amount'], $array['currency']);
     }

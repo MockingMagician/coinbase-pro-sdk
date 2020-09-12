@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsAmountDetailsDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsDetailsDataInterface;
 
-class PaymentMethodLimitsDetailsData implements PaymentMethodLimitsDetailsDataInterface
+class PaymentMethodLimitsDetailsData extends AbstractCreator implements PaymentMethodLimitsDetailsDataInterface
 {
     /**
      * @var int
@@ -51,12 +51,12 @@ class PaymentMethodLimitsDetailsData implements PaymentMethodLimitsDetailsDataIn
         return $this->remaining;
     }
 
-    public static function createFromArray($array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['period_in_days'],
-            PaymentMethodLimitsAmountDetailsData::createFromArray($array['total']),
-            PaymentMethodLimitsAmountDetailsData::createFromArray($array['remaining'])
+            PaymentMethodLimitsAmountDetailsData::createFromArray($array['total'], $divers),
+            PaymentMethodLimitsAmountDetailsData::createFromArray($array['remaining'], $divers)
         );
     }
 }

@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\FillDataInterface;
 
-class FillData implements FillDataInterface
+class FillData extends AbstractCreator implements FillDataInterface
 {
     /**
      * @var int
@@ -129,7 +129,7 @@ class FillData implements FillDataInterface
         return $this->side;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['trade_id'],
@@ -145,7 +145,7 @@ class FillData implements FillDataInterface
         );
     }
 
-    public static function createCollectionFromJson(string $json)
+    public static function createCollectionFromJson(string $json, ...$divers): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => &$value) {

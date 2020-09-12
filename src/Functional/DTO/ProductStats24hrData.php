@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductStats24hrDataInterface;
 
-class ProductStats24hrData implements ProductStats24hrDataInterface
+class ProductStats24hrData extends AbstractCreator implements ProductStats24hrDataInterface
 {
     /**
      * @var float
@@ -83,7 +83,7 @@ class ProductStats24hrData implements ProductStats24hrDataInterface
         return $this->volume30day;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['open'],
@@ -93,10 +93,5 @@ class ProductStats24hrData implements ProductStats24hrDataInterface
             $array['last'],
             $array['volume_30day']
         );
-    }
-
-    public static function createFromJson(string $json)
-    {
-        return self::createFromArray(json_decode($json, true));
     }
 }

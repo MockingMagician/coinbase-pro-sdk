@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
 
-class TickerSnapshotData implements TickerSnapshotDataInterface
+class TickerSnapshotData extends AbstractCreator implements TickerSnapshotDataInterface
 {
     /**
      * @var int
@@ -96,7 +96,7 @@ class TickerSnapshotData implements TickerSnapshotDataInterface
         return $this->time;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['trade_id'],
@@ -107,10 +107,5 @@ class TickerSnapshotData implements TickerSnapshotDataInterface
             $array['volume'],
             new DateTimeImmutable($array['time'])
         );
-    }
-
-    public static function createFromJson(string $json)
-    {
-        return self::createFromArray(json_decode($json, true));
     }
 }

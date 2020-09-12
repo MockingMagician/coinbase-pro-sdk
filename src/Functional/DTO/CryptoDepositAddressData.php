@@ -13,7 +13,7 @@ use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressInfoDataInterface;
 
-class CryptoDepositAddressData implements CryptoDepositAddressDataInterface
+class CryptoDepositAddressData extends AbstractCreator implements CryptoDepositAddressDataInterface
 {
     /**
      * @var string
@@ -152,13 +152,13 @@ class CryptoDepositAddressData implements CryptoDepositAddressDataInterface
         return $this->exchangeDepositAddress;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['id'],
             $array['address'],
             $array['destination_tag'] ?? null,
-            isset($array['address_info']) ? CryptoDepositAddressInfoData::createFromArray($array['address_info']) : null,
+            isset($array['address_info']) ? CryptoDepositAddressInfoData::createFromArray($array['address_info'], $divers) : null,
             $array['callback_url'] ?? null,
             new DateTimeImmutable($array['created_at']),
             new DateTimeImmutable($array['updated_at']),

@@ -46,6 +46,7 @@ abstract class AbstractTest extends TestCase
         $this->requestManager = new RequestManager($httpClient, $apiParams);
         $this->time = new Time($this->requestManager);
         $this->requestManager->setTimeInterface($this->time);
+        usleep(750000);
     }
 
     private function isConnected()

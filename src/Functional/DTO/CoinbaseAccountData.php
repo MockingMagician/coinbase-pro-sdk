@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CoinbaseAccountDataInterface;
 
-class CoinbaseAccountData implements CoinbaseAccountDataInterface
+class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountDataInterface
 {
     /**
      * @var string
@@ -105,7 +105,7 @@ class CoinbaseAccountData implements CoinbaseAccountDataInterface
         return $this->extraData;
     }
 
-    public static function createFromArray(array $array): self
+    public static function createFromArray(array $array, ...$divers)
     {
         $extraData = [];
 

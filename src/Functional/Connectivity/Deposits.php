@@ -106,7 +106,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
      */
     public function doDepositFromCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
     {
-        return json_decode($this->doDepositFromCoinbaseRaw($amount, $currency, $coinbaseAccountId))['id'];
+        return json_decode($this->doDepositFromCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
     }
 
     public function generateCryptoDepositAddressRaw(string $coinbaseAccountId)

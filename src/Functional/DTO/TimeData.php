@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TimeDataInterface;
 
-class TimeData implements TimeDataInterface
+class TimeData extends AbstractCreator implements TimeDataInterface
 {
     private $iso;
     private $epoch;
@@ -30,5 +30,10 @@ class TimeData implements TimeDataInterface
     public function getEpoch(): float
     {
         return $this->epoch;
+    }
+
+    public static function createFromArray(array $array, ...$divers)
+    {
+        return new self(json_encode($array));
     }
 }

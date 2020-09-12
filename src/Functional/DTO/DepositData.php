@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 
-class DepositData implements DepositDataInterface
+class DepositData extends AbstractCreator implements DepositDataInterface
 {
     /**
      * @var string
@@ -141,7 +141,7 @@ class DepositData implements DepositDataInterface
         return $this->details;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['id'],
@@ -157,18 +157,8 @@ class DepositData implements DepositDataInterface
         );
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
-    }
-
-    public static function createCollectionFromJson(string $json)
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => $value) {
-            $collection[$k] = self::createFromArray($value);
-        }
-
-        return $collection;
     }
 }

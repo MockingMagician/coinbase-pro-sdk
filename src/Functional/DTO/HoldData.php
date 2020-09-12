@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HoldDataInterface;
 
-class HoldData implements HoldDataInterface
+class HoldData extends AbstractCreator implements HoldDataInterface
 {
     /**
      * @var string
@@ -96,7 +96,7 @@ class HoldData implements HoldDataInterface
         return $this->Ref;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['id'],
@@ -107,15 +107,5 @@ class HoldData implements HoldDataInterface
             $array['type'],
             $array['ref']
         );
-    }
-
-    public static function createCollectionFromJson(string $json)
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => &$value) {
-            $collection[$k] = self::createFromArray($value);
-        }
-
-        return $collection;
     }
 }

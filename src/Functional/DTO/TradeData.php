@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TradeDataInterface;
 
-class TradeData implements TradeDataInterface
+class TradeData extends AbstractCreator implements TradeDataInterface
 {
     /**
      * @var DateTimeInterface
@@ -74,7 +74,7 @@ class TradeData implements TradeDataInterface
         return $this->side;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             new DateTimeImmutable($array['time']),
@@ -83,15 +83,5 @@ class TradeData implements TradeDataInterface
             $array['size'],
             $array['side']
         );
-    }
-
-    public static function createCollectionFromJson(string $json)
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => $v) {
-            $collection[$k] = self::createFromArray($v);
-        }
-
-        return $collection;
     }
 }

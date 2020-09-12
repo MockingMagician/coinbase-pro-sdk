@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryEventDataInterface;
 
-class AccountHistoryEventData implements AccountHistoryEventDataInterface
+class AccountHistoryEventData extends AbstractCreator implements AccountHistoryEventDataInterface
 {
     /**
      * @var string
@@ -85,7 +85,7 @@ class AccountHistoryEventData implements AccountHistoryEventDataInterface
         return $this->details;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['id'],

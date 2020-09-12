@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDetailsDataInterface;
 
-class OrderBookDetailsData implements OrderBookDetailsDataInterface
+class OrderBookDetailsData extends AbstractCreator implements OrderBookDetailsDataInterface
 {
     /**
      * @var float
@@ -57,7 +57,7 @@ class OrderBookDetailsData implements OrderBookDetailsDataInterface
         return $this->orderId;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array[0],

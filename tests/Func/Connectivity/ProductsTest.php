@@ -202,7 +202,7 @@ class ProductsTest extends AbstractTest
         $startTime = clone $endTime;
         $startTime->modify('-1 week');
         $product = $this->products->getProducts()[0];
-        $raw = $this->products->getHistoricRatesRaw($product->getId(), $startTime, $endTime, Products::GRANULARITY_HOUR);
+        $raw = $this->products->getHistoricRatesRaw('BTC-USD', $startTime, $endTime, Products::GRANULARITY_HOUR);
 
         self::assertStringContainsString('[[', $raw);
         self::assertStringContainsString(']]', $raw);

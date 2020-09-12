@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
 
-class OrderData implements OrderDataInterface
+class OrderData extends AbstractCreator implements OrderDataInterface
 {
     /**
      * @var string
@@ -198,7 +198,7 @@ class OrderData implements OrderDataInterface
         return $this->settled;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['id'],
@@ -220,12 +220,12 @@ class OrderData implements OrderDataInterface
         );
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
     }
 
-    public static function createCollectionFromJson(string $json)
+    public static function createCollectionFromJson(string $json, ...$divers): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => $v) {

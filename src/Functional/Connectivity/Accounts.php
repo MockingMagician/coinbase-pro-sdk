@@ -27,7 +27,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
      */
     public function list(): array
     {
-        return AccountData::createCollectionFromJson($this->listRaw());
+        return AccountData::createCollectionFromJson($this->listRaw(), );
     }
 
     public function getAccountRaw(string $id)
@@ -40,7 +40,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
      */
     public function getAccount(string $id): AccountDataInterface
     {
-        return AccountData::createFromJson($this->getAccountRaw($id));
+        return AccountData::createFromJson($this->getAccountRaw($id), );
     }
 
     public function getAccountHistoryRaw(string $id, ?PaginationInterface $pagination = null)
@@ -53,7 +53,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
      */
     public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array
     {
-        return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($id, $pagination));
+        return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($id, $pagination), );
     }
 
     public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null)
@@ -66,6 +66,6 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
      */
     public function getHolds(string $id, ?PaginationInterface $pagination = null): array
     {
-        return HoldData::createCollectionFromJson($this->getHoldsRaw($id, $pagination));
+        return HoldData::createCollectionFromJson($this->getHoldsRaw($id, $pagination), );
     }
 }

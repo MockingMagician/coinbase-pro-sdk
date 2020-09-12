@@ -1,9 +1,13 @@
 .PHONY: test-all-kinds
-test-all-kinds: tests phpcs-dry-run phpstan ## Run tests suite of all kinds
+test-all-kinds: tests-no-useless phpcs-dry-run phpstan ## Run tests suite of all kinds
 
 .PHONY: tests-with-coverge
 tests-with-coverage: ## Launch PHPUnit test suite with coverage
-	vendor/bin/phpunit --colors=always --testdox --covergae .coverage
+	vendor/bin/phpunit --colors=always --testdox --dont-report-useless-tests --covergae .coverage
+
+.PHONY: tests-no-useless
+tests-no-useless: ## Launch PHPUnit test suite
+	vendor/bin/phpunit --colors=always --testdox --dont-report-useless-tests
 
 .PHONY: tests
 tests: ## Launch PHPUnit test suite

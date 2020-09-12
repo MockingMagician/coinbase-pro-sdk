@@ -10,13 +10,14 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 interface CreatorInterface
 {
-    public static function createFromArray(array $array);
+    public static function createFromArray(array $array, ...$divers);
 
-    public static function createFromJson(string $json);
+    public static function createFromJson(string $json, ...$divers);
 
     /**
-     * @param string $json
+     * @param array $divers
+     *
      * @return self[]
      */
-    public static function createCollectionFromJson(string $json): array;
+    public static function createCollectionFromJson(string $json, ...$divers): array;
 }

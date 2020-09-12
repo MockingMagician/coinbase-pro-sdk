@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OracleCryptoSignedPricesInterface;
 
-class OracleCryptoSignedPrices implements OracleCryptoSignedPricesInterface
+class OracleCryptoSignedPrices extends AbstractCreator implements OracleCryptoSignedPricesInterface
 {
     /**
      * @var int
@@ -61,7 +61,7 @@ class OracleCryptoSignedPrices implements OracleCryptoSignedPricesInterface
         return $this->prices;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['timestamp'],
@@ -71,7 +71,7 @@ class OracleCryptoSignedPrices implements OracleCryptoSignedPricesInterface
         );
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
     }

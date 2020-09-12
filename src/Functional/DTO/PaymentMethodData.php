@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsDataInterface;
 
-class PaymentMethodData implements PaymentMethodDataInterface
+class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInterface
 {
     /**
      * @var string
@@ -139,7 +139,7 @@ class PaymentMethodData implements PaymentMethodDataInterface
         return $this->limits;
     }
 
-    public static function createCollectionFromJson(string $json)
+    public static function createCollectionFromJson(string $json, ...$divers): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => $value) {
@@ -159,5 +159,10 @@ class PaymentMethodData implements PaymentMethodDataInterface
         }
 
         return $collection;
+    }
+
+    public static function createFromArray(array $array, ...$divers)
+    {
+        // TODO: Implement createFromArray() method.
     }
 }

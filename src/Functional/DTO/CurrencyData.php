@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDataInterface;
 
-class CurrencyData implements CurrencyDataInterface
+class CurrencyData extends AbstractCreator implements CurrencyDataInterface
 {
     /**
      * @var string
@@ -57,7 +57,7 @@ class CurrencyData implements CurrencyDataInterface
         return $this->extraData;
     }
 
-    public static function createFromArray(array $array): self
+    public static function createFromArray(array $array, ...$divers)
     {
         $extraData = [];
 

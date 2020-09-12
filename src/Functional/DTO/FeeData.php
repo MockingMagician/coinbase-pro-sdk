@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\FeeDataInterface;
 
-class FeeData implements FeeDataInterface
+class FeeData extends AbstractCreator implements FeeDataInterface
 {
     /**
      * @var float
@@ -47,12 +47,12 @@ class FeeData implements FeeDataInterface
         return $this->usdVolume;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self($array['maker_fee_rate'], $array['taker_fee_rate'], $array['usd_volume']);
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
     }

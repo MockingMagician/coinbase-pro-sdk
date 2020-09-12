@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressInfoDataInterface;
 
-class CryptoDepositAddressInfoData implements CryptoDepositAddressInfoDataInterface
+class CryptoDepositAddressInfoData extends AbstractCreator implements CryptoDepositAddressInfoDataInterface
 {
     /**
      * @var string
@@ -37,7 +37,7 @@ class CryptoDepositAddressInfoData implements CryptoDepositAddressInfoDataInterf
         return $this->destinationTag;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self($array['address'], $array['destination_tag']);
     }

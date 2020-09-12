@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
 
-class ProductData implements ProductDataInterface
+class ProductData extends AbstractCreator implements ProductDataInterface
 {
     /**
      * @var string
@@ -193,7 +193,7 @@ class ProductData implements ProductDataInterface
         return $this->tradingEnabled;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
         return new self(
             $array['id'],
@@ -215,18 +215,8 @@ class ProductData implements ProductDataInterface
         );
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
-    }
-
-    public static function createCollectionFromJson(string $json)
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => $v) {
-            $collection[$k] = self::createFromArray($v);
-        }
-
-        return $collection;
     }
 }

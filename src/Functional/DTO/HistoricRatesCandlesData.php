@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesCandlesDataInterface;
 
-class HistoricRatesCandlesData implements HistoricRatesCandlesDataInterface
+class HistoricRatesCandlesData extends AbstractCreator implements HistoricRatesCandlesDataInterface
 {
     /**
      * @var int
@@ -83,19 +83,15 @@ class HistoricRatesCandlesData implements HistoricRatesCandlesDataInterface
         return $this->tradingVolume;
     }
 
-    public static function createCollectionFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        foreach ($array as $k => $v) {
-            $array[$k] = new self(
-                $v[0],
-                $v[1],
-                $v[2],
-                $v[3],
-                $v[4],
-                $v[5]
-            );
-        }
-
-        return $array;
+        return  new self(
+            $array[0],
+            $array[1],
+            $array[2],
+            $array[3],
+            $array[4],
+            $array[5]
+        );
     }
 }
