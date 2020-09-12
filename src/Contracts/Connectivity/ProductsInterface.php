@@ -46,6 +46,7 @@ interface ProductsInterface
     const MAX_CANDLES = 300;
 
     const RATE_LIMIT_HISTORIC_RATES = 1.0;
+    const RATE_LIMIT_HISTORIC_ARBITRARY_RATIO = 1.2;
 
     const RATE_LIMITS = [
         self::RATE_LIMIT_HISTORIC_RATES,

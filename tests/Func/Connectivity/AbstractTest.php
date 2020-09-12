@@ -32,7 +32,7 @@ abstract class AbstractTest extends TestCase
      */
     public function setUp(): void
     {
-        if (!$this->isConnected()) {
+        if (!$this->retryIsConnected(3, 1)) {
             $this->markTestSkipped('Functional tests require internet connection');
         }
         ini_set('xdebug.var_display_max_depth', '16');
@@ -60,5 +60,17 @@ abstract class AbstractTest extends TestCase
         fclose($connected);
 
         return true;
+    }
+
+    private function retryIsConnected(int $numberOfRetry, int $delayBetweenRetryInSeconds)
+    {
+        while ($numberOfRetry--) {
+            if ($this->isConnected()) {
+                return true;
+            }
+            sleep($delayBetweenRetryInSeconds);
+        }
+
+        return false;
     }
 }

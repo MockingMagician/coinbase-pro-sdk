@@ -28,6 +28,7 @@ interface ProfilesInterface
      * Param    Description
      * active    Only return active profiles if set true
      *
+     * @param bool $active
      * @return ProfileDataInterface[]
      */
     public function listProfiles(bool $active): array;
@@ -42,6 +43,8 @@ interface ProfilesInterface
      *
      * API KEY PERMISSIONS
      * This endpoint requires the "view" permission and is accessible by any profile's API key.
+     * @param string $profileId
+     * @return ProfileDataInterface
      */
     public function getProfile(string $profileId): ProfileDataInterface;
 
@@ -62,11 +65,17 @@ interface ProfilesInterface
      * to    The target profile id of where funds will be transferred to
      * currency    i.e. BTC or USD
      * amount    Amount of currency to be transferred
+     *
+     * @param string $fromProfileId
+     * @param string $toProfileId
+     * @param string $currency
+     * @param float $amount
+     * @return bool
      */
     public function createProfileTransfer(
         string $fromProfileId,
         string $toProfileId,
         string $currency,
         float $amount
-    ): ProfileTransferDataInterface;
+    ): bool ;
 }

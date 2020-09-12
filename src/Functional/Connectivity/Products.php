@@ -136,7 +136,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         ];
 
         if (!is_null(self::$lastCallToHistoricRates)) {
-            while ((microtime(true) - self::$lastCallToHistoricRates) < self::RATE_LIMIT_HISTORIC_RATES) {
+            while ((microtime(true) - self::$lastCallToHistoricRates) < (self::RATE_LIMIT_HISTORIC_RATES * self::RATE_LIMIT_HISTORIC_ARBITRARY_RATIO)) {
                 continue;
             }
         }

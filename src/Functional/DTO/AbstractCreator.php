@@ -34,7 +34,7 @@ abstract class AbstractCreator implements CreatorInterface
 
     public static function createCollectionFromArray(array $array, ...$divers): array
     {
-        foreach ($array as $k => &$value) {
+        foreach ($array as $k => $value) {
             $array[$k] = static::createFromArray($value);
         }
 
