@@ -5,7 +5,6 @@ namespace Func\Connectivity;
 
 
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Profiles;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\ProfileData;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
 
 class ProfilesTest extends AbstractTest

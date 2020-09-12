@@ -6,7 +6,6 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileTransferDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProfileData;
 
 class Profiles extends AbstractRequestManagerAware implements ProfilesInterface

@@ -55,15 +55,23 @@ interface ReportsInterface
      * EXPIRED REPORTS
      * Reports are only available for download for a few days after being created.
      * Once a report expires, the report is no longer available for download and is deleted.
+     * @param string $type
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
+     * @param string|null $productId
+     * @param string|null $accountId
+     * @param string $format
+     * @param string|null $email
+     * @return ReportDataInterface
      */
     public function createNewReport(
         string $type,
         DateTimeInterface $startDate,
         DateTimeInterface $endDate,
-        string $productId,
-        string $accountId,
+        ?string $productId = null,
+        ?string $accountId = null,
         string $format = self::FORMAT_PDF,
-        string $email = null
+        ?string $email = null
     ): ReportDataInterface;
 
     /**
