@@ -33,5 +33,5 @@ interface StableCoinConversionsInterface
      * A successful conversion will be assigned a conversion id.
      * The corresponding ledger entries for a conversion will reference this conversion id.
      */
-    public function convertToStablecoin(string $fromCurrencyId, string $toCurrencyId, float $amount): StableCoinConversionsDataInterface;
+    public function createConversion(string $fromCurrencyId, string $toCurrencyId, float $amount): StableCoinConversionsDataInterface;
 }
