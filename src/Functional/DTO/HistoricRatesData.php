@@ -25,7 +25,6 @@ class HistoricRatesData extends AbstractCreator implements HistoricRatesDataInte
     /**
      * HistoricRatesData constructor.
      *
-     * @param int $granularity
      * @param HistoricRatesCandlesDataInterface[] $candles
      */
     public function __construct(
@@ -56,8 +55,6 @@ class HistoricRatesData extends AbstractCreator implements HistoricRatesDataInte
 
     public static function createFromJson(string $json, ...$divers)
     {
-        var_dump($json, json_decode($json, true));
-
         return self::createFromArray(json_decode($json, true), $divers[0]);
     }
 }
