@@ -4,6 +4,8 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
 
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Deposits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -18,12 +20,22 @@ class WithdrawalsTest extends AbstractTest
      * @var PaymentMethods
      */
     private $paymentMethods;
+    /**
+     * @var CoinbaseAccounts
+     */
+    private $coinbaseAccounts;
+    /**
+     * @var Deposits
+     */
+    private $deposits;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->withdrawals = new Withdrawals($this->requestManager);
         $this->paymentMethods = new PaymentMethods($this->requestManager);
+        $this->coinbaseAccounts = new CoinbaseAccounts($this->requestManager);
+        $this->deposits = new Deposits($this->requestManager);
     }
 
     public function testListWithdrawalsRawTest()
@@ -112,12 +124,73 @@ class WithdrawalsTest extends AbstractTest
         foreach ($paymentMethods as $paymentMethod) {
             if ($paymentMethod->isAllowWithdraw()) {
                 try {
-                    $raw = $this->withdrawals->withdrawRaw(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
+                    $raw = $this->withdrawals->doWithdrawRaw(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
                     self::assertStringContainsString('"id":', $raw);
 
                     break;
                 } catch (ApiError $exception) {}
             }
         }
+    }
+
+    public function testDoWithdraw()
+    {
+        $paymentMethods = $this->paymentMethods->listPaymentMethods();
+        foreach ($paymentMethods as $paymentMethod) {
+            if ($paymentMethod->isAllowWithdraw()) {
+                try {
+                    $id = $this->withdrawals->doWithdraw(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
+                    self::assertIsString($id);
+                    self::assertNotEmpty($id);
+
+                    break;
+                } catch (ApiError $exception) {}
+            }
+        }
+    }
+
+    public function testDoWithdrawCoinbaseRaw()
+    {
+        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        foreach ($coinbaseAccounts as $ca) {
+            try {
+                $raw = $this->withdrawals->doWithdrawToCoinbaseRaw(5, $ca->getCurrency(), $ca->getId());
+                self::assertStringContainsString('"id":', $raw);
+
+                break;
+            } catch (\Throwable $e) {
+            }
+        }
+    }
+
+    public function testDoWithdrawCoinbase()
+    {
+        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        foreach ($coinbaseAccounts as $ca) {
+            try {
+                $id = $this->withdrawals->doWithdrawToCoinbase(5, $ca->getCurrency(), $ca->getId());
+                self::assertIsString($id);
+                self::assertNotEmpty($id);
+
+                break;
+            } catch (\Throwable $e) {
+            }
+        }
+    }
+
+    public function testDoWithdrawToCryptoAddressRaw()
+    {
+        $this->markTestSkipped(
+            'Impossible to test in api test'
+        );
+        $this->withdrawals->doWithdrawToCryptoAddressRaw(5, 'BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
+    }
+
+    public function testDoWithdrawToCryptoAddress()
+    {
+        $this->markTestSkipped(
+            'Impossible to test in api test'
+        );
+        $this->withdrawals->doWithdrawToCryptoAddress(5, 'BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
     }
 }

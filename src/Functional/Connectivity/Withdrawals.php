@@ -46,7 +46,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
         return WithdrawalsData::createFromJson($this->getWithdrawalRaw($transferId));
     }
 
-    public function withdrawRaw(float $amount, string $currency, string $paymentMethodId): string
+    public function doWithdrawRaw(float $amount, string $currency, string $paymentMethodId): string
     {
         $body = [
             'amount' => $amount,
@@ -60,34 +60,52 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
     /**
      * @inheritDoc
      */
-    public function withdraw(float $amount, string $currency, string $paymentMethodId): string
+    public function doWithdraw(float $amount, string $currency, string $paymentMethodId): string
     {
-        // TODO: Implement withdraw() method.
+        return json_decode($this->doWithdrawRaw($amount, $currency, $paymentMethodId), true)['id'];
     }
 
-    public function withdrawToCoinbaseRaw(float $amount, string $currency, string $coinbaseAccountId)
+    public function doWithdrawToCoinbaseRaw(float $amount, string $currency, string $coinbaseAccountId): string
     {
-        // TODO: Implement withdrawToCoinbase() method.
-    }
+        $body = [
+            'amount' => $amount,
+            'currency' => $currency,
+            'coinbase_account_id' => $coinbaseAccountId,
+        ];
 
-    /**
-     * @inheritDoc
-     */
-    public function withdrawToCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
-    {
-        // TODO: Implement withdrawToCoinbase() method.
-    }
-
-    public function withdrawToCryptoAddressRaw(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null)
-    {
-        // TODO: Implement withdrawToCryptoAddress() method.
+        return $this->getRequestManager()->prepareRequest('POST', '/withdrawals/coinbase-account', [], json_encode($body))->signAndSend();
     }
 
     /**
      * @inheritDoc
      */
-    public function withdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string
+    public function doWithdrawToCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
     {
-        // TODO: Implement withdrawToCryptoAddress() method.
+        return json_decode($this->doWithdrawToCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
+    }
+
+    public function doWithdrawToCryptoAddressRaw(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null)
+    {
+        $body = [
+            'amount' => $amount,
+            'currency' => $currency,
+            'crypto_address' => $cryptoAddress,
+        ];
+
+        if ($destinationTag) {
+            $body['destination_tag'] = $destinationTag;
+        } else {
+            $body['no_destination_tag'] = true;
+        }
+
+        return $this->getRequestManager()->prepareRequest('POST', '/withdrawals/crypto', [], json_encode($body))->signAndSend();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function doWithdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string
+    {
+        return json_decode($this->doWithdrawToCryptoAddressRaw($amount, $currency, $cryptoAddress, $destinationTag), true)['id'];
     }
 }

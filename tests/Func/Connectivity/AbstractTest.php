@@ -18,6 +18,8 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTest extends TestCase
 {
+    const API_TEST_ENDPOINT = 'https://api-public.sandbox.pro.coinbase.com';
+
     /**
      * @var RequestManager
      */
@@ -32,16 +34,18 @@ abstract class AbstractTest extends TestCase
      */
     public function setUp(): void
     {
+        $dotenv = Dotenv::createImmutable(__DIR__.'/../../..');
+        $dotenv->load();
+        $apiParams = new ApiParams(self::API_TEST_ENDPOINT, $_ENV['API_KEY'], $_ENV['API_KEY_SECRET'], $_ENV['API_KEY_PASSPHRASE']);
+        if ($apiParams->getEndPoint() !== self::API_TEST_ENDPOINT) {
+            $this->markTestSkipped('Looks like you\'re running tests on a non-testing API. Tests must be run on the test API, otherwise dangerous and undesirable effects could happen to your account. Never run on a non-testing API.');
+        }
         if (!$this->retryIsConnected(3, 1)) {
-            $this->markTestSkipped('Functional tests require internet connection');
+            $this->markTestSkipped('Functional tests require an internet connection.');
         }
         ini_set('xdebug.var_display_max_depth', '16');
         ini_set('xdebug.var_display_max_children', '256');
         ini_set('xdebug.var_display_max_data', '4096');
-        parent::setUp();
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../..');
-        $dotenv->load();
-        $apiParams = new ApiParams($_ENV['API_ENDPOINT'], $_ENV['API_KEY'], $_ENV['API_KEY_SECRET'], $_ENV['API_KEY_PASSPHRASE']);
         $httpClient = new Client();
         $this->requestManager = new RequestManager($httpClient, $apiParams);
         $this->time = new Time($this->requestManager);

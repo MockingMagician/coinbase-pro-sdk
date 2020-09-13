@@ -137,6 +137,7 @@ class DepositsTest extends AbstractTest
                 if ($paymentMethodLimitsDetailsData->getRemaining()->getAmount() > 15) {
                     $id = $this->deposits->doDeposit(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
                     self::assertIsString($id);
+                    self::assertNotEmpty($id);
 
                     break;
                 }
