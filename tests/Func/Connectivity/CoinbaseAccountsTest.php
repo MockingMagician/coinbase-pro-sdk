@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 
 /**
  * @internal
- * @coversNothing
  */
 class CoinbaseAccountsTest extends AbstractTest
 {

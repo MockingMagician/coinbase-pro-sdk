@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Fees;
 
 /**
  * @internal
- * @coversNothing
  */
 class FeesTest extends AbstractTest
 {

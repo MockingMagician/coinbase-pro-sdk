@@ -14,7 +14,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\StableCoinConversions
 
 /**
  * @internal
- * @coversNothing
  */
 class StableCoinConversionTest extends AbstractTest
 {

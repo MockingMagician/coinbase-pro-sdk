@@ -7,6 +7,9 @@ namespace Func\Connectivity;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Profiles;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
 
+/**
+ * @internal
+ */
 class ProfilesTest extends AbstractTest
 {
     /**

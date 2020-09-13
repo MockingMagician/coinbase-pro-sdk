@@ -13,7 +13,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
 
 /**
  * @internal
- * @coversNothing
  */
 class PaymentMethodsTest extends AbstractTest
 {

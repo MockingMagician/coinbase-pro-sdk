@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Limits;
 
 /**
  * @internal
- * @coversNothing
  */
 class LimitsTest extends AbstractTest
 {

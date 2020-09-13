@@ -14,7 +14,6 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\TradeData;
 
 /**
  * @internal
- * @coversNothing
  */
 class ProductsTest extends AbstractTest
 {

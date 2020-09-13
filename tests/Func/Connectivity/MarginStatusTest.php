@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Margin;
 
 /**
  * @internal
- * @coversNothing
  */
 class MarginStatusTest extends AbstractTest
 {

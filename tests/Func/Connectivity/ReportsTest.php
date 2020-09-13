@@ -16,7 +16,6 @@ use function PHPUnit\Framework\assertNotEmpty;
 
 /**
  * @internal
- * @coversNothing
  */
 class ReportsTest extends AbstractTest
 {

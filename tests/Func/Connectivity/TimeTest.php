@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\TimeDataInterface;
 
 /**
  * @internal
- * @coversNothing
  */
 class TimeTest extends AbstractTest
 {

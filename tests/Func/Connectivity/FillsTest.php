@@ -13,7 +13,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 
 /**
  * @internal
- * @coversNothing
  */
 class FillsTest extends AbstractTest
 {

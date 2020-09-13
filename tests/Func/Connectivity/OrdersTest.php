@@ -16,7 +16,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 /**
  * @internal
- * @coversNothing
  */
 class OrdersTest extends AbstractTest
 {

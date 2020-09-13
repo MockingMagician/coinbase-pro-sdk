@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Currencies;
 
 /**
  * @internal
- * @coversNothing
  */
 class CurrenciesTest extends AbstractTest
 {

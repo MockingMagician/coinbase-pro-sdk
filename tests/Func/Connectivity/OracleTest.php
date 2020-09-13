@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Oracle;
 
 /**
  * @internal
- * @coversNothing
  */
 class OracleTest extends AbstractTest
 {
