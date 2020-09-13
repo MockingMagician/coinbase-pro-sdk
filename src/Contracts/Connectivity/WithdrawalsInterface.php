@@ -35,9 +35,11 @@ interface WithdrawalsInterface
      * after    No    If after is set, then it returns withdrawals created before the after timestamp, sorted by newest
      * limit    No    Truncate list to this many withdrawals, capped at 100. Default is 100.
      *
+     * @param string|null $profileId
+     * @param PaginationInterface|null $pagination
      * @return WithdrawalsDataInterface[]
      */
-    public function listWithdrawals(?string $profileId = null, PaginationInterface $pagination = null): array;
+    public function listWithdrawals(?string $profileId = null, ?PaginationInterface $pagination = null): array;
 
     /**
      * Single Withdrawal.
@@ -70,7 +72,7 @@ interface WithdrawalsInterface
      *
      * @return string id of withdraw as is "593533d2-ff31-46e0-b22e-ca754147a96a"
      */
-    public function withdraw(float $amount, string $currency, string $paymentMethodId): string;
+    public function doWithdraw(float $amount, string $currency, string $paymentMethodId): string;
 
     /**
      * Coinbase.
@@ -92,7 +94,7 @@ interface WithdrawalsInterface
      * currency    The type of currency
      * coinbase_account_id    ID of the coinbase account
      */
-    public function withdrawToCoinbase(float $amount, string $currency, string $coinbaseAccountId): string;
+    public function doWithdrawToCoinbase(float $amount, string $currency, string $coinbaseAccountId): string;
 
     /**
      *Crypto.
@@ -114,5 +116,5 @@ interface WithdrawalsInterface
      * no_destination_tag	A boolean flag to opt out of using a destination tag for currencies that support one.
      * This is required when not providing a destination tag.
      */
-    public function withdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string;
+    public function doWithdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string;
 }

@@ -108,7 +108,7 @@ class ReportData extends AbstractCreator implements ReportDataInterface
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['id'],
             $array['type'],
             $array['status'],

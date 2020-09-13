@@ -24,6 +24,9 @@
     <testsuite name="Functional tests">
       <directory>tests/Func</directory>
     </testsuite>
+    <testsuite name="Unit tests">
+      <directory>tests/Unit</directory>
+    </testsuite>
   </testsuites>
 
 </phpunit>

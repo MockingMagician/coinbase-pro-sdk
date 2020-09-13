@@ -33,6 +33,10 @@ class DepositData extends AbstractCreator implements DepositDataInterface
     /**
      * @var DateTimeImmutable
      */
+    private $canceledAt;
+    /**
+     * @var DateTimeImmutable
+     */
     private $processedAt;
     /**
      * @var string
@@ -60,6 +64,7 @@ class DepositData extends AbstractCreator implements DepositDataInterface
         string $type,
         DateTimeImmutable $createdAt,
         ?DateTimeImmutable $completedAt,
+        ?DateTimeImmutable $canceledAt,
         ?DateTimeImmutable $processedAt,
         string $accountId,
         string $userId,
@@ -77,6 +82,7 @@ class DepositData extends AbstractCreator implements DepositDataInterface
         $this->userNonce = $userNonce;
         $this->amount = $amount;
         $this->details = $details;
+        $this->canceledAt = $canceledAt;
     }
 
     public function getId(): string
@@ -103,6 +109,14 @@ class DepositData extends AbstractCreator implements DepositDataInterface
     public function getCompletedAt(): ?DateTimeInterface
     {
         return $this->completedAt;
+    }
+
+    /**
+     * @return DateTimeImmutable|null
+     */
+    public function getCanceledAt(): ?DateTimeInterface
+    {
+        return $this->canceledAt;
     }
 
     /**
@@ -143,22 +157,18 @@ class DepositData extends AbstractCreator implements DepositDataInterface
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['id'],
             $array['type'],
             new DateTimeImmutable($array['created_at']),
-            $array['completed_at'] ? new DateTimeImmutable($array['completed_at']) : null,
-            $array['processed_at'] ? new DateTimeImmutable($array['processed_at']) : null,
+            isset($array['completed_at']) ? new DateTimeImmutable($array['completed_at']) : null,
+            isset($array['canceled_at']) ? new DateTimeImmutable($array['canceled_at']) : null,
+            isset($array['processed_at']) ? new DateTimeImmutable($array['processed_at']) : null,
             $array['account_id'],
             $array['user_id'],
             $array['user_nonce'],
             $array['amount'],
             $array['details']
         );
-    }
-
-    public static function createFromJson(string $json, ...$divers)
-    {
-        return self::createFromArray(json_decode($json, true));
     }
 }

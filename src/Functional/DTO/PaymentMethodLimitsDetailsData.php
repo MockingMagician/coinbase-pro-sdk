@@ -53,7 +53,7 @@ class PaymentMethodLimitsDetailsData extends AbstractCreator implements PaymentM
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['period_in_days'],
             PaymentMethodLimitsAmountDetailsData::createFromArray($array['total'], $divers),
             PaymentMethodLimitsAmountDetailsData::createFromArray($array['remaining'], $divers)

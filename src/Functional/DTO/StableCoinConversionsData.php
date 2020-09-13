@@ -85,7 +85,7 @@ class StableCoinConversionsData extends AbstractCreator implements StableCoinCon
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['id'],
             $array['amount'],
             $array['from_account_id'],

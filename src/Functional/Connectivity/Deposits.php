@@ -60,7 +60,9 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
 
     public function getDepositRaw(string $depositId)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/transfers/%s', $depositId))->signAndSend();
+        $query = ['type' => 'deposit'];
+
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/transfers/%s', $depositId, $query))->signAndSend();
     }
 
     /**

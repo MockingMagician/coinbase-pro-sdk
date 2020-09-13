@@ -63,7 +63,7 @@ class OracleCryptoSignedPrices extends AbstractCreator implements OracleCryptoSi
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['timestamp'],
             $array['messages'],
             $array['signatures'],

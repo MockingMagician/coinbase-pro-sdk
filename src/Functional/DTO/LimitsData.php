@@ -44,6 +44,6 @@ class LimitsData extends AbstractCreator implements LimitsDataInterface
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self($array['limit_currency'], $array['transfer_limits']);
+        return new static($array['limit_currency'], $array['transfer_limits']);
     }
 }

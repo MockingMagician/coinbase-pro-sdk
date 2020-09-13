@@ -76,7 +76,7 @@ class TradeData extends AbstractCreator implements TradeDataInterface
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             new DateTimeImmutable($array['time']),
             $array['trade_id'],
             $array['price'],
