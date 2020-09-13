@@ -128,7 +128,7 @@ class ReportsTest extends AbstractTest
             'BTC-USD'
         );
 
-        sleep(10);
+        sleep(10); // Waiting for report generation
 
         $report = $this->reports->getReportStatus($report->getId());
 
