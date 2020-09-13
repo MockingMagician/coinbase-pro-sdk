@@ -131,7 +131,7 @@ class FillData extends AbstractCreator implements FillDataInterface
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['trade_id'],
             $array['product_id'],
             $array['price'],

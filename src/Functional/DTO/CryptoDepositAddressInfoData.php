@@ -39,6 +39,6 @@ class CryptoDepositAddressInfoData extends AbstractCreator implements CryptoDepo
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self($array['address'], $array['destination_tag']);
+        return new static($array['address'], $array['destination_tag']);
     }
 }

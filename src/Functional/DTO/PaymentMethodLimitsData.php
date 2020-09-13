@@ -93,6 +93,6 @@ class PaymentMethodLimitsData extends AbstractCreator implements PaymentMethodLi
             $deposit[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
         }
 
-        return new self($buy, $instantBuy, $sell, $deposit);
+        return new static($buy, $instantBuy, $sell, $deposit);
     }
 }

@@ -96,7 +96,7 @@ class AccountData extends AbstractCreator implements AccountDataInterface
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['id'],
             $array['currency'],
             $array['balance'],

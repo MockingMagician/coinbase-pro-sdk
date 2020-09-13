@@ -67,7 +67,7 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
             }
         }
 
-        return new self(
+        return new static(
             $array['id'],
             $array['name'],
             $array['min_size'],

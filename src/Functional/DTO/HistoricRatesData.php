@@ -50,7 +50,7 @@ class HistoricRatesData extends AbstractCreator implements HistoricRatesDataInte
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self($divers[0], HistoricRatesCandlesData::createCollectionFromArray($array));
+        return new static($divers[0], HistoricRatesCandlesData::createCollectionFromArray($array));
     }
 
     public static function createFromJson(string $json, ...$divers)

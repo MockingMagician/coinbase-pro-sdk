@@ -115,7 +115,7 @@ class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountData
             }
         }
 
-        return new self(
+        return new static(
             $array['id'],
             $array['name'],
             $array['balance'],

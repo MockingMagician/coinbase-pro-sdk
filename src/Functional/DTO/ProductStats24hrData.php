@@ -85,7 +85,7 @@ class ProductStats24hrData extends AbstractCreator implements ProductStats24hrDa
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['open'],
             $array['high'],
             $array['low'],

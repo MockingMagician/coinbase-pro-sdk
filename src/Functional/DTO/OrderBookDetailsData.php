@@ -59,7 +59,7 @@ class OrderBookDetailsData extends AbstractCreator implements OrderBookDetailsDa
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array[0],
             $array[1],
             is_int($array[2]) ? $array[2] : null,

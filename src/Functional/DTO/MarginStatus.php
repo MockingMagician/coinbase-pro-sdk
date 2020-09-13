@@ -52,7 +52,7 @@ class MarginStatus extends AbstractCreator implements MarginStatusDataInterface
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['tier'],
             $array['enabled'],
             $array['eligible']

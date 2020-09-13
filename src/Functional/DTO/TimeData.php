@@ -34,6 +34,6 @@ class TimeData extends AbstractCreator implements TimeDataInterface
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(json_encode($array));
+        return new static(json_encode($array));
     }
 }

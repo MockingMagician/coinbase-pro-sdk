@@ -87,7 +87,7 @@ class AccountHistoryEventData extends AbstractCreator implements AccountHistoryE
 
     public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['id'],
             new DateTimeImmutable($array['created_at']),
             $array['amount'],
