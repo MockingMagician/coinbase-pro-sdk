@@ -1,0 +1,9 @@
+connectivity:
+    endpoint: '${API_ENDPOINT}'
+    key: '${API_KEY}'
+    secret: '${API_SECRET}'
+    passphrase: '${API_PASSPHRASE}'
+
+features: false
+
+remote_time: false

@@ -36,7 +36,7 @@ abstract class AbstractTest extends TestCase
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/../../..');
         $dotenv->load();
-        $apiParams = new ApiParams(self::API_TEST_ENDPOINT, $_ENV['API_KEY'], $_ENV['API_KEY_SECRET'], $_ENV['API_KEY_PASSPHRASE']);
+        $apiParams = new ApiParams(self::API_TEST_ENDPOINT, $_ENV['API_KEY'], $_ENV['API_SECRET'], $_ENV['API_PASSPHRASE']);
         if ($apiParams->getEndPoint() !== self::API_TEST_ENDPOINT) {
             $this->markTestSkipped('Looks like you\'re running tests on a non-testing API. Tests must be run on the test API, otherwise dangerous and undesirable effects could happen to your account. Never run on a non-testing API.');
         }
