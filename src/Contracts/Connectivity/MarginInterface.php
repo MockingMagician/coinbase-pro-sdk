@@ -90,7 +90,6 @@ interface MarginInterface
     /**
      * Get exit plan.
      * This endpoint requires either the "view" or "trade" permission.
-     * @return mixed
      */
     public function getExitPlan(): LiquidationStrategyDataInterface;
 
@@ -107,8 +106,6 @@ interface MarginInterface
      * QUERY PARAMETERS
      * Param    Default    Description
      * after    [optional]    Request liquidation history after this date.
-     *
-     * @param DateTimeInterface $after
      *
      * @return LiquidationHistoryDataInterface[]
      */

@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\StableCoinConversionsDataInterface;
 
@@ -49,49 +53,31 @@ class StableCoinConversionsData extends AbstractCreator implements StableCoinCon
         $this->toCurrencyId = $toCurrencyId;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
-     * @return string
-     */
     public function getFromAccountId(): string
     {
         return $this->fromAccountId;
     }
 
-    /**
-     * @return string
-     */
     public function getToAccountId(): string
     {
         return $this->toAccountId;
     }
 
-    /**
-     * @return string
-     */
     public function getFromCurrencyId(): string
     {
         return $this->fromCurrencyId;
     }
 
-    /**
-     * @return string
-     */
     public function getToCurrencyId(): string
     {
         return $this->toCurrencyId;

@@ -8,8 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsDataInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\StableCoinConversions;
 
 /**

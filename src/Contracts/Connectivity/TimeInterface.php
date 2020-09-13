@@ -14,7 +14,7 @@ interface TimeInterface
 {
     /**
      * Time.
-     * The epoch field represents decimal seconds since Unix Epoch
+     * The epoch field represents decimal seconds since Unix Epoch.
      */
     public function getTime(): TimeDataInterface;
 }

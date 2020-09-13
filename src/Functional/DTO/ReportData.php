@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ReportDataInterface;
@@ -22,19 +26,19 @@ class ReportData extends AbstractCreator implements ReportDataInterface
      */
     private $status;
     /**
-     * @var DateTimeImmutable|null
+     * @var null|DateTimeImmutable
      */
     private $createdAt;
     /**
-     * @var DateTimeImmutable|null
+     * @var null|DateTimeImmutable
      */
     private $completedAt;
     /**
-     * @var DateTimeImmutable|null
+     * @var null|DateTimeImmutable
      */
     private $expiredAt;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $fileUrl;
     /**
@@ -62,65 +66,41 @@ class ReportData extends AbstractCreator implements ReportDataInterface
         $this->params = $params;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
     public function getStatus(): string
     {
         return $this->status;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getCompletedAt(): ?DateTimeImmutable
     {
         return $this->completedAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getExpiredAt(): ?DateTimeImmutable
     {
         return $this->expiredAt;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFileUrl(): ?string
     {
         return $this->fileUrl;
     }
 
-    /**
-     * @return array
-     */
     public function getParams(): array
     {
         return $this->params;

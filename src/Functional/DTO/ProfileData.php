@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
@@ -37,8 +42,8 @@ class ProfileData extends AbstractCreator implements ProfileDataInterface
         string $id,
         string $userId,
         string $name,
-        bool  $active,
-        bool  $default,
+        bool $active,
+        bool $default,
         DateTimeInterface $createdAt
     ) {
         $this->id = $id;
@@ -49,49 +54,31 @@ class ProfileData extends AbstractCreator implements ProfileDataInterface
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getUserId(): string
     {
         return $this->userId;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * @return bool
-     */
     public function isDefault(): bool
     {
         return $this->default;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;

@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace Func\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Profiles;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
@@ -73,26 +77,6 @@ class ProfilesTest extends AbstractTest
         self::assertIsBool($profile->isDefault());
     }
 
-    private function providerDefaultAndOtherProfile()
-    {
-        $default = $other = null;
-        $profiles = $this->profiles->listProfiles(true);
-
-        foreach ($profiles as $profile) {
-            if ($profile->isDefault() && !$default) {
-                $default = $profile;
-            }
-            if (!$profile->isDefault() && !$other) {
-                $other = $profile;
-            }
-            if ($default && $other) {
-                break;
-            }
-        }
-
-        return [$default, $other];
-    }
-
     public function testCreateProfileTransferRaw()
     {
         list($default, $other) = $this->providerDefaultAndOtherProfile();
@@ -121,5 +105,25 @@ class ProfilesTest extends AbstractTest
         $bool = $this->profiles->createProfileTransfer($default->getId(), $other->getId(), 'USD', 15);
 
         self::assertTrue($bool);
+    }
+
+    private function providerDefaultAndOtherProfile()
+    {
+        $default = $other = null;
+        $profiles = $this->profiles->listProfiles(true);
+
+        foreach ($profiles as $profile) {
+            if ($profile->isDefault() && !$default) {
+                $default = $profile;
+            }
+            if (!$profile->isDefault() && !$other) {
+                $other = $profile;
+            }
+            if ($default && $other) {
+                break;
+            }
+        }
+
+        return [$default, $other];
     }
 }

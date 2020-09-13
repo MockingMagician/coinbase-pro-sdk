@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
-
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
@@ -36,11 +40,11 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
             'format' => $format,
         ];
 
-        if ($type === self::TYPE_FILLS && !$productId) {
+        if (self::TYPE_FILLS === $type && !$productId) {
             throw new ApiError('productId must be defined when type is fills');
         }
 
-        if ($type === self::TYPE_ACCOUNT && !$accountId) {
+        if (self::TYPE_ACCOUNT === $type && !$accountId) {
             throw new ApiError('accountId must be defined when type is account');
         }
 
@@ -60,7 +64,7 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function createNewReport(
         string $type,
@@ -80,7 +84,7 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getReportStatus(string $reportId): ReportDataInterface
     {

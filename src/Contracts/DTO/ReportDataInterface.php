@@ -99,16 +99,22 @@ use DateTimeImmutable;
  *     "params":{"start_date":"2019-09-12T20:36:37+0000", ... ,"new_york_state":false},
  *     "file_count":null
  * }
- *
  */
 interface ReportDataInterface
 {
     public function getId(): string;
+
     public function getType(): string;
+
     public function getStatus(): string;
+
     public function getCreatedAt(): ?DateTimeImmutable;
+
     public function getCompletedAt(): ?DateTimeImmutable;
+
     public function getExpiredAt(): ?DateTimeImmutable;
+
     public function getFileUrl(): ?string;
+
     public function getParams(): array;
 }

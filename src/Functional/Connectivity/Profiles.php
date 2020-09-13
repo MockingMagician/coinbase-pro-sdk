@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileDataInterface;
@@ -18,7 +22,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function listProfiles(bool $active): array
     {
@@ -31,7 +35,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getProfile(string $profileId): ProfileDataInterface
     {
@@ -51,7 +55,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function createProfileTransfer(string $fromProfileId, string $toProfileId, string $currency, float $amount): bool
     {

@@ -10,9 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Oracle;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Reports;
-use function PHPUnit\Framework\assertNotEmpty;
 
 /**
  * @internal
@@ -55,8 +53,8 @@ class ReportsTest extends AbstractTest
 
         $accountId = null;
         $accounts = $this->accounts->list();
-        foreach($accounts as $account) {
-            if ($account->getCurrency() === 'USD') {
+        foreach ($accounts as $account) {
+            if ('USD' === $account->getCurrency()) {
                 $accountId = $account->getId();
             }
         }
