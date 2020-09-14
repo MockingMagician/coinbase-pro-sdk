@@ -15,9 +15,9 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                operating-system: [ubuntu-latest, windows-latest, macos-latest]
+                os: [ubuntu-latest, windows-latest, macos-latest]
                 php-versions: ['7.1', '7.2', '7.3', '7.4']
-        name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+        name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.os }}
         steps:
             - name: Check out repository
               uses: actions/checkout@v2
