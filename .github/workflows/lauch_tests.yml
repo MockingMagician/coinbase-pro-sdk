@@ -12,7 +12,11 @@ on:
 
 jobs:
     test-job:
-        runs-on: 'ubuntu-latest'
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+                php: [7.1, 7.2, 7.3, 7.4]
         defaults:
             run:
                 shell: bash
@@ -20,8 +24,8 @@ jobs:
         steps:
             - name: Check out repository
               uses: actions/checkout@v2
-            - name: 'ls_la'
-              run: ls -la
+            - name: Check php version
+              run: php --version
             - name: Composer install
               run: composer install
             - name: Run php-cs
