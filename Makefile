@@ -7,23 +7,23 @@ tests-with-coverage: ## Launch PHPUnit test suite with coverage
 
 .PHONY: tests-no-useless
 tests-no-useless: ## Launch PHPUnit test suite
-	vendor/bin/phpunit --colors=always --testdox --dont-report-useless-tests
+	./vendor/bin/phpunit --colors=always --testdox --dont-report-useless-tests
 
 .PHONY: tests
 tests: ## Launch PHPUnit test suite
-	vendor/bin/phpunit --colors=always --testdox
+	./vendor/bin/phpunit --colors=always --testdox
 
 .PHONY: phpcs
 phpcs: ## Apply PHP CS fixes
-	vendor/bin/php-cs-fixer fix
+	./vendor/bin/php-cs-fixer fix
 
 .PHONY: phpcs-dry-run
 phpcs-dry-run: ## Coding style checks
-	vendor/bin/php-cs-fixer fix --dry-run
+	./vendor/bin/php-cs-fixer fix --dry-run
 
 .PHONY: phpstan
 phpstan: ## Static analysis
-	vendor/bin/phpstan analyse --level=3 src
+	./vendor/bin/phpstan analyse --level=3 src
 
 .PHONY: help
 help: ## Display this help message

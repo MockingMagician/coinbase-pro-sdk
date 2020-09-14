@@ -16,7 +16,8 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                php: [7.1, 7.2, 7.3, 7.4]
+                php-version: [7.1, 7.2, 7.3, 7.4]
+        name: Test with PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
         defaults:
             run:
                 shell: bash
