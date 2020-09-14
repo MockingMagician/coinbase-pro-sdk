@@ -100,8 +100,14 @@ class Pagination implements PaginationInterface
         return $this->hasNext;
     }
 
-    public function setHasNext(bool $hasNext)
+    public function updateFromHeaders(?string $before, ?string $after): void
     {
-        $this->hasNext = $hasNext;
+        if ($this->getDirection() === Pagination::DIRECTION_ASC && $before) {
+            $this->setOffset($before);
+        } else if ($this->getDirection() === Pagination::DIRECTION_DESC && $after) {
+            $this->setOffset($after);
+        } else {
+            $this->hasNext = false;
+        }
     }
 }

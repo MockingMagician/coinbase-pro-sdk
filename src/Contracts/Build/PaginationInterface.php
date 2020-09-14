@@ -83,5 +83,5 @@ interface PaginationInterface
 
     public function hasNext(): bool;
 
-    public function setHasNext(bool $hasNext);
+    public function updateFromHeaders(string $before, string $after): void;
 }

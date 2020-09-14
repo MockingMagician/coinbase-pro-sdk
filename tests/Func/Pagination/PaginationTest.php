@@ -47,8 +47,6 @@ class PaginationTest extends AbstractTest
      */
     public function testPaginationOfGetAccountHistory()
     {
-        $this->markTestSkipped();
-
         $accountId = null;
         $accounts = $this->accounts->list();
         foreach ($accounts as $account) {
@@ -92,8 +90,6 @@ class PaginationTest extends AbstractTest
 
     public function testPaginationOfFills()
     {
-        $this->markTestSkipped();
-
         // Descending side
         $pagination = new Pagination(Pagination::DIRECTION_DESC, null, 50);
 
@@ -129,8 +125,6 @@ class PaginationTest extends AbstractTest
 
     public function testPaginationOfDeposits()
     {
-        $this->markTestSkipped();
-
         // Descending side
         $pagination = new Pagination(Pagination::DIRECTION_DESC, null, 50);
 
@@ -166,8 +160,6 @@ class PaginationTest extends AbstractTest
 
     public function testPaginationOfWithdrawals()
     {
-//        $this->markTestSkipped();
-
         // Descending side
         $pagination = new Pagination(Pagination::DIRECTION_DESC, null, 25);
 

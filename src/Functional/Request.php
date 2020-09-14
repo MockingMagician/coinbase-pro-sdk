@@ -136,18 +136,10 @@ class Request implements RequestInterface
 //        ]);
 
         if ($this->pagination) {
-            if ($this->pagination->getDirection() === Pagination::DIRECTION_ASC
-                && !empty($response->getHeader(Pagination::HEADER_BEFORE))
-            ) {
-                $this->pagination->setOffset($response->getHeader(Pagination::HEADER_BEFORE)[0]);
-            } else if (
-                $this->pagination->getDirection() === Pagination::DIRECTION_DESC
-                && !empty($response->getHeader(Pagination::HEADER_AFTER))
-            ) {
-                $this->pagination->setOffset($response->getHeader(Pagination::HEADER_AFTER)[0]);
-            } else {
-                $this->pagination->setHasNext(false);
-            }
+            $this->pagination->updateFromHeaders(
+                $response->getHeader(Pagination::HEADER_BEFORE)[0] ?? null,
+                $response->getHeader(Pagination::HEADER_AFTER)[0] ?? null
+            );
         }
 
 //        dump($this->getUri());
