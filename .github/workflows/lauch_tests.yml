@@ -13,21 +13,26 @@ on:
 jobs:
     test-job:
         runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest]
-                php-versions: [7.1, 7.2, 7.3, 7.4]
-        name: Tests with PHP ${{ matrix.php-versions }} on ${{ matrix.os }}
-        defaults:
-            run:
-                shell: bash
-                working-directory: ./
-        steps:
-            - name: Check out repository
-              uses: actions/checkout@v2
-            - name: Check php version
-              run: php --version
-            - name: Composer install
-              run: composer install
-            - name: Run php-cs
-              run: make phpcs-dry-run
+            strategy:
+                matrix:
+                    operating-system: [ubuntu-latest, windows-latest, macos-latest]
+                    php-versions: ['7.1', '7.2', '7.3', '7.4']
+                name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+                steps:
+                    - name: Check out repository
+                      uses: actions/checkout@v2
+                    - name: Setup PHP
+                      uses: shivammathur/setup-php@v2
+                      with:
+                          php-version: ${{ matrix.php-versions }}
+                          extensions: mbstring, intl
+#                          ini-values: post_max_size=256M, short_open_tag=On
+#                          coverage: xdebug
+#                          tools: php-cs-fixer, phpunit
+                    - name: Check php version
+                      run: php --version
+                    - name: Composer install
+                      run: composer install
+                    - name: Run php-cs
+                      run: make phpcs-dry-run
+
