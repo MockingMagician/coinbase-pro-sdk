@@ -22,7 +22,7 @@ jobs:
               uses: actions/checkout@v2
             - name: 'ls_la'
               run: ls -la
-#            - id: 'run_composer'
-#              run: composer install
-#            - id: 'run_php_cs'
-#              run: make phpcs-dry-run
+            - name: Composer install
+              run: composer install
+            - name: Run php-cs
+              run: make phpcs-dry-run
