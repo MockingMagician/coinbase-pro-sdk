@@ -1,19 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 /**
- * Interface CryptoDepositAddressDataInterface
- * @package MockingMagician\CoinbaseProSdk\Contracts\DTO
- *
- * "address_info": {
- *   "address": "cx3iotaZqweMa7bABi4bRWq6rpponnOIFa",
- *   "destination_tag": "4938102"
- * }
+ * Interface CryptoDepositAddressDataInterface.
  */
 interface CryptoDepositAddressInfoDataInterface
 {
     public function getAddress(): string;
+
     public function getDestinationTag(): int;
 }

@@ -1,13 +1,17 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsDetailsDataInterface;
 
-class PaymentMethodLimitsData implements PaymentMethodLimitsDataInterface
+class PaymentMethodLimitsData extends AbstractCreator implements PaymentMethodLimitsDataInterface
 {
     /**
      * @var PaymentMethodLimitsDetailsDataInterface[]
@@ -39,7 +43,7 @@ class PaymentMethodLimitsData implements PaymentMethodLimitsDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getBuy(): array
     {
@@ -47,7 +51,7 @@ class PaymentMethodLimitsData implements PaymentMethodLimitsDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getInstantBuy(): array
     {
@@ -55,7 +59,7 @@ class PaymentMethodLimitsData implements PaymentMethodLimitsDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getSell(): array
     {
@@ -63,32 +67,32 @@ class PaymentMethodLimitsData implements PaymentMethodLimitsDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getDeposit(): array
     {
         return $this->deposit;
     }
 
-    public static function createFromArray($array)
+    public static function createFromArray(array $array, ...$divers)
     {
         $buy = [];
         foreach ($array['buy'] ?? [] as $value) {
-            $buy[] = PaymentMethodLimitsDetailsData::createFromArray($value);
+            $buy[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
         }
         $instantBuy = [];
         foreach ($array['instant_buy'] ?? [] as $value) {
-            $instantBuy[] = PaymentMethodLimitsDetailsData::createFromArray($value);
+            $instantBuy[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
         }
         $sell = [];
         foreach ($array['sell'] ?? [] as $value) {
-            $sell[] = PaymentMethodLimitsDetailsData::createFromArray($value);
+            $sell[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
         }
         $deposit = [];
         foreach ($array['deposit'] ?? [] as $value) {
-            $deposit[] = PaymentMethodLimitsDetailsData::createFromArray($value);
+            $deposit[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
         }
 
-        return new self($buy, $instantBuy, $sell, $deposit);
+        return new static($buy, $instantBuy, $sell, $deposit);
     }
 }

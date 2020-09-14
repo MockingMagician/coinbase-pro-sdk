@@ -1,21 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
 
 /**
- * Interface MarketOrderToPlace
- * @package MockingMagician\CoinbaseProSdk\Contracts
- *
- * MARKET ORDER PARAMETERS
- * Param	Description
- * size	[optional]* Desired amount in base currency
- * funds	[optional]* Desired amount of quote currency to use
- *
- * One of size or funds is required.
+ * Interface MarketOrderToPlace.
  */
 interface MarketOrderToPlaceInterface extends CommonOrderToPlaceInterface
 {
     public function getSize(): ?float;
+
     public function getFunds(): ?float;
 }

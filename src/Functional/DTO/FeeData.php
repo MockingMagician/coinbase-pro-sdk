@@ -1,12 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\FeeDataInterface;
 
-class FeeData implements FeeDataInterface
+class FeeData extends AbstractCreator implements FeeDataInterface
 {
     /**
      * @var float
@@ -28,36 +32,27 @@ class FeeData implements FeeDataInterface
         $this->usdVolume = $usdVolume;
     }
 
-    /**
-     * @return float
-     */
     public function getMakerFeeRate(): float
     {
         return $this->makerFeeRate;
     }
 
-    /**
-     * @return float
-     */
     public function getTakerFeeRate(): float
     {
         return $this->takerFeeRate;
     }
 
-    /**
-     * @return float
-     */
     public function getUsdVolume(): float
     {
         return $this->usdVolume;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self($array['maker_fee_rate'], $array['taker_fee_rate'], $array['usd_volume']);
+        return new static($array['maker_fee_rate'], $array['taker_fee_rate'], $array['usd_volume']);
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
     }

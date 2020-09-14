@@ -1,13 +1,17 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsDataInterface;
 
-class PaymentMethodData implements PaymentMethodDataInterface
+class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInterface
 {
     /**
      * @var string
@@ -80,95 +84,62 @@ class PaymentMethodData implements PaymentMethodDataInterface
         $this->limits = $limits;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string
     {
         return $this->currency;
     }
 
-    /**
-     * @return bool
-     */
     public function isPrimaryBuy(): bool
     {
         return $this->primary_buy;
     }
 
-    /**
-     * @return bool
-     */
     public function isPrimarySell(): bool
     {
         return $this->primary_sell;
     }
 
-    /**
-     * @return bool
-     */
     public function isAllowBuy(): bool
     {
         return $this->allow_buy;
     }
 
-    /**
-     * @return bool
-     */
     public function isAllowSell(): bool
     {
         return $this->allow_sell;
     }
 
-    /**
-     * @return bool
-     */
     public function isAllowDeposit(): bool
     {
         return $this->allow_deposit;
     }
 
-    /**
-     * @return bool
-     */
     public function isAllowWithdraw(): bool
     {
         return $this->allow_withdraw;
     }
 
-    /**
-     * @return PaymentMethodLimitsDataInterface
-     */
     public function getLimits(): PaymentMethodLimitsDataInterface
     {
         return $this->limits;
     }
 
-    public static function createCollectionFromJson(string $json)
+    public static function createCollectionFromJson(string $json, ...$divers): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => $value) {
@@ -188,5 +159,10 @@ class PaymentMethodData implements PaymentMethodDataInterface
         }
 
         return $collection;
+    }
+
+    public static function createFromArray(array $array, ...$divers)
+    {
+        // TODO: Implement createFromArray() method.
     }
 }

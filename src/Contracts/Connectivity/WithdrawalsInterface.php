@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalsDataInterface;
@@ -10,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalsDataInterface;
 interface WithdrawalsInterface
 {
     /**
-     * List Withdrawals
+     * List Withdrawals.
      *
      * Get a list of withdrawals from the profile of the API key, in descending order by created time.
      * See the Pagination section for retrieving additional entries after the first page.
@@ -35,10 +39,10 @@ interface WithdrawalsInterface
      * @param PaginationInterface|null $pagination
      * @return WithdrawalsDataInterface[]
      */
-    public function listWithdrawals(?string $profileId = null, PaginationInterface $pagination = null): array;
+    public function listWithdrawals(?string $profileId = null, ?PaginationInterface $pagination = null): array;
 
     /**
-     * Single Withdrawal
+     * Single Withdrawal.
      *
      * Get information on a single withdrawal.
      *
@@ -47,9 +51,6 @@ interface WithdrawalsInterface
      *
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permissio
-     *
-     * @param string $transferId
-     * @return WithdrawalsDataInterface
      */
     public function getWithdrawal(string $transferId): WithdrawalsDataInterface;
 
@@ -69,15 +70,12 @@ interface WithdrawalsInterface
      * currency    The type of currency
      * payment_method_id    ID of the payment method
      *
-     * @param float $amount
-     * @param string $currency
-     * @param string $paymentMethodId
      * @return string id of withdraw as is "593533d2-ff31-46e0-b22e-ca754147a96a"
      */
-    public function withdraw(float $amount, string $currency, string $paymentMethodId): string;
+    public function doWithdraw(float $amount, string $currency, string $paymentMethodId): string;
 
     /**
-     * Coinbase
+     * Coinbase.
      *
      * Withdraw funds to a coinbase account.
      * You can move funds between your Coinbase accounts and your Coinbase Pro trading accounts within your daily limits.
@@ -95,16 +93,11 @@ interface WithdrawalsInterface
      * amount    The amount to withdraw
      * currency    The type of currency
      * coinbase_account_id    ID of the coinbase account
-     *
-     * @param float $amount
-     * @param string $currency
-     * @param string $coinbaseAccountId
-     * @return string
      */
-    public function withdrawToCoinbase(float $amount, string $currency, string $coinbaseAccountId): string;
+    public function doWithdrawToCoinbase(float $amount, string $currency, string $coinbaseAccountId): string;
 
     /**
-     *Crypto
+     *Crypto.
      *
      * Withdraws funds to a crypto address.
      *
@@ -122,12 +115,6 @@ interface WithdrawalsInterface
      * destination_tag	A destination tag for currencies that support one
      * no_destination_tag	A boolean flag to opt out of using a destination tag for currencies that support one.
      * This is required when not providing a destination tag.
-     *
-     * @param float $amount
-     * @param string $currency
-     * @param string $cryptoAddress
-     * @param string|null $destinationTag
-     * @return string
      */
-    public function withdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string;
+    public function doWithdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string;
 }

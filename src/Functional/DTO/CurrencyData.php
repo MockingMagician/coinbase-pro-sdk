@@ -1,12 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDataInterface;
 
-class CurrencyData implements CurrencyDataInterface
+class CurrencyData extends AbstractCreator implements CurrencyDataInterface
 {
     /**
      * @var string
@@ -53,7 +57,7 @@ class CurrencyData implements CurrencyDataInterface
         return $this->extraData;
     }
 
-    public static function createFromArray(array $array): self
+    public static function createFromArray(array $array, ...$divers)
     {
         $extraData = [];
 
@@ -63,21 +67,11 @@ class CurrencyData implements CurrencyDataInterface
             }
         }
 
-        return new self(
+        return new static(
             $array['id'],
             $array['name'],
             $array['min_size'],
             $extraData
         );
-    }
-
-    public static function createCollectionFromJson(string $json): array
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => $value) {
-            $collection[$k] = self::createFromArray($value);
-        }
-
-        return $collection;
     }
 }

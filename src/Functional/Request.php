@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional;
-
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
@@ -13,8 +17,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
-use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Throwable;
 
@@ -41,11 +43,11 @@ class Request implements RequestInterface
      */
     private $apiParams;
     /**
-     * @var TimeInterface|null
+     * @var null|TimeInterface
      */
     private $time;
     /**
-     * @var Pagination|null
+     * @var null|Pagination
      */
     private $pagination;
     /**
@@ -73,44 +75,10 @@ class Request implements RequestInterface
         $this->queryArgs = $queryArgs;
     }
 
-    private function getTime()
-    {
-        if ($this->time) {
-            try {
-                return $this->time->getTime()->getEpoch();
-            } catch (Throwable $exception) {}
-        }
-
-        return time();
-    }
-
-    private function getQueryString(): string
-    {
-        if ($this->pagination) {
-            return http_build_query(array_merge($this->queryArgs, $this->pagination->getQueryArgs()));
-        }
-
-        return http_build_query($this->queryArgs);
-    }
-
-    private function getFullRoutePath()
-    {
-        if (!empty($query = $this->getQueryString())) {
-            return $this->routePath . '?' . $query;
-        }
-
-        return $this->routePath;
-    }
-
-    private function getUri()
-    {
-        return $this->apiParams->getEndPoint().$this->getFullRoutePath();
-    }
-
     public function signAndSend()
     {
         $time = $this->getTime();
-        $what = $time . $this->method . $this->getFullRoutePath() . ($this->body ?? '');
+        $what = $time.$this->method.$this->getFullRoutePath().($this->body ?? '');
         $key = base64_decode($this->apiParams->getSecret());
         $hmac = hash_hmac('sha256', $what, $key, true);
         $sign = base64_encode($hmac);
@@ -160,10 +128,47 @@ class Request implements RequestInterface
             throw new ApiError($exception->getMessage());
         }
 
+//        var_dump($request->getUri()->__toString());
+
         // TODO implement auto pagination based directly on direction and headers
 //        var_dump($response->getHeader(Pagination::HEADER_AFTER));
 //        var_dump($response->getHeader(Pagination::HEADER_BEFORE));
 
         return $response->getBody()->getContents();
+    }
+
+    private function getTime()
+    {
+        if ($this->time) {
+            try {
+                return $this->time->getTime()->getEpoch();
+            } catch (Throwable $exception) {
+            }
+        }
+
+        return time();
+    }
+
+    private function getQueryString(): string
+    {
+        if ($this->pagination) {
+            return http_build_query(array_merge($this->queryArgs, $this->pagination->getQueryArgs()));
+        }
+
+        return http_build_query($this->queryArgs);
+    }
+
+    private function getFullRoutePath()
+    {
+        if (!empty($query = $this->getQueryString())) {
+            return $this->routePath.'?'.$query;
+        }
+
+        return $this->routePath;
+    }
+
+    private function getUri()
+    {
+        return $this->apiParams->getEndPoint().$this->getFullRoutePath();
     }
 }

@@ -1,12 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressInfoDataInterface;
 
-class CryptoDepositAddressInfoData implements CryptoDepositAddressInfoDataInterface
+class CryptoDepositAddressInfoData extends AbstractCreator implements CryptoDepositAddressInfoDataInterface
 {
     /**
      * @var string
@@ -23,24 +27,18 @@ class CryptoDepositAddressInfoData implements CryptoDepositAddressInfoDataInterf
         $this->destinationTag = $destinationTag;
     }
 
-    /**
-     * @return string
-     */
     public function getAddress(): string
     {
         return $this->address;
     }
 
-    /**
-     * @return int
-     */
     public function getDestinationTag(): int
     {
         return $this->destinationTag;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self($array['address'], $array['destination_tag']);
+        return new static($array['address'], $array['destination_tag']);
     }
 }

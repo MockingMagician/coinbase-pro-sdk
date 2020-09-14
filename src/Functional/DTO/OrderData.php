@@ -1,29 +1,33 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
 
-class OrderData implements OrderDataInterface
+class OrderData extends AbstractCreator implements OrderDataInterface
 {
     /**
      * @var string
      */
     private $id;
     /**
-     * @var float|null
+     * @var null|float
      */
     private $price;
     /**
-     * @var float|null
+     * @var null|float
      */
     private $size;
     /**
-     * @var float|null
+     * @var null|float
      */
     private $funds;
     /**
@@ -35,7 +39,7 @@ class OrderData implements OrderDataInterface
      */
     private $side;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $selfTradePrevention;
     /**
@@ -43,7 +47,7 @@ class OrderData implements OrderDataInterface
      */
     private $type;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $timeInForce;
     /**
@@ -111,65 +115,41 @@ class OrderData implements OrderDataInterface
         $this->settled = $settled;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return float|null
-     */
     public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    /**
-     * @return float
-     */
     public function getSize(): float
     {
         return $this->size;
     }
 
-    /**
-     * @return string
-     */
     public function getProductId(): string
     {
         return $this->productId;
     }
 
-    /**
-     * @return string
-     */
     public function getSide(): string
     {
         return $this->side;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSelfTradePrevention(): ?string
     {
         return $this->selfTradePrevention;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTimeInForce(): ?string
     {
         return $this->timeInForce;
@@ -183,65 +163,44 @@ class OrderData implements OrderDataInterface
         return $this->funds;
     }
 
-    /**
-     * @return bool
-     */
     public function isPostOnly(): bool
     {
         return $this->postOnly;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return float
-     */
     public function getFillFees(): float
     {
         return $this->fillFees;
     }
 
-    /**
-     * @return float
-     */
     public function getFilledSize(): float
     {
         return $this->filledSize;
     }
 
-    /**
-     * @return float
-     */
     public function getExecutedValue(): float
     {
         return $this->executedValue;
     }
 
-    /**
-     * @return string
-     */
     public function getStatus(): string
     {
         return $this->status;
     }
 
-    /**
-     * @return bool
-     */
     public function isSettled(): bool
     {
         return $this->settled;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['id'],
             $array['price'] ?? null,
             $array['size'] ?? null,
@@ -261,12 +220,12 @@ class OrderData implements OrderDataInterface
         );
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
     }
 
-    public static function createCollectionFromJson(string $json)
+    public static function createCollectionFromJson(string $json, ...$divers): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => $v) {

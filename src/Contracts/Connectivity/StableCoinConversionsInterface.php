@@ -1,15 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\StableCoinConversionsDataInterface;
 
 interface StableCoinConversionsInterface
 {
     /**
-     * Stablecoin Conversions
+     * Stablecoin Conversions.
      *
      * Create Conversion
      *
@@ -28,11 +32,6 @@ interface StableCoinConversionsInterface
      * RESPONSE
      * A successful conversion will be assigned a conversion id.
      * The corresponding ledger entries for a conversion will reference this conversion id.
-     *
-     * @param string $fromCurrencyId
-     * @param string $toCurrencyId
-     * @param float $amount
-     * @return StableCoinConversionsDataInterface
      */
-    public function convertToStablecoin(string $fromCurrencyId, string $toCurrencyId, float $amount): StableCoinConversionsDataInterface;
+    public function createConversion(string $fromCurrencyId, string $toCurrencyId, float $amount): StableCoinConversionsDataInterface;
 }

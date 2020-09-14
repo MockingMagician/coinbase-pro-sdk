@@ -1,12 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsAmountDetailsDataInterface;
 
-class PaymentMethodLimitsAmountDetailsData implements PaymentMethodLimitsAmountDetailsDataInterface
+class PaymentMethodLimitsAmountDetailsData extends AbstractCreator implements PaymentMethodLimitsAmountDetailsDataInterface
 {
     /**
      * @var float
@@ -23,24 +27,18 @@ class PaymentMethodLimitsAmountDetailsData implements PaymentMethodLimitsAmountD
         $this->currency = $currency;
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string
     {
         return $this->currency;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self($array['amount'], $array['currency']);
+        return new static($array['amount'], $array['currency']);
     }
 }

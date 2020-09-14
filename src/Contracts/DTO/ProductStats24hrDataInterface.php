@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
-/***
+/*
  * Interface Stats24hrDataInterface
  * @package MockingMagician\CoinbaseProSdk\Contracts\DTO
  *
@@ -19,9 +24,14 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 interface ProductStats24hrDataInterface
 {
     public function getOpen(): float;
+
     public function getHigh(): float;
+
     public function getLow(): float;
+
     public function getVolume(): float;
+
     public function getLast(): float;
+
     public function getVolume30day(): float;
 }

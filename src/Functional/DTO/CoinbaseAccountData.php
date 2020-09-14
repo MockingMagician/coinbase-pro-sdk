@@ -1,12 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CoinbaseAccountDataInterface;
 
-class CoinbaseAccountData implements CoinbaseAccountDataInterface
+class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountDataInterface
 {
     /**
      * @var string
@@ -61,71 +65,47 @@ class CoinbaseAccountData implements CoinbaseAccountDataInterface
         $this->extraData = $extraData;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return float
-     */
     public function getBalance(): float
     {
         return $this->balance;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string
     {
         return $this->currency;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return bool
-     */
     public function isPrimary(): bool
     {
         return $this->primary;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * @return array
-     */
     public function getExtraData(): array
     {
         return $this->extraData;
     }
 
-    public static function createFromArray(array $array): self
+    public static function createFromArray(array $array, ...$divers)
     {
         $extraData = [];
 
@@ -135,7 +115,7 @@ class CoinbaseAccountData implements CoinbaseAccountDataInterface
             }
         }
 
-        return new self(
+        return new static(
             $array['id'],
             $array['name'],
             $array['balance'],
@@ -145,15 +125,5 @@ class CoinbaseAccountData implements CoinbaseAccountDataInterface
             $array['active'],
             $extraData
         );
-    }
-
-    public static function createCollectionFromJson(string $json): array
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => $value) {
-            $collection[$k] = self::createFromArray($value);
-        }
-
-        return $collection;
     }
 }

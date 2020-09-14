@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
-
 
 interface PaginationInterface
 {
@@ -23,10 +27,16 @@ interface PaginationInterface
     ];
 
     public function setDirection(string $direction): void;
+
     public function setOffset(string $offset): void;
+
     public function setLimit(int $limit): void;
+
     public function getDirection(): ?string;
+
     public function getOffset(): ?string;
+
     public function getLimit(): int;
+
     public function getQueryArgs(): array;
 }

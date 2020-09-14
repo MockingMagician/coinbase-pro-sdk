@@ -1,15 +1,20 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
-
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDetailsDataInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Products;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TradeData;
 
+/**
+ * @internal
+ */
 class ProductsTest extends AbstractTest
 {
     /**
@@ -195,8 +200,7 @@ class ProductsTest extends AbstractTest
         $endTime = new \DateTime();
         $startTime = clone $endTime;
         $startTime->modify('-1 week');
-        $product = $this->products->getProducts()[0];
-        $raw = $this->products->getHistoricRatesRaw($product->getId(), $startTime, $endTime, Products::GRANULARITY_HOUR);
+        $raw = $this->products->getHistoricRatesRaw('BTC-USD', $startTime, $endTime, Products::GRANULARITY_HOUR);
 
         self::assertStringContainsString('[[', $raw);
         self::assertStringContainsString(']]', $raw);
@@ -207,12 +211,12 @@ class ProductsTest extends AbstractTest
         $endTime = new \DateTime();
         $startTime = clone $endTime;
         $startTime->modify('-1 week');
-        $product = $this->products->getProducts()[0];
+        $product = 'BTC-USD';
 
         // Testing rate limit (call only once by second)
         $t1 = microtime(true);
-        $this->products->getHistoricRates($product->getId(), $startTime, $endTime, Products::GRANULARITY_HOUR);
-        $historicRates = $this->products->getHistoricRates($product->getId(), $startTime, $endTime, Products::GRANULARITY_HOUR);
+        $this->products->getHistoricRates($product, $startTime, $endTime, Products::GRANULARITY_HOUR);
+        $historicRates = $this->products->getHistoricRates($product, $startTime, $endTime, Products::GRANULARITY_HOUR);
         $t2 = microtime(true);
 
         self::assertGreaterThan(1.0, $t2 - $t1);

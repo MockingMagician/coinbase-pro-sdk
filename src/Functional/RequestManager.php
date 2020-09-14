@@ -1,17 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional;
-
 
 use GuzzleHttp\ClientInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestManagerInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 
 class RequestManager implements RequestManagerInterface
 {
@@ -24,7 +26,7 @@ class RequestManager implements RequestManagerInterface
      */
     private $apiParams;
     /**
-     * @var TimeInterface|null
+     * @var null|TimeInterface
      */
     private $time;
 
@@ -34,7 +36,8 @@ class RequestManager implements RequestManagerInterface
         $this->apiParams = $apiParams;
     }
 
-    public function setTimeInterface(TimeInterface $time) {
+    public function setTimeInterface(TimeInterface $time)
+    {
         $this->time = $time;
     }
 

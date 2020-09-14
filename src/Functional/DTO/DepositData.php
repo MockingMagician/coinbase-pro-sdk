@@ -1,14 +1,18 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 
-class DepositData implements DepositDataInterface
+class DepositData extends AbstractCreator implements DepositDataInterface
 {
     /**
      * @var string
@@ -26,6 +30,10 @@ class DepositData implements DepositDataInterface
      * @var DateTimeImmutable
      */
     private $completedAt;
+    /**
+     * @var DateTimeImmutable
+     */
+    private $canceledAt;
     /**
      * @var DateTimeImmutable
      */
@@ -56,6 +64,7 @@ class DepositData implements DepositDataInterface
         string $type,
         DateTimeImmutable $createdAt,
         ?DateTimeImmutable $completedAt,
+        ?DateTimeImmutable $canceledAt,
         ?DateTimeImmutable $processedAt,
         string $accountId,
         string $userId,
@@ -73,19 +82,14 @@ class DepositData implements DepositDataInterface
         $this->userNonce = $userNonce;
         $this->amount = $amount;
         $this->details = $details;
+        $this->canceledAt = $canceledAt;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
@@ -108,6 +112,14 @@ class DepositData implements DepositDataInterface
     }
 
     /**
+     * @return DateTimeImmutable|null
+     */
+    public function getCanceledAt(): ?DateTimeInterface
+    {
+        return $this->canceledAt;
+    }
+
+    /**
      * @return DateTimeImmutable
      */
     public function getProcessedAt(): ?DateTimeInterface
@@ -115,17 +127,11 @@ class DepositData implements DepositDataInterface
         return $this->processedAt;
     }
 
-    /**
-     * @return string
-     */
     public function getAccountId(): string
     {
         return $this->accountId;
     }
 
-    /**
-     * @return string
-     */
     public function getUserId(): string
     {
         return $this->userId;
@@ -139,50 +145,30 @@ class DepositData implements DepositDataInterface
         return $this->userNonce;
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
-     * @return array
-     */
     public function getDetails(): array
     {
         return $this->details;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['id'],
             $array['type'],
             new DateTimeImmutable($array['created_at']),
-            $array['completed_at'] ? new DateTimeImmutable($array['completed_at']) : null,
-            $array['processed_at'] ? new DateTimeImmutable($array['processed_at']) : null,
+            isset($array['completed_at']) ? new DateTimeImmutable($array['completed_at']) : null,
+            isset($array['canceled_at']) ? new DateTimeImmutable($array['canceled_at']) : null,
+            isset($array['processed_at']) ? new DateTimeImmutable($array['processed_at']) : null,
             $array['account_id'],
             $array['user_id'],
             $array['user_nonce'],
             $array['amount'],
             $array['details']
         );
-    }
-
-    public static function createFromJson(string $json)
-    {
-        return self::createFromArray(json_decode($json, true));
-    }
-
-    public static function createCollectionFromJson(string $json)
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => $value) {
-            $collection[$k] = self::createFromArray($value);
-        }
-
-        return $collection;
     }
 }

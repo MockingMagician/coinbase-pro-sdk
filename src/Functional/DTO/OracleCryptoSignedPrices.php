@@ -1,13 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
-use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OracleInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OracleCryptoSignedPricesInterface;
 
-class OracleCryptoSignedPrices implements OracleCryptoSignedPricesInterface
+class OracleCryptoSignedPrices extends AbstractCreator implements OracleCryptoSignedPricesInterface
 {
     /**
      * @var int
@@ -38,41 +41,29 @@ class OracleCryptoSignedPrices implements OracleCryptoSignedPricesInterface
         $this->prices = $prices;
     }
 
-    /**
-     * @return int
-     */
     public function getTimestamp(): int
     {
         return $this->timestamp;
     }
 
-    /**
-     * @return array
-     */
     public function getMessages(): array
     {
         return $this->messages;
     }
 
-    /**
-     * @return array
-     */
     public function getSignatures(): array
     {
         return $this->signatures;
     }
 
-    /**
-     * @return array
-     */
     public function getPrices(): array
     {
         return $this->prices;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['timestamp'],
             $array['messages'],
             $array['signatures'],
@@ -80,7 +71,7 @@ class OracleCryptoSignedPrices implements OracleCryptoSignedPricesInterface
         );
     }
 
-    public static function createFromJson(string $json)
+    public static function createFromJson(string $json, ...$divers)
     {
         return self::createFromArray(json_decode($json, true));
     }

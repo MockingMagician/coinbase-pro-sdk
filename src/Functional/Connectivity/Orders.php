@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\CommonOrderToPlaceInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
@@ -18,7 +22,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function placeOrder(CommonOrderToPlaceInterface $orderToPlace): OrderDataInterface
     {
@@ -40,7 +44,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function cancelOrderById(string $orderId, string $productId = null): bool
     {
@@ -83,7 +87,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function cancelAllOrders(string $productId = null): array
     {
@@ -110,7 +114,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function listOrders(array $status = self::STATUS, string $productId = null, PaginationInterface $pagination = null): array
     {
@@ -123,7 +127,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getOrderById(string $orderId): OrderDataInterface
     {
@@ -137,6 +141,6 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
     public function getOrderByClientOrderId(string $clientOrderId): OrderDataInterface
     {
-        // TODO: Implement getOrderByClientOrderId() method.
+        return OrderData::createFromJson($this->getOrderByClientOrderIdRaw($clientOrderId));
     }
 }

@@ -1,12 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 
+/**
+ * @internal
+ */
 class AccountsTest extends AbstractTest
 {
     /**
@@ -77,34 +84,60 @@ class AccountsTest extends AbstractTest
     }
 
     /**
-     * TODO data is missing for tests
+     * TODO data is missing for tests.
      */
     public function testGetAccountHistoryRaw()
     {
         $list = $this->accounts->list();
         $raw = $this->accounts->getAccountHistoryRaw($list[0]->getId());
+
+        self::assertStringContainsString('"id":', $raw);
+        self::assertStringContainsString('"created_at":', $raw);
+        self::assertStringContainsString('"amount":', $raw);
+        self::assertStringContainsString('"balance":', $raw);
+        self::assertStringContainsString('"type":', $raw);
+        self::assertStringContainsString('"details":', $raw);
     }
 
     /**
-     * TODO data is missing for tests
+     * TODO data is missing for tests.
      */
     public function testGetAccountHistory()
     {
+        $list = $this->accounts->list();
+        $accountHistory = $this->accounts->getAccountHistory($list[0]->getId());
+        $accountHistoryEvent = $accountHistory[0];
+
+        self::assertIsString($accountHistoryEvent->getId());
+        self::assertInstanceOf(\DateTimeInterface::class, $accountHistoryEvent->getCreatedAt());
+        self::assertIsFloat($accountHistoryEvent->getBalance());
+        self::assertIsFloat($accountHistoryEvent->getAmount());
+        self::assertIsString($accountHistoryEvent->getType());
+        self::assertIsArray($accountHistoryEvent->getDetails());
     }
 
     /**
-     * TODO data is missing for tests
+     * TODO data is missing for tests.
      */
     public function testGetHoldsRaw()
     {
+        $this->markTestIncomplete(
+            'Data is missing for tests'
+        );
         $list = $this->accounts->list();
-        $raw = $this->accounts->getHoldsRaw($list[0]->getId());
+        foreach ($list as $accountData) {
+            $raw = $this->accounts->getHoldsRaw($list[0]->getId());
+            var_dump($raw);
+        }
     }
 
     /**
-     * TODO data is missing for tests
+     * TODO data is missing for tests.
      */
     public function testGetHolds()
     {
+        $this->markTestIncomplete(
+            'Data is missing for tests'
+        );
     }
 }

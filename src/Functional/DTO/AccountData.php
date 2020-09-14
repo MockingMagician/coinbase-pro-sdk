@@ -1,13 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-
-use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 
-class AccountData implements AccountDataInterface
+class AccountData extends AbstractCreator implements AccountDataInterface
 {
     /**
      * @var string
@@ -91,9 +94,9 @@ class AccountData implements AccountDataInterface
         return $this->profileId;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['id'],
             $array['currency'],
             $array['balance'],
@@ -102,20 +105,5 @@ class AccountData implements AccountDataInterface
             $array['trading_enabled'],
             $array['profile_id']
         );
-    }
-
-    public static function createFromJson(string $json)
-    {
-        return self::createFromArray(json_decode($json, true));
-    }
-
-    public static function createCollectionFromJson(string $json)
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => &$value) {
-            $collection[$k] = self::createFromArray($value);
-        }
-
-        return $collection;
     }
 }

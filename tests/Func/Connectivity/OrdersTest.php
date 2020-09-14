@@ -1,7 +1,12 @@
 <?php
 
-namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
+namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
@@ -9,6 +14,9 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Products;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
+/**
+ * @internal
+ */
 class OrdersTest extends AbstractTest
 {
     /**
@@ -20,24 +28,26 @@ class OrdersTest extends AbstractTest
      */
     private $products;
 
-    public static function randomUUID() {
-        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand( 0, 0xffff ),
-            mt_rand( 0, 0xffff ),
-            mt_rand( 0, 0xffff ),
-            mt_rand( 0, 0x0fff ) | 0x4000,
-            mt_rand( 0, 0x3fff ) | 0x8000,
-            mt_rand( 0, 0xffff ),
-            mt_rand( 0, 0xffff ),
-            mt_rand( 0, 0xffff )
-        );
-    }
-
     public function setUp(): void
     {
         parent::setUp();
         $this->orders = new Orders($this->requestManager);
         $this->products = new Products($this->requestManager);
+    }
+
+    public static function randomUUID()
+    {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff)
+        );
     }
 
     public function testPlaceOrderRawWithMarketOrder()
@@ -205,7 +215,7 @@ class OrdersTest extends AbstractTest
         $this->orders->cancelAllOrdersRaw();
         $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
         $orders = [];
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $orders[] = $this->orders->placeOrder($limitOrderToPlace)->getId();
         }
 
@@ -221,7 +231,7 @@ class OrdersTest extends AbstractTest
         $this->orders->cancelAllOrders();
         $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
         $orders = [];
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $orders[] = $this->orders->placeOrder($limitOrderToPlace)->getId();
         }
 
@@ -335,5 +345,27 @@ class OrdersTest extends AbstractTest
         self::assertStringContainsString('"executed_value":', $raw);
         self::assertStringContainsString('"status":', $raw);
         self::assertStringContainsString('"settled":', $raw);
+    }
+
+    public function testGetOrderByClientOrderId()
+    {
+        $clientOrderId = self::randomUUID();
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $this->orders->placeOrder($limitOrderToPlace);
+
+        $order = $this->orders->getOrderByClientOrderId($clientOrderId);
+
+        self::assertIsString($order->getId());
+        self::assertIsFloat($order->getSize());
+        self::assertIsString($order->getProductId());
+        self::assertIsString($order->getSide());
+        self::assertIsString($order->getType());
+        self::assertIsBool($order->isPostOnly());
+        self::assertInstanceOf(\DateTimeInterface::class, $order->getCreatedAt());
+        self::assertIsFloat($order->getFillFees());
+        self::assertIsFloat($order->getFilledSize());
+        self::assertIsFloat($order->getExecutedValue());
+        self::assertIsString($order->getStatus());
+        self::assertIsBool($order->isSettled());
     }
 }

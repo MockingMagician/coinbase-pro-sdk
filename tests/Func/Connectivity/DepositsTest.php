@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
@@ -7,6 +12,9 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Deposits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
 
+/**
+ * @internal
+ */
 class DepositsTest extends AbstractTest
 {
     /**
@@ -54,10 +62,10 @@ class DepositsTest extends AbstractTest
         self::assertIsString($deposits[0]->getType());
         self::assertEquals('deposit', $deposits[0]->getType());
         self::assertInstanceOf(\DateTimeImmutable::class, $deposits[0]->getCreatedAt());
-        if ($deposits[0]->getCompletedAt() !== null) {
+        if (null !== $deposits[0]->getCompletedAt()) {
             self::assertInstanceOf(\DateTimeImmutable::class, $deposits[0]->getCompletedAt());
         }
-        if ($deposits[0]->getProcessedAt() !== null) {
+        if (null !== $deposits[0]->getProcessedAt()) {
             self::assertInstanceOf(\DateTimeImmutable::class, $deposits[0]->getProcessedAt());
         }
         self::assertIsString($deposits[0]->getAccountId());
@@ -93,10 +101,10 @@ class DepositsTest extends AbstractTest
         self::assertIsString($deposit->getType());
         self::assertEquals('deposit', $deposit->getType());
         self::assertInstanceOf(\DateTimeImmutable::class, $deposit->getCreatedAt());
-        if ($deposit->getCompletedAt() !== null) {
+        if (null !== $deposit->getCompletedAt()) {
             self::assertInstanceOf(\DateTimeImmutable::class, $deposit->getCompletedAt());
         }
-        if ($deposit->getProcessedAt() !== null) {
+        if (null !== $deposit->getProcessedAt()) {
             self::assertInstanceOf(\DateTimeImmutable::class, $deposit->getProcessedAt());
         }
         self::assertIsString($deposit->getAccountId());
@@ -114,6 +122,7 @@ class DepositsTest extends AbstractTest
                 if ($paymentMethodLimitsDetailsData->getRemaining()->getAmount() > 15) {
                     $raw = $this->deposits->doDepositRaw(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
                     self::assertStringContainsString('"id":', $raw);
+
                     break;
                 }
             }
@@ -128,6 +137,8 @@ class DepositsTest extends AbstractTest
                 if ($paymentMethodLimitsDetailsData->getRemaining()->getAmount() > 15) {
                     $id = $this->deposits->doDeposit(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
                     self::assertIsString($id);
+                    self::assertNotEmpty($id);
+
                     break;
                 }
             }
@@ -145,7 +156,6 @@ class DepositsTest extends AbstractTest
             }
         }
     }
-
 
     public function testDoDepositCoinbase()
     {

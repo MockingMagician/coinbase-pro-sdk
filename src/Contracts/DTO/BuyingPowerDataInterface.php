@@ -1,19 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 /**
- * Interface BuyingPowerDataInterface
- * @package MockingMagician\CoinbaseProSdk\Contracts\DTO
- *
- * {
- *   "buying_power": 23.53,
- *   "selling_power": 0.00221896,
- *   "buying_power_explanation": "This is the line of credit available to you on the BTC-USD market, given how much collateral assets you currently have in your portfolio."
- * }
+ * Interface BuyingPowerDataInterface.
  */
 interface BuyingPowerDataInterface
 {
-
 }

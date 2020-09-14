@@ -1,18 +1,22 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryEventDataInterface;
 
 interface AccountsInterface
 {
     /**
      * HTTP REQUEST
-     * GET /accounts
+     * GET /accounts.
      *
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permission.
@@ -26,18 +30,15 @@ interface AccountsInterface
 
     /**
      * HTTP REQUEST
-     * GET /accounts/<account-id>
+     * GET /accounts/<account-id>.
      *
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permission.
-     *
-     * @param string $id
-     * @return AccountDataInterface
      */
     public function getAccount(string $id): AccountDataInterface;
 
     /**
-     * !!! This request is paginated
+     * !!! This request is paginated.
      *
      * HTTP REQUEST
      * GET /accounts/<account-id>/ledger
@@ -45,16 +46,14 @@ interface AccountsInterface
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permission.
      *
+     * @param null|PaginationInterface $pagination null if get history from beginning
      *
-     * @param string $id
-     * @param PaginationInterface|null $pagination null if get history from beginning
-     *
-     * @return AccountHistoryDataInterface[]
+     * @return AccountHistoryEventDataInterface[]
      */
     public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array;
 
     /**
-     * !!! This request is paginated
+     * !!! This request is paginated.
      *
      * HTTP REQUEST
      * GET /accounts/<account_id>/holds
@@ -81,10 +80,6 @@ interface AccountsInterface
      *     "ref": "0a205de4-dd35-4370-a285-fe8fc375a273",
      *   }
      * ]
-     *
-     * @param string $id
-     * @param PaginationInterface|null $pagination
-     * @return array
      */
     public function getHolds(string $id, ?PaginationInterface $pagination = null): array;
 }

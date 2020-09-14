@@ -1,14 +1,18 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TickerSnapshotDataInterface;
 
-class TickerSnapshotData implements TickerSnapshotDataInterface
+class TickerSnapshotData extends AbstractCreator implements TickerSnapshotDataInterface
 {
     /**
      * @var int
@@ -57,65 +61,44 @@ class TickerSnapshotData implements TickerSnapshotDataInterface
         $this->time = $time;
     }
 
-    /**
-     * @return int
-     */
     public function getTradeId(): int
     {
         return $this->tradeId;
     }
 
-    /**
-     * @return float
-     */
     public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @return float
-     */
     public function getSize(): float
     {
         return $this->size;
     }
 
-    /**
-     * @return float
-     */
     public function getBid(): float
     {
         return $this->bid;
     }
 
-    /**
-     * @return float
-     */
     public function getAsk(): float
     {
         return $this->ask;
     }
 
-    /**
-     * @return float
-     */
     public function getVolume(): float
     {
         return $this->volume;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getTime(): DateTimeInterface
     {
         return $this->time;
     }
 
-    public static function createFromArray(array $array)
+    public static function createFromArray(array $array, ...$divers)
     {
-        return new self(
+        return new static(
             $array['trade_id'],
             $array['price'],
             $array['size'],
@@ -124,10 +107,5 @@ class TickerSnapshotData implements TickerSnapshotDataInterface
             $array['volume'],
             new DateTimeImmutable($array['time'])
         );
-    }
-
-    public static function createFromJson(string $json)
-    {
-        return self::createFromArray(json_decode($json, true));
     }
 }

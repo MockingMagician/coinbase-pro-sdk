@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
-
 
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterface;
@@ -11,7 +15,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 interface DepositsInterface
 {
     /**
-     * List Deposits
+     * List Deposits.
      *
      * Get a list of deposits from the profile of the API key, in descending order by created time.
      * See the Pagination section for retrieving additional entries after the first page.
@@ -32,10 +36,8 @@ interface DepositsInterface
      * after    No    If after is set, then it returns deposits created before the after timestamp, sorted by newest
      * limit    No    Truncate list to this many deposits, capped at 100. Default is 100.
      *
-     * @param string|null $profileId
-     * @param DateTimeInterface|null $before
-     * @param DateTimeInterface|null $after
      * @param int $limit
+     *
      * @return DepositDataInterface[]
      */
     public function listDeposits(
@@ -54,9 +56,6 @@ interface DepositsInterface
      *
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permission.
-     *
-     * @param string $depositId
-     * @return DepositDataInterface
      */
     public function getDeposit(string $depositId): DepositDataInterface;
 
@@ -76,15 +75,12 @@ interface DepositsInterface
      * currency    The type of currency
      * payment_method_id    ID of the payment method
      *
-     * @param float $amount
-     * @param string $currency
-     * @param string $paymentMethodId
      * @return string deposit id as example "593533d2-ff31-46e0-b22e-ca754147a96a"
      */
     public function doDeposit(float $amount, string $currency, string $paymentMethodId): string;
 
     /**
-     * Coinbase
+     * Coinbase.
      *
      * Deposit funds from a coinbase account.
      * You can move funds between your Coinbase accounts and your Coinbase Pro trading accounts within your daily limits.
@@ -103,15 +99,12 @@ interface DepositsInterface
      * currency    The type of currency
      * coinbase_account_id    ID of the coinbase account
      *
-     * @param float $amount
-     * @param string $currency
-     * @param string $coinbaseAccountId
      * @return string deposit id as example "593533d2-ff31-46e0-b22e-ca754147a96a"
      */
     public function doDepositFromCoinbase(float $amount, string $currency, string $coinbaseAccountId): string;
 
     /**
-     * Generate a Crypto Deposit Address
+     * Generate a Crypto Deposit Address.
      *
      * You can generate an address for crypto deposits.
      * See the Coinbase Accounts section for information on how to retrieve your coinbase account ID.
@@ -121,9 +114,6 @@ interface DepositsInterface
      *
      * API KEY PERMISSIONS
      * This endpoint requires the "transfer" permission. API key must belong to default profile.
-     *
-     * @param string $coinbaseAccountId
-     * @return CryptoDepositAddressDataInterface
      */
     public function generateCryptoDepositAddress(string $coinbaseAccountId): CryptoDepositAddressDataInterface;
 }
