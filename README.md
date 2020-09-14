@@ -629,7 +629,7 @@ According to Coinbase Pro documentation :
 
 In order to manage the non-intuitive side of the "before" and "after" fields in the query. The package has been normalized around the more classical concept of "descending" and "ascending".
 
-* The "DESC" direction will retrieve the elements of the most recent direction or the highest value, the oldest or the smallest value.
+* The "DESC" direction will retrieve the elements of the most recent direction or the highest value, to the oldest or the smallest value.
 
 * While the "ASC" direction will retrieve the elements of the oldest direction or of the smallest value, to the newer or the highest value.
 
