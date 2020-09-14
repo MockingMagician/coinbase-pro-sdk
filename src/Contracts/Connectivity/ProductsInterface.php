@@ -132,7 +132,7 @@ interface ProductsInterface
      * !!! Abuse of Level 3 via polling will cause your access to be limited or blocked.
      * !!! !!! !!! !!!!!!! !!! !!! !!!
      */
-    public function getProductOrderBook(string $productId, string $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface;
+    public function getProductOrderBook(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface;
 
     /**
      * Get Product Ticker.
@@ -211,8 +211,6 @@ interface ProductsInterface
      * open opening price (first trade) in the bucket interval
      * close closing price (last trade) in the bucket interval
      * volume volume of trading activity during the bucket interval
-     *
-     * @return mixed
      */
     public function getHistoricRates(
         string $productId,
@@ -235,8 +233,6 @@ interface ProductsInterface
      *
      * HTTP REQUEST
      * GET /products/<product-id>/stats
-     *
-     * @return mixed
      */
     public function get24hrStats(string $productId): ProductStats24hrDataInterface;
 }

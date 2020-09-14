@@ -21,6 +21,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatus;
 /**
  * Class Margin.
  *
+ * @codeCoverageIgnore
  * @warning Margin api is not yet eligible to consume for now. Do not call any methods except getStatus() to check eligibility
  */
 class Margin extends AbstractRequestManagerAware implements MarginInterface

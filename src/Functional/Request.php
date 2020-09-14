@@ -47,7 +47,7 @@ class Request implements RequestInterface
      */
     private $time;
     /**
-     * @var null|Pagination
+     * @var null|PaginationInterface
      */
     private $pagination;
     /**
@@ -128,21 +128,12 @@ class Request implements RequestInterface
             throw new ApiError($exception->getMessage());
         }
 
-        // TODO implement auto pagination based directly on direction and headers
-//        dump([
-//            'header after' => $response->getHeader(Pagination::HEADER_AFTER),
-//            'header before' => $response->getHeader(Pagination::HEADER_BEFORE),
-//            $this->getUri()
-//        ]);
-
         if ($this->pagination) {
             $this->pagination->autoPaginateFromHeaders(
                 $response->getHeader(Pagination::HEADER_BEFORE)[0] ?? null,
                 $response->getHeader(Pagination::HEADER_AFTER)[0] ?? null
             );
         }
-
-//        dump($this->getUri());
 
         return $response->getBody()->getContents();
     }

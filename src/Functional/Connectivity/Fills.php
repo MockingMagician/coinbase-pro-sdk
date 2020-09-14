@@ -14,7 +14,6 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\FillData;
 
 class Fills extends AbstractRequestManagerAware implements FillsInterface
 {
-    // TODO implementer later when order and product are availables
     public function listFillsRaw(?string $orderId = null, ?string $productId = null, ?PaginationInterface $pagination = null)
     {
         $query = [];

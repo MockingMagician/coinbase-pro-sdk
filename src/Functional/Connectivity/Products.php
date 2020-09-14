@@ -57,7 +57,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         return ProductData::createFromJson($this->getSingleProductRaw($productId), );
     }
 
-    public function getProductOrderBookRaw(string $productId, string $level = self::LEVEL_ONE, bool $forceLevel3 = false)
+    public function getProductOrderBookRaw(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false)
     {
         $query = ['level' => 1];
         if (2 === $level) {
@@ -73,7 +73,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductOrderBook(string $productId, string $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface
+    public function getProductOrderBook(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface
     {
         return OrderBookData::createFromJson($this->getProductOrderBookRaw($productId, $level, $forceLevel3), );
     }

@@ -29,8 +29,6 @@ interface OracleInterface
      * timestamp is the time when the price was obtained, key is asset ticker (e.g. 'eth') and value is asset price.
      * ● signatures is an array of Ethereum-compatible ECDSA signatures for each message.
      * ● prices contains human-readable asset prices
-     *
-     * @return array
      */
     public function getCryptographicallySignedPrices(): OracleCryptoSignedPricesInterface;
 }
