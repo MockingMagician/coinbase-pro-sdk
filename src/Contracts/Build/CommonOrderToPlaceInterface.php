@@ -81,7 +81,7 @@ interface CommonOrderToPlaceInterface
 
     public function getStop(): ?string;
 
-    public function getStopPrice(): ?string;
+    public function getStopPrice(): ?float;
 
     public function getClientOrderId(): ?string;
 

@@ -34,7 +34,7 @@ class AbstractCommonOrderToPlace implements CommonOrderToPlaceInterface
      */
     private $stop;
     /**
-     * @var null|string
+     * @var null|float
      */
     private $stopPrice;
     /**
@@ -48,7 +48,7 @@ class AbstractCommonOrderToPlace implements CommonOrderToPlaceInterface
         string $productId,
         ?string $selfTradePrevention = null,
         ?string $stop = null,
-        ?string $stopPrice = null,
+        ?float $stopPrice = null,
         ?string $clientOrderId = null
     ) {
         if (!in_array($type, self::TYPES)) {
@@ -97,7 +97,7 @@ class AbstractCommonOrderToPlace implements CommonOrderToPlaceInterface
         return $this->stop;
     }
 
-    public function getStopPrice(): ?string
+    public function getStopPrice(): ?float
     {
         return $this->stopPrice;
     }
