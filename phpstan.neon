@@ -3,3 +3,4 @@ parameters:
 		- src/Functional/Connectivity/Margin.php
 	ignoreErrors:
 		- '#Unsafe usage of new static\(\)#'
+		- '#but returns array<MockingMagician\\CoinbaseProSdk\\Contracts\\DTO\\CreatorInterface>#'

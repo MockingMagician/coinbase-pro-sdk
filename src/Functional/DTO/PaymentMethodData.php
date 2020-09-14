@@ -139,30 +139,20 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
         return $this->limits;
     }
 
-    public static function createCollectionFromJson(string $json, ...$divers): array
-    {
-        $collection = json_decode($json, true);
-        foreach ($collection as $k => $value) {
-            $collection[$k] = new PaymentMethodData(
-                $value['id'],
-                $value['type'],
-                $value['name'],
-                $value['currency'],
-                $value['primary_buy'],
-                $value['primary_sell'],
-                $value['allow_buy'],
-                $value['allow_sell'],
-                $value['allow_deposit'],
-                $value['allow_withdraw'],
-                PaymentMethodLimitsData::createFromArray($value['limits'])
-            );
-        }
-
-        return $collection;
-    }
-
     public static function createFromArray(array $array, ...$divers)
     {
-        // TODO: Implement createFromArray() method.
+        new static(
+            $array['id'],
+            $array['type'],
+            $array['name'],
+            $array['currency'],
+            $array['primary_buy'],
+            $array['primary_sell'],
+            $array['allow_buy'],
+            $array['allow_sell'],
+            $array['allow_deposit'],
+            $array['allow_withdraw'],
+            PaymentMethodLimitsData::createFromArray($array['limits'])
+        );
     }
 }

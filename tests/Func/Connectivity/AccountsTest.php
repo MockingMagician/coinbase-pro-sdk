@@ -83,9 +83,6 @@ class AccountsTest extends AbstractTest
         self::assertIsBool($account->isTradingEnabled());
     }
 
-    /**
-     * TODO data is missing for tests.
-     */
     public function testGetAccountHistoryRaw()
     {
         $list = $this->accounts->list();
@@ -99,9 +96,6 @@ class AccountsTest extends AbstractTest
         self::assertStringContainsString('"details":', $raw);
     }
 
-    /**
-     * TODO data is missing for tests.
-     */
     public function testGetAccountHistory()
     {
         $list = $this->accounts->list();
@@ -116,9 +110,6 @@ class AccountsTest extends AbstractTest
         self::assertIsArray($accountHistoryEvent->getDetails());
     }
 
-    /**
-     * TODO data is missing for tests.
-     */
     public function testGetHoldsRaw()
     {
         $this->markTestIncomplete(
@@ -131,9 +122,6 @@ class AccountsTest extends AbstractTest
         }
     }
 
-    /**
-     * TODO data is missing for tests.
-     */
     public function testGetHolds()
     {
         $this->markTestIncomplete(

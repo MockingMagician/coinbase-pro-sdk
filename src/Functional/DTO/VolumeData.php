@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -39,33 +43,21 @@ class VolumeData extends AbstractCreator implements VolumeDataInterface
         $this->recordedAt = $recordedAt;
     }
 
-    /**
-     * @return string
-     */
     public function getProductId(): string
     {
         return $this->productId;
     }
 
-    /**
-     * @return float
-     */
     public function getExchangeVolume(): float
     {
         return $this->exchangeVolume;
     }
 
-    /**
-     * @return float
-     */
     public function getVolume(): float
     {
         return $this->volume;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getRecordedAt(): DateTimeInterface
     {
         return $this->recordedAt;

@@ -9,8 +9,6 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
 use DateTimeInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Reports;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccount;
 
 /**
