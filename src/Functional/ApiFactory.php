@@ -14,6 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Fees;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Fills;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Limits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Margin;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\MarginApiReadyCheckDecorator;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Oracle;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
@@ -106,7 +107,7 @@ final class ApiFactory
             $activateFees ? new Fees($requestManager) : null,
             $activateFills ? new Fills($requestManager) : null,
             $activateLimits ? new Limits($requestManager) : null,
-            $activateMargin ? new Margin($requestManager) : null,
+            $activateMargin ? new MarginApiReadyCheckDecorator(new Margin($requestManager)) : null,
             $activateOracle ? new Oracle($requestManager) : null,
             $activateOrders ? new Orders($requestManager) : null,
             $activatePaymentMethods ? new PaymentMethods($requestManager) : null,

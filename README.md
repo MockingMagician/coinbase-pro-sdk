@@ -370,4 +370,242 @@ $api->orders()->placeOrder($limitOrder);
 
 ```
 
+##### 2.3 : Fills methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->fills()->listFills();
+
+```
+
+##### 2.4 : Limits methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->limits()->getCurrentExchangeLimits();
+
+```
+
+##### 2.5 : Deposits methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->deposits()->listDeposits();
+$api->deposits()->getDeposit('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->deposits()->doDeposit(100, 'USD', '132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->deposits()->doDepositFromCoinbase(100, 'USD', '132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->deposits()->generateCryptoDepositAddress('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+
+```
+
+##### 2.6 : Withdrawals methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->withdrawals()->listWithdrawals();
+$api->withdrawals()->getWithdrawal('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->withdrawals()->doWithdraw(100, 'USD', '132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->withdrawals()->doWithdrawToCoinbase(100, 'USD', '132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->withdrawals()->doWithdrawToCryptoAddress(0.1, 'BTC', 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq');
+
+```
+
+##### 2.7 : Stablecoin Conversions methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->stablecoinConversions()->createConversion('USD', 'USDC', 100);
+
+```
+
+##### 2.8 : Payment Methods methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->paymentMethods()->listPaymentMethods();
+
+```
+
+##### 2.9 : Coinbase Accounts methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->coinbaseAccounts()->listCoinbaseAccounts();
+
+```
+
+##### 2.10 : Fees methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->fees()->getCurrentFees();
+
+```
+
+##### 2.11 : Reports methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->reports()->createNewReport(
+    ReportsInterface::TYPE_FILLS,
+    (new DateTime())->modify('-1 year'),
+    new DateTime(),
+    null, // Optional
+    '', // Optional
+    ReportsInterface::FORMAT_PDF,
+    null // Optional, if filled report will be sent to this email
+);
+$api->reports()->getReportStatus('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+
+```
+
+##### 2.12 : Profiles methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->profiles()->listProfiles(true /* list active only or not */);
+$api->profiles()->getProfile('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->profiles()->createProfileTransfer('132fb6ae-456b-4654-b4e0-d681ac05cea1', '742fb6ae-145f-8954-b4e0-d681ac05cea1', 'USD', 500);
+
+```
+
+##### 2.13 : User Account methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->userAccounts()->getTrailingVolume();
+
+```
+
+##### 2.14 : Margin methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->margin()->getMarginStatus(); // Returns the status of margin API
+
+/*
+
+As long as the margin functionality is not enabled, the methods below could not be fully tested. 
+
+A decorator protects the method call as long as the status of the API on the coinbase side does not return an active and eligible status.
+
+$api->margin()->getExitPlan();
+$api->margin()->getBuyingPower();
+$api->margin()->getWithdrawalPower();
+$api->margin()->listLiquidationHistory();
+$api->margin()->getAllWithdrawalPowers();
+$api->margin()->getPositionsRefreshAmount();
+$api->margin()->getMarginProfileInformation();
+
+*/
+
+```
+
+##### 2.15 : Oracle methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->oracle()->getCryptographicallySignedPrices();
+
+```
+
+##### 2.16 : Products methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->products()->getProducts();
+$api->products()->get24hrStats('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->products()->getProductTicker('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->products()->getProductOrderBook('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->products()->getTrades('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->products()->getSingleProduct('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->products()->getHistoricRates(
+    '132fb6ae-456b-4654-b4e0-d681ac05cea1',
+    (new DateTime())->modify('-1 year'),
+    new DateTime(),
+    3600
+);
+
+```
+
+##### 2.17 : Currencies methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->currencies()->getCurrencies();
+
+```
+
+##### 2.18 : Time methods
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->time()->getTime();
+
+```
 
