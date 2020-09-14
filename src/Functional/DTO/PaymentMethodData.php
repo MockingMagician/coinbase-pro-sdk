@@ -141,7 +141,7 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
 
     public static function createFromArray(array $array, ...$divers)
     {
-        new static(
+        return new static(
             $array['id'],
             $array['type'],
             $array['name'],

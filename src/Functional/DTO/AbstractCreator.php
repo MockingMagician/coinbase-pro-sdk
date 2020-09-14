@@ -25,7 +25,7 @@ abstract class AbstractCreator implements CreatorInterface
     public static function createCollectionFromJson(string $json, ...$divers): array
     {
         $collection = json_decode($json, true);
-        foreach ($collection as $k => &$value) {
+        foreach ($collection as $k => $value) {
             $collection[$k] = static::createFromArray($value);
         }
 

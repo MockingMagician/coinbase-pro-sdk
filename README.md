@@ -1,3 +1,5 @@
+![alt text](https://github.com/MockingMagician/coinbase-pro-sdk/raw/dev/coibase.eps "Coinbase LOGO")
+
 # This package is designed to communicate easily with the Coinbase Pro API in PHP.
 
 ***Please take the time to read the documentation below carefully.***
