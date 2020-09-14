@@ -9,6 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
 use DateTimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\DepositsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
@@ -18,44 +19,23 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 class Deposits extends AbstractRequestManagerAware implements DepositsInterface
 {
-    public function listDepositsRaw(
-        ?string $profileId = null,
-        ?DateTimeInterface $before = null,
-        ?DateTimeInterface $after = null,
-        ?int $limit = 100
-    ) {
-        if (null !== $limit && ($limit < 1 || $limit > 100)) {
-            throw new ApiError(sprintf('Limit must between %s ans %s', 1, 100));
-        }
-
+    public function listDepositsRaw(?string $profileId = null, ?PaginationInterface $pagination = null)
+    {
         $query = ['type' => 'deposit'];
 
         if ($profileId) {
             $query['profile_id'] = $profileId;
         }
-        if ($before) {
-            $query['after'] = $before->format(DateTimeInterface::ISO8601); // api take before for after and "vice et versa"
-        }
-        if ($after) {
-            $query['before'] = $after->format(DateTimeInterface::ISO8601); // api take before for after and "vice et versa"
-        }
-        if ($limit) {
-            $query['limit'] = $limit;
-        }
 
-        return $this->getRequestManager()->prepareRequest('GET', '/transfers', $query)->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/transfers', $query, null, $pagination)->signAndSend();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function listDeposits(
-        ?string $profileId = null,
-        ?DateTimeInterface $before = null,
-        ?DateTimeInterface $after = null,
-        ?int $limit = 100
-    ): array {
-        return DepositData::createCollectionFromJson($this->listDepositsRaw());
+    public function listDeposits(?string $profileId = null, ?PaginationInterface $pagination = null): array
+    {
+        return DepositData::createCollectionFromJson($this->listDepositsRaw($profileId, $pagination));
     }
 
     public function getDepositRaw(string $depositId)

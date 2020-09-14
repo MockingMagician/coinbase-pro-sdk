@@ -131,7 +131,8 @@ class Request implements RequestInterface
         // TODO implement auto pagination based directly on direction and headers
 //        dump([
 //            'header after' => $response->getHeader(Pagination::HEADER_AFTER),
-//            'header before' => $response->getHeader(Pagination::HEADER_BEFORE)
+//            'header before' => $response->getHeader(Pagination::HEADER_BEFORE),
+//            $this->getUri()
 //        ]);
 
         if ($this->pagination) {
