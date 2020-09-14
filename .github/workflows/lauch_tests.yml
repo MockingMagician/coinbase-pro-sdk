@@ -13,8 +13,14 @@ on:
 jobs:
     test-job:
         runs-on: 'ubuntu-latest'
+        defaults:
+            run:
+                shell: bash
+                working-directory: ./
         steps:
-            -   id: 'run_composer'
-                run: composer install
-            -   id: 'run_php_cs'
-                run: make phpcs-dry-run
+            - id: 'ls_la'
+              run: ls -la
+            - id: 'run_composer'
+              run: composer install
+            - id: 'run_php_cs'
+              run: make phpcs-dry-run
