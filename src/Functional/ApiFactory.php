@@ -23,7 +23,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Profiles;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Reports;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\StableCoinConversions;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccounts;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccount;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use Symfony\Component\Yaml\Yaml;
@@ -116,7 +116,7 @@ final class ApiFactory
             $activateReports ? new Reports($requestManager) : null,
             $activateStableCoinConversions ? new StableCoinConversions($requestManager) : null,
             $activateTime ? $time : null,
-            $activateUserAccounts ? new UserAccounts($requestManager) : null,
+            $activateUserAccounts ? new UserAccount($requestManager) : null,
             $activateWithdrawals ? new Withdrawals($requestManager): null
         );
     }

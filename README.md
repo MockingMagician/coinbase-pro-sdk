@@ -48,7 +48,7 @@ $api = ApiFactory::create(
     true, // activate or deactivate Reports
     true, // activate or deactivate StableCoinConversions
     true, // activate or deactivate Time
-    true, // activate or deactivate UserAccounts
+    true, // activate or deactivate UserAccount
     true  // activate or deactivate Withdrawals
 );
 
@@ -239,7 +239,7 @@ $api->coinbaseAccounts();
 $api->fees();
 $api->reports();
 $api->profiles();
-$api->userAccounts();
+$api->userAccount();
 $api->margin();
 $api->oracle();
 $api->products();
@@ -518,7 +518,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 
 /** @var ApiConnectivityInterface $api */
 
-$api->userAccounts()->getTrailingVolume();
+$api->userAccount()->getTrailingVolume();
 
 ```
 

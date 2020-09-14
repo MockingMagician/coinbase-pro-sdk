@@ -131,7 +131,7 @@ class ApiFactoryTest extends TestCase
 
         $exception = null;
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->userAccounts());
+            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->userAccount());
         } catch (\Throwable $exception) {}
         self::assertNotNull($exception);
 

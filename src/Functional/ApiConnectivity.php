@@ -25,7 +25,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
@@ -98,9 +98,9 @@ class ApiConnectivity implements ApiConnectivityInterface
      */
     private $time;
     /**
-     * @var UserAccountsInterface
+     * @var UserAccountInterface
      */
-    private $userAccounts;
+    private $userAccount;
     /**
      * @var WithdrawalsInterface
      */
@@ -123,7 +123,7 @@ class ApiConnectivity implements ApiConnectivityInterface
         ?ReportsInterface $reports,
         ?StableCoinConversionsInterface $stableCoinConversions,
         ?TimeInterface $time,
-        ?UserAccountsInterface $userAccounts,
+        ?UserAccountInterface $userAccount,
         ?WithdrawalsInterface $withdrawals
     ) {
         $this->accounts = $accounts;
@@ -142,7 +142,7 @@ class ApiConnectivity implements ApiConnectivityInterface
         $this->reports = $reports;
         $this->stableCoinConversions = $stableCoinConversions;
         $this->time = $time;
-        $this->userAccounts = $userAccounts;
+        $this->userAccount = $userAccount;
         $this->withdrawals = $withdrawals;
     }
 
@@ -254,13 +254,13 @@ class ApiConnectivity implements ApiConnectivityInterface
         return $this->profiles;
     }
 
-    public function userAccounts(): UserAccountsInterface
+    public function userAccount(): UserAccountInterface
     {
-        if (!$this->userAccounts) {
+        if (!$this->userAccount) {
             throw new ApiError(sprintf(self::FUNCTIONALITY_NOT_LOADED, 'userAccounts'));
         }
 
-        return $this->userAccounts;
+        return $this->userAccount;
     }
 
     public function margin(): MarginInterface
