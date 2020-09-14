@@ -4,7 +4,7 @@
 
 ## How do I access the features?
 
-### 1 : Create an ApiConnectivity object.
+### 1 : Create an ApiConnectivity object.
 
 #### 1.1 : Full API access
 
