@@ -2,6 +2,14 @@
 
 # This package is designed to communicate easily with the Coinbase Pro API in PHP.
 
+## Install the package
+
+```bash
+
+composer require mocking-magician/coinbase-pro-sdk
+
+```
+
 ***Please take the time to read the documentation below carefully.***
 
 ## How do I access the features?
