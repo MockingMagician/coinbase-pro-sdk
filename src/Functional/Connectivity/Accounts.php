@@ -53,7 +53,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
      */
     public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array
     {
-        return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($id, $pagination), );
+        return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($id, $pagination));
     }
 
     public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null)

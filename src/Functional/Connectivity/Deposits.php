@@ -34,10 +34,10 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             $query['profile_id'] = $profileId;
         }
         if ($before) {
-            $query['after'] = $before->format('c'); // api take before for after and "vice et versa"
+            $query['after'] = $before->format(DateTimeInterface::ISO8601); // api take before for after and "vice et versa"
         }
         if ($after) {
-            $query['before'] = $after->format('c'); // api take before for after and "vice et versa"
+            $query['before'] = $after->format(DateTimeInterface::ISO8601); // api take before for after and "vice et versa"
         }
         if ($limit) {
             $query['limit'] = $limit;

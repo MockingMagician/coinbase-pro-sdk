@@ -15,7 +15,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\FillData;
 class Fills extends AbstractRequestManagerAware implements FillsInterface
 {
     // TODO implementer later when order and product are availables
-    public function listFillsRaw(?string $orderId = null, ?string $productId = null, PaginationInterface $pagination = null)
+    public function listFillsRaw(?string $orderId = null, ?string $productId = null, ?PaginationInterface $pagination = null)
     {
         $query = [];
 
@@ -32,8 +32,8 @@ class Fills extends AbstractRequestManagerAware implements FillsInterface
     /**
      * {@inheritdoc}
      */
-    public function listFills(?string $orderId = null, ?string $productId = null, PaginationInterface $pagination = null): array
+    public function listFills(?string $orderId = null, ?string $productId = null, ?PaginationInterface $pagination = null): array
     {
-        return FillData::createCollectionFromJson($this->listFillsRaw($orderId, $productId));
+        return FillData::createCollectionFromJson($this->listFillsRaw($orderId, $productId, $pagination));
     }
 }

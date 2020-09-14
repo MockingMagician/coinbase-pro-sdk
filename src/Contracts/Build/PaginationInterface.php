@@ -53,23 +53,19 @@ interface PaginationInterface
         self::HEADER_BEFORE,
     ];
 
-    const DIRECTION_ASC = 'asc';
     const DIRECTION_DESC = 'desc';
-
-    // TODO RELIES DIRECTION ESC DESC WITH AFTER BEFORE
-//    const DIRECTIONS = [
-//        self::DIRECTION_ASC,
-//        self::DIRECTION_DESC,
-//    ];
-
-    const AFTER = 'after';
-    const BEFORE = 'before';
-    const LIMIT = 100;
-
+    const DIRECTION_ASC = 'asc';
     const DIRECTIONS = [
-        self::AFTER,
-        self::BEFORE,
+        self::DIRECTION_DESC,
+        self::DIRECTION_ASC,
     ];
+
+    const DIRECTIONS_QUERY_NAMING = [
+        self::DIRECTION_DESC => 'after',
+        self::DIRECTION_ASC => 'before',
+    ];
+
+    const LIMIT = 100;
 
     public function setDirection(string $direction): void;
 
