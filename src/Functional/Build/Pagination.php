@@ -25,13 +25,17 @@ class Pagination implements PaginationInterface
      * @var int
      */
     private $limit;
+    /**
+     * @var bool
+     */
+    private $hasNext = true;
 
-    public function __construct(string $direction = null, string $offsetAfterOrBeforeDependingOnDirection = null, int $limit = self::LIMIT)
-    {
-        if ($direction) {
-            $this->setDirection($direction);
-        }
-
+    public function __construct(
+        string $direction = self::DIRECTION_DESC,
+        string $offsetAfterOrBeforeDependingOnDirection = null,
+        int $limit = self::LIMIT
+    ) {
+        $this->setDirection($direction);
         $this->offset = $offsetAfterOrBeforeDependingOnDirection;
         $this->setLimit($limit);
     }
@@ -85,10 +89,32 @@ class Pagination implements PaginationInterface
     {
         $args = [];
         if ($this->direction && $this->offset) {
-            $args[$this->direction] = $this->offset;
+            $args[self::DIRECTIONS_QUERY_NAMING[$this->direction]] = $this->offset;
         }
         $args['limit'] = $this->limit;
 
         return $args;
+    }
+
+    public function hasNext(): bool
+    {
+        return $this->hasNext;
+    }
+
+    public function autoPaginateFromHeaders(?string $before, ?string $after): void
+    {
+        if (Pagination::DIRECTION_ASC === $this->getDirection() && $before) {
+            $this->setOffset($before);
+
+            return;
+        }
+
+        if (Pagination::DIRECTION_DESC === $this->getDirection() && $after) {
+            $this->setOffset($after);
+
+            return;
+        }
+
+        $this->hasNext = false;
     }
 }

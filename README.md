@@ -48,7 +48,7 @@ $api = ApiFactory::create(
     true, // activate or deactivate Reports
     true, // activate or deactivate StableCoinConversions
     true, // activate or deactivate Time
-    true, // activate or deactivate UserAccounts
+    true, // activate or deactivate UserAccount
     true  // activate or deactivate Withdrawals
 );
 
@@ -239,7 +239,7 @@ $api->coinbaseAccounts();
 $api->fees();
 $api->reports();
 $api->profiles();
-$api->userAccounts();
+$api->userAccount();
 $api->margin();
 $api->oracle();
 $api->products();
@@ -518,7 +518,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 
 /** @var ApiConnectivityInterface $api */
 
-$api->userAccounts()->getTrailingVolume();
+$api->userAccount()->getTrailingVolume();
 
 ```
 
@@ -611,3 +611,80 @@ $api->time()->getTime();
 
 ### 3 : Pagination
 
+***Some queries are paginated. A complete mechanism is provided to manage this pagination with the Pagination object.***
+
+According to Coinbase Pro documentation :
+
+>Cursor pagination can be unintuitive at first. before and after cursor arguments should not be confused with before and after in chronological time. Most paginated requests return the latest information (newest) as the first page sorted by newest (in chronological time) first. To get older information you would request pages after the initial page. To get information newer, you would request pages before the first page.
+
+In order to manage the non-intuitive side of the "before" and "after" fields in the query. The package has been normalized around the more classical concept of "descending" and "ascending".
+
+* The "DESC" direction will retrieve the elements of the most recent direction or the highest value, the oldest or the smallest value.
+
+* While the "ASC" direction will retrieve the elements of the oldest direction or of the smallest value, to the newer or the highest value.
+
+This standardization allows a better understanding of the path taken by the pagination.
+
+#### 3.1 : List of paginated features
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+
+/** @var ApiConnectivityInterface $api */
+
+$api->accounts()->getAccountHistoryRaw('132fb6ae-456b-4654-b4e0-d681ac05cea1'); // Paginated request
+$api->accounts()->getHolds('132fb6ae-456b-4654-b4e0-d681ac05cea1'); // Paginated request
+$api->fills()->listFills(); // Paginated request
+$api->deposits()->listDeposits(); // Paginated request
+$api->withdrawals()->listWithdrawals(); // Paginated request
+
+```
+
+#### 3.2 : How pagination works
+
+Example : 
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
+
+/** @var ApiConnectivityInterface $api */
+
+$accountId = '132fb6ae-456b-4654-b4e0-d681ac05cea1';
+
+$pagination = new Pagination(); // The pagination object
+
+while ($pagination->hasNext()) { // Fetch new page while has next
+    $history = $api->accounts()->getAccountHistory($accountId, $pagination);
+}
+
+```
+
+Pagination Settings :
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
+
+/** @var ApiConnectivityInterface $api */
+
+$accountId = '132fb6ae-456b-4654-b4e0-d681ac05cea1';
+
+$pagination = new Pagination( // The pagination object
+    Pagination::DIRECTION_DESC, // DESC is default value
+    1547662, // An offset cursor value
+    25 // The limit on the number of results to bring back per query (max 100)
+);
+
+while ($pagination->hasNext()) { // Fetch new page while has next
+    $history = $api->accounts()->getAccountHistory($accountId, $pagination);
+}
+
+```
+
+# Issues
+
+***Please, in case of discovery of any bug or security issues related to the package. Please launch an issue describing the problem and how to reproduce it.***

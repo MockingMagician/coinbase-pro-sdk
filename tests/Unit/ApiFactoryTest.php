@@ -1,16 +1,23 @@
 <?php
 
-namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
+namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
 
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestManagerAware;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class ApiFactoryTest extends TestCase
 {
-
     public function testCreateFromYamlConfig()
     {
         $_ENV['API_ENDPOINT'] = 'API_ENDPOINT';
@@ -32,9 +39,11 @@ class ApiFactoryTest extends TestCase
 
         foreach ($apiReflect->getMethods() as $method) {
             $exception = null;
+
             try {
                 self::assertInstanceOf(AbstractRequestManagerAware::class, $apiSimply->{$method->getName()}());
-            } catch (\Throwable $exception) {}
+            } catch (\Throwable $exception) {
+            }
             self::assertNotNull($exception);
         }
 
@@ -94,51 +103,67 @@ class ApiFactoryTest extends TestCase
         self::assertInstanceOf(AbstractRequestManagerAware::class, $api->oracle());
 
         $exception = null;
+
         try {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->paymentMethods());
-        } catch (\Throwable $exception) {}
+        } catch (\Throwable $exception) {
+        }
         self::assertNotNull($exception);
 
         $exception = null;
+
         try {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->products());
-        } catch (\Throwable $exception) {}
+        } catch (\Throwable $exception) {
+        }
         self::assertNotNull($exception);
 
         $exception = null;
+
         try {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->profiles());
-        } catch (\Throwable $exception) {}
+        } catch (\Throwable $exception) {
+        }
         self::assertNotNull($exception);
 
         $exception = null;
+
         try {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->reports());
-        } catch (\Throwable $exception) {}
+        } catch (\Throwable $exception) {
+        }
         self::assertNotNull($exception);
 
         $exception = null;
+
         try {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->stablecoinConversions());
-        } catch (\Throwable $exception) {}
+        } catch (\Throwable $exception) {
+        }
         self::assertNotNull($exception);
 
         $exception = null;
+
         try {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->time());
-        } catch (\Throwable $exception) {}
+        } catch (\Throwable $exception) {
+        }
         self::assertNotNull($exception);
 
         $exception = null;
+
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->userAccounts());
-        } catch (\Throwable $exception) {}
+            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->userAccount());
+        } catch (\Throwable $exception) {
+        }
         self::assertNotNull($exception);
 
         $exception = null;
+
         try {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->withdrawals());
-        } catch (\Throwable $exception) {}
+        } catch (\Throwable $exception) {
+        }
         self::assertNotNull($exception);
     }
 }

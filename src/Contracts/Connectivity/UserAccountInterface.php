@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\VolumeDataInterface;
 
-interface UserAccountsInterface
+interface UserAccountInterface
 {
     /**
      * Trailing Volume.

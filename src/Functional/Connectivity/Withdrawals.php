@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
@@ -22,7 +26,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function listWithdrawals(?string $profileId = null, ?PaginationInterface $pagination = null): array
     {
@@ -39,7 +43,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getWithdrawal(string $transferId): WithdrawalsDataInterface
     {
@@ -58,7 +62,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function doWithdraw(float $amount, string $currency, string $paymentMethodId): string
     {
@@ -77,7 +81,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function doWithdrawToCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
     {
@@ -102,7 +106,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function doWithdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string
     {

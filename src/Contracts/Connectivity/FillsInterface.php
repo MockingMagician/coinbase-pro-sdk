@@ -48,5 +48,5 @@ interface FillsInterface
      *
      * @return FillDataInterface[]
      */
-    public function listFills(?string $orderId = null, ?string $productId = null, PaginationInterface $pagination = null): array;
+    public function listFills(?string $orderId = null, ?string $productId = null, ?PaginationInterface $pagination = null): array;
 }

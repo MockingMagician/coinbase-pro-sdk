@@ -23,7 +23,8 @@
         "phpunit/phpunit": "^9.3",
         "vlucas/phpdotenv": "^5.1",
         "phpstan/phpstan": "^0.12.42",
-        "friendsofphp/php-cs-fixer": "^2.16"
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "symfony/var-dumper": "^5.1"
     },
     "license": "MIT",
     "authors": [

@@ -8,9 +8,9 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
 
-class UserAccounts extends AbstractRequestManagerAware implements UserAccountsInterface
+class UserAccount extends AbstractRequestManagerAware implements UserAccountInterface
 {
     public function getTrailingVolumeRaw()
     {

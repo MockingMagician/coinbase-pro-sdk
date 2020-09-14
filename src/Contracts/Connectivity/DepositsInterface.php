@@ -8,7 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
-use DateTimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 
@@ -36,15 +36,11 @@ interface DepositsInterface
      * after    No    If after is set, then it returns deposits created before the after timestamp, sorted by newest
      * limit    No    Truncate list to this many deposits, capped at 100. Default is 100.
      *
-     * @param int $limit
-     *
      * @return DepositDataInterface[]
      */
     public function listDeposits(
         ?string $profileId = null,
-        ?DateTimeInterface $before = null,
-        ?DateTimeInterface $after = null,
-        ?int $limit = 100
+        ?PaginationInterface $pagination = null
     ): array;
 
     /**

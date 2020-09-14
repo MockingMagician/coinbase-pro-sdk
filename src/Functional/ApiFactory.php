@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional;
-
 
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
@@ -23,7 +27,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Profiles;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Reports;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\StableCoinConversions;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccounts;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccount;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use Symfony\Component\Yaml\Yaml;
@@ -116,8 +120,8 @@ final class ApiFactory
             $activateReports ? new Reports($requestManager) : null,
             $activateStableCoinConversions ? new StableCoinConversions($requestManager) : null,
             $activateTime ? $time : null,
-            $activateUserAccounts ? new UserAccounts($requestManager) : null,
-            $activateWithdrawals ? new Withdrawals($requestManager): null
+            $activateUserAccounts ? new UserAccount($requestManager) : null,
+            $activateWithdrawals ? new Withdrawals($requestManager) : null
         );
     }
 
@@ -180,7 +184,7 @@ final class ApiFactory
                 continue;
             }
             preg_match('#^\$\{(.+)\}$#', $v, $matches);
-            if (isset($matches[1]) && isset($_ENV[$matches[1]])) {
+            if (isset($matches[1], $_ENV[$matches[1]])) {
                 $config[self::CONFIG_ROOT_CONNECTIVITY][$k] = $_ENV[$matches[1]];
             }
         }
@@ -194,15 +198,16 @@ final class ApiFactory
             throw new ApiError('Config file features root key must be an array or a boolean value.');
         }
 
-        if ($config[self::CONFIG_ROOT_FEATURES] === true || !isset($config[self::CONFIG_ROOT_FEATURES])) {
+        if (true === $config[self::CONFIG_ROOT_FEATURES] || !isset($config[self::CONFIG_ROOT_FEATURES])) {
             return self::createFull(
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[0]],
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[1]],
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[2]],
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[3]],
-                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && $config[self::CONFIG_ROOT_REMOTE_TIME] === true
+                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && true === $config[self::CONFIG_ROOT_REMOTE_TIME]
             );
-        } else if ($config[self::CONFIG_ROOT_FEATURES] === false) {
+        }
+        if (false === $config[self::CONFIG_ROOT_FEATURES]) {
             return self::create(
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[0]],
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[1]],
@@ -226,7 +231,7 @@ final class ApiFactory
                 false,
                 false,
                 false,
-                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && $config[self::CONFIG_ROOT_REMOTE_TIME] === true
+                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && true === $config[self::CONFIG_ROOT_REMOTE_TIME]
             );
         }
 
@@ -256,7 +261,7 @@ final class ApiFactory
                 $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
                 $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
                 $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && $config[self::CONFIG_ROOT_REMOTE_TIME] === true
+                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && true === $config[self::CONFIG_ROOT_REMOTE_TIME]
             );
         }
 

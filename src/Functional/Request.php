@@ -128,11 +128,21 @@ class Request implements RequestInterface
             throw new ApiError($exception->getMessage());
         }
 
-//        var_dump($request->getUri()->__toString());
-
         // TODO implement auto pagination based directly on direction and headers
-//        var_dump($response->getHeader(Pagination::HEADER_AFTER));
-//        var_dump($response->getHeader(Pagination::HEADER_BEFORE));
+//        dump([
+//            'header after' => $response->getHeader(Pagination::HEADER_AFTER),
+//            'header before' => $response->getHeader(Pagination::HEADER_BEFORE),
+//            $this->getUri()
+//        ]);
+
+        if ($this->pagination) {
+            $this->pagination->autoPaginateFromHeaders(
+                $response->getHeader(Pagination::HEADER_BEFORE)[0] ?? null,
+                $response->getHeader(Pagination::HEADER_AFTER)[0] ?? null
+            );
+        }
+
+//        dump($this->getUri());
 
         return $response->getBody()->getContents();
     }

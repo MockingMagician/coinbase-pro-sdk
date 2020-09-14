@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
-
 
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Deposits;
@@ -10,6 +14,9 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
+/**
+ * @internal
+ */
 class WithdrawalsTest extends AbstractTest
 {
     /**
@@ -128,7 +135,8 @@ class WithdrawalsTest extends AbstractTest
                     self::assertStringContainsString('"id":', $raw);
 
                     break;
-                } catch (ApiError $exception) {}
+                } catch (ApiError $exception) {
+                }
             }
         }
     }
@@ -144,7 +152,8 @@ class WithdrawalsTest extends AbstractTest
                     self::assertNotEmpty($id);
 
                     break;
-                } catch (ApiError $exception) {}
+                } catch (ApiError $exception) {
+                }
             }
         }
     }
