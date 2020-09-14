@@ -18,9 +18,11 @@ jobs:
                 shell: bash
                 working-directory: ./
         steps:
-            - id: 'ls_la'
+            - name: Check out repository
+              uses: actions/checkout@v2
+            - name: 'ls_la'
               run: ls -la
-            - id: 'run_composer'
-              run: composer install
-            - id: 'run_php_cs'
-              run: make phpcs-dry-run
+#            - id: 'run_composer'
+#              run: composer install
+#            - id: 'run_php_cs'
+#              run: make phpcs-dry-run
