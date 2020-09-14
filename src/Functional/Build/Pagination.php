@@ -25,6 +25,10 @@ class Pagination implements PaginationInterface
      * @var int
      */
     private $limit;
+    /**
+     * @var bool
+     */
+    private $hasNext = true;
 
     public function __construct(string $direction = null, string $offsetAfterOrBeforeDependingOnDirection = null, int $limit = self::LIMIT)
     {
@@ -90,5 +94,15 @@ class Pagination implements PaginationInterface
         $args['limit'] = $this->limit;
 
         return $args;
+    }
+
+    public function hasNext(): bool
+    {
+        return $this->hasNext;
+    }
+
+    public function setHasNext(bool $hasNext)
+    {
+        $this->hasNext = $hasNext;
     }
 }
