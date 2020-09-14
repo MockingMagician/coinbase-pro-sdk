@@ -40,7 +40,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
     {
         $query = ['type' => 'deposit'];
 
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/transfers/%s', $depositId, $query))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/transfers/%s', $depositId), $query)->signAndSend();
     }
 
     /**

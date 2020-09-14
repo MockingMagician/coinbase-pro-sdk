@@ -23,7 +23,7 @@ phpcs-dry-run: ## Coding style checks
 
 .PHONY: phpstan
 phpstan: ## Static analysis
-	vendor/bin/phpstan analyse --level=1 src
+	vendor/bin/phpstan analyse --level=3 src
 
 .PHONY: help
 help: ## Display this help message

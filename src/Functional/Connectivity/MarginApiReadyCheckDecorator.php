@@ -48,7 +48,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
             throw new ApiError(self::ERROR_MESSAGE);
         }
 
-        return $this->margin->getMarginProfileInformation();
+        return $this->margin->getMarginProfileInformation($productId);
     }
 
     /**

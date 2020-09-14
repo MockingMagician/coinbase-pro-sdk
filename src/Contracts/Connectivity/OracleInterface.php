@@ -30,7 +30,7 @@ interface OracleInterface
      * ● signatures is an array of Ethereum-compatible ECDSA signatures for each message.
      * ● prices contains human-readable asset prices
      *
-     * @return array
+     * @return OracleCryptoSignedPricesInterface
      */
     public function getCryptographicallySignedPrices(): OracleCryptoSignedPricesInterface;
 }

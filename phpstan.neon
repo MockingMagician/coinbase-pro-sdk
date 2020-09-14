@@ -1,3 +1,5 @@
 parameters:
 	excludes_analyse:
 		- src/Functional/Connectivity/Margin.php
+	ignoreErrors:
+		- '#Unsafe usage of new static\(\)#'
