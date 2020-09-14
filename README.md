@@ -609,3 +609,5 @@ $api->time()->getTime();
 
 ```
 
+### 3 : Pagination
+
