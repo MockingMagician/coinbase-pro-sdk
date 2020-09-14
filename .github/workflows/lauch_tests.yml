@@ -1,0 +1,20 @@
+name: Testing suite
+
+on:
+    push:
+        branches:
+            - master
+            - dev
+    pull_request:
+        branches:
+            - master
+            - dev
+
+jobs:
+    test-job:
+        runs-on: 'ubuntu-latest'
+        steps:
+            -   id: 'Run composer'
+                run: composer install
+            -   id: 'Run php-cs'
+                run: make phpcs-dry-run
