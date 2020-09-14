@@ -8,9 +8,15 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
+use DateTimeInterface;
+
 /**
  * Class VolumeDataInterface.
  */
 interface VolumeDataInterface
 {
+    public function getProductId(): string;
+    public function getExchangeVolume(): float;
+    public function getVolume(): float;
+    public function getRecordedAt(): DateTimeInterface;
 }

@@ -18,9 +18,4 @@ class ApiError extends Exception implements ApiErrorInterface
     {
         parent::__construct($message, $code, $previous);
     }
-
-    public function getApiMessage(): string
-    {
-        return $this->getMessage();
-    }
 }

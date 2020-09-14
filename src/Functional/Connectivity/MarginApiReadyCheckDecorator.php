@@ -22,10 +22,13 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 /**
  * Class Margin.
  *
+ * @codeCoverageIgnore
  * @warning Margin api is not yet eligible to consume for now. Do not call any methods except getStatus() to check eligibility
  */
 class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implements MarginInterface
 {
+    const ERROR_MESSAGE = 'Margin api is not yet available and enabled';
+
     /**
      * @var Margin
      */
@@ -42,7 +45,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     public function getMarginProfileInformation(string $productId): MarginProfileDataInterface
     {
         if (!$this->isMarginReadyToUse()) {
-            throw new ApiError('Margin api is not yet available and enabled');
+            throw new ApiError(self::ERROR_MESSAGE);
         }
 
         return $this->margin->getMarginProfileInformation();
@@ -54,7 +57,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     public function getBuyingPower(string $productId): BuyingPowerDataInterface
     {
         if (!$this->isMarginReadyToUse()) {
-            throw new ApiError('Margin api is not yet available and enabled');
+            throw new ApiError(self::ERROR_MESSAGE);
         }
 
         return $this->margin->getBuyingPower($productId);
@@ -66,7 +69,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     public function getWithdrawalPower(string $currency): WithdrawalPowerDataInterface
     {
         if (!$this->isMarginReadyToUse()) {
-            throw new ApiError('Margin api is not yet available and enabled');
+            throw new ApiError(self::ERROR_MESSAGE);
         }
 
         return $this->margin->getWithdrawalPower($currency);
@@ -78,7 +81,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     public function getAllWithdrawalPowers()
     {
         if (!$this->isMarginReadyToUse()) {
-            throw new ApiError('Margin api is not yet available and enabled');
+            throw new ApiError(self::ERROR_MESSAGE);
         }
 
         return $this->margin->getAllWithdrawalPowers();
@@ -90,7 +93,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     public function getExitPlan(): LiquidationStrategyDataInterface
     {
         if (!$this->isMarginReadyToUse()) {
-            throw new ApiError('Margin api is not yet available and enabled');
+            throw new ApiError(self::ERROR_MESSAGE);
         }
 
         return $this->margin->getExitPlan();
@@ -102,7 +105,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     public function listLiquidationHistory(?DateTimeInterface $after = null): array
     {
         if (!$this->isMarginReadyToUse()) {
-            throw new ApiError('Margin api is not yet available and enabled');
+            throw new ApiError(self::ERROR_MESSAGE);
         }
 
         return $this->margin->listLiquidationHistory($after);
@@ -114,7 +117,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     public function getPositionsRefreshAmount(): PositionRefreshAmountsData
     {
         if (!$this->isMarginReadyToUse()) {
-            throw new ApiError('Margin api is not yet available and enabled');
+            throw new ApiError(self::ERROR_MESSAGE);
         }
 
         return $this->margin->getPositionsRefreshAmount();

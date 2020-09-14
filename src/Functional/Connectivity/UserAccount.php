@@ -9,6 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\VolumeData;
 
 class UserAccount extends AbstractRequestManagerAware implements UserAccountInterface
 {
@@ -22,6 +23,6 @@ class UserAccount extends AbstractRequestManagerAware implements UserAccountInte
      */
     public function getTrailingVolume(): array
     {
-        // TODO: Implement getTrailingVolume() method.
+        return VolumeData::createCollectionFromJson($this->getTrailingVolumeRaw());
     }
 }
