@@ -64,7 +64,7 @@ class PaginationTest extends AbstractTest
         $pagination = new Pagination(null, null, 10);
 
         while ($pagination->hasNext()) {
-            $fills = $this->fills->listFills(null, 'BTC-USD', $pagination);
+            $fills = $this->fills->listFills(null, null, $pagination);
 
             $fills = array_map(function (FillData $fill) {return $fill->getTradeId();}, $fills);
 
