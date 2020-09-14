@@ -35,8 +35,6 @@ interface WithdrawalsInterface
      * after    No    If after is set, then it returns withdrawals created before the after timestamp, sorted by newest
      * limit    No    Truncate list to this many withdrawals, capped at 100. Default is 100.
      *
-     * @param string|null $profileId
-     * @param PaginationInterface|null $pagination
      * @return WithdrawalsDataInterface[]
      */
     public function listWithdrawals(?string $profileId = null, ?PaginationInterface $pagination = null): array;

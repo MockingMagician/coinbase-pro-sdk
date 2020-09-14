@@ -9,7 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
 
 /**
- * Interface PaginationInterface
+ * Interface PaginationInterface.
  *
  * Pagination
  *

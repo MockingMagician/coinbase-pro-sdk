@@ -103,13 +103,13 @@ class Pagination implements PaginationInterface
 
     public function autoPaginateFromHeaders(?string $before, ?string $after): void
     {
-        if ($this->getDirection() === Pagination::DIRECTION_ASC && $before) {
+        if (Pagination::DIRECTION_ASC === $this->getDirection() && $before) {
             $this->setOffset($before);
 
             return;
         }
 
-        if ($this->getDirection() === Pagination::DIRECTION_DESC && $after) {
+        if (Pagination::DIRECTION_DESC === $this->getDirection() && $after) {
             $this->setOffset($after);
 
             return;

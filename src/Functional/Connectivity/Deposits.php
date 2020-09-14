@@ -8,14 +8,12 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
-use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\DepositsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CryptoDepositAddressData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
-use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 class Deposits extends AbstractRequestManagerAware implements DepositsInterface
 {

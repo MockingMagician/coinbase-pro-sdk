@@ -112,7 +112,7 @@ class DepositData extends AbstractCreator implements DepositDataInterface
     }
 
     /**
-     * @return DateTimeImmutable|null
+     * @return null|DateTimeImmutable
      */
     public function getCanceledAt(): ?DateTimeInterface
     {

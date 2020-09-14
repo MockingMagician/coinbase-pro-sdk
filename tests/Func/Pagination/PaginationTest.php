@@ -1,7 +1,12 @@
 <?php
 
-namespace MockingMagician\CoinbaseProSdk\Tests\Func\Pagination;
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
+namespace MockingMagician\CoinbaseProSdk\Tests\Func\Pagination;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryEventDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
@@ -14,6 +19,9 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\FillData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\WithdrawalsData;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
 
+/**
+ * @internal
+ */
 class PaginationTest extends AbstractTest
 {
     /**
@@ -50,7 +58,7 @@ class PaginationTest extends AbstractTest
         $accountId = null;
         $accounts = $this->accounts->list();
         foreach ($accounts as $account) {
-            if ($account->getCurrency() === 'BTC') {
+            if ('BTC' === $account->getCurrency()) {
                 $accountId = $account->getId();
             }
         }
@@ -62,7 +70,7 @@ class PaginationTest extends AbstractTest
 
         while ($pagination->hasNext()) {
             $currentIds = $this->accounts->getAccountHistory($accountId, $pagination);
-            $currentIds = array_map(function (AccountHistoryEventDataInterface $history) {return $history->getId();}, $currentIds);
+            $currentIds = array_map(function (AccountHistoryEventDataInterface $history) {return $history->getId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
                 self::assertNotContains($id, $previousIds);
@@ -78,7 +86,7 @@ class PaginationTest extends AbstractTest
 
         while ($pagination->hasNext()) {
             $currentIds = $this->accounts->getAccountHistory($accountId, $pagination);
-            $currentIds = array_map(function (AccountHistoryEventDataInterface $history) {return $history->getId();}, $currentIds);
+            $currentIds = array_map(function (AccountHistoryEventDataInterface $history) {return $history->getId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
                 self::assertNotContains($id, $previousIds);
@@ -97,7 +105,7 @@ class PaginationTest extends AbstractTest
 
         while ($pagination->hasNext()) {
             $currentIds = $this->fills->listFills(null, 'BTC-USD', $pagination);
-            $currentIds = array_map(function (FillData $fill) {return $fill->getTradeId();}, $currentIds);
+            $currentIds = array_map(function (FillData $fill) {return $fill->getTradeId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
                 self::assertNotContains($id, $previousIds);
@@ -113,7 +121,7 @@ class PaginationTest extends AbstractTest
 
         while ($pagination->hasNext()) {
             $currentIds = $this->fills->listFills(null, 'BTC-USD', $pagination);
-            $currentIds = array_map(function (FillData $fill) {return $fill->getTradeId();}, $currentIds);
+            $currentIds = array_map(function (FillData $fill) {return $fill->getTradeId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
                 self::assertNotContains($id, $previousIds);
@@ -132,7 +140,7 @@ class PaginationTest extends AbstractTest
 
         while ($pagination->hasNext()) {
             $currentIds = $this->deposits->listDeposits(null, $pagination);
-            $currentIds = array_map(function (DepositData $data) {return $data->getId();}, $currentIds);
+            $currentIds = array_map(function (DepositData $data) {return $data->getId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
                 self::assertNotContains($id, $previousIds);
@@ -148,7 +156,7 @@ class PaginationTest extends AbstractTest
 
         while ($pagination->hasNext()) {
             $currentIds = $this->deposits->listDeposits(null, $pagination);
-            $currentIds = array_map(function (DepositData $data) {return $data->getId();}, $currentIds);
+            $currentIds = array_map(function (DepositData $data) {return $data->getId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
                 self::assertNotContains($id, $previousIds);
@@ -167,7 +175,7 @@ class PaginationTest extends AbstractTest
 
         while ($pagination->hasNext()) {
             $currentIds = $this->withdrawals->listWithdrawals(null, $pagination);
-            $currentIds = array_map(function (WithdrawalsData $data) {return $data->getId();}, $currentIds);
+            $currentIds = array_map(function (WithdrawalsData $data) {return $data->getId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
                 self::assertNotContains($id, $previousIds);
@@ -183,7 +191,7 @@ class PaginationTest extends AbstractTest
 
         while ($pagination->hasNext()) {
             $currentIds = $this->withdrawals->listWithdrawals(null, $pagination);
-            $currentIds = array_map(function (WithdrawalsData $data) {return $data->getId();}, $currentIds);
+            $currentIds = array_map(function (WithdrawalsData $data) {return $data->getId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
                 self::assertNotContains($id, $previousIds);
