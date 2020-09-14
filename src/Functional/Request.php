@@ -136,7 +136,7 @@ class Request implements RequestInterface
 //        ]);
 
         if ($this->pagination) {
-            $this->pagination->updateFromHeaders(
+            $this->pagination->autoPaginateFromHeaders(
                 $response->getHeader(Pagination::HEADER_BEFORE)[0] ?? null,
                 $response->getHeader(Pagination::HEADER_AFTER)[0] ?? null
             );
