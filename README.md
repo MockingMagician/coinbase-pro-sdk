@@ -197,7 +197,7 @@ remote_time: true # pass true here to enable the remote timestamp provided by th
 
 ***In the rest of the documentation, we will assume that you know how to create an ApiConnectivity object and the variable $api will refer to this object.***
 
-#### 2.1 : List of features 
+#### 2.1 : List of features 
 
 All features described in the [documentation](https://docs.pro.coinbase.com) are implemented :
 
@@ -248,9 +248,9 @@ $api->time();
 
 ```
 
-#### 2.2 : Details by category
+#### 2.2 : Details by category
 
-##### 2.2 : Accounts methods
+##### 2.2 : Accounts methods
 
 ```php
 
@@ -265,7 +265,7 @@ $api->accounts()->getHolds('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ```
 
-##### 2.2 : Orders methods
+##### 2.2 : Orders methods
 
 ```php
 
@@ -284,7 +284,7 @@ $api->orders()->getOrderByClientOrderId('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ***How to place an order ?***
 
-###### 2.2.1 : Place market order
+###### 2.2.1 : Place market order
 
 ```php
 
@@ -298,7 +298,7 @@ $api->orders()->placeOrder($marketOrder);
 
 ```
 
-###### 2.2.2 : Place limit order
+###### 2.2.2 : Place limit order
 
 ```php
 
@@ -313,7 +313,7 @@ $api->orders()->placeOrder($limitOrder);
 
 ```
 
-###### 2.2.3 : Understanding orders
+###### 2.2.3 : Understanding orders
 
 ***For a good understanding of the orders and parameters available for each order, please refer to the Coinbase Pro documentation, as well as the documentation available in the interfaces of this package.***
 
@@ -370,7 +370,7 @@ $api->orders()->placeOrder($limitOrder);
 
 ```
 
-##### 2.3 : Fills methods
+##### 2.3 : Fills methods
 
 ```php
 
@@ -382,7 +382,7 @@ $api->fills()->listFills();
 
 ```
 
-##### 2.4 : Limits methods
+##### 2.4 : Limits methods
 
 ```php
 
@@ -394,7 +394,7 @@ $api->limits()->getCurrentExchangeLimits();
 
 ```
 
-##### 2.5 : Deposits methods
+##### 2.5 : Deposits methods
 
 ```php
 
@@ -410,7 +410,7 @@ $api->deposits()->generateCryptoDepositAddress('132fb6ae-456b-4654-b4e0-d681ac05
 
 ```
 
-##### 2.6 : Withdrawals methods
+##### 2.6 : Withdrawals methods
 
 ```php
 
@@ -426,7 +426,7 @@ $api->withdrawals()->doWithdrawToCryptoAddress(0.1, 'BTC', 'bc1qar0srrr7xfkvy5l6
 
 ```
 
-##### 2.7 : Stablecoin Conversions methods
+##### 2.7 : Stablecoin Conversions methods
 
 ```php
 
@@ -438,7 +438,7 @@ $api->stablecoinConversions()->createConversion('USD', 'USDC', 100);
 
 ```
 
-##### 2.8 : Payment Methods methods
+##### 2.8 : Payment Methods methods
 
 ```php
 
@@ -450,7 +450,7 @@ $api->paymentMethods()->listPaymentMethods();
 
 ```
 
-##### 2.9 : Coinbase Accounts methods
+##### 2.9 : Coinbase Accounts methods
 
 ```php
 
@@ -462,7 +462,7 @@ $api->coinbaseAccounts()->listCoinbaseAccounts();
 
 ```
 
-##### 2.10 : Fees methods
+##### 2.10 : Fees methods
 
 ```php
 
@@ -474,7 +474,7 @@ $api->fees()->getCurrentFees();
 
 ```
 
-##### 2.11 : Reports methods
+##### 2.11 : Reports methods
 
 ```php
 
@@ -496,7 +496,7 @@ $api->reports()->getReportStatus('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ```
 
-##### 2.12 : Profiles methods
+##### 2.12 : Profiles methods
 
 ```php
 
@@ -510,7 +510,7 @@ $api->profiles()->createProfileTransfer('132fb6ae-456b-4654-b4e0-d681ac05cea1', 
 
 ```
 
-##### 2.13 : User Account methods
+##### 2.13 : User Account methods
 
 ```php
 
@@ -522,7 +522,7 @@ $api->userAccounts()->getTrailingVolume();
 
 ```
 
-##### 2.14 : Margin methods
+##### 2.14 : Margin methods
 
 ```php
 
@@ -550,7 +550,7 @@ $api->margin()->getMarginProfileInformation();
 
 ```
 
-##### 2.15 : Oracle methods
+##### 2.15 : Oracle methods
 
 ```php
 
@@ -562,7 +562,7 @@ $api->oracle()->getCryptographicallySignedPrices();
 
 ```
 
-##### 2.16 : Products methods
+##### 2.16 : Products methods
 
 ```php
 
@@ -585,7 +585,7 @@ $api->products()->getHistoricRates(
 
 ```
 
-##### 2.17 : Currencies methods
+##### 2.17 : Currencies methods
 
 ```php
 
@@ -597,7 +597,7 @@ $api->currencies()->getCurrencies();
 
 ```
 
-##### 2.18 : Time methods
+##### 2.18 : Time methods
 
 ```php
 
