@@ -260,7 +260,7 @@ $api->time();
 
 #### 2.2 : Details by category
 
-##### 2.2 : Accounts methods
+##### 2.2.1 : Accounts methods
 
 ```php
 
@@ -275,7 +275,7 @@ $api->accounts()->getHolds('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ```
 
-##### 2.2 : Orders methods
+##### 2.2.2 : Orders methods
 
 ```php
 
@@ -294,7 +294,7 @@ $api->orders()->getOrderByClientOrderId('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ***How to place an order ?***
 
-###### 2.2.1 : Place market order
+###### 2.2.2.1 : Place market order
 
 ```php
 
@@ -308,7 +308,7 @@ $api->orders()->placeOrder($marketOrder);
 
 ```
 
-###### 2.2.2 : Place limit order
+###### 2.2.2.2 : Place limit order
 
 ```php
 
@@ -323,7 +323,7 @@ $api->orders()->placeOrder($limitOrder);
 
 ```
 
-###### 2.2.3 : Understanding orders
+###### 2.2.2.3 : Understanding orders
 
 ***For a good understanding of the orders and parameters available for each order, please refer to the Coinbase Pro documentation, as well as the documentation available in the interfaces of this package.***
 
@@ -380,7 +380,7 @@ $api->orders()->placeOrder($limitOrder);
 
 ```
 
-##### 2.3 : Fills methods
+##### 2.2.3 : Fills methods
 
 ```php
 
@@ -392,7 +392,7 @@ $api->fills()->listFills();
 
 ```
 
-##### 2.4 : Limits methods
+##### 2.2.4 : Limits methods
 
 ```php
 
@@ -404,7 +404,7 @@ $api->limits()->getCurrentExchangeLimits();
 
 ```
 
-##### 2.5 : Deposits methods
+##### 2.2.5 : Deposits methods
 
 ```php
 
@@ -420,7 +420,7 @@ $api->deposits()->generateCryptoDepositAddress('132fb6ae-456b-4654-b4e0-d681ac05
 
 ```
 
-##### 2.6 : Withdrawals methods
+##### 2.2.6 : Withdrawals methods
 
 ```php
 
@@ -436,7 +436,7 @@ $api->withdrawals()->doWithdrawToCryptoAddress(0.1, 'BTC', 'bc1qar0srrr7xfkvy5l6
 
 ```
 
-##### 2.7 : Stablecoin Conversions methods
+##### 2.2.7 : Stablecoin Conversions methods
 
 ```php
 
@@ -448,7 +448,7 @@ $api->stablecoinConversions()->createConversion('USD', 'USDC', 100);
 
 ```
 
-##### 2.8 : Payment Methods methods
+##### 2.2.8 : Payment Methods methods
 
 ```php
 
@@ -460,7 +460,7 @@ $api->paymentMethods()->listPaymentMethods();
 
 ```
 
-##### 2.9 : Coinbase Accounts methods
+##### 2.2.9 : Coinbase Accounts methods
 
 ```php
 
@@ -472,7 +472,7 @@ $api->coinbaseAccounts()->listCoinbaseAccounts();
 
 ```
 
-##### 2.10 : Fees methods
+##### 2.2.10 : Fees methods
 
 ```php
 
@@ -484,7 +484,7 @@ $api->fees()->getCurrentFees();
 
 ```
 
-##### 2.11 : Reports methods
+##### 2.2.11 : Reports methods
 
 ```php
 
@@ -506,7 +506,7 @@ $api->reports()->getReportStatus('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ```
 
-##### 2.12 : Profiles methods
+##### 2.2.12 : Profiles methods
 
 ```php
 
@@ -520,7 +520,7 @@ $api->profiles()->createProfileTransfer('132fb6ae-456b-4654-b4e0-d681ac05cea1', 
 
 ```
 
-##### 2.13 : User Account methods
+##### 2.2.13 : User Account methods
 
 ```php
 
@@ -532,7 +532,7 @@ $api->userAccount()->getTrailingVolume();
 
 ```
 
-##### 2.14 : Margin methods
+##### 2.2.14 : Margin methods
 
 ```php
 
@@ -560,7 +560,7 @@ $api->margin()->getMarginProfileInformation();
 
 ```
 
-##### 2.15 : Oracle methods
+##### 2.2.15 : Oracle methods
 
 ```php
 
@@ -572,7 +572,7 @@ $api->oracle()->getCryptographicallySignedPrices();
 
 ```
 
-##### 2.16 : Products methods
+##### 2.2.16 : Products methods
 
 ```php
 
@@ -595,7 +595,7 @@ $api->products()->getHistoricRates(
 
 ```
 
-##### 2.17 : Currencies methods
+##### 2.2.17 : Currencies methods
 
 ```php
 
@@ -607,7 +607,7 @@ $api->currencies()->getCurrencies();
 
 ```
 
-##### 2.18 : Time methods
+##### 2.2.18 : Time methods
 
 ```php
 
@@ -695,6 +695,47 @@ while ($pagination->hasNext()) { // Fetch new page while has next
 
 ```
 
-# Issues
+### 4 : Executing tests
+
+For any test execution the following environment variables must be available:
+* API_KEY=my-api-key
+* API_SECRET=my-secret
+* API_PASSPHRASE=my-passphrase
+
+***For security reasons, API_ENDPOINT has been hard-coded at the test level on the url https://api-public.sandbox.pro.coinbase.com.***
+
+The only recommended way to provide these variables in the test set is to provide the root of the project with an .env file containing these variables.
+
+.env file example :
+
+```dotenv
+API_KEY=my-api-key
+API_SECRET=my-secret
+API_PASSPHRASE=my-passphrase
+```
+
+The vast majority of the test set is composed of functional call and response tests of the API.
+
+In order for these tests to pass, your test account on Coinbase Pro must be funded with cash.
+
+***The currency in the test account is not real money. You can deposit it without limit using the deposit functions provided on the interface.***
+
+It is intended that the test game will fund your account from virtual Coinbase accounts. At the first use, it is possible that the tests may not pass if the funds are insufficient, restart the tests.
+
+#### 4.1 : Running tests methods
+
+A Makefile is present in the project and provides shortcuts to run the tests. Run the ***make help*** command for the complete list of shortcuts :
+
+```bash
+docker-test-php-71             Docker test on PHP 7.1
+docker-test-php-72             Docker test on PHP 7.2
+docker-test-php-73             Docker test on PHP 7.3
+docker-test-php-74             Docker test on PHP 7.4
+tests-in-all-php-versions      Run tests in all PHP versions through containers
+tests                          Launch PHPUnit test suite locally
+phpstan                        Static analysis
+```
+
+## Issues
 
 ***Please, in case of discovery of any bug or security issues related to the package. Please launch an issue describing the problem and how to reproduce it.***
