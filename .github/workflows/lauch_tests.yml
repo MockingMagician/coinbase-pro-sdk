@@ -31,8 +31,8 @@ jobs:
 #                  tools: php-cs-fixer, phpunit
             - name: Check php version
               run: php --version
-            - name: Check envs
-              run: php -r 'echo getenv("API_ENDPOINT");'
+            - name: Run tests
+              run: make tests
               env:
                   API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
                   API_KEY: ${{ secrets.API_KEY }}
