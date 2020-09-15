@@ -31,14 +31,16 @@ jobs:
 #                  tools: php-cs-fixer, phpunit
             - name: Check php version
               run: php --version
-            - name: Composer install
-              run: rm composer.lock && composer install
-            - name: Run tests
+            - name: Check envs
               env:
                   API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
                   API_KEY: ${{ secrets.API_KEY }}
                   API_PASSPHRASE: ${{ secrets.API_PASSPHRASE }}
                   API_SECRET: ${{ secrets.API_SECRET }}
+              run: php -r 'var_dump([$_ENV, $_SERVER]);'
+            - name: Composer install
+              run: rm composer.lock && composer install
+            - name: Run tests
               run: make tests
 
 
