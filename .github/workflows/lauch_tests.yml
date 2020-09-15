@@ -32,7 +32,7 @@ jobs:
             - name: Check php version
               run: php --version
             - name: Check envs
-              env:
+              with:
                   API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
                   API_KEY: ${{ secrets.API_KEY }}
                   API_PASSPHRASE: ${{ secrets.API_PASSPHRASE }}
