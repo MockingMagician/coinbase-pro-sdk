@@ -33,6 +33,6 @@ jobs:
               run: php --version
             - name: Composer install
               run: rm composer.lock && composer install
-            - name: Run php-cs
-              run: make phpcs-dry-run
+            - name: Run phpstan
+              run: make phpstan
 
