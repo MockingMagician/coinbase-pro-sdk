@@ -20,17 +20,28 @@ jobs:
         steps:
             - name: Check out repository
               uses: actions/checkout@v2
+
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php-versions }}
                   extensions: mbstring, intl, zip
+
             - name: Composer install
               run: rm composer.lock && composer install
+
             - name: PHP version
               run: php --version
+
             - name: Run phpstan
-              run: make phpstan
+              run: make phpstan > phpstan.analyse.txt
+
+            - name: Upload phpstan analyse result
+              uses: actions/upload-artifact@v2
+              with:
+                  name: phpstan
+                  path: phpstan.analyse.txt
+
             - name: Run tests
               run: make tests
               env:
