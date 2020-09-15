@@ -8,6 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
+use DateTime;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\MarginInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\BuyingPowerDataInterface;
@@ -103,7 +104,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
         $query = [];
 
         if ($after) {
-            $query['after'] = $after->format(DateTimeInterface::ISO8601);
+            $query['after'] = $after->format(DateTime::ISO8601);
         }
 
         return $this->getRequestManager()->prepareRequest('GET', '/margin/liquidation_history', $query)->signAndSend();

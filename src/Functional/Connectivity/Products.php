@@ -8,6 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
+use DateTime;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProductsInterface;
@@ -130,8 +131,8 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         }
 
         $query = [
-            'start' => $startTime->format(DateTimeInterface::ISO8601),
-            'end' => $endTime->format(DateTimeInterface::ISO8601),
+            'start' => $startTime->format(DateTime::ISO8601),
+            'end' => $endTime->format(DateTime::ISO8601),
             'granularity' => $granularity,
         ];
 
