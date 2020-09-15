@@ -25,6 +25,12 @@ phpcs-dry-run: ## Coding style checks
 phpstan: ## Static analysis
 	vendor/bin/phpstan analyse --level=3 src
 
+project_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+
+.PHONY: docker-test
+docker-test:## Docker testing env
+	docker build -t php-test-env:7.1 tests/env/PHP_7.1 && docker run -it -v "${PWD}":/usr/src/coinbase-php-sdk -w /usr/src/coinbase-php-sdk php-test-env:7.1 composer update -vvv && make tests
+
 .PHONY: help
 help: ## Display this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
