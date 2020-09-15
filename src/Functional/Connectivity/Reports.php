@@ -8,6 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
+use DateTime;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ReportDataInterface;
@@ -35,8 +36,8 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
 
         $body = [
             'type' => $type,
-            'start_date' => $startDate->format(DateTimeInterface::ISO8601),
-            'end_date' => $endDate->format(DateTimeInterface::ISO8601),
+            'start_date' => $startDate->format(DateTime::ISO8601),
+            'end_date' => $endDate->format(DateTime::ISO8601),
             'format' => $format,
         ];
 

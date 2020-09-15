@@ -39,7 +39,7 @@ class LimitsData extends AbstractCreator implements LimitsDataInterface
 
     public static function createFromJson(string $json, ...$divers)
     {
-        return self::createFromArray(json_decode($json, true), );
+        return self::createFromArray(json_decode($json, true));
     }
 
     public static function createFromArray(array $array, ...$divers)

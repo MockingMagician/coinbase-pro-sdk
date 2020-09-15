@@ -8,6 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
+use DateTime;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProductsInterface;
@@ -41,7 +42,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
      */
     public function getProducts(): array
     {
-        return ProductData::createCollectionFromJson($this->getProductsRaw(), );
+        return ProductData::createCollectionFromJson($this->getProductsRaw());
     }
 
     public function getSingleProductRaw(string $productId)
@@ -54,7 +55,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
      */
     public function getSingleProduct(string $productId): ProductDataInterface
     {
-        return ProductData::createFromJson($this->getSingleProductRaw($productId), );
+        return ProductData::createFromJson($this->getSingleProductRaw($productId));
     }
 
     public function getProductOrderBookRaw(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false)
@@ -75,7 +76,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
      */
     public function getProductOrderBook(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface
     {
-        return OrderBookData::createFromJson($this->getProductOrderBookRaw($productId, $level, $forceLevel3), );
+        return OrderBookData::createFromJson($this->getProductOrderBookRaw($productId, $level, $forceLevel3));
     }
 
     public function getProductTickerRaw(string $productId)
@@ -88,7 +89,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
      */
     public function getProductTicker(string $productId): TickerSnapshotDataInterface
     {
-        return TickerSnapshotData::createFromJson($this->getProductTickerRaw($productId), );
+        return TickerSnapshotData::createFromJson($this->getProductTickerRaw($productId));
     }
 
     public function getTradesRaw(string $productId, ?PaginationInterface $pagination = null)
@@ -101,7 +102,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
      */
     public function getTrades(string $productId, ?PaginationInterface $pagination = null): array
     {
-        return TradeData::createCollectionFromJson($this->getTradesRaw($productId, $pagination), );
+        return TradeData::createCollectionFromJson($this->getTradesRaw($productId, $pagination));
     }
 
     public function getHistoricRatesRaw(string $productId, DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity)
@@ -130,8 +131,8 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         }
 
         $query = [
-            'start' => $startTime->format(DateTimeInterface::ISO8601),
-            'end' => $endTime->format(DateTimeInterface::ISO8601),
+            'start' => $startTime->format(DateTime::ISO8601),
+            'end' => $endTime->format(DateTime::ISO8601),
             'granularity' => $granularity,
         ];
 
@@ -166,6 +167,6 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
      */
     public function get24hrStats(string $productId): ProductStats24hrDataInterface
     {
-        return ProductStats24hrData::createFromJson($this->get24hrStatsRaw($productId), );
+        return ProductStats24hrData::createFromJson($this->get24hrStatsRaw($productId));
     }
 }

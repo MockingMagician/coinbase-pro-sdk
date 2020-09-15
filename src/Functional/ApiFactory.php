@@ -184,8 +184,8 @@ final class ApiFactory
                 continue;
             }
             preg_match('#^\$\{(.+)\}$#', $v, $matches);
-            if (isset($matches[1], $_ENV[$matches[1]])) {
-                $config[self::CONFIG_ROOT_CONNECTIVITY][$k] = $_ENV[$matches[1]];
+            if (isset($matches[1])) {
+                $config[self::CONFIG_ROOT_CONNECTIVITY][$k] = getenv($matches[1]);
             }
         }
 
