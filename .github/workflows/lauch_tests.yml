@@ -32,15 +32,11 @@ jobs:
             - name: Check php version
               run: php --version
             - name: Check envs
-              run: php -r 'var_dump([$_ENV, $_SERVER]);'
+              run: php -r 'echo getenv("API_ENDPOINT");'
               env:
                   API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
                   API_KEY: ${{ secrets.API_KEY }}
                   API_PASSPHRASE: ${{ secrets.API_PASSPHRASE }}
                   API_SECRET: ${{ secrets.API_SECRET }}
-#            - name: Composer install
-#              run: rm composer.lock && composer install
-#            - name: Run tests
-#              run: make tests
 
 
