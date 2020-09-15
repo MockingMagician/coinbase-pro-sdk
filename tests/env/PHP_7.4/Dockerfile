@@ -1,7 +1,9 @@
-FROM php:7.1-cli
+FROM php:7.4-cli
 RUN apt-get update
-RUN apt-get install -y libicu-dev
-RUN apt-get install -y gcc
+RUN apt-get install -y \
+    libicu-dev \
+    libonig-dev \
+    gcc
 RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install intl
 RUN docker-php-ext-enable mbstring

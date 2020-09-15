@@ -8,15 +8,14 @@ on:
     pull_request:
         branches:
             - master
-            - dev
 
 jobs:
-    test-job:
+    functional-tests-on-each-php-version:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                php-versions: ['7.1']
+                php-versions: ['7.1', '7.2', '7.3', '7.4']
         name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.os }}
         steps:
             - name: Check out repository
@@ -31,8 +30,10 @@ jobs:
 #                  tools: php-cs-fixer, phpunit
             - name: Composer install
               run: rm composer.lock && composer install
-            - name: Check php version
+            - name: PHP version
               run: php --version
+            - name: Run phpstan
+              run: make phpstan
             - name: Run tests
               run: make tests
               env:
