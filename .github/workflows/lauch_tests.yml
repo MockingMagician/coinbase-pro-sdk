@@ -29,6 +29,8 @@ jobs:
 #                  ini-values: post_max_size=256M, short_open_tag=On
 #                  coverage: xdebug
 #                  tools: php-cs-fixer, phpunit
+            - name: Composer install
+              run: rm composer.lock && composer install
             - name: Check php version
               run: php --version
             - name: Run tests
