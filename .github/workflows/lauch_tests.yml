@@ -31,8 +31,8 @@ jobs:
 #                  tools: php-cs-fixer, phpunit
             - name: Check php version
               run: php --version
-            - name: Composer install
-              run: composer install
+            - name: Composer update
+              run: composer update
             - name: Run php-cs
               run: make phpcs-dry-run
 
