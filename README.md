@@ -720,7 +720,7 @@ In order for these tests to pass, your test account on Coinbase Pro must be fund
 
 ***The currency in the test account is not real money. You can deposit it without limit using the deposit functions provided on the interface.***
 
-It is intended that the test game will fund your account from virtual Coinbase accounts. At the first use, it is possible that the tests may not pass if the funds are insufficient, restart the tests.
+It is intended that the set of tests will fund your account from virtual Coinbase accounts. At the first use, it is possible that the tests may not pass if the funds are insufficient, restart the tests.
 
 #### 4.1 : Running tests methods
 
