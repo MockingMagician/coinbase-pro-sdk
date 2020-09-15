@@ -1,6 +1,8 @@
-![alt text](https://github.com/MockingMagician/coinbase-pro-sdk/raw/master/coinbase.png "Coinbase LOGO")
+![Coinbase LOGO](https://github.com/MockingMagician/coinbase-pro-sdk/raw/master/coinbase.png "Coinbase LOGO")
 
 # This package is designed to communicate easily with the Coinbase Pro API in PHP.
+
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/MockingMagician/coinbase-pro-sdk) ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/MockingMagician/coinbase-pro-sdk/Testing%20suite/master?label=tests) ![PHPStan level](https://img.shields.io/badge/phpstan-level%203-success) ![](https://img.shields.io/badge/coverage-89%25-yellowgreen) ![LICENSE BADGE](https://img.shields.io/packagist/l/mocking-magician/coinbase-pro-sdk?color=blue) ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/mocking-magician/coinbase-pro-sdk) 
 
 ## Install the package
 
