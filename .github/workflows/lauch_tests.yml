@@ -15,8 +15,8 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest, macos-latest]
-                php-versions: ['7.1', '7.2', '7.3', '7.4']
+                os: [ubuntu-latest]
+                php-versions: ['7.1']
         name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.os }}
         steps:
             - name: Check out repository
@@ -31,8 +31,8 @@ jobs:
 #                  tools: php-cs-fixer, phpunit
             - name: Check php version
               run: php --version
-            - name: Composer install
-              run: composer install
+            - name: Composer update
+              run: composer update
             - name: Run php-cs
               run: make phpcs-dry-run
 
