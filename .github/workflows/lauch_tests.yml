@@ -32,11 +32,6 @@ jobs:
             - name: Check php version
               run: php --version
             - name: Check envs
-              with:
-                  API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
-                  API_KEY: ${{ secrets.API_KEY }}
-                  API_PASSPHRASE: ${{ secrets.API_PASSPHRASE }}
-                  API_SECRET: ${{ secrets.API_SECRET }}
               env:
                   API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
                   API_KEY: ${{ secrets.API_KEY }}
