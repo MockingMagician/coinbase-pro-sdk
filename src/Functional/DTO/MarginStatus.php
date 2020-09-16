@@ -58,9 +58,4 @@ class MarginStatus extends AbstractCreator implements MarginStatusDataInterface
             $array['eligible']
         );
     }
-
-    public static function createFromJson(string $json, ...$divers)
-    {
-        return self::createFromArray(json_decode($json, true));
-    }
 }

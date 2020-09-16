@@ -46,7 +46,7 @@ docker-test-php-74: ## Docker test on PHP 7.4
 	docker run -it -v "${PWD}":/usr/src/coinbase-php-sdk -w /usr/src/coinbase-php-sdk php-test-env:7.4 composer update -vvv && make phpstan && make tests
 
 .PHONY: tests-in-all-php-versions
-tests-in-all-php-versions: docker-test-php71 docker-test-php72 docker-test-php73 docker-test-php74 ## Run tests in all PHP versions through containers
+tests-in-all-php-versions: docker-test-php-71 docker-test-php-72 docker-test-php-73 docker-test-php-74 ## Run tests in all PHP versions through containers
 
 .PHONY: help
 help: ## Display this help message

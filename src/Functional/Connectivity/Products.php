@@ -107,28 +107,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
 
     public function getHistoricRatesRaw(string $productId, DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity)
     {
-        if (!in_array($granularity, self::GRANULARITY)) {
-            throw new ApiError(sprintf(
-                'Granularity must be one of : %s. See %s docBlock for more information about.',
-                implode(', ', self::GRANULARITY),
-                ProductsInterface::class
-            ));
-        }
-
-        if ($endTime->getTimestamp() - $startTime->getTimestamp() < 1) {
-            throw new ApiError('StartTime must be before EndTime');
-        }
-
-        if (
-            ($expectedCandles = ($endTime->getTimestamp() - $startTime->getTimestamp()) / $granularity)
-            > self::MAX_CANDLES
-        ) {
-            throw new ApiError(sprintf(
-                'This exception happen cause you request a too large set of data. %s candles max is allowed. Please, change one of this value of granularity, startTime, endTime. Current values request an expected set of %s of candles',
-                self::MAX_CANDLES,
-                $expectedCandles
-            ));
-        }
+        $this->checkHistoricRatesParams($startTime, $endTime, $granularity);
 
         $query = [
             'start' => $startTime->format(DateTime::ISO8601),
@@ -136,11 +115,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
             'granularity' => $granularity,
         ];
 
-        if (!is_null(self::$lastCallToHistoricRates)) {
-            while ((microtime(true) - self::$lastCallToHistoricRates) < (self::RATE_LIMIT_HISTORIC_RATES * self::RATE_LIMIT_HISTORIC_ARBITRARY_RATIO)) {
-                continue;
-            }
-        }
+        $this->blockRequestWhileExceedRates();
 
         $raw = $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/candles', $productId), $query)->send();
 
@@ -168,5 +143,40 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     public function get24hrStats(string $productId): ProductStats24hrDataInterface
     {
         return ProductStats24hrData::createFromJson($this->get24hrStatsRaw($productId));
+    }
+
+    private function checkHistoricRatesParams(DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity)
+    {
+        if (!in_array($granularity, self::GRANULARITY)) {
+            throw new ApiError(sprintf(
+                'Granularity must be one of : %s. See %s docBlock for more information about.',
+                implode(', ', self::GRANULARITY),
+                ProductsInterface::class
+            ));
+        }
+
+        if ($endTime->getTimestamp() - $startTime->getTimestamp() < 1) {
+            throw new ApiError('StartTime must be before EndTime');
+        }
+
+        if (
+            ($expectedCandles = ($endTime->getTimestamp() - $startTime->getTimestamp()) / $granularity)
+            > self::MAX_CANDLES
+        ) {
+            throw new ApiError(sprintf(
+                'This exception happen cause you request a too large set of data. %s candles max is allowed. Please, change one of this value of granularity, startTime, endTime. Current values request an expected set of %s of candles',
+                self::MAX_CANDLES,
+                $expectedCandles
+            ));
+        }
+    }
+
+    private function blockRequestWhileExceedRates()
+    {
+        if (!is_null(self::$lastCallToHistoricRates)) {
+            while ((microtime(true) - self::$lastCallToHistoricRates) < (self::RATE_LIMIT_HISTORIC_RATES * self::RATE_LIMIT_HISTORIC_ARBITRARY_RATIO)) {
+                continue;
+            }
+        }
     }
 }

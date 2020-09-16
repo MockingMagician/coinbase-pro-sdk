@@ -161,42 +161,8 @@ final class ApiFactory
 
     public static function createFromYamlConfig(string $path): ApiConnectivityInterface
     {
-        if (!file_exists($path)) {
-            throw new ApiError(sprintf('Config file %s not found', $path));
-        }
-
-        try {
-            $config = Yaml::parseFile($path);
-        } catch (\Throwable $exception) {
-            throw new ApiError($exception->getMessage());
-        }
-
-        foreach (self::CONFIG_CONNECTIVITY_FIELDS as $connectivityFields) {
-            if (!is_array($config[self::CONFIG_ROOT_CONNECTIVITY])
-                || !isset($config[self::CONFIG_ROOT_CONNECTIVITY][$connectivityFields])
-            ) {
-                throw new ApiError(sprintf('Config file must contain %s key in connectivity root key.', $connectivityFields));
-            }
-        }
-
-        foreach ($config[self::CONFIG_ROOT_CONNECTIVITY] as $k => $v) {
-            if (!in_array($k, self::CONFIG_CONNECTIVITY_FIELDS)) {
-                continue;
-            }
-            preg_match('#^\$\{(.+)\}$#', $v, $matches);
-            if (isset($matches[1])) {
-                $config[self::CONFIG_ROOT_CONNECTIVITY][$k] = getenv($matches[1]);
-            }
-        }
-
-        if (!isset($config[self::CONFIG_ROOT_FEATURES])
-            || !(
-                is_array($config[self::CONFIG_ROOT_FEATURES])
-                || is_bool($config[self::CONFIG_ROOT_FEATURES])
-            )
-        ) {
-            throw new ApiError('Config file features root key must be an array or a boolean value.');
-        }
+        $config = self::parseYamlConfigFile($path);
+        self::checkConfig($config);
 
         if (true === $config[self::CONFIG_ROOT_FEATURES] || !isset($config[self::CONFIG_ROOT_FEATURES])) {
             return self::createFull(
@@ -266,5 +232,50 @@ final class ApiFactory
         }
 
         throw new ApiError('Config file is malformed.');
+    }
+
+    private static function parseYamlConfigFile(string $path): array
+    {
+        if (!file_exists($path)) {
+            throw new ApiError(sprintf('Config file %s not found', $path));
+        }
+
+        try {
+            $config = Yaml::parseFile($path);
+        } catch (\Throwable $exception) {
+            throw new ApiError($exception->getMessage());
+        }
+
+        return $config;
+    }
+
+    private static function checkConfig(array $config): void
+    {
+        foreach (self::CONFIG_CONNECTIVITY_FIELDS as $connectivityFields) {
+            if (!is_array($config[self::CONFIG_ROOT_CONNECTIVITY])
+                || !isset($config[self::CONFIG_ROOT_CONNECTIVITY][$connectivityFields])
+            ) {
+                throw new ApiError(sprintf('Config file must contain %s key in connectivity root key.', $connectivityFields));
+            }
+        }
+
+        foreach ($config[self::CONFIG_ROOT_CONNECTIVITY] as $k => $v) {
+            if (!in_array($k, self::CONFIG_CONNECTIVITY_FIELDS)) {
+                continue;
+            }
+            preg_match('#^\$\{(.+)\}$#', $v, $matches);
+            if (isset($matches[1])) {
+                $config[self::CONFIG_ROOT_CONNECTIVITY][$k] = getenv($matches[1]);
+            }
+        }
+
+        if (!isset($config[self::CONFIG_ROOT_FEATURES])
+            || !(
+                is_array($config[self::CONFIG_ROOT_FEATURES])
+                || is_bool($config[self::CONFIG_ROOT_FEATURES])
+            )
+        ) {
+            throw new ApiError('Config file features root key must be an array or a boolean value.');
+        }
     }
 }
