@@ -69,7 +69,7 @@ class ProductsTest extends AbstractTest
         self::assertIsBool($products->isCancelOnly(), 'CancelOnly');
         self::assertIsBool($products->isLimitOnly(), 'LimitOnly');
         self::assertIsBool($products->isPostOnly(), 'PostOnly');
-        self::assertIsBool($products->isTradingEnabled(), 'TradingEnabled');
+        self::assertIsBool($products->isTradingDisabled(), 'TradingEnabled');
     }
 
     public function testGetSingleProductsRaw()
@@ -115,7 +115,7 @@ class ProductsTest extends AbstractTest
         self::assertIsBool($product->isCancelOnly(), 'CancelOnly');
         self::assertIsBool($product->isLimitOnly(), 'LimitOnly');
         self::assertIsBool($product->isPostOnly(), 'PostOnly');
-        self::assertIsBool($product->isTradingEnabled(), 'TradingEnabled');
+        self::assertIsBool($product->isTradingDisabled(), 'TradingEnabled');
     }
 
     public function testGetProductOrderBookRaw()

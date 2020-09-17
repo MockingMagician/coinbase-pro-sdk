@@ -43,5 +43,7 @@ interface ProductDataInterface
 
     public function isPostOnly(): bool;
 
-    public function isTradingEnabled(): bool;
+    public function isTradingDisabled(): bool;
+
+    public function isTradingFullyOperational(): bool;
 }
