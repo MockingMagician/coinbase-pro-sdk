@@ -75,7 +75,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
     /**
      * @var bool
      */
-    private $tradingEnabled;
+    private $tradingDisabled;
 
     public function __construct(
         string $id,
@@ -93,7 +93,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         bool $cancelOnly,
         bool $limitOnly,
         bool $postOnly,
-        bool $tradingEnabled
+        bool $tradingDisabled
     ) {
         $this->id = $id;
         $this->displayName = $displayName;
@@ -110,7 +110,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         $this->cancelOnly = $cancelOnly;
         $this->limitOnly = $limitOnly;
         $this->postOnly = $postOnly;
-        $this->tradingEnabled = $tradingEnabled;
+        $this->tradingDisabled = $tradingDisabled;
     }
 
     public function getId(): string
@@ -190,7 +190,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
 
     public function isTradingEnabled(): bool
     {
-        return $this->tradingEnabled;
+        return !$this->tradingDisabled;
     }
 
     public static function createFromArray(array $array, ...$divers)
