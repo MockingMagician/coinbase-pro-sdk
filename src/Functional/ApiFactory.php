@@ -10,6 +10,9 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\GlobalRateLimits;
+use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\NullGlobalRateLimits;
+use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\RateLimits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Currencies;
@@ -94,10 +97,20 @@ final class ApiFactory
         bool $activateTime,
         bool $activateUserAccounts,
         bool $activateWithdrawals,
-        bool $useCoinbaseRemoteTime = false
+        bool $useCoinbaseRemoteTime = false,
+        bool $manageRateLimits = true
     ): ApiConnectivityInterface {
         $apiParams = new ApiParams($endpoint, $key, $secret, $passphrase);
-        $requestManager = new RequestManager(new Client(), $apiParams);
+        if ($manageRateLimits) {
+            $globalRateLimits = new GlobalRateLimits(
+                new RateLimits(6),
+                new RateLimits(5),
+                10
+            );
+        } else {
+            $globalRateLimits = new NullGlobalRateLimits();
+        }
+        $requestManager = new RequestManager(new Client(), $apiParams, $globalRateLimits);
         $time = new Time($requestManager);
         if ($useCoinbaseRemoteTime) {
             $requestManager->setTimeInterface($time);
@@ -130,7 +143,8 @@ final class ApiFactory
         string $key,
         string $secret,
         string $passphrase,
-        bool $useCoinbaseRemoteTime = false
+        bool $useCoinbaseRemoteTime = false,
+        bool $manageRateLimits = true
     ): ApiConnectivityInterface {
         return self::create(
             $endpoint,
@@ -155,7 +169,8 @@ final class ApiFactory
             true,
             true,
             true,
-            $useCoinbaseRemoteTime
+            $useCoinbaseRemoteTime,
+            $manageRateLimits
         );
     }
 

@@ -24,7 +24,12 @@
         "vlucas/phpdotenv": "^4.0",
         "phpstan/phpstan": "^0.12.42",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "symfony/var-dumper": "^4.0"
+        "symfony/var-dumper": "^4.0",
+        "react/promise": "^2.8",
+        "amphp/amp": "^2.5",
+        "amphp/parallel": "^1.4",
+        "spatie/async": "^1.5",
+        "react/react": "^1.1"
     },
     "license": "MIT",
     "authors": [

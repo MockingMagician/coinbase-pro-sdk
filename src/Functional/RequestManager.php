@@ -10,6 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 
 use GuzzleHttp\ClientInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\GlobalRateLimitsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
@@ -29,11 +30,19 @@ class RequestManager implements RequestManagerInterface
      * @var null|TimeInterface
      */
     private $time;
+    /**
+     * @var GlobalRateLimitsInterface
+     */
+    private $globalRateLimits;
 
-    public function __construct(ClientInterface $client, ApiParamsInterface $apiParams)
-    {
+    public function __construct(
+        ClientInterface $client,
+        ApiParamsInterface $apiParams,
+        GlobalRateLimitsInterface $globalRateLimits
+    ) {
         $this->client = $client;
         $this->apiParams = $apiParams;
+        $this->globalRateLimits = $globalRateLimits;
     }
 
     public function setTimeInterface(TimeInterface $time)
@@ -51,6 +60,7 @@ class RequestManager implements RequestManagerInterface
         return new Request(
             $this->client,
             $this->apiParams,
+            $this->globalRateLimits,
             $method,
             $routePath,
             $queryArgs,
