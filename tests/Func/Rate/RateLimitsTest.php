@@ -10,6 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Rate;
 
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
 
 /**
@@ -55,5 +56,12 @@ class RateLimitsTest extends AbstractTest
     public function testToFailPrivate()
     {
         $this->markTestIncomplete('Not to be tested as is because the test API seems to be unrestrained.');
+    }
+
+    public function testNotFailToPublic()
+    {
+        for ($i = 0; $i < 50; $i++) {
+            $this->apiWithRateLimitsGuard->orders()->listOrders(Orders::STATUS, 'BTC-USD');
+        }
     }
 }
