@@ -11,7 +11,6 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Rate;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
-use React\EventLoop\Factory;
 
 /**
  * @internal
@@ -21,12 +20,16 @@ class RateLimitsTest extends AbstractTest
     /**
      * @var ApiConnectivityInterface
      */
-    private $api;
+    private $apiWithRateLimitsGuard;
+    /**
+     * @var ApiConnectivityInterface
+     */
+    private $apiWithOutRateLimitsGuard;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->api = ApiFactory::createFull(
+        $this->apiWithOutRateLimitsGuard = ApiFactory::createFull(
             $this->apiParams->getEndPoint(),
             $this->apiParams->getKey(),
             $this->apiParams->getSecret(),
@@ -34,52 +37,23 @@ class RateLimitsTest extends AbstractTest
             false,
             false
         );
-    }
-
-    public function callApi($self, $product)
-    {
-        $self->api->products()->getProductTicker($product->getId());
-        $self->api->currencies()->getCurrencies();
-
-        $time = microtime(true);
-        dump($time);
-
-        yield $time;
+        $this->apiWithRateLimitsGuard = ApiFactory::createFull(
+            $this->apiParams->getEndPoint(),
+            $this->apiParams->getKey(),
+            $this->apiParams->getSecret(),
+            $this->apiParams->getPassphrase(),
+            false,
+            true
+        );
     }
 
     public function testToFailPublic()
     {
-        $products = $this->api->products()->getProducts();
-        $loop = Factory::create();
-        for ($i = 0; $i < 100; $i++) {
-            $loop->addPeriodicTimer(0, function () use ($products) {
-                foreach ($products as $product) {
-                    dump(microtime(true));
-                    $this->api->products()->getProductTicker($product->getId());
-                    $this->api->currencies()->getCurrencies();
-                }
-            });
-        }
-        $loop->run();
-
-//        $pool = Pool::create();
-//        foreach ($products as $product) {
-//            dump($product->getId());
-//            $pool[] =
-//                async(function () use ($product) {
-////                    sleep(5);
-//                    $this->api->products()->getProductTicker($product->getId());
-//                    $this->api->currencies()->getCurrencies();
-//
-//                    return true;
-//                })->then(function () {
-//                    dump(microtime(true));
-//                })->catch(function (\Throwable $e) {
-//                    throw $e;
-//                });
-//        }
-//
-//        $pool->wait();
+        $this->markTestIncomplete('Not to be tested as is because the test API seems to be unrestrained.');
     }
 
+    public function testToFailPrivate()
+    {
+        $this->markTestIncomplete('Not to be tested as is because the test API seems to be unrestrained.');
+    }
 }
