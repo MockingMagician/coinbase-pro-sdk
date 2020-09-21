@@ -25,7 +25,7 @@ class ApiFactoryTest extends TestCase
         $_ENV['API_SECRET'] = 'API_SECRET';
         $_ENV['API_PASSPHRASE'] = 'API_PASSPHRASE';
 
-        $apiFull = ApiFactory::createFromYamlConfig(__DIR__.'/api_config_full.yaml'); // Full with all
+        $apiFull = ApiFactory::createFromYamlConfig(__DIR__ . '/configs/api_config_full.yaml'); // Full with all
 
         self::assertInstanceOf(ApiConnectivityInterface::class, $apiFull);
 
@@ -35,7 +35,7 @@ class ApiFactoryTest extends TestCase
             self::assertInstanceOf(AbstractRequestManagerAware::class, $apiFull->{$method->getName()}());
         }
 
-        $apiSimply = ApiFactory::createFromYamlConfig(__DIR__.'/api_config_simply.yaml'); // Simply with no methods
+        $apiSimply = ApiFactory::createFromYamlConfig(__DIR__ . '/configs/api_config_simply.yaml'); // Simply with no methods
 
         foreach ($apiReflect->getMethods() as $method) {
             $exception = null;
@@ -47,7 +47,7 @@ class ApiFactoryTest extends TestCase
             self::assertNotNull($exception);
         }
 
-        $apiMinimal = ApiFactory::createFromYamlConfig(__DIR__.'/api_config_minimal.yaml'); // Minimal
+        $apiMinimal = ApiFactory::createFromYamlConfig(__DIR__ . '/configs/api_config_minimal.yaml'); // Minimal
 
         foreach ($apiReflect->getMethods() as $method) {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $apiMinimal->{$method->getName()}());

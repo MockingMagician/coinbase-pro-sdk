@@ -54,18 +54,65 @@ class RateLimitsTest extends AbstractTest
 
     public function testToFailPublic()
     {
-        $this->markTestIncomplete('Not to be tested as is because the test API seems to be unrestrained.');
+        $this->markTestSkipped('Not able to be tested as is because the test API seems to be unrestrained. :/');
     }
 
     public function testToFailPrivate()
     {
-        $this->markTestIncomplete('Not to be tested as is because the test API seems to be unrestrained.');
+        $file_expect_rate_limit = __DIR__ . '/expect_rate_limit.txt';
+        try {
+            unlink($file_expect_rate_limit);
+        } catch (\Throwable $exception) {
+        }
+        $i = 100;
+        while ($i--) {
+            $pid = pcntl_fork();
+
+            if ($pid == -1) {
+                $this->markTestIncomplete('Fork as failed for concurrent api call');
+            }
+            else if ($pid == 0) {
+                try {
+                    $this->apiWithOutRateLimitsGuard->orders()->listOrders(Orders::STATUS, 'BTC-USD');
+                } catch (\Throwable $exception) {
+                    file_put_contents($file_expect_rate_limit, $exception->getMessage()."\n");
+                } finally {
+                    exit();
+                }
+            }
+        }
+
+        while(pcntl_waitpid(0, $status) != -1);
+
+        $rateLimitAsExceeded = false;
+
+        try {
+            $rateLimitAsExceeded = file_get_contents($file_expect_rate_limit) === "Private rate limit exceeded\n";
+            unlink($file_expect_rate_limit);
+        } catch (\Throwable $exception) {
+        }
+
+        self::assertTrue($rateLimitAsExceeded);
     }
 
-    public function testNotFailToPublic()
+    public function testCallPrivateRespectRateLimit()
     {
-        for ($i = 0; $i < 50; $i++) {
-            $this->apiWithRateLimitsGuard->orders()->listOrders(Orders::STATUS, 'BTC-USD');
+        $this->markTestSkipped('Not really useful test cause request take more time than rates. Only async should be come afterwards');
+
+        $starTime = microtime(true);
+        for ($i = 0; $i < 25; $i++) {
+            $this->apiWithOutRateLimitsGuard->fees()->getCurrentFees();
         }
+        $endTime = microtime(true);
+        $timeWithoutGuard = $endTime - $starTime;
+
+        $starTime = microtime(true);
+        for ($i = 0; $i < 25; $i++) {
+            $this->apiWithRateLimitsGuard->fees()->getCurrentFees();
+        }
+        $endTime = microtime(true);
+        $timeWithGuard = $endTime - $starTime;
+
+        self::assertGreaterThanOrEqual($timeWithoutGuard, $timeWithGuard);
     }
 }

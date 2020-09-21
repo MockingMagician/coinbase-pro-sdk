@@ -39,11 +39,11 @@ class GlobalRateLimits extends RateLimits implements GlobalRateLimitsInterface
 
     public function shouldWeWaitForPublicCallRequest(): bool
     {
-        return $this->shouldWeWait() && $this->shouldWeWaitForPublicCallRequest();
+        return $this->shouldWeWait() || $this->publicRateLimit->shouldWeWait();
     }
 
     public function shouldWeWaitForPrivateCallRequest(): bool
     {
-        return $this->shouldWeWait() && $this->shouldWeWaitForPrivateCallRequest();
+        return $this->shouldWeWait() || $this->privateRateLimit->shouldWeWait();
     }
 }
