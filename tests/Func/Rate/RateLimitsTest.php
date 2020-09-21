@@ -8,10 +8,14 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Rate;
 
+use Amp\Deferred;
+use Amp\Delayed;
+use Amp\Loop;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
+use function Amp\asyncCall;
 
 /**
  * @internal
