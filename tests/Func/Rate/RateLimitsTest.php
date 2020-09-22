@@ -97,7 +97,7 @@ class RateLimitsTest extends AbstractTest
 
     public function testCallPrivateRespectRateLimit()
     {
-        $this->markTestSkipped('Not really useful test cause request take more time than rates. Only async should be come afterwards');
+        $this->markTestSkipped('Not really useful test cause request can take more time than rates. Only async should be come afterwards');
 
         $starTime = microtime(true);
         for ($i = 0; $i < 25; $i++) {

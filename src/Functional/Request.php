@@ -124,8 +124,10 @@ class Request implements RequestInterface
         try {
             if ($isPrivateRequest) {
                 while ($this->globalRateLimits->shouldWeWaitForPrivateCallRequest());
+                $this->globalRateLimits->recordPrivateCallRequest();
             } else {
                 while ($this->globalRateLimits->shouldWeWaitForPublicCallRequest());
+                $this->globalRateLimits->recordPublicCallRequest();
             }
             $response = $this->client->send($request);
         } catch (BadResponseException $exception) {

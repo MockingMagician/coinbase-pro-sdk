@@ -38,11 +38,12 @@ class RateLimits implements RateLimitsInterface
         if ($lastCallLength < $this->limit) {
             return false;
         }
-        $elapsedTimeBetweenLimit = $this->lastCalls[$lastCallLength - 1] - $this->lastCalls[0];
-        if ($elapsedTimeBetweenLimit >= 1) {
-            return true;
+        if (microtime(true) - $this->lastCalls[$lastCallLength - 1] >= 1) {
+            return false;
         }
-        return false;
+        $elapsedTimeBetweenLimit = $this->lastCalls[$lastCallLength - 1] - $this->lastCalls[0];
+
+        return $elapsedTimeBetweenLimit < 1;
     }
 
     public function getLimit(): int
