@@ -25,3 +25,5 @@ features:
     withdrawals: true
 
 remote_time: false
+
+manage_rate_limits: true
