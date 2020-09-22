@@ -107,7 +107,9 @@ features:
     user_accounts: true
     withdrawals: true
 
-remote_time: false
+remote_time: false # default
+
+manage_rate_limits: true # default
 
 ```
 
@@ -202,6 +204,90 @@ connectivity:
 features: true
 
 remote_time: true # pass true here to enable the remote timestamp provided by the remote Coinbase server
+
+```
+
+#### 1.5 : API rate limits
+
+According to documentation :
+
+>When a rate limit is exceeded, a status of 429 Too Many Requests will be returned.
+>
+>PUBLIC ENDPOINTS
+>
+>We throttle public endpoints by IP: 3 requests per second, up to 6 requests per second in bursts. Some endpoints may have custom rate limits.
+>
+>PRIVATE ENDPOINTS
+>
+>We throttle private endpoints by profile ID: 5 requests per second, up to 10 requests per second in bursts. Some endpoints may have custom rate limits.
+
+***The package has a mechanism to respect the established limits.***
+
+***This parameter is active by default but can be disabled if necessary.***
+
+
+
+Example 1 :
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+
+$api = ApiFactory::createFull(
+    'API_ENDPOINT',
+    'API_KEY',
+    'API_SECRET',
+    'API_PASSPHRASE',
+    true,
+    false // pass false here to disable rate limit managing
+);
+
+```
+
+Example 2 :
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+
+$api = ApiFactory::create(
+    'API_ENDPOINT',
+    'API_KEY',
+    'API_SECRET',
+    'API_PASSPHRASE',
+    true, // activate or deactivate Accounts
+    ...
+    true, // activate or deactivate Withdrawals
+    true, // activate or deactivate remote timestamp
+    false // *** pass false here to disable rate limit managing ***
+);
+
+```
+
+Example 3 :
+
+```php
+
+use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+
+$api = ApiFactory::createFromYamlConfig('path/to/config.yaml');
+
+```
+
+Config file :
+
+```yaml
+
+connectivity: 
+    # endpoint: '${SOME_ENV}' <= formatting as is autoload SOME_ENV if exist 
+    endpoint: '${API_ENDPOINT}'
+    key: '${API_KEY}'
+    secret: '${API_SECRET}'
+    passphrase: '${API_PASSPHRASE}'
+
+features: true
+
+manage_rate_limits: false # pass false here to disable rate limit managing
 
 ```
 

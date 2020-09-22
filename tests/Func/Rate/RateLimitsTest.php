@@ -54,7 +54,7 @@ class RateLimitsTest extends AbstractTest
 
     public function testToFailPublic()
     {
-        $this->markTestSkipped('Not able to be tested as is because the test API seems to be unrestrained. :/');
+        $this->markTestSkipped('Not able to be tested as is because the test API (public) seems to be unrestrained. :/');
     }
 
     public function testToFailPrivate()
@@ -70,6 +70,7 @@ class RateLimitsTest extends AbstractTest
 
             if ($pid == -1) {
                 $this->markTestIncomplete('Fork as failed for concurrent api call');
+                return;
             }
             else if ($pid == 0) {
                 try {

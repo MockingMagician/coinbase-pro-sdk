@@ -40,10 +40,12 @@ final class ApiFactory
     const CONFIG_ROOT_CONNECTIVITY = 'connectivity';
     const CONFIG_ROOT_FEATURES = 'features';
     const CONFIG_ROOT_REMOTE_TIME = 'remote_time';
+    const CONFIG_ROOT_MANAGE_RATE_LIMITS = 'manage_rate_limits';
     const CONFIG_ROOTS = [
         self::CONFIG_ROOT_CONNECTIVITY,
         self::CONFIG_ROOT_FEATURES,
         self::CONFIG_ROOT_REMOTE_TIME,
+        self::CONFIG_ROOT_MANAGE_RATE_LIMITS,
     ];
 
     const CONFIG_CONNECTIVITY_FIELDS = [
@@ -179,74 +181,48 @@ final class ApiFactory
         $config = self::parseYamlConfigFile($path);
         self::checkConfig($config);
 
+        $useCoinbaseRemoteTime = (
+            isset($config[self::CONFIG_ROOT_REMOTE_TIME])
+            && true === $config[self::CONFIG_ROOT_REMOTE_TIME]
+        );
+        $manangeRateLimits = (
+            isset($config[self::CONFIG_ROOT_MANAGE_RATE_LIMITS])
+            && false === $config[self::CONFIG_ROOT_MANAGE_RATE_LIMITS]
+        ) ? false : true;
+
         if (true === $config[self::CONFIG_ROOT_FEATURES] || !isset($config[self::CONFIG_ROOT_FEATURES])) {
             return self::createFull(
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[0]],
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[1]],
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[2]],
                 $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[3]],
-                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && true === $config[self::CONFIG_ROOT_REMOTE_TIME]
-            );
-        }
-        if (false === $config[self::CONFIG_ROOT_FEATURES]) {
-            return self::create(
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[0]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[1]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[2]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[3]],
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && true === $config[self::CONFIG_ROOT_REMOTE_TIME]
+                $useCoinbaseRemoteTime,
+                $manangeRateLimits
             );
         }
 
-        if (is_array($config[self::CONFIG_ROOT_FEATURES])) {
-            $i = -1;
+        $params = [
+            $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[0]],
+            $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[1]],
+            $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[2]],
+            $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[3]],
+        ];
 
-            return self::create(
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[0]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[1]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[2]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[3]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                $config[self::CONFIG_ROOT_FEATURES][self::CONFIG_FEATURES_FIELDS[++$i]],
-                isset($config[self::CONFIG_ROOT_REMOTE_TIME]) && true === $config[self::CONFIG_ROOT_REMOTE_TIME]
+        foreach (self::CONFIG_FEATURES_FIELDS as $CONFIG_FEATURES_FIELD) {
+            if (false === $config[self::CONFIG_ROOT_FEATURES]) {
+                $params[] = false;
+                continue;
+            }
+            $params[] = (
+                !isset($config[self::CONFIG_ROOT_FEATURES][$CONFIG_FEATURES_FIELD])
+                || !(false === $config[self::CONFIG_ROOT_FEATURES][$CONFIG_FEATURES_FIELD])
             );
         }
 
-        throw new ApiError('Config file is malformed.');
+        $params[] = $useCoinbaseRemoteTime;
+        $params[] = $manangeRateLimits;
+
+        return self::create(...$params);
     }
 
     private static function parseYamlConfigFile(string $path): array
@@ -266,8 +242,13 @@ final class ApiFactory
 
     private static function checkConfig(array $config): void
     {
+        $config = array_filter($config, function ($key) {
+            return in_array($key, self::CONFIG_ROOTS);
+        }, ARRAY_FILTER_USE_KEY);
+
         foreach (self::CONFIG_CONNECTIVITY_FIELDS as $connectivityFields) {
-            if (!is_array($config[self::CONFIG_ROOT_CONNECTIVITY])
+            if (!isset($config[self::CONFIG_ROOT_CONNECTIVITY])
+                || !is_array($config[self::CONFIG_ROOT_CONNECTIVITY])
                 || !isset($config[self::CONFIG_ROOT_CONNECTIVITY][$connectivityFields])
             ) {
                 throw new ApiError(sprintf('Config file must contain %s key in connectivity root key.', $connectivityFields));
