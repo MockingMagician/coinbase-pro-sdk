@@ -12,6 +12,7 @@ use Dotenv\Dotenv;
 use Exception;
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Functional\ApiParams;
+use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\NullGlobalRateLimits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
 use MockingMagician\CoinbaseProSdk\Functional\RequestManager;
 use PHPUnit\Framework\TestCase;
@@ -28,6 +29,10 @@ abstract class AbstractTest extends TestCase
      * @var Time
      */
     protected $time;
+    /**
+     * @var ApiParams
+     */
+    protected $apiParams;
 
     /**
      * @throws Exception
@@ -40,13 +45,13 @@ abstract class AbstractTest extends TestCase
         } catch (\Throwable $exception) {
             // We don't care, it is just a way between a lot to load envs
         }
-        $apiParams = new ApiParams(
+        $this->apiParams = new ApiParams(
             self::API_TEST_ENDPOINT,
             getenv('API_KEY'),
             getenv('API_SECRET'),
             getenv('API_PASSPHRASE')
         );
-        if (self::API_TEST_ENDPOINT !== $apiParams->getEndPoint()) {
+        if (self::API_TEST_ENDPOINT !== $this->apiParams->getEndPoint()) {
             $this->markTestSkipped('Looks like you\'re running tests on a non-testing API. Tests must be run on the test API, otherwise dangerous and undesirable effects could happen to your account. Never run on a non-testing API.');
         }
         if (!$this->retryIsConnected(3, 1)) {
@@ -56,7 +61,7 @@ abstract class AbstractTest extends TestCase
         ini_set('xdebug.var_display_max_children', '256');
         ini_set('xdebug.var_display_max_data', '4096');
         $httpClient = new Client();
-        $this->requestManager = new RequestManager($httpClient, $apiParams);
+        $this->requestManager = new RequestManager($httpClient, $this->apiParams, new NullGlobalRateLimits());
         $this->time = new Time($this->requestManager);
         $this->requestManager->setTimeInterface($this->time);
         usleep(750000);

@@ -12,6 +12,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\GlobalRateLimitsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
@@ -54,10 +55,15 @@ class Request implements RequestInterface
      * @var array
      */
     private $queryArgs;
+    /**
+     * @var GlobalRateLimitsInterface
+     */
+    private $globalRateLimits;
 
     public function __construct(
         ClientInterface $client,
         ApiParamsInterface $apiParams,
+        GlobalRateLimitsInterface $globalRateLimits,
         string $method,
         string $routePath,
         array $queryArgs = [],
@@ -73,6 +79,7 @@ class Request implements RequestInterface
         $this->time = $time;
         $this->pagination = $pagination;
         $this->queryArgs = $queryArgs;
+        $this->globalRateLimits = $globalRateLimits;
     }
 
     public function signAndSend()
@@ -101,7 +108,9 @@ class Request implements RequestInterface
 
     public function send(?PsrRequestInterface $request = null)
     {
+        $isPrivateRequest = true;
         if (!$request) {
+            $isPrivateRequest = false;
             $request = new GuzzleRequest(
                 $this->method,
                 $this->getUri(),
@@ -113,6 +122,13 @@ class Request implements RequestInterface
         }
 
         try {
+            if ($isPrivateRequest) {
+                while ($this->globalRateLimits->shouldWeWaitForPrivateCallRequest());
+                $this->globalRateLimits->recordPrivateCallRequest();
+            } else {
+                while ($this->globalRateLimits->shouldWeWaitForPublicCallRequest());
+                $this->globalRateLimits->recordPublicCallRequest();
+            }
             $response = $this->client->send($request);
         } catch (BadResponseException $exception) {
             $message = $exception->getMessage();

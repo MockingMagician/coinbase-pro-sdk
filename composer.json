@@ -24,7 +24,8 @@
         "vlucas/phpdotenv": "^4.0",
         "phpstan/phpstan": "^0.12.42",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "symfony/var-dumper": "^4.0"
+        "symfony/var-dumper": "^4.0",
+        "ext-pcntl": "*"
     },
     "license": "MIT",
     "authors": [
