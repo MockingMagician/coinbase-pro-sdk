@@ -94,6 +94,47 @@ class RateLimitsTest extends AbstractTest
         self::assertTrue($rateLimitAsExceeded);
     }
 
+    public function testNotFailPrivateIfManageRateLimits()
+    {
+        $file_expect_rate_limit = __DIR__.'/expect_rate_limit.txt';
+
+        try {
+            unlink($file_expect_rate_limit);
+        } catch (\Throwable $exception) {
+        }
+        $i = 100;
+        while ($i--) {
+            $pid = pcntl_fork();
+
+            if (-1 == $pid) {
+                $this->markTestIncomplete('Fork as failed for concurrent api call');
+
+                return;
+            }
+            if (0 == $pid) {
+                try {
+                    $this->apiWithRateLimitsGuard->orders()->listOrders(Orders::STATUS, 'BTC-USD');
+                } catch (\Throwable $exception) {
+                    file_put_contents($file_expect_rate_limit, $exception->getMessage()."\n");
+                } finally {
+                    exit();
+                }
+            }
+        }
+
+        while (-1 != pcntl_waitpid(0, $status));
+
+        $rateLimitAsExceeded = false;
+
+        try {
+            $rateLimitAsExceeded = "Private rate limit exceeded\n" === file_get_contents($file_expect_rate_limit);
+            unlink($file_expect_rate_limit);
+        } catch (\Throwable $exception) {
+        }
+
+        self::assertFalse($rateLimitAsExceeded);
+    }
+
     public function testCallPrivateRespectRateLimit()
     {
         $this->markTestSkipped('Not really useful test cause request can take more time than rates. Only async should be come afterwards');

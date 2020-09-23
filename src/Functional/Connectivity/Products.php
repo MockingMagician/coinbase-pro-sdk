@@ -171,7 +171,8 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         int $granularity
     ): HistoricRatesDataInterface {
         return HistoricRatesData::createFromJson(
-            $this->getHistoricRatesRaw($productId, $startTime, $endTime, $granularity), $granularity
+            $this->getHistoricRatesRaw($productId, $startTime, $endTime, $granularity),
+            $granularity
         );
     }
 
@@ -212,7 +213,8 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
             > self::MAX_CANDLES
         ) {
             throw new ApiError(sprintf(
-                'This exception happen cause you request a too large set of data. %s candles max is allowed. Please, change one of this value of granularity, startTime, endTime. Current values request an expected set of %s of candles',
+                'This exception happen cause you request a too large set of data. %s candles max is allowed.'.
+                'Please, change one of this value of granularity, startTime, endTime. Current values request an expected set of %s of candles',
                 self::MAX_CANDLES,
                 $expectedCandles
             ));
@@ -222,7 +224,11 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     private function blockRequestWhileExceedRates()
     {
         if (!is_null(self::$lastCallToHistoricRates)) {
-            while ((microtime(true) - self::$lastCallToHistoricRates) < (self::RATE_LIMIT_HISTORIC_RATES * self::RATE_LIMIT_HISTORIC_ARBITRARY_RATIO)) {
+            while (
+                (microtime(true) - self::$lastCallToHistoricRates)
+                <
+                (self::RATE_LIMIT_HISTORIC_RATES * self::RATE_LIMIT_HISTORIC_ARBITRARY_RATIO)
+            ) {
                 continue;
             }
         }
