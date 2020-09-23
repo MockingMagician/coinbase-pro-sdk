@@ -57,7 +57,7 @@ class RateLimitsTest extends AbstractTest
         $this->markTestSkipped('Not able to be tested as is because the test API (public) seems to be unrestrained. :/');
     }
 
-    public function testToFailPrivate()
+    public function testToFailPrivateIfNotManageRateLimits()
     {
         $file_expect_rate_limit = __DIR__ . '/expect_rate_limit.txt';
         try {

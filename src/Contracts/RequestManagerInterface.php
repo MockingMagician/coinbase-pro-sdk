@@ -17,6 +17,7 @@ interface RequestManagerInterface
         string $routePath,
         array $queryArgs = [],
         ?string $body = null,
-        ?PaginationInterface $pagination = null
+        ?PaginationInterface $pagination = null,
+        bool $mustBeSigned = true
     ): RequestInterface;
 }

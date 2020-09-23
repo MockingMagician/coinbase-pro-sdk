@@ -25,7 +25,7 @@ class Fills extends AbstractRequestManagerAware implements FillsInterface
             $query['product_id'] = $productId;
         }
 
-        return $this->getRequestManager()->prepareRequest('GET', '/fills', $query, null, $pagination)->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/fills', $query, null, $pagination)->send();
     }
 
     /**

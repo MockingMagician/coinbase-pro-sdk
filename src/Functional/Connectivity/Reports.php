@@ -61,7 +61,7 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
             $body['email'] = $email;
         }
 
-        return $this->getRequestManager()->prepareRequest('POST', '/reports', [], json_encode($body))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('POST', '/reports', [], json_encode($body))->send();
     }
 
     /**
@@ -81,7 +81,7 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
 
     public function getReportStatusRaw(string $reportId)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/reports/%s', $reportId))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/reports/%s', $reportId))->send();
     }
 
     /**

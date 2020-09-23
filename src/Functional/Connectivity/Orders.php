@@ -18,7 +18,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 {
     public function placeOrderRaw(CommonOrderToPlaceInterface $orderToPlace)
     {
-        return $this->getRequestManager()->prepareRequest('POST', '/orders', [], json_encode($orderToPlace->getBodyForRequest()))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('POST', '/orders', [], json_encode($orderToPlace->getBodyForRequest()))->send();
     }
 
     /**
@@ -39,7 +39,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
         return $this->getRequestManager()
             ->prepareRequest('DELETE', sprintf('/orders/%s', $orderId), [], $body ? json_encode($body) : null)
-            ->signAndSend()
+            ->send()
         ;
     }
 
@@ -61,7 +61,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
         return $this->getRequestManager()
             ->prepareRequest('DELETE', sprintf('/orders/client:%s', $clientOrderId), [], $body ? json_encode($body) : null)
-            ->signAndSend()
+            ->send()
         ;
     }
 
@@ -82,7 +82,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
         return $this->getRequestManager()
             ->prepareRequest('DELETE', '/orders', [], $body ? json_encode($body) : null)
-            ->signAndSend()
+            ->send()
         ;
     }
 
@@ -110,7 +110,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $query = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()->prepareRequest('GET', '/orders', $query, null, $pagination)->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/orders', $query, null, $pagination)->send();
     }
 
     /**
@@ -123,7 +123,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
     public function getOrderByIdRaw(string $orderId)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/orders/%s', $orderId))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/orders/%s', $orderId))->send();
     }
 
     /**
@@ -136,7 +136,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
     public function getOrderByClientOrderIdRaw(string $clientOrderId)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/orders/client:%s', $clientOrderId))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/orders/client:%s', $clientOrderId))->send();
     }
 
     public function getOrderByClientOrderId(string $clientOrderId): OrderDataInterface

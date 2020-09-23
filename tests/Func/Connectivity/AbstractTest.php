@@ -61,7 +61,7 @@ abstract class AbstractTest extends TestCase
         ini_set('xdebug.var_display_max_children', '256');
         ini_set('xdebug.var_display_max_data', '4096');
         $httpClient = new Client();
-        $this->requestManager = new RequestManager($httpClient, $this->apiParams, new NullGlobalRateLimits());
+        $this->requestManager = new RequestManager($httpClient, $this->apiParams, false);
         $this->time = new Time($this->requestManager);
         $this->requestManager->setTimeInterface($this->time);
         usleep(750000);

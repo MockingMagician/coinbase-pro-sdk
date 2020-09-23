@@ -31,18 +31,18 @@ class RequestManager implements RequestManagerInterface
      */
     private $time;
     /**
-     * @var GlobalRateLimitsInterface
+     * @var bool
      */
-    private $globalRateLimits;
+    private $manageRateLimits;
 
     public function __construct(
         ClientInterface $client,
         ApiParamsInterface $apiParams,
-        GlobalRateLimitsInterface $globalRateLimits
+        bool $manageRateLimits = true
     ) {
         $this->client = $client;
         $this->apiParams = $apiParams;
-        $this->globalRateLimits = $globalRateLimits;
+        $this->manageRateLimits = $manageRateLimits;
     }
 
     public function setTimeInterface(TimeInterface $time)
@@ -55,17 +55,19 @@ class RequestManager implements RequestManagerInterface
         string $routePath,
         array $queryArgs = [],
         ?string $body = null,
-        ?PaginationInterface $pagination = null
+        ?PaginationInterface $pagination = null,
+        bool $mustBeSigned = true
     ): RequestInterface {
         return new Request(
             $this->client,
             $this->apiParams,
-            $this->globalRateLimits,
+            $this->manageRateLimits,
             $method,
             $routePath,
             $queryArgs,
             $body,
             $pagination,
+            $mustBeSigned,
             $this->time
         );
     }

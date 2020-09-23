@@ -19,7 +19,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
 {
     public function listRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/accounts')->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/accounts')->send();
     }
 
     /**
@@ -32,7 +32,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
 
     public function getAccountRaw(string $id)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s', $id))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s', $id))->send();
     }
 
     /**
@@ -45,7 +45,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
 
     public function getAccountHistoryRaw(string $id, ?PaginationInterface $pagination = null)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s/ledger', $id), [], null, $pagination)->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s/ledger', $id), [], null, $pagination)->send();
     }
 
     /**
@@ -58,7 +58,7 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
 
     public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s/holds', $id), [], null, $pagination)->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/accounts/%s/holds', $id), [], null, $pagination)->send();
     }
 
     /**

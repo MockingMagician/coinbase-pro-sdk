@@ -103,17 +103,10 @@ final class ApiFactory
         bool $manageRateLimits = true
     ): ApiConnectivityInterface {
         $apiParams = new ApiParams($endpoint, $key, $secret, $passphrase);
-        if ($manageRateLimits) {
-            $globalRateLimits = new GlobalRateLimits(
-                new RateLimits(6),
-                new RateLimits(5),
-                10
-            );
-        } else {
-            $globalRateLimits = new NullGlobalRateLimits();
-        }
-        $requestManager = new RequestManager(new Client(), $apiParams, $globalRateLimits);
+        $requestManager = new RequestManager(new Client(), $apiParams, $manageRateLimits);
+
         $time = new Time($requestManager);
+
         if ($useCoinbaseRemoteTime) {
             $requestManager->setTimeInterface($time);
         }
