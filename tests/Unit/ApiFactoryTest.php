@@ -25,7 +25,7 @@ class ApiFactoryTest extends TestCase
         $_ENV['API_SECRET'] = 'API_SECRET';
         $_ENV['API_PASSPHRASE'] = 'API_PASSPHRASE';
 
-        $api = ApiFactory::createFromYamlConfig(__DIR__ . '/configs/api_config_full.yaml'); // Full with all
+        $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_full.yaml'); // Full with all
 
         self::assertInstanceOf(ApiConnectivityInterface::class, $api);
 
@@ -43,7 +43,7 @@ class ApiFactoryTest extends TestCase
         $_ENV['API_SECRET'] = 'API_SECRET';
         $_ENV['API_PASSPHRASE'] = 'API_PASSPHRASE';
 
-        $api = ApiFactory::createFromYamlConfig(__DIR__ . '/configs/api_config_simply.yaml'); // Simply with no methods
+        $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_simply.yaml'); // Simply with no methods
 
         $apiReflect = new \ReflectionClass(ApiConnectivityInterface::class);
 
@@ -57,6 +57,7 @@ class ApiFactoryTest extends TestCase
             self::assertNotNull($exception);
         }
     }
+
     public function testCreateFromYamlConfigWithMinimal()
     {
         $_ENV['API_ENDPOINT'] = 'API_ENDPOINT';
@@ -64,7 +65,7 @@ class ApiFactoryTest extends TestCase
         $_ENV['API_SECRET'] = 'API_SECRET';
         $_ENV['API_PASSPHRASE'] = 'API_PASSPHRASE';
 
-        $api = ApiFactory::createFromYamlConfig(__DIR__ . '/configs/api_config_minimal.yaml'); // Minimal
+        $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_minimal.yaml'); // Minimal
 
         $apiReflect = new \ReflectionClass(ApiConnectivityInterface::class);
 

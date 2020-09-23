@@ -12,7 +12,6 @@ use Dotenv\Dotenv;
 use Exception;
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Functional\ApiParams;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\NullGlobalRateLimits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
 use MockingMagician\CoinbaseProSdk\Functional\RequestManager;
 use PHPUnit\Framework\TestCase;

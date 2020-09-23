@@ -10,7 +10,6 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 
 use GuzzleHttp\ClientInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Build\GlobalRateLimitsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;

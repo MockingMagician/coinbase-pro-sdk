@@ -10,9 +10,6 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\GlobalRateLimits;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\NullGlobalRateLimits;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\RateLimits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Currencies;
@@ -204,6 +201,7 @@ final class ApiFactory
         foreach (self::CONFIG_FEATURES_FIELDS as $CONFIG_FEATURES_FIELD) {
             if (false === $config[self::CONFIG_ROOT_FEATURES]) {
                 $params[] = false;
+
                 continue;
             }
             $params[] = (

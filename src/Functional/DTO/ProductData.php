@@ -195,12 +195,12 @@ class ProductData extends AbstractCreator implements ProductDataInterface
 
     public function isTradingFullyOperational(): bool
     {
-        return (
+        return
             !$this->cancelOnly &&
             !$this->limitOnly &&
             !$this->postOnly &&
             !$this->tradingDisabled
-        );
+        ;
     }
 
     public static function createFromArray(array $array, ...$divers)

@@ -52,7 +52,12 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
 
     public function getSingleProductRaw(string $productId)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s', $productId))->setMustBeSigned(false)->send();
+        return $this
+            ->getRequestManager()
+            ->prepareRequest('GET', sprintf('/products/%s', $productId))
+            ->setMustBeSigned(false)
+            ->send()
+        ;
     }
 
     /**
@@ -73,20 +78,33 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
             $query['level'] = 3;
         }
 
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/book', $productId))->setMustBeSigned(false)->send();
+        return $this
+            ->getRequestManager()
+            ->prepareRequest('GET', sprintf('/products/%s/book', $productId))
+            ->setMustBeSigned(false)
+            ->send()
+        ;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getProductOrderBook(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false): OrderBookDataInterface
-    {
+    public function getProductOrderBook(
+        string $productId,
+        int $level = self::LEVEL_ONE,
+        bool $forceLevel3 = false
+    ): OrderBookDataInterface {
         return OrderBookData::createFromJson($this->getProductOrderBookRaw($productId, $level, $forceLevel3));
     }
 
     public function getProductTickerRaw(string $productId)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/ticker', $productId))->setMustBeSigned(false)->send();
+        return $this
+            ->getRequestManager()
+            ->prepareRequest('GET', sprintf('/products/%s/ticker', $productId))
+            ->setMustBeSigned(false)
+            ->send()
+        ;
     }
 
     /**
@@ -99,7 +117,12 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
 
     public function getTradesRaw(string $productId, ?PaginationInterface $pagination = null)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/trades', $productId), [], null, $pagination)->setMustBeSigned(false)->send();
+        return $this
+            ->getRequestManager()
+            ->prepareRequest('GET', sprintf('/products/%s/trades', $productId), [], null, $pagination)
+            ->setMustBeSigned(false)
+            ->send()
+        ;
     }
 
     /**
@@ -110,8 +133,12 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         return TradeData::createCollectionFromJson($this->getTradesRaw($productId, $pagination));
     }
 
-    public function getHistoricRatesRaw(string $productId, DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity)
-    {
+    public function getHistoricRatesRaw(
+        string $productId,
+        DateTimeInterface $startTime,
+        DateTimeInterface $endTime,
+        int $granularity
+    ) {
         $this->checkHistoricRatesParams($startTime, $endTime, $granularity);
 
         $query = [
@@ -122,7 +149,12 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
 
         $this->blockRequestWhileExceedRates();
 
-        $raw = $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/candles', $productId), $query)->setMustBeSigned(false)->send();
+        $raw = $this
+            ->getRequestManager()
+            ->prepareRequest('GET', sprintf('/products/%s/candles', $productId), $query)
+            ->setMustBeSigned(false)
+            ->send()
+        ;
 
         self::$lastCallToHistoricRates = microtime(true);
 
@@ -132,14 +164,25 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     /**
      * {@inheritdoc}
      */
-    public function getHistoricRates(string $productId, DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity): HistoricRatesDataInterface
-    {
-        return HistoricRatesData::createFromJson($this->getHistoricRatesRaw($productId, $startTime, $endTime, $granularity), $granularity);
+    public function getHistoricRates(
+        string $productId,
+        DateTimeInterface $startTime,
+        DateTimeInterface $endTime,
+        int $granularity
+    ): HistoricRatesDataInterface {
+        return HistoricRatesData::createFromJson(
+            $this->getHistoricRatesRaw($productId, $startTime, $endTime, $granularity), $granularity
+        );
     }
 
     public function get24hrStatsRaw(string $productId)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/products/%s/stats', $productId))->setMustBeSigned(false)->send();
+        return $this
+            ->getRequestManager()
+            ->prepareRequest('GET', sprintf('/products/%s/stats', $productId))
+            ->setMustBeSigned(false)
+            ->send()
+        ;
     }
 
     /**

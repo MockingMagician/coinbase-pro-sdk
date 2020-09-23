@@ -8,7 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional;
 
-use Exception;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
@@ -100,7 +99,7 @@ class Request implements RequestInterface
             if (!$exception->hasResponse()) {
                 throw $exception;
             }
-            if ($this->mangeRateLimits && $exception->getResponse()->getStatusCode() === 429) {
+            if ($this->mangeRateLimits && 429 === $exception->getResponse()->getStatusCode()) {
                 return $this->send();
             }
             if (($array = json_decode($exception->getResponse()->getBody()->getContents(), true))
@@ -124,6 +123,12 @@ class Request implements RequestInterface
         return $response->getBody()->getContents();
     }
 
+    public function setMustBeSigned(bool $set): RequestInterface
+    {
+        $this->mustBeSigned = $set;
+
+        return $this;
+    }
 
     private function buildRequest(): PsrRequestInterface
     {
@@ -196,12 +201,5 @@ class Request implements RequestInterface
     private function getUri(): string
     {
         return $this->apiParams->getEndPoint().$this->getFullRoutePath();
-    }
-
-    public function setMustBeSigned(bool $set): RequestInterface
-    {
-        $this->mustBeSigned = $set;
-
-        return $this;
     }
 }
