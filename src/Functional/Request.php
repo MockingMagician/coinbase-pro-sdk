@@ -97,10 +97,6 @@ class Request implements RequestInterface
             $message = $exception->getMessage();
 
             if (!$exception->hasResponse()) {
-                if (preg_match('#connection reset by peer#i', $exception->getMessage())) {
-                    return $this->send();
-                }
-
                 throw $exception;
             }
             if ($this->mangeRateLimits && 429 === $exception->getResponse()->getStatusCode()) {
@@ -114,6 +110,10 @@ class Request implements RequestInterface
 
             throw new ApiError($message);
         } catch (Throwable $exception) {
+            if (preg_match('#connection reset by peer#i', $exception->getMessage())) {
+                return $this->send();
+            }
+
             throw new ApiError($exception->getMessage());
         }
 
