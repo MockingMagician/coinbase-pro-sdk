@@ -27,87 +27,80 @@ use Psr\Http\Message\StreamInterface;
  */
 class RequestTest extends TestCase
 {
-    public function testPublicCallSuccess()
+    private function providePropheciesForTest()
     {
-        // Scenario
-        $stream = $this->prophesize(StreamInterface::class);
-        $response = $this->prophesize(ResponseInterface::class);
-        $client = $this->prophesize(ClientInterface::class);
         $apiParams = $this->prophesize(ApiParamsInterface::class);
-        $globalRateLimits = $this->prophesize(GlobalRateLimitsInterface::class);
-
-        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
-        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
-        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
-        $globalRateLimits->recordPublicCallRequest()->shouldBeCalledOnce();
-        $globalRateLimits->shouldWeWaitForPublicCallRequest()->willReturn(true, false)->shouldBeCalledTimes(2);
-        $globalRateLimits->recordPrivateCallRequest()->shouldNotBeCalled();
-        $globalRateLimits->shouldWeWaitForPrivateCallRequest()->shouldNotBeCalled();
         $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
 
-        // Run
-        $requestManager = new RequestManager(
-            $client->reveal(),
-            $apiParams->reveal(),
-            $globalRateLimits->reveal()
-        );
-        $requestManager->prepareRequest('GET', '/route')->send();
+        return [
+            $this->prophesize(StreamInterface::class),
+            $this->prophesize(ResponseInterface::class),
+            $this->prophesize(BadResponseException::class),
+            $this->prophesize(ClientInterface::class),
+            $apiParams,
+        ];
     }
 
-    public function testPrivateCallSuccess()
+    private function setApiParamsForPrivate($apiParams)
     {
-        // Scenario
-        $stream = $this->prophesize(StreamInterface::class);
-        $response = $this->prophesize(ResponseInterface::class);
-        $client = $this->prophesize(ClientInterface::class);
-        $apiParams = $this->prophesize(ApiParamsInterface::class);
-        $globalRateLimits = $this->prophesize(GlobalRateLimitsInterface::class);
-
-        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
-        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
-        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
-        $globalRateLimits->recordPrivateCallRequest()->shouldBeCalledOnce();
-        $globalRateLimits->shouldWeWaitForPrivateCallRequest()->willReturn(true, false)->shouldBeCalledTimes(2);
-        $globalRateLimits->recordPublicCallRequest()->shouldNotBeCalled();
-        $globalRateLimits->shouldWeWaitForPublicCallRequest()->shouldNotBeCalled();
         $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
         $apiParams->getSecret()->willReturn('secret')->shouldBeCalledOnce();
         $apiParams->getKey()->willReturn('key')->shouldBeCalledOnce();
         $apiParams->getPassphrase()->willReturn('passphrase')->shouldBeCalledOnce();
+    }
+
+    public function testPublicCallSuccess()
+    {
+        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+
+        // Scenario
+        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
+        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
+        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
 
         // Run
         $requestManager = new RequestManager(
             $client->reveal(),
-            $apiParams->reveal(),
-            $globalRateLimits->reveal()
+            $apiParams->reveal()
         );
-        $requestManager->prepareRequest('GET', '/route')->signAndSend();
+        $requestManager->prepareRequest('GET', '/route')->setMustBeSigned(false)->send();
+    }
+
+    public function testPrivateCallSuccess()
+    {
+        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        $this->setApiParamsForPrivate($apiParams);
+
+        // Scenario
+        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
+        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
+        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
+
+        // Run
+        $requestManager = new RequestManager(
+            $client->reveal(),
+            $apiParams->reveal()
+        );
+        $requestManager->prepareRequest('GET', '/route')->send();
     }
 
     public function testCallFailWithDistantApiError()
     {
-        // Scenario
-        $stream = $this->prophesize(StreamInterface::class);
-        $response = $this->prophesize(ResponseInterface::class);
-        $badResponse = $this->prophesize(BadResponseException::class);
-        $client = $this->prophesize(ClientInterface::class);
-        $apiParams = $this->prophesize(ApiParamsInterface::class);
-        $globalRateLimits = $this->prophesize(GlobalRateLimitsInterface::class);
+        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        $this->setApiParamsForPrivate($apiParams);
 
+        // Scenario
         $stream->getContents()->willReturn('{"message": "error message returned by distant api"}')->shouldBeCalledOnce();
+        $response->getStatusCode()->willReturn(400)->shouldBeCalledOnce();
         $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
         $badResponse->hasResponse()->willreturn(true);
         $badResponse->getResponse()->willreturn($response->reveal());
         $client->send(Argument::any())->willThrow($badResponse->reveal())->shouldBeCalledOnce();
-        $globalRateLimits->recordPublicCallRequest()->shouldBeCalledOnce();
-        $globalRateLimits->shouldWeWaitForPublicCallRequest()->willReturn(false)->shouldBeCalledOnce();
-        $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
 
         // Run
         $requestManager = new RequestManager(
             $client->reveal(),
-            $apiParams->reveal(),
-            $globalRateLimits->reveal()
+            $apiParams->reveal()
         );
 
         $this->expectException(ApiError::class);
@@ -116,24 +109,62 @@ class RequestTest extends TestCase
         $requestManager->prepareRequest('GET', '/route')->send();
     }
 
-    public function testCallFailWithOtherError()
+    public function testCallRetryWithRateLimitApiError()
     {
-        // Scenario
-        $badResponse = $this->prophesize(BadResponseException::class);
-        $client = $this->prophesize(ClientInterface::class);
-        $apiParams = $this->prophesize(ApiParamsInterface::class);
-        $globalRateLimits = $this->prophesize(GlobalRateLimitsInterface::class);
+        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledTimes(2);
+        $apiParams->getSecret()->willReturn('secret')->shouldBeCalledTimes(2);
+        $apiParams->getKey()->willReturn('key')->shouldBeCalledTimes(2);
+        $apiParams->getPassphrase()->willReturn('passphrase')->shouldBeCalledTimes(2);
 
-        $client->send(Argument::any())->willThrow(new \Exception('Exception from elsewhere'))->shouldBeCalledOnce();
-        $globalRateLimits->recordPublicCallRequest()->shouldBeCalledOnce();
-        $globalRateLimits->shouldWeWaitForPublicCallRequest()->willReturn(false)->shouldBeCalledOnce();
-        $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
+        // Scenario
+        $stream->getContents()->willReturn('{"message": "error message returned by distant api"}')->shouldBeCalledTimes(1);
+        $response->getStatusCode()->willReturn(429)->shouldBeCalledTimes(1);
+        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledTimes(1);
+        $badResponse->hasResponse()->willreturn(true);
+        $badResponse->getResponse()->willreturn($response->reveal());
+        $badResponse = $badResponse->reveal();
+        $generator = function () use ($badResponse, $response) {
+            for ($i = 0; $i < 2; $i++) {
+                if ($i === 0) {
+                    yield $badResponse;
+                }
+
+                yield $response;
+            }
+        };
+        $generator = $generator();
+        $client->send(Argument::any())->will(function () use ($generator) {
+            $value = $generator->current();
+            $generator->next();
+            if ($value instanceof BadResponseException) {
+                throw $value;
+            }
+
+            return $value;
+        })->shouldBeCalledTimes(2);
 
         // Run
         $requestManager = new RequestManager(
             $client->reveal(),
-            $apiParams->reveal(),
-            $globalRateLimits->reveal()
+            $apiParams->reveal()
+        );
+
+        $requestManager->prepareRequest('GET', '/route')->send();
+    }
+
+    public function testCallFailWithOtherError()
+    {
+        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        $this->setApiParamsForPrivate($apiParams);
+
+        // Scenario
+        $client->send(Argument::any())->willThrow(new \Exception('Exception from elsewhere'))->shouldBeCalledOnce();
+
+        // Run
+        $requestManager = new RequestManager(
+            $client->reveal(),
+            $apiParams->reveal()
         );
 
         $this->expectException(ApiError::class);
@@ -144,13 +175,11 @@ class RequestTest extends TestCase
 
     public function testCallWithPagination()
     {
-        // Scenario
-        $stream = $this->prophesize(StreamInterface::class);
-        $response = $this->prophesize(ResponseInterface::class);
-        $client = $this->prophesize(ClientInterface::class);
-        $apiParams = $this->prophesize(ApiParamsInterface::class);
-        $globalRateLimits = $this->prophesize(GlobalRateLimitsInterface::class);
+        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        $this->setApiParamsForPrivate($apiParams);
         $pagination = $this->prophesize(PaginationInterface::class);
+
+        // Scenario
 
         $pagination->getQueryArgs()->willReturn([]);
         $pagination->autoPaginateFromHeaders(Argument::any(), Argument::any());
@@ -158,86 +187,56 @@ class RequestTest extends TestCase
         $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
         $response->getHeader(Argument::any())->willReturn(['header'])->shouldBeCalledTimes(2);
         $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
-        $globalRateLimits->recordPublicCallRequest()->shouldBeCalledOnce();
-        $globalRateLimits->shouldWeWaitForPublicCallRequest()->willReturn(true, false)->shouldBeCalledTimes(2);
-        $globalRateLimits->recordPrivateCallRequest()->shouldNotBeCalled();
-        $globalRateLimits->shouldWeWaitForPrivateCallRequest()->shouldNotBeCalled();
-        $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
 
         // Run
         $requestManager = new RequestManager(
             $client->reveal(),
-            $apiParams->reveal(),
-            $globalRateLimits->reveal()
+            $apiParams->reveal()
         );
         $requestManager->prepareRequest('GET', '/route', ['key' => 'value'], null, $pagination->reveal())->send();
     }
 
     public function testCallWithTimeInterfaceReturnedValidTimeData()
     {
-        // Scenario
+        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        $this->setApiParamsForPrivate($apiParams);
         $time = $this->prophesize(TimeInterface::class);
-        $time->getTime()->willReturn(new TimeData(json_encode(['iso' => 'some-iso-date', 'epoch' => time()])));
-        $stream = $this->prophesize(StreamInterface::class);
-        $response = $this->prophesize(ResponseInterface::class);
-        $client = $this->prophesize(ClientInterface::class);
-        $apiParams = $this->prophesize(ApiParamsInterface::class);
-        $globalRateLimits = $this->prophesize(GlobalRateLimitsInterface::class);
 
+        // Scenario
+        $time->getTime()->willReturn(new TimeData(json_encode(['iso' => 'some-iso-date', 'epoch' => time()])));
         $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
         $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
         $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
-        $globalRateLimits->recordPrivateCallRequest()->shouldBeCalledOnce();
-        $globalRateLimits->shouldWeWaitForPrivateCallRequest()->willReturn(true, false)->shouldBeCalledTimes(2);
-        $globalRateLimits->recordPublicCallRequest()->shouldNotBeCalled();
-        $globalRateLimits->shouldWeWaitForPublicCallRequest()->shouldNotBeCalled();
-        $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
-        $apiParams->getSecret()->willReturn('secret')->shouldBeCalledOnce();
-        $apiParams->getKey()->willReturn('key')->shouldBeCalledOnce();
-        $apiParams->getPassphrase()->willReturn('passphrase')->shouldBeCalledOnce();
 
         // Run
         $requestManager = new RequestManager(
             $client->reveal(),
-            $apiParams->reveal(),
-            $globalRateLimits->reveal()
+            $apiParams->reveal()
         );
         $requestManager->setTimeInterface($time->reveal());
 
-        $requestManager->prepareRequest('GET', '/route')->signAndSend();
+        $requestManager->prepareRequest('GET', '/route')->send();
     }
 
     public function testCallWithTimeInterfaceReturnedInvalidTimeData()
     {
-        // Scenario
+        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        $this->setApiParamsForPrivate($apiParams);
         $time = $this->prophesize(TimeInterface::class);
-        $time->getTime()->willThrow(new \Exception());
-        $stream = $this->prophesize(StreamInterface::class);
-        $response = $this->prophesize(ResponseInterface::class);
-        $client = $this->prophesize(ClientInterface::class);
-        $apiParams = $this->prophesize(ApiParamsInterface::class);
-        $globalRateLimits = $this->prophesize(GlobalRateLimitsInterface::class);
 
+        // Scenario
+        $time->getTime()->willThrow(new \Exception());
         $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
         $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
         $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
-        $globalRateLimits->recordPrivateCallRequest()->shouldBeCalledOnce();
-        $globalRateLimits->shouldWeWaitForPrivateCallRequest()->willReturn(true, false)->shouldBeCalledTimes(2);
-        $globalRateLimits->recordPublicCallRequest()->shouldNotBeCalled();
-        $globalRateLimits->shouldWeWaitForPublicCallRequest()->shouldNotBeCalled();
-        $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
-        $apiParams->getSecret()->willReturn('secret')->shouldBeCalledOnce();
-        $apiParams->getKey()->willReturn('key')->shouldBeCalledOnce();
-        $apiParams->getPassphrase()->willReturn('passphrase')->shouldBeCalledOnce();
 
         // Run
         $requestManager = new RequestManager(
             $client->reveal(),
-            $apiParams->reveal(),
-            $globalRateLimits->reveal()
+            $apiParams->reveal()
         );
         $requestManager->setTimeInterface($time->reveal());
 
-        $requestManager->prepareRequest('GET', '/route')->signAndSend();
+        $requestManager->prepareRequest('GET', '/route')->send();
     }
 }
