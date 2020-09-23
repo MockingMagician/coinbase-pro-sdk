@@ -62,6 +62,10 @@ class Request implements RequestInterface
      * @var bool
      */
     private $mustBeSigned;
+    /**
+     * @var int
+     */
+    private $countHandlesExceptionalError = 0;
 
     public function __construct(
         ClientInterface $client,
@@ -110,7 +114,12 @@ class Request implements RequestInterface
 
             throw new ApiError($message);
         } catch (Throwable $exception) {
-            if (preg_match('#connection reset by peer#i', $exception->getMessage())) {
+            if (
+                preg_match('#connection reset by peer#i', $exception->getMessage())
+                || preg_match('#empty reply from server#i', $exception->getMessage())
+                || preg_match('#error 35#i', $exception->getMessage())
+            ) {
+                usleep(250000 * (++$this->countHandlesExceptionalError));
                 return $this->send();
             }
 
