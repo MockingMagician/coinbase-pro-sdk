@@ -29,7 +29,7 @@ class MarketOrderToPlace extends AbstractCommonOrderToPlace implements MarketOrd
         ?float $funds = null,
         ?string $selfTradePrevention = null,
         ?string $stop = null,
-        ?string $stopPrice = null,
+        ?float $stopPrice = null,
         ?string $clientOrderId = null
     ) {
         $type = self::TYPE_MARKET;

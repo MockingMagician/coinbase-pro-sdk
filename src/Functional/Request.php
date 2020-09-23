@@ -12,7 +12,6 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Build\GlobalRateLimitsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
@@ -56,19 +55,24 @@ class Request implements RequestInterface
      */
     private $queryArgs;
     /**
-     * @var GlobalRateLimitsInterface
+     * @var bool
      */
-    private $globalRateLimits;
+    private $mangeRateLimits;
+    /**
+     * @var bool
+     */
+    private $mustBeSigned;
 
     public function __construct(
         ClientInterface $client,
         ApiParamsInterface $apiParams,
-        GlobalRateLimitsInterface $globalRateLimits,
+        bool $mangeRateLimits,
         string $method,
         string $routePath,
         array $queryArgs = [],
         ?string $body = null,
         ?PaginationInterface $pagination = null,
+        bool $mustBeSigned = true,
         ?TimeInterface $time = null
     ) {
         $this->client = $client;
@@ -79,61 +83,26 @@ class Request implements RequestInterface
         $this->time = $time;
         $this->pagination = $pagination;
         $this->queryArgs = $queryArgs;
-        $this->globalRateLimits = $globalRateLimits;
+        $this->mangeRateLimits = $mangeRateLimits;
+        $this->mustBeSigned = $mustBeSigned;
     }
 
-    public function signAndSend()
+    public function send()
     {
-        $time = $this->getTime();
-        $what = $time.$this->method.$this->getFullRoutePath().($this->body ?? '');
-        $key = base64_decode($this->apiParams->getSecret());
-        $hmac = hash_hmac('sha256', $what, $key, true);
-        $sign = base64_encode($hmac);
-
-        $request = new GuzzleRequest(
-            $this->method,
-            $this->getUri(),
-            [
-                'CB-ACCESS-KEY' => $this->apiParams->getKey(),
-                'CB-ACCESS-SIGN' => $sign,
-                'CB-ACCESS-TIMESTAMP' => $time,
-                'CB-ACCESS-PASSPHRASE' => $this->apiParams->getPassphrase(),
-                'Content-Type' => 'application/json',
-            ],
-            $this->body
-        );
-
-        return $this->send($request);
-    }
-
-    public function send(?PsrRequestInterface $request = null)
-    {
-        $isPrivateRequest = true;
-        if (!$request) {
-            $isPrivateRequest = false;
-            $request = new GuzzleRequest(
-                $this->method,
-                $this->getUri(),
-                [
-                    'Content-Type' => 'application/json',
-                ],
-                $this->body
-            );
-        }
+        $request = $this->buildRequest();
 
         try {
-            if ($isPrivateRequest) {
-                while ($this->globalRateLimits->shouldWeWaitForPrivateCallRequest());
-                $this->globalRateLimits->recordPrivateCallRequest();
-            } else {
-                while ($this->globalRateLimits->shouldWeWaitForPublicCallRequest());
-                $this->globalRateLimits->recordPublicCallRequest();
-            }
             $response = $this->client->send($request);
         } catch (BadResponseException $exception) {
             $message = $exception->getMessage();
-            if ($exception->hasResponse()
-                && ($array = json_decode($exception->getResponse()->getBody()->getContents(), true))
+
+            if (!$exception->hasResponse()) {
+                throw $exception;
+            }
+            if ($this->mangeRateLimits && 429 === $exception->getResponse()->getStatusCode()) {
+                return $this->send();
+            }
+            if (($array = json_decode($exception->getResponse()->getBody()->getContents(), true))
                 && isset($array['message'])
             ) {
                 $message = $array['message'];
@@ -152,6 +121,51 @@ class Request implements RequestInterface
         }
 
         return $response->getBody()->getContents();
+    }
+
+    public function setMustBeSigned(bool $set): RequestInterface
+    {
+        $this->mustBeSigned = $set;
+
+        return $this;
+    }
+
+    private function buildRequest(): PsrRequestInterface
+    {
+        if ($this->mustBeSigned) {
+            return $this->buildSignedRequest();
+        }
+
+        return new GuzzleRequest(
+            $this->method,
+            $this->getUri(),
+            [
+                'Content-Type' => 'application/json',
+            ],
+            $this->body
+        );
+    }
+
+    private function buildSignedRequest(): PsrRequestInterface
+    {
+        $time = $this->getTime();
+        $what = $time.$this->method.$this->getFullRoutePath().($this->body ?? '');
+        $key = base64_decode($this->apiParams->getSecret());
+        $hmac = hash_hmac('sha256', $what, $key, true);
+        $sign = base64_encode($hmac);
+
+        return new GuzzleRequest(
+            $this->method,
+            $this->getUri(),
+            [
+                'CB-ACCESS-KEY' => $this->apiParams->getKey(),
+                'CB-ACCESS-SIGN' => $sign,
+                'CB-ACCESS-TIMESTAMP' => $time,
+                'CB-ACCESS-PASSPHRASE' => $this->apiParams->getPassphrase(),
+                'Content-Type' => 'application/json',
+            ],
+            $this->body
+        );
     }
 
     private function getTime()
@@ -184,7 +198,7 @@ class Request implements RequestInterface
         return $this->routePath;
     }
 
-    private function getUri()
+    private function getUri(): string
     {
         return $this->apiParams->getEndPoint().$this->getFullRoutePath();
     }

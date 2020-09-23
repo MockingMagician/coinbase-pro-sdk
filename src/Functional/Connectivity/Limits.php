@@ -16,7 +16,7 @@ class Limits extends AbstractRequestManagerAware implements LimitsInterface
 {
     public function getCurrentExchangeLimitsRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/users/self/exchange-limits')->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/users/self/exchange-limits')->send();
     }
 
     /**

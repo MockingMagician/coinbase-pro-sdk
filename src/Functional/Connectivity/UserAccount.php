@@ -15,7 +15,7 @@ class UserAccount extends AbstractRequestManagerAware implements UserAccountInte
 {
     public function getTrailingVolumeRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/users/self/trailing-volume')->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/users/self/trailing-volume')->send();
     }
 
     /**

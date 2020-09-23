@@ -44,7 +44,7 @@ class LimitOrderToPlace extends AbstractCommonOrderToPlace implements LimitOrder
         bool $postOnly = false,
         ?string $selfTradePrevention = null,
         ?string $stop = null,
-        ?string $stopPrice = null,
+        ?float $stopPrice = null,
         ?string $clientOrderId = null
     ) {
         $type = self::TYPE_LIMIT;
@@ -58,7 +58,7 @@ class LimitOrderToPlace extends AbstractCommonOrderToPlace implements LimitOrder
         }
 
         if ($cancelAfter && !in_array($cancelAfter, self::CANCELS_AFTER)) {
-            throw new ApiError(sprintf('cancelAfter must be one of : %s', self::CANCELS_AFTER));
+            throw new ApiError(sprintf('cancelAfter must be one of : %s', implode(', ', self::CANCELS_AFTER)));
         }
 
         if ($cancelAfter && self::TIME_IN_FORCE_GOOD_TILL_TIME !== $timeInForce) {

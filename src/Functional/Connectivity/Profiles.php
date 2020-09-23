@@ -18,7 +18,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
     {
         $query = ['active' => $active];
 
-        return $this->getRequestManager()->prepareRequest('GET', '/profiles', $query)->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/profiles', $query)->send();
     }
 
     /**
@@ -31,7 +31,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
 
     public function getProfileRaw(string $profileId)
     {
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/profiles/%s', $profileId))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', sprintf('/profiles/%s', $profileId))->send();
     }
 
     /**
@@ -51,7 +51,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
             'amount' => $amount,
         ];
 
-        return $this->getRequestManager()->prepareRequest('POST', '/profiles/transfer', [], json_encode($body))->signAndSend();
+        return $this->getRequestManager()->prepareRequest('POST', '/profiles/transfer', [], json_encode($body))->send();
     }
 
     /**

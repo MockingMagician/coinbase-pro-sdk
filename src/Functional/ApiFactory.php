@@ -10,9 +10,6 @@ namespace MockingMagician\CoinbaseProSdk\Functional;
 
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\GlobalRateLimits;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\NullGlobalRateLimits;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Rate\RateLimits;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Currencies;
@@ -103,17 +100,10 @@ final class ApiFactory
         bool $manageRateLimits = true
     ): ApiConnectivityInterface {
         $apiParams = new ApiParams($endpoint, $key, $secret, $passphrase);
-        if ($manageRateLimits) {
-            $globalRateLimits = new GlobalRateLimits(
-                new RateLimits(6),
-                new RateLimits(5),
-                10
-            );
-        } else {
-            $globalRateLimits = new NullGlobalRateLimits();
-        }
-        $requestManager = new RequestManager(new Client(), $apiParams, $globalRateLimits);
+        $requestManager = new RequestManager(new Client(), $apiParams, $manageRateLimits);
+
         $time = new Time($requestManager);
+
         if ($useCoinbaseRemoteTime) {
             $requestManager->setTimeInterface($time);
         }
@@ -211,6 +201,7 @@ final class ApiFactory
         foreach (self::CONFIG_FEATURES_FIELDS as $CONFIG_FEATURES_FIELD) {
             if (false === $config[self::CONFIG_ROOT_FEATURES]) {
                 $params[] = false;
+
                 continue;
             }
             $params[] = (

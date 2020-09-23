@@ -15,7 +15,7 @@ class PaymentMethods extends AbstractRequestManagerAware implements PaymentMetho
 {
     public function listPaymentMethodsRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/payment-methods')->signAndSend();
+        return $this->getRequestManager()->prepareRequest('GET', '/payment-methods')->send();
     }
 
     /**
