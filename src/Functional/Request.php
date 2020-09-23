@@ -118,6 +118,7 @@ class Request implements RequestInterface
                 preg_match('#connection reset by peer#i', $exception->getMessage())
                 || preg_match('#empty reply from server#i', $exception->getMessage())
                 || preg_match('#error 35#i', $exception->getMessage())
+                || preg_match('#request timestamp expired#i', $exception->getMessage())
             ) {
                 usleep(250000 * (++$this->countHandlesExceptionalError));
                 return $this->send();
