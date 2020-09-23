@@ -23,7 +23,7 @@ phpcs-dry-run: ## Coding style checks
 
 .PHONY: phpstan
 phpstan: ## Static analysis
-	vendor/bin/phpstan analyse --level=3 src
+	vendor/bin/phpstan analyse --level=5 src
 
 .PHONY: docker-test-php-71
 docker-test-php-71: ## Docker test on PHP 7.1

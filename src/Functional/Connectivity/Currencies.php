@@ -15,7 +15,7 @@ class Currencies extends AbstractRequestManagerAware implements CurrenciesInterf
 {
     public function getCurrenciesRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/currencies')->isSigned(false)->send();
+        return $this->getRequestManager()->prepareRequest('GET', '/currencies')->setMustBeSigned(false)->send();
     }
 
     /**

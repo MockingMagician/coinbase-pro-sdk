@@ -34,75 +34,75 @@ class ApiConnectivity implements ApiConnectivityInterface
     const FUNCTIONALITY_NOT_LOADED = 'The %s functionality was not loaded when building the ApiConnectivity object. Please recreate an object with this feature to be able to use it.';
 
     /**
-     * @var AccountsInterface
+     * @var null|AccountsInterface
      */
     private $accounts;
     /**
-     * @var CoinbaseAccountsInterface
+     * @var null|CoinbaseAccountsInterface
      */
     private $coinbaseAccounts;
     /**
-     * @var CurrenciesInterface
+     * @var null|CurrenciesInterface
      */
     private $currencies;
     /**
-     * @var DepositsInterface
+     * @var null|DepositsInterface
      */
     private $deposits;
     /**
-     * @var FeesInterface
+     * @var null|FeesInterface
      */
     private $fees;
     /**
-     * @var FillsInterface
+     * @var null|FillsInterface
      */
     private $fills;
     /**
-     * @var LimitsInterface
+     * @var null|LimitsInterface
      */
     private $limits;
     /**
-     * @var MarginInterface
+     * @var null|MarginInterface
      */
     private $margin;
     /**
-     * @var OracleInterface
+     * @var null|OracleInterface
      */
     private $oracle;
     /**
-     * @var OrdersInterface
+     * @var null|OrdersInterface
      */
     private $orders;
     /**
-     * @var PaymentMethodsInterface
+     * @var null|PaymentMethodsInterface
      */
     private $paymentMethods;
     /**
-     * @var ProductsInterface
+     * @var null|ProductsInterface
      */
     private $products;
     /**
-     * @var ProfilesInterface
+     * @var null|ProfilesInterface
      */
     private $profiles;
     /**
-     * @var ReportsInterface
+     * @var null|ReportsInterface
      */
     private $reports;
     /**
-     * @var StableCoinConversionsInterface
+     * @var null|StableCoinConversionsInterface
      */
     private $stableCoinConversions;
     /**
-     * @var TimeInterface
+     * @var null|TimeInterface
      */
     private $time;
     /**
-     * @var UserAccountInterface
+     * @var null|UserAccountInterface
      */
     private $userAccount;
     /**
-     * @var WithdrawalsInterface
+     * @var null|WithdrawalsInterface
      */
     private $withdrawals;
 
