@@ -57,17 +57,19 @@ class RequestManager implements RequestManagerInterface
         ?PaginationInterface $pagination = null,
         bool $mustBeSigned = true
     ): RequestInterface {
-        return new Request(
-            $this->client,
-            $this->apiParams,
-            $this->manageRateLimits,
-            $method,
-            $routePath,
-            $queryArgs,
-            $body,
-            $pagination,
-            $mustBeSigned,
-            $this->time
+        return new RequestWithErrorManagement(
+            new Request(
+                $this->client,
+                $this->apiParams,
+                $method,
+                $routePath,
+                $queryArgs,
+                $body,
+                $pagination,
+                $mustBeSigned,
+                $this->time
+            ),
+            $this->manageRateLimits
         );
     }
 }

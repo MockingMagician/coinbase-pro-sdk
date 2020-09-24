@@ -23,7 +23,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @internal
+ * @cover Request|RequestManager
  */
 class RequestTest extends TestCase
 {

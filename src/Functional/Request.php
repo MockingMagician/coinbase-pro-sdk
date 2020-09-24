@@ -17,11 +17,24 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;
+use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
+use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManaged;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Throwable;
 
 class Request implements RequestInterface
 {
+    const CURL_ERROR_TO_MANAGE__REGEX =
+        '#'.
+        'connection reset by peer'.
+        '|'.
+        'empty reply from server'.
+        '|'.
+        'error 35'.
+        '#i'
+    ;
+
     /**
      * @var ClientInterface
      */
@@ -57,20 +70,11 @@ class Request implements RequestInterface
     /**
      * @var bool
      */
-    private $mangeRateLimits;
-    /**
-     * @var bool
-     */
     private $mustBeSigned;
-    /**
-     * @var int
-     */
-    private $countHandlesExceptionalError = 0;
 
     public function __construct(
         ClientInterface $client,
         ApiParamsInterface $apiParams,
-        bool $mangeRateLimits,
         string $method,
         string $routePath,
         array $queryArgs = [],
@@ -87,7 +91,6 @@ class Request implements RequestInterface
         $this->time = $time;
         $this->pagination = $pagination;
         $this->queryArgs = $queryArgs;
-        $this->mangeRateLimits = $mangeRateLimits;
         $this->mustBeSigned = $mustBeSigned;
     }
 
@@ -103,27 +106,24 @@ class Request implements RequestInterface
             if (!$exception->hasResponse()) {
                 throw $exception;
             }
-            if ($this->mangeRateLimits && 429 === $exception->getResponse()->getStatusCode()) {
-                return $this->send();
+
+            if (429 === $exception->getResponse()->getStatusCode()) {
+                throw new RateLimitsErrorToManaged();
             }
+
             if (($array = json_decode($exception->getResponse()->getBody()->getContents(), true))
                 && isset($array['message'])
             ) {
                 $message = $array['message'];
                 if ('request timestamp expired' === $message) {
-                    return $this->send();
+                    throw new TimestampExpiredErrorToManaged();
                 }
             }
 
             throw new ApiError($message);
         } catch (Throwable $exception) {
-            if (
-                preg_match('#connection reset by peer#i', $exception->getMessage())
-                || preg_match('#empty reply from server#i', $exception->getMessage())
-                || preg_match('#error 35#i', $exception->getMessage())
-            ) {
-                usleep(25000 * (++$this->countHandlesExceptionalError));
-                return $this->send();
+            if (preg_match(self::CURL_ERROR_TO_MANAGE__REGEX, $exception->getMessage())) {
+                throw new CurlErrorToManaged();
             }
 
             throw new ApiError($exception->getMessage());
