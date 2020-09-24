@@ -16,7 +16,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PositionRefreshAmountsData;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalPowerDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\RequestManagerInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\RequestFactoryInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 /**
@@ -131,7 +131,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
         return $this->margin->getMarginStatus();
     }
 
-    protected function getRequestManager(): RequestManagerInterface
+    protected function getRequestManager(): RequestFactoryInterface
     {
         return $this->margin->getRequestManager();
     }

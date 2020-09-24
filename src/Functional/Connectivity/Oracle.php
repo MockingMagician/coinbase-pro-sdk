@@ -16,7 +16,7 @@ class Oracle extends AbstractRequestManagerAware implements OracleInterface
 {
     public function getCryptographicallySignedPricesRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/oracle')->send();
+        return $this->getRequestManager()->createRequest('GET', '/oracle')->send();
     }
 
     /**

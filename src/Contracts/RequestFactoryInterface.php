@@ -10,9 +10,9 @@ namespace MockingMagician\CoinbaseProSdk\Contracts;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 
-interface RequestManagerInterface
+interface RequestFactoryInterface
 {
-    public function prepareRequest(
+    public function createRequest(
         string $method,
         string $routePath,
         array $queryArgs = [],

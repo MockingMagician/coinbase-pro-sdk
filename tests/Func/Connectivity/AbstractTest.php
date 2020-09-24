@@ -13,7 +13,7 @@ use Exception;
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Functional\ApiParams;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
-use MockingMagician\CoinbaseProSdk\Functional\RequestManager;
+use MockingMagician\CoinbaseProSdk\Functional\RequestFactory;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTest extends TestCase
@@ -21,7 +21,7 @@ abstract class AbstractTest extends TestCase
     const API_TEST_ENDPOINT = 'https://api-public.sandbox.pro.coinbase.com';
 
     /**
-     * @var RequestManager
+     * @var RequestFactory
      */
     protected $requestManager;
     /**
@@ -60,7 +60,7 @@ abstract class AbstractTest extends TestCase
         ini_set('xdebug.var_display_max_children', '256');
         ini_set('xdebug.var_display_max_data', '4096');
         $httpClient = new Client();
-        $this->requestManager = new RequestManager($httpClient, $this->apiParams, false);
+        $this->requestManager = new RequestFactory($httpClient, $this->apiParams, false);
         $this->time = new Time($this->requestManager);
         $this->requestManager->setTimeInterface($this->time);
         usleep(750000);

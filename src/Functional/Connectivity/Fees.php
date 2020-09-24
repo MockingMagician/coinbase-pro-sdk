@@ -16,7 +16,7 @@ class Fees extends AbstractRequestManagerAware implements FeesInterface
 {
     public function getCurrentFeesRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/fees')->send();
+        return $this->getRequestManager()->createRequest('GET', '/fees')->send();
     }
 
     /**

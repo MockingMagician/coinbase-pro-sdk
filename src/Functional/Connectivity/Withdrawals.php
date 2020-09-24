@@ -22,7 +22,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
             'profile_id' => $profileId,
         ];
 
-        return $this->getRequestManager()->prepareRequest('GET', '/transfers', $query, null, $pagination)->send();
+        return $this->getRequestManager()->createRequest('GET', '/transfers', $query, null, $pagination)->send();
     }
 
     /**
@@ -39,7 +39,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
             'type' => 'withdraw',
         ];
 
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/transfers/%s', $transferId), $query)->send();
+        return $this->getRequestManager()->createRequest('GET', sprintf('/transfers/%s', $transferId), $query)->send();
     }
 
     /**
@@ -58,7 +58,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
             'payment_method_id' => $paymentMethodId,
         ];
 
-        return $this->getRequestManager()->prepareRequest('POST', '/withdrawals/payment-method', [], json_encode($body))->send();
+        return $this->getRequestManager()->createRequest('POST', '/withdrawals/payment-method', [], json_encode($body))->send();
     }
 
     /**
@@ -77,7 +77,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
             'coinbase_account_id' => $coinbaseAccountId,
         ];
 
-        return $this->getRequestManager()->prepareRequest('POST', '/withdrawals/coinbase-account', [], json_encode($body))->send();
+        return $this->getRequestManager()->createRequest('POST', '/withdrawals/coinbase-account', [], json_encode($body))->send();
     }
 
     /**
@@ -102,7 +102,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
             $body['no_destination_tag'] = true;
         }
 
-        return $this->getRequestManager()->prepareRequest('POST', '/withdrawals/crypto', [], json_encode($body))->send();
+        return $this->getRequestManager()->createRequest('POST', '/withdrawals/crypto', [], json_encode($body))->send();
     }
 
     /**

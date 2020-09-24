@@ -1,7 +1,12 @@
 <?php
 
-namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
+namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
 
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -15,6 +20,8 @@ use Prophecy\Argument;
 
 /**
  * @cover RequestWithErrorManagement
+ *
+ * @internal
  */
 class RequestWithErrorManagementTest extends TestCase
 {
@@ -52,7 +59,7 @@ class RequestWithErrorManagementTest extends TestCase
         $request = $this->prophesize(Request::class);
 
         $generator = (function () {
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 5; ++$i) {
                 if ($i < 4) {
                     yield new RateLimitsErrorToManaged();
 
@@ -83,7 +90,7 @@ class RequestWithErrorManagementTest extends TestCase
         $request = $this->prophesize(Request::class);
 
         $generator = (function () {
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 5; ++$i) {
                 if ($i < 4) {
                     yield new RateLimitsErrorToManaged();
 
@@ -116,7 +123,7 @@ class RequestWithErrorManagementTest extends TestCase
         $request = $this->prophesize(Request::class);
 
         $generator = (function () {
-            for ($i = 0; $i < 8; $i++) {
+            for ($i = 0; $i < 8; ++$i) {
                 if ($i < 3) {
                     yield new CurlErrorToManaged();
 

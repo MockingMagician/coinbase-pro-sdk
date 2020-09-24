@@ -8,21 +8,21 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
-use MockingMagician\CoinbaseProSdk\Contracts\RequestManagerInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\RequestFactoryInterface;
 
 class AbstractRequestManagerAware
 {
     /**
-     * @var RequestManagerInterface
+     * @var RequestFactoryInterface
      */
     private $requestManager;
 
-    public function __construct(RequestManagerInterface $requestManager)
+    public function __construct(RequestFactoryInterface $requestManager)
     {
         $this->requestManager = $requestManager;
     }
 
-    protected function getRequestManager(): RequestManagerInterface
+    protected function getRequestManager(): RequestFactoryInterface
     {
         return $this->requestManager;
     }

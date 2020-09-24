@@ -1,12 +1,16 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;
+use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManaged;
 
 class RequestWithErrorManagement implements RequestInterface
@@ -41,10 +45,13 @@ class RequestWithErrorManagement implements RequestInterface
                 throw $exception;
             } catch (CurlErrorToManaged | TimestampExpiredErrorToManaged $exception) {
                 usleep(ceil(25000 * sqrt(++$this->countHandlesExceptionalError)));
+
                 continue;
             }
         }
-    } // @codeCoverageIgnore
+    }
+
+    // @codeCoverageIgnore
 
     public function setMustBeSigned(bool $set): RequestInterface
     {

@@ -12,10 +12,10 @@ use GuzzleHttp\ClientInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\RequestFactoryInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\RequestManagerInterface;
 
-class RequestManager implements RequestManagerInterface
+class RequestFactory implements RequestFactoryInterface
 {
     /**
      * @var ClientInterface
@@ -49,7 +49,7 @@ class RequestManager implements RequestManagerInterface
         $this->time = $time;
     }
 
-    public function prepareRequest(
+    public function createRequest(
         string $method,
         string $routePath,
         array $queryArgs = [],

@@ -31,7 +31,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     {
         $query['product_id'] = $productId;
 
-        return $this->getRequestManager()->prepareRequest('GET', '/margin/profile_information', $query)->send();
+        return $this->getRequestManager()->createRequest('GET', '/margin/profile_information', $query)->send();
     }
 
     /**
@@ -46,7 +46,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     {
         $query['product_id'] = $productId;
 
-        return $this->getRequestManager()->prepareRequest('GET', '/margin/buying_power', $query)->send();
+        return $this->getRequestManager()->createRequest('GET', '/margin/buying_power', $query)->send();
     }
 
     /**
@@ -61,7 +61,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     {
         $query['currency'] = $currency;
 
-        return $this->getRequestManager()->prepareRequest('GET', '/margin/withdrawal_power', $query)->send();
+        return $this->getRequestManager()->createRequest('GET', '/margin/withdrawal_power', $query)->send();
     }
 
     /**
@@ -74,7 +74,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
 
     public function getAllWithdrawalPowersRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/margin/withdrawal_power_all')->send();
+        return $this->getRequestManager()->createRequest('GET', '/margin/withdrawal_power_all')->send();
     }
 
     /**
@@ -88,7 +88,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
 
     public function getExitPlanRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/margin/exit_plan')->send();
+        return $this->getRequestManager()->createRequest('GET', '/margin/exit_plan')->send();
     }
 
     /**
@@ -107,7 +107,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
             $query['after'] = $after->format(DateTime::ISO8601);
         }
 
-        return $this->getRequestManager()->prepareRequest('GET', '/margin/liquidation_history', $query)->send();
+        return $this->getRequestManager()->createRequest('GET', '/margin/liquidation_history', $query)->send();
     }
 
     /**
@@ -120,7 +120,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
 
     public function getPositionsRefreshAmountRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/margin/position_refresh_amounts')->send();
+        return $this->getRequestManager()->createRequest('GET', '/margin/position_refresh_amounts')->send();
     }
 
     /**
@@ -133,7 +133,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
 
     public function getMarginStatusRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/margin/status')->send();
+        return $this->getRequestManager()->createRequest('GET', '/margin/status')->send();
     }
 
     /**

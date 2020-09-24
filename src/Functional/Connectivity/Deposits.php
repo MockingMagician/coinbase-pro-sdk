@@ -25,7 +25,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             $query['profile_id'] = $profileId;
         }
 
-        return $this->getRequestManager()->prepareRequest('GET', '/transfers', $query, null, $pagination)->send();
+        return $this->getRequestManager()->createRequest('GET', '/transfers', $query, null, $pagination)->send();
     }
 
     /**
@@ -40,7 +40,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
     {
         $query = ['type' => 'deposit'];
 
-        return $this->getRequestManager()->prepareRequest('GET', sprintf('/transfers/%s', $depositId), $query)->send();
+        return $this->getRequestManager()->createRequest('GET', sprintf('/transfers/%s', $depositId), $query)->send();
     }
 
     /**
@@ -59,7 +59,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             'payment_method_id' => $paymentMethodId,
         ];
 
-        return $this->getRequestManager()->prepareRequest('POST', '/deposits/payment-method', [], json_encode($body))->send();
+        return $this->getRequestManager()->createRequest('POST', '/deposits/payment-method', [], json_encode($body))->send();
     }
 
     /**
@@ -78,7 +78,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             'coinbase_account_id' => $coinbaseAccountId,
         ];
 
-        return $this->getRequestManager()->prepareRequest('POST', '/deposits/coinbase-account', [], json_encode($body))->send();
+        return $this->getRequestManager()->createRequest('POST', '/deposits/coinbase-account', [], json_encode($body))->send();
     }
 
     /**
@@ -91,7 +91,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
 
     public function generateCryptoDepositAddressRaw(string $coinbaseAccountId)
     {
-        return $this->getRequestManager()->prepareRequest('POST', sprintf('/coinbase-accounts/%s/addresses', $coinbaseAccountId))->send();
+        return $this->getRequestManager()->createRequest('POST', sprintf('/coinbase-accounts/%s/addresses', $coinbaseAccountId))->send();
     }
 
     /**

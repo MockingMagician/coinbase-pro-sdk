@@ -15,7 +15,7 @@ class CoinbaseAccounts extends AbstractRequestManagerAware implements CoinbaseAc
 {
     public function listCoinbaseAccountsRaw()
     {
-        return $this->getRequestManager()->prepareRequest('GET', '/coinbase-accounts')->send();
+        return $this->getRequestManager()->createRequest('GET', '/coinbase-accounts')->send();
     }
 
     /**

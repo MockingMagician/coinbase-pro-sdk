@@ -100,7 +100,7 @@ final class ApiFactory
         bool $manageRateLimits = true
     ): ApiConnectivityInterface {
         $apiParams = new ApiParams($endpoint, $key, $secret, $passphrase);
-        $requestManager = new RequestManager(new Client(), $apiParams, $manageRateLimits);
+        $requestManager = new RequestFactory(new Client(), $apiParams, $manageRateLimits);
 
         $time = new Time($requestManager);
 

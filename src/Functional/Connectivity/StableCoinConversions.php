@@ -22,7 +22,7 @@ class StableCoinConversions extends AbstractRequestManagerAware implements Stabl
             'amount' => $amount,
         ];
 
-        return $this->getRequestManager()->prepareRequest('POST', '/conversions', [], json_encode($body))->send();
+        return $this->getRequestManager()->createRequest('POST', '/conversions', [], json_encode($body))->send();
     }
 
     /**

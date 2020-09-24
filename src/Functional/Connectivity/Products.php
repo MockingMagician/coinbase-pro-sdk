@@ -36,7 +36,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     {
         return $this
             ->getRequestManager()
-            ->prepareRequest('GET', '/products')
+            ->createRequest('GET', '/products')
             ->setMustBeSigned(false)
             ->send()
         ;
@@ -54,7 +54,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     {
         return $this
             ->getRequestManager()
-            ->prepareRequest('GET', sprintf('/products/%s', $productId))
+            ->createRequest('GET', sprintf('/products/%s', $productId))
             ->setMustBeSigned(false)
             ->send()
         ;
@@ -80,7 +80,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
 
         return $this
             ->getRequestManager()
-            ->prepareRequest('GET', sprintf('/products/%s/book', $productId))
+            ->createRequest('GET', sprintf('/products/%s/book', $productId))
             ->setMustBeSigned(false)
             ->send()
         ;
@@ -101,7 +101,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     {
         return $this
             ->getRequestManager()
-            ->prepareRequest('GET', sprintf('/products/%s/ticker', $productId))
+            ->createRequest('GET', sprintf('/products/%s/ticker', $productId))
             ->setMustBeSigned(false)
             ->send()
         ;
@@ -119,7 +119,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     {
         return $this
             ->getRequestManager()
-            ->prepareRequest('GET', sprintf('/products/%s/trades', $productId), [], null, $pagination)
+            ->createRequest('GET', sprintf('/products/%s/trades', $productId), [], null, $pagination)
             ->setMustBeSigned(false)
             ->send()
         ;
@@ -151,7 +151,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
 
         $raw = $this
             ->getRequestManager()
-            ->prepareRequest('GET', sprintf('/products/%s/candles', $productId), $query)
+            ->createRequest('GET', sprintf('/products/%s/candles', $productId), $query)
             ->setMustBeSigned(false)
             ->send()
         ;
@@ -180,7 +180,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     {
         return $this
             ->getRequestManager()
-            ->prepareRequest('GET', sprintf('/products/%s/stats', $productId))
+            ->createRequest('GET', sprintf('/products/%s/stats', $productId))
             ->setMustBeSigned(false)
             ->send()
         ;
