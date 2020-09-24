@@ -11,6 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Rate;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
+use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
 
 /**
@@ -74,7 +75,7 @@ class RateLimitsTest extends AbstractTest
                 try {
                     $this->apiWithOutRateLimitsGuard->orders()->listOrders(Orders::STATUS, 'BTC-USD');
                 } catch (\Throwable $exception) {
-                    file_put_contents($file_expect_rate_limit, $exception->getMessage()."\n");
+                    file_put_contents($file_expect_rate_limit, RateLimitsErrorToManaged::class);
                 } finally {
                     exit();
                 }
@@ -86,7 +87,7 @@ class RateLimitsTest extends AbstractTest
         $rateLimitAsExceeded = false;
 
         try {
-            $rateLimitAsExceeded = "Private rate limit exceeded\n" === file_get_contents($file_expect_rate_limit);
+            $rateLimitAsExceeded = RateLimitsErrorToManaged::class === file_get_contents($file_expect_rate_limit);
             unlink($file_expect_rate_limit);
         } catch (\Throwable $exception) {
         }
