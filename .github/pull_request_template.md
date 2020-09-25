@@ -1,12 +1,3 @@
----
-name: Pull request
-about: Create a pull request
-title: ''
-labels: 'enhancement'
-assignees: 'MockingMagician'
-
----
-
 **Little description of PR**
 
 A clear and concise description of the purpose of that PR
