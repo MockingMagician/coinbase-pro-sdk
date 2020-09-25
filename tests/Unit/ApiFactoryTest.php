@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestManage
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers ApiFactory
+ * @covers MockingMagician\CoinbaseProSdk\Functional\ApiFactory
  *
  * @internal
  */

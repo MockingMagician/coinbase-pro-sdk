@@ -13,229 +13,340 @@ use GuzzleHttp\Exception\BadResponseException;
 use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\TimeData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
-use MockingMagician\CoinbaseProSdk\Functional\RequestFactory;
+use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;
+use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
+use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManaged;
+use MockingMagician\CoinbaseProSdk\Functional\Request;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @covers Request|RequestManager
+ * @covers MockingMagician\CoinbaseProSdk\Functional\Request
  *
  * @internal
  */
 class RequestTest extends TestCase
 {
+    const API_RETURN_VALID_JSON = '{"key": "value"}';
+    const API_ERROR_MESSAGE = 'error message from remote api';
+    const API_ERROR_MESSAGE_TIMESTAMP_EXPIRED = 'request timestamp expired';
+    const API_RETURN_JSON_ERROR_MESSAGE = '{"message": "'.self::API_ERROR_MESSAGE.'"}';
+    const API_RETURN_JSON_ERROR_MESSAGE_TIMESTAMP_EXPIRED = '{"message": "'.self::API_ERROR_MESSAGE_TIMESTAMP_EXPIRED.'"}';
+
     public function testPublicCallSuccess()
     {
-        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
 
-        // Scenario
-        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
-        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
-        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
+        // SCENARIO
+        $stream->getContents()->willReturn(self::API_RETURN_VALID_JSON)->shouldBeCalledTimes(1);
+        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledTimes(1);
+        $client->send(Argument::type(RequestInterface::class))->willReturn($response->reveal())->shouldBeCalledTimes(1);
 
-        // Run
-        $requestManager = new RequestFactory(
-            $client->reveal(),
-            $apiParams->reveal()
-        );
-        $requestManager->createRequest('GET', '/route')->setMustBeSigned(false)->send();
+        // PREPARE REQUEST
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/public');
+        $request->setMustBeSigned(false);
+
+        // RUN
+        self::assertEquals(self::API_RETURN_VALID_JSON, $request->send());
     }
 
     public function testPrivateCallSuccess()
     {
-        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
-        $this->setApiParamsForPrivate($apiParams);
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
 
-        // Scenario
-        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
-        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
-        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
-
-        // Run
-        $requestManager = new RequestFactory(
-            $client->reveal(),
-            $apiParams->reveal()
-        );
-        $requestManager->createRequest('GET', '/route')->send();
-    }
-
-    public function testCallFailWithDistantApiError()
-    {
-        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
-        $this->setApiParamsForPrivate($apiParams);
-
-        // Scenario
-        $stream->getContents()->willReturn('{"message": "error message returned by distant api"}')->shouldBeCalledOnce();
-        $response->getStatusCode()->willReturn(400)->shouldBeCalledOnce();
-        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
-        $badResponse->hasResponse()->willreturn(true);
-        $badResponse->getResponse()->willreturn($response->reveal());
-        $client->send(Argument::any())->willThrow($badResponse->reveal())->shouldBeCalledOnce();
-
-        // Run
-        $requestManager = new RequestFactory(
-            $client->reveal(),
-            $apiParams->reveal()
-        );
-
-        $this->expectException(ApiError::class);
-        $this->expectExceptionMessage('error message returned by distant api');
-
-        $requestManager->createRequest('GET', '/route')->send();
-    }
-
-    public function testCallRetryWithRateLimitApiError()
-    {
-        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
-        $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledTimes(2);
-        $apiParams->getSecret()->willReturn('secret')->shouldBeCalledTimes(2);
-        $apiParams->getKey()->willReturn('key')->shouldBeCalledTimes(2);
-        $apiParams->getPassphrase()->willReturn('passphrase')->shouldBeCalledTimes(2);
-
-        // Scenario
-        $stream->getContents()->willReturn('{"message": "error message returned by distant api"}')->shouldBeCalledTimes(1);
-        $response->getStatusCode()->willReturn(429)->shouldBeCalledTimes(1);
+        // SCENARIO
+        $stream->getContents()->willReturn(self::API_RETURN_VALID_JSON)->shouldBeCalledTimes(1);
         $response->getBody()->willReturn($stream->reveal())->shouldBeCalledTimes(1);
-        $badResponse->hasResponse()->willreturn(true);
-        $badResponse->getResponse()->willreturn($response->reveal());
-        $badResponse = $badResponse->reveal();
-        $generator = function () use ($badResponse, $response) {
-            for ($i = 0; $i < 2; ++$i) {
-                if (0 === $i) {
-                    yield $badResponse;
-                }
+        $client->send(Argument::type(RequestInterface::class))->willReturn($response->reveal())->shouldBeCalledTimes(1);
 
-                yield $response;
-            }
-        };
-        $generator = $generator();
-        $client->send(Argument::any())->will(function () use ($generator) {
-            $value = $generator->current();
-            $generator->next();
-            if ($value instanceof BadResponseException) {
-                throw $value;
-            }
+        // PREPARE REQUEST
+        $this->setApiParamsForPrivate($apiParams);
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/private');
 
-            return $value;
-        })->shouldBeCalledTimes(2);
-
-        // Run
-        $requestManager = new RequestFactory(
-            $client->reveal(),
-            $apiParams->reveal()
-        );
-
-        $requestManager->createRequest('GET', '/route')->send();
+        // RUN
+        self::assertEquals(self::API_RETURN_VALID_JSON, $request->send());
     }
 
-    public function testCallFailWithOtherError()
+    public function testCallFailWithRemoteApiErrorMessage()
     {
-        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
-        $this->setApiParamsForPrivate($apiParams);
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
 
-        // Scenario
-        $client->send(Argument::any())->willThrow(new \Exception('Exception from elsewhere'))->shouldBeCalledOnce();
+        // SCENARIO
+        $stream->getContents()->willReturn(self::API_RETURN_JSON_ERROR_MESSAGE)->shouldBeCalledTimes(1);
+        $response->getStatusCode()->willReturn(400)->shouldBeCalledTimes(1);
+        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledTimes(1);
+        $badResponse->hasResponse()->willReturn(true)->shouldBeCalledTimes(1);
+        $badResponse->getResponse()->willReturn($response->reveal())->shouldBeCalledTimes(2);
+        $client->send(Argument::type(RequestInterface::class))->willThrow($badResponse->reveal())->shouldBeCalledTimes(1);
 
-        // Run
-        $requestManager = new RequestFactory(
-            $client->reveal(),
-            $apiParams->reveal()
-        );
+        // PREPARE REQUEST
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/public');
+        $request->setMustBeSigned(false);
 
+        // RUN
         $this->expectException(ApiError::class);
-        $this->expectExceptionMessage('Exception from elsewhere');
+        $this->expectExceptionMessage(self::API_ERROR_MESSAGE);
+        $request->send();
+    }
 
-        $requestManager->createRequest('GET', '/route')->send();
+    public function testCallFailWithBadResponseButHasNoResponse()
+    {
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
+
+        // SCENARIO
+        $badResponse->hasResponse()->willReturn(false)->shouldBeCalledTimes(1);
+        $client->send(Argument::type(RequestInterface::class))->willThrow($badResponse->reveal())->shouldBeCalledTimes(1);
+
+        // PREPARE REQUEST
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/public');
+        $request->setMustBeSigned(false);
+
+        // RUN
+        $this->expectException(ApiError::class);
+        $request->send();
+    }
+
+    public function testCallFailWithCode429ThrowRateLimitsErrorToManaged()
+    {
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
+
+        // SCENARIO
+        $response->getStatusCode()->willReturn(429)->shouldBeCalledTimes(1);
+        $badResponse->hasResponse()->willReturn(true)->shouldBeCalledTimes(1);
+        $badResponse->getResponse()->willReturn($response->reveal())->shouldBeCalledTimes(1);
+        $client->send(Argument::type(RequestInterface::class))->willThrow($badResponse->reveal())->shouldBeCalledTimes(1);
+
+        // PREPARE REQUEST
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/public');
+        $request->setMustBeSigned(false);
+
+        // RUN
+        $this->expectException(RateLimitsErrorToManaged::class);
+        $request->send();
+    }
+
+    public function testCallFailWithRemoteApiErrorMessageTimestampExpiredThrowTimestampExpiredErrorToManaged()
+    {
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
+
+        // SCENARIO
+        $stream->getContents()->willReturn(self::API_RETURN_JSON_ERROR_MESSAGE_TIMESTAMP_EXPIRED)->shouldBeCalledTimes(1);
+        $response->getStatusCode()->willReturn(400)->shouldBeCalledTimes(1);
+        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledTimes(1);
+        $badResponse->hasResponse()->willReturn(true)->shouldBeCalledTimes(1);
+        $badResponse->getResponse()->willReturn($response->reveal())->shouldBeCalledTimes(2);
+        $client->send(Argument::type(RequestInterface::class))->willThrow($badResponse->reveal())->shouldBeCalledTimes(1);
+
+        // PREPARE REQUEST
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/public');
+        $request->setMustBeSigned(false);
+
+        // RUN
+        $this->expectException(TimestampExpiredErrorToManaged::class);
+        $request->send();
+    }
+
+    public function testCallFailWithSomeCurlErrorThrowCurlErrorToManaged()
+    {
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
+
+        // SCENARIO
+        $client
+            ->send(Argument::type(RequestInterface::class))
+            ->willThrow(new \Exception(Request::CURL_ERRORS_TO_MANAGE__REGEX[0]))
+            ->shouldBeCalledTimes(1)
+        ;
+
+        // PREPARE REQUEST
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/public');
+        $request->setMustBeSigned(false);
+
+        // RUN
+        $this->expectException(CurlErrorToManaged::class);
+        $request->send();
+    }
+
+    public function testCallFailWithSomeOtherError()
+    {
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
+
+        // SCENARIO
+        $client
+            ->send(Argument::type(RequestInterface::class))
+            ->willThrow(new \Exception('hi there'))
+            ->shouldBeCalledTimes(1)
+        ;
+
+        // PREPARE REQUEST
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/public');
+        $request->setMustBeSigned(false);
+
+        // RUN
+        $this->expectExceptionMessage('hi there');
+        $this->expectException(ApiError::class);
+        $request->send();
     }
 
     public function testCallWithPagination()
     {
-        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
-        $this->setApiParamsForPrivate($apiParams);
-        $pagination = $this->prophesize(PaginationInterface::class);
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
 
-        // Scenario
+        // SCENARIO
+        $pagination->getQueryArgs()->willReturn(['some arg' => 'some value'])->shouldBeCalledTimes(1);
+        $pagination->autoPaginateFromHeaders(Argument::is('some header value'), Argument::is('some header value'))->shouldBeCalledTimes(1);
+        $stream->getContents()->willReturn(self::API_RETURN_VALID_JSON)->shouldBeCalledTimes(1);
+        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledTimes(1);
+        $response->getHeader(Argument::any())->willReturn(['some header value'])->shouldBeCalledTimes(2);
+        $client->send(Argument::type(RequestInterface::class))->willReturn($response->reveal())->shouldBeCalledTimes(1);
 
-        $pagination->getQueryArgs()->willReturn([]);
-        $pagination->autoPaginateFromHeaders(Argument::any(), Argument::any());
-        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
-        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
-        $response->getHeader(Argument::any())->willReturn(['header'])->shouldBeCalledTimes(2);
-        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
+        // PREPARE REQUEST
+        $request = new Request($client->reveal(), $apiParams->reveal(), 'GET', '/public', ['arg' => 'val'], null, $pagination->reveal());
+        $request->setMustBeSigned(false);
 
-        // Run
-        $requestManager = new RequestFactory(
-            $client->reveal(),
-            $apiParams->reveal()
-        );
-        $requestManager->createRequest('GET', '/route', ['key' => 'value'], null, $pagination->reveal())->send();
+        // RUN
+        self::assertEquals(self::API_RETURN_VALID_JSON, $request->send());
     }
 
-    public function testCallWithTimeInterfaceReturnedValidTimeData()
+    public function testCallWithBadTimeReturnNotFail()
     {
-        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
+        // Provide Prophecies. Not by dataProvider, cause prophecy would not be observed
+        list(
+            $client,
+            $apiParams,
+            $response,
+            $stream,
+            $badResponse,
+            $pagination,
+            $time
+            ) = $this->providePropheciesForTests();
+
+        // SCENARIO
+        $stream->getContents()->willReturn(self::API_RETURN_VALID_JSON)->shouldBeCalledTimes(1);
+        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledTimes(1);
+        $client->send(Argument::type(RequestInterface::class))->willReturn($response->reveal())->shouldBeCalledTimes(1);
+
+        // PREPARE REQUEST
         $this->setApiParamsForPrivate($apiParams);
-        $time = $this->prophesize(TimeInterface::class);
-
-        // Scenario
-        $time->getTime()->willReturn(new TimeData(json_encode(['iso' => 'some-iso-date', 'epoch' => time()])));
-        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
-        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
-        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
-
-        // Run
-        $requestManager = new RequestFactory(
+        $request = new Request(
             $client->reveal(),
-            $apiParams->reveal()
+            $apiParams->reveal(),
+            'GET',
+            '/private',
+            [],
+            false,
+            null,
+            true,
+            $time->reveal()
         );
-        $requestManager->setTimeInterface($time->reveal());
 
-        $requestManager->createRequest('GET', '/route')->send();
+        // RUN
+        $this->setApiParamsForPrivate($apiParams);
+        self::assertEquals(self::API_RETURN_VALID_JSON, $request->send());
     }
 
-    public function testCallWithTimeInterfaceReturnedInvalidTimeData()
-    {
-        list($stream, $response, $badResponse, $client, $apiParams) = $this->providePropheciesForTest();
-        $this->setApiParamsForPrivate($apiParams);
-        $time = $this->prophesize(TimeInterface::class);
-
-        // Scenario
-        $time->getTime()->willThrow(new \Exception());
-        $stream->getContents()->willReturn('{"key": "value"}')->shouldBeCalledOnce();
-        $response->getBody()->willReturn($stream->reveal())->shouldBeCalledOnce();
-        $client->send(Argument::any())->willReturn($response->reveal())->shouldBeCalledOnce();
-
-        // Run
-        $requestManager = new RequestFactory(
-            $client->reveal(),
-            $apiParams->reveal()
-        );
-        $requestManager->setTimeInterface($time->reveal());
-
-        $requestManager->createRequest('GET', '/route')->send();
-    }
-
-    private function providePropheciesForTest()
+    public function providePropheciesForTests()
     {
         $apiParams = $this->prophesize(ApiParamsInterface::class);
         $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
 
         return [
-            $this->prophesize(StreamInterface::class),
-            $this->prophesize(ResponseInterface::class),
-            $this->prophesize(BadResponseException::class),
             $this->prophesize(ClientInterface::class),
             $apiParams,
+            $this->prophesize(ResponseInterface::class),
+            $this->prophesize(StreamInterface::class),
+            $this->prophesize(BadResponseException::class),
+            $this->prophesize(PaginationInterface::class),
+            $this->prophesize(TimeInterface::class),
         ];
     }
 
     private function setApiParamsForPrivate($apiParams)
     {
-        $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
         $apiParams->getSecret()->willReturn('secret')->shouldBeCalledOnce();
         $apiParams->getKey()->willReturn('key')->shouldBeCalledOnce();
         $apiParams->getPassphrase()->willReturn('passphrase')->shouldBeCalledOnce();

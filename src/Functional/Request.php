@@ -25,15 +25,11 @@ use Throwable;
 
 class Request implements RequestInterface
 {
-    const CURL_ERROR_TO_MANAGE__REGEX =
-        '#'.
-        'connection reset by peer'.
-        '|'.
-        'empty reply from server'.
-        '|'.
-        'error 35'.
-        '#i'
-    ;
+    const CURL_ERRORS_TO_MANAGE__REGEX = [
+        'connection reset by peer',
+        'empty reply from server',
+        'error 35',
+    ];
 
     /**
      * @var ClientInterface
@@ -104,7 +100,7 @@ class Request implements RequestInterface
             $message = $exception->getMessage();
 
             if (!$exception->hasResponse()) {
-                throw $exception;
+                throw new ApiError($exception->getMessage());
             }
 
             if (429 === $exception->getResponse()->getStatusCode()) {
@@ -122,7 +118,7 @@ class Request implements RequestInterface
 
             throw new ApiError($message);
         } catch (Throwable $exception) {
-            if (preg_match(self::CURL_ERROR_TO_MANAGE__REGEX, $exception->getMessage())) {
+            if (preg_match('#'.implode('|', self::CURL_ERRORS_TO_MANAGE__REGEX).'#i', $exception->getMessage())) {
                 throw new CurlErrorToManaged();
             }
 
