@@ -22,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @cover Request|RequestManager
+ * @covers Request|RequestManager
  *
  * @internal
  */

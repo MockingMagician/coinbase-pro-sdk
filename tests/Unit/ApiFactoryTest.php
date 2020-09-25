@@ -14,6 +14,8 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestManage
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers ApiFactory
+ *
  * @internal
  */
 class ApiFactoryTest extends TestCase

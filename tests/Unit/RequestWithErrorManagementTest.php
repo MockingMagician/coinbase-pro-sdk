@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
- * @cover RequestWithErrorManagement
+ * @covers MockingMagician\CoinbaseProSdk\Functional\RequestWithErrorManagement
  *
  * @internal
  */
