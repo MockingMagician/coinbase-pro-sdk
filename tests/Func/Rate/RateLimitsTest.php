@@ -8,8 +8,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Rate;
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
-use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Api\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
@@ -20,11 +20,11 @@ use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
 class RateLimitsTest extends AbstractTest
 {
     /**
-     * @var ApiConnectivityInterface
+     * @var ApiInterface
      */
     private $apiWithRateLimitsGuard;
     /**
-     * @var ApiConnectivityInterface
+     * @var ApiInterface
      */
     private $apiWithOutRateLimitsGuard;
 

@@ -11,9 +11,9 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 use Dotenv\Dotenv;
 use Exception;
 use GuzzleHttp\Client;
-use MockingMagician\CoinbaseProSdk\Functional\ApiParams;
+use MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
-use MockingMagician\CoinbaseProSdk\Functional\RequestFactory;
+use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTest extends TestCase

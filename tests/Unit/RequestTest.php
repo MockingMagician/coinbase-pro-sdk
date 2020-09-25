@@ -10,14 +10,14 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
-use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManaged;
-use MockingMagician\CoinbaseProSdk\Functional\Request;
+use MockingMagician\CoinbaseProSdk\Functional\Request\Request;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\RequestInterface;
@@ -25,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @covers MockingMagician\CoinbaseProSdk\Functional\Request
+ * @covers MockingMagician\CoinbaseProSdk\Functional\Request\Request
  *
  * @internal
  */

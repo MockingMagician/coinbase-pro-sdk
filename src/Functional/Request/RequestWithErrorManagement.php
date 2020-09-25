@@ -6,9 +6,9 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Functional;
+namespace MockingMagician\CoinbaseProSdk\Functional\Request;
 
-use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManaged;

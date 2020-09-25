@@ -8,7 +8,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
-use MockingMagician\CoinbaseProSdk\Contracts\RequestFactoryInterface;
+
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
 
 class AbstractRequestManagerAware
 {

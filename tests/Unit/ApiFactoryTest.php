@@ -8,13 +8,13 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
-use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Api\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestManagerAware;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers MockingMagician\CoinbaseProSdk\Functional\ApiFactory
+ * @covers MockingMagician\CoinbaseProSdk\Functional\Api\ApiFactory
  *
  * @internal
  */
@@ -29,9 +29,9 @@ class ApiFactoryTest extends TestCase
 
         $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_full.yaml'); // Full with all
 
-        self::assertInstanceOf(ApiConnectivityInterface::class, $api);
+        self::assertInstanceOf(ApiInterface::class, $api);
 
-        $apiReflect = new \ReflectionClass(ApiConnectivityInterface::class);
+        $apiReflect = new \ReflectionClass(ApiInterface::class);
 
         foreach ($apiReflect->getMethods() as $method) {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->{$method->getName()}());
@@ -47,7 +47,7 @@ class ApiFactoryTest extends TestCase
 
         $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_simply.yaml'); // Simply with no methods
 
-        $apiReflect = new \ReflectionClass(ApiConnectivityInterface::class);
+        $apiReflect = new \ReflectionClass(ApiInterface::class);
 
         foreach ($apiReflect->getMethods() as $method) {
             $exception = null;
@@ -69,7 +69,7 @@ class ApiFactoryTest extends TestCase
 
         $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_minimal.yaml'); // Minimal
 
-        $apiReflect = new \ReflectionClass(ApiConnectivityInterface::class);
+        $apiReflect = new \ReflectionClass(ApiInterface::class);
 
         foreach ($apiReflect->getMethods() as $method) {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->{$method->getName()}());
@@ -80,7 +80,7 @@ class ApiFactoryTest extends TestCase
     {
         $api = ApiFactory::createFull('', '', '', '');
 
-        $apiReflect = new \ReflectionClass(ApiConnectivityInterface::class);
+        $apiReflect = new \ReflectionClass(ApiInterface::class);
 
         foreach ($apiReflect->getMethods() as $method) {
             self::assertInstanceOf(AbstractRequestManagerAware::class, $api->{$method->getName()}());

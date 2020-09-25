@@ -6,7 +6,7 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Contracts;
+namespace MockingMagician\CoinbaseProSdk\Contracts\Api;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterface;
@@ -27,7 +27,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 
-interface ApiConnectivityInterface
+interface ApiInterface
 {
     // Private
     public function accounts(): AccountsInterface;

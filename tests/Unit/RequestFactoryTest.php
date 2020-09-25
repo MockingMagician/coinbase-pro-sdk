@@ -9,22 +9,14 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\BadResponseException;
-use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
-use MockingMagician\CoinbaseProSdk\Functional\ApiParams;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\TimeData;
-use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
-use MockingMagician\CoinbaseProSdk\Functional\RequestFactory;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams;
+use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 
 /**
- * @covers MockingMagician\CoinbaseProSdk\Functional\RequestFactory
+ * @covers MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory
  *
  * @internal
  */

@@ -6,10 +6,10 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Functional;
+namespace MockingMagician\CoinbaseProSdk\Functional\Api;
 
 use GuzzleHttp\Client;
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Currencies;
@@ -30,6 +30,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccount;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 use Symfony\Component\Yaml\Yaml;
 
 final class ApiFactory
@@ -98,7 +99,7 @@ final class ApiFactory
         bool $activateWithdrawals,
         bool $useCoinbaseRemoteTime = false,
         bool $manageRateLimits = true
-    ): ApiConnectivityInterface {
+    ): ApiInterface {
         $apiParams = new ApiParams($endpoint, $key, $secret, $passphrase);
         $requestManager = new RequestFactory(new Client(), $apiParams, $manageRateLimits);
 
@@ -137,7 +138,7 @@ final class ApiFactory
         string $passphrase,
         bool $useCoinbaseRemoteTime = false,
         bool $manageRateLimits = true
-    ): ApiConnectivityInterface {
+    ): ApiInterface {
         return self::create(
             $endpoint,
             $key,
@@ -166,7 +167,7 @@ final class ApiFactory
         );
     }
 
-    public static function createFromYamlConfig(string $path): ApiConnectivityInterface
+    public static function createFromYamlConfig(string $path): ApiInterface
     {
         $config = self::parseYamlConfigFile($path);
         self::checkConfig($config);

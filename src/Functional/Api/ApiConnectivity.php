@@ -6,9 +6,9 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Functional;
+namespace MockingMagician\CoinbaseProSdk\Functional\Api;
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CurrenciesInterface;
@@ -29,7 +29,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class ApiConnectivity implements ApiConnectivityInterface
+class ApiConnectivity implements ApiInterface
 {
     const FUNCTIONALITY_NOT_LOADED = 'The %s functionality was not loaded when building the ApiConnectivity object. Please recreate an object with this feature to be able to use it.';
 

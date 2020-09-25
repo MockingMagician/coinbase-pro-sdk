@@ -6,15 +6,15 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Functional;
+namespace MockingMagician\CoinbaseProSdk\Functional\Request;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
-use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;

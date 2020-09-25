@@ -6,14 +6,14 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Functional;
+namespace MockingMagician\CoinbaseProSdk\Functional\Request;
 
 use GuzzleHttp\ClientInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\RequestFactoryInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 
 class RequestFactory implements RequestFactoryInterface
 {

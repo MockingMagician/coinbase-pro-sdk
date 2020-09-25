@@ -2,9 +2,12 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
 
-use MockingMagician\CoinbaseProSdk\Functional\ApiParams;
+use MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams
+ */
 class ApiParamsTest extends TestCase
 {
     public function testGetter()

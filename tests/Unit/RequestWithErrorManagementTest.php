@@ -8,18 +8,18 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
 
-use MockingMagician\CoinbaseProSdk\Contracts\RequestInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManaged;
-use MockingMagician\CoinbaseProSdk\Functional\Request;
-use MockingMagician\CoinbaseProSdk\Functional\RequestWithErrorManagement;
+use MockingMagician\CoinbaseProSdk\Functional\Request\Request;
+use MockingMagician\CoinbaseProSdk\Functional\Request\RequestWithErrorManagement;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
- * @covers MockingMagician\CoinbaseProSdk\Functional\RequestWithErrorManagement
+ * @covers MockingMagician\CoinbaseProSdk\Functional\Request\RequestWithErrorManagement
  *
  * @internal
  */
