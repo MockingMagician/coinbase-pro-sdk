@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class CoinbaseAccountDataTest extends TestCase
 {
+    // CryptoDepositAddressData.php
     public function provideValidJsonData()
     {
         return [[
