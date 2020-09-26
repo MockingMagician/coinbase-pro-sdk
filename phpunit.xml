@@ -21,10 +21,10 @@
   </php>
 
   <testsuites>
-    <testsuite name="Functional tests">
+    <testsuite name="Functional">
       <directory>tests/Func</directory>
     </testsuite>
-    <testsuite name="Unit tests">
+    <testsuite name="Unit">
       <directory>tests/Unit</directory>
     </testsuite>
   </testsuites>

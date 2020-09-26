@@ -3,3 +3,4 @@
 !.github
 !.php_cs
 /vendor
+composer.lock
