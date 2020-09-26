@@ -6,7 +6,7 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
+namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Request;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;

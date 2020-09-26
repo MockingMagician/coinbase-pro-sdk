@@ -4,12 +4,13 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "MockingMagician\\CoinbaseProSdk\\": "./src"
+            "MockingMagician\\CoinbaseProSdk\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MockingMagician\\CoinbaseProSdk\\Tests\\": "./tests"
+            "MockingMagician\\CoinbaseProSdk\\Tests\\Func": "tests/func",
+            "MockingMagician\\CoinbaseProSdk\\Tests\\Unit": "tests/unit"
         }
     },
     "require": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
+namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
 
 use MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams;
 use PHPUnit\Framework\TestCase;

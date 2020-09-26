@@ -6,7 +6,7 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
+namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Api\ApiConfig;
@@ -28,7 +28,7 @@ class ApiFactoryTest extends TestCase
         $_ENV['API_SECRET'] = 'API_SECRET';
         $_ENV['API_PASSPHRASE'] = 'API_PASSPHRASE';
 
-        $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_full.yaml'); // Full with all
+        $api = ApiFactory::createFromYamlConfig(__DIR__ . '/configs/api_config_full.yaml'); // Full with all
 
         self::assertInstanceOf(ApiInterface::class, $api);
 
@@ -46,7 +46,7 @@ class ApiFactoryTest extends TestCase
         $_ENV['API_SECRET'] = 'API_SECRET';
         $_ENV['API_PASSPHRASE'] = 'API_PASSPHRASE';
 
-        $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_minimal.yaml'); // Minimal
+        $api = ApiFactory::createFromYamlConfig(__DIR__ . '/configs/api_config_minimal.yaml'); // Minimal
 
         $apiReflect = new \ReflectionClass(ApiInterface::class);
 
