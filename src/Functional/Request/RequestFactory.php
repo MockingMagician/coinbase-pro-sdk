@@ -9,14 +9,15 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Request;
 
 use GuzzleHttp\ClientInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiConfigInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorAwareInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 
-class RequestFactory implements RequestFactoryInterface
+class RequestFactory implements RequestFactoryInterface, RequestInspectorAwareInterface
 {
     /**
      * @var ClientInterface
@@ -34,6 +35,10 @@ class RequestFactory implements RequestFactoryInterface
      * @var bool
      */
     private $manageRateLimits;
+    /**
+     * @var null|RequestInspectorInterface
+     */
+    private $requestInspector;
 
     public function __construct(
         ClientInterface $client,
@@ -58,19 +63,30 @@ class RequestFactory implements RequestFactoryInterface
         ?PaginationInterface $pagination = null,
         bool $mustBeSigned = true
     ): RequestInterface {
+        $request = new Request(
+            $this->client,
+            $this->apiParams,
+            $method,
+            $routePath,
+            $queryArgs,
+            $body,
+            $pagination,
+            $mustBeSigned,
+            $this->time
+        );
+
+        if ($this->requestInspector) {
+            $request->inviteInspector($this->requestInspector);
+        }
+
         return new RequestWithErrorManagement(
-            new Request(
-                $this->client,
-                $this->apiParams,
-                $method,
-                $routePath,
-                $queryArgs,
-                $body,
-                $pagination,
-                $mustBeSigned,
-                $this->time
-            ),
+            $request,
             $this->manageRateLimits
         );
+    }
+
+    public function inviteInspector(RequestInspectorInterface $requestInspector): void
+    {
+        $this->requestInspector = $requestInspector;
     }
 }

@@ -13,7 +13,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  */
 interface CoinbaseAccountDataInterface
 {
-    const FIELDS = ['id', 'name', 'balance', 'currency', 'type', 'primary', 'active'];
+    const FIELDS = ['id', 'name', 'balance', 'currency', 'type', 'primary', 'active', 'available_on_consumer', 'hold_balance', 'hold_currency'];
 
     public function getId(): string;
 
@@ -28,6 +28,12 @@ interface CoinbaseAccountDataInterface
     public function isPrimary(): bool;
 
     public function isActive(): bool;
+
+    public function isAvailableOnConsumer(): bool;
+
+    public function getHoldBalance(): float;
+
+    public function getHoldCurrency(): string;
 
     public function getExtraData(): array;
 }

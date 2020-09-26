@@ -9,8 +9,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "MockingMagician\\CoinbaseProSdk\\Tests\\Func": "tests/func",
-            "MockingMagician\\CoinbaseProSdk\\Tests\\Unit": "tests/unit"
+            "MockingMagician\\CoinbaseProSdk\\Tests\\Func\\": "tests/func",
+            "MockingMagician\\CoinbaseProSdk\\Tests\\Unit\\": "tests/unit"
         }
     },
     "require": {

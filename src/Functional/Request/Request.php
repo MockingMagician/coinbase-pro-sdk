@@ -14,6 +14,8 @@ use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorAwareInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -23,7 +25,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManag
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Throwable;
 
-class Request implements RequestInterface
+class Request implements RequestInterface, RequestInspectorAwareInterface
 {
     const CURL_ERRORS_TO_MANAGE__REGEX = [
         'connection reset by peer',
@@ -67,6 +69,10 @@ class Request implements RequestInterface
      * @var bool
      */
     private $mustBeSigned;
+    /**
+     * @var null|RequestInspectorInterface
+     */
+    private $requestInspector;
 
     public function __construct(
         ClientInterface $client,
@@ -132,7 +138,13 @@ class Request implements RequestInterface
             );
         }
 
-        return $response->getBody()->getContents();
+        $content = $response->getBody()->getContents();
+
+        if ($this->requestInspector) {
+            $this->requestInspector->recordRequestData($content, $this->routePath);
+        }
+
+        return $content;
     }
 
     public function setMustBeSigned(bool $set): RequestInterface
@@ -213,5 +225,10 @@ class Request implements RequestInterface
     private function getUri(): string
     {
         return $this->apiParams->getEndPoint().$this->getFullRoutePath();
+    }
+
+    public function inviteInspector(RequestInspectorInterface $requestInspector): void
+    {
+        $this->requestInspector = $requestInspector;
     }
 }
