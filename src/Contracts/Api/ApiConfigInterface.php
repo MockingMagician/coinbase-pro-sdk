@@ -8,11 +8,11 @@ interface ApiConfigInterface
 {
     public function connectivityConfig(): ApiConnectivityConfigInterface;
 
-    public function setUseCoinbaseRemoteTime(): ApiConfigInterface;
+    public function setUseCoinbaseRemoteTime(bool $set): ApiConfigInterface;
 
-    public function getUseCoinbaseRemoteTime(): bool;
+    public function isUseCoinbaseRemoteTime(): bool;
 
-    public function setManageRateLimits(): ApiConfigInterface;
+    public function setManageRateLimits(bool $set): ApiConfigInterface;
 
-    public function getManageRateLimits(): bool;
+    public function isManageRateLimits(): bool;
 }

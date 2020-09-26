@@ -9,6 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Api\ApiConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Api\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestManagerAware;
 use PHPUnit\Framework\TestCase;
@@ -38,28 +39,6 @@ class ApiFactoryTest extends TestCase
         }
     }
 
-    public function testCreateFromYamlConfigWithSimply()
-    {
-        $_ENV['API_ENDPOINT'] = 'API_ENDPOINT';
-        $_ENV['API_KEY'] = 'API_KEY';
-        $_ENV['API_SECRET'] = 'API_SECRET';
-        $_ENV['API_PASSPHRASE'] = 'API_PASSPHRASE';
-
-        $api = ApiFactory::createFromYamlConfig(__DIR__.'/configs/api_config_simply.yaml'); // Simply with no methods
-
-        $apiReflect = new \ReflectionClass(ApiInterface::class);
-
-        foreach ($apiReflect->getMethods() as $method) {
-            $exception = null;
-
-            try {
-                self::assertInstanceOf(AbstractRequestManagerAware::class, $api->{$method->getName()}());
-            } catch (\Throwable $exception) {
-            }
-            self::assertNotNull($exception);
-        }
-    }
-
     public function testCreateFromYamlConfigWithMinimal()
     {
         $_ENV['API_ENDPOINT'] = 'API_ENDPOINT';
@@ -76,9 +55,9 @@ class ApiFactoryTest extends TestCase
         }
     }
 
-    public function testCreateFull()
+    public function testCreateNative()
     {
-        $api = ApiFactory::createFull('', '', '', '');
+        $api = ApiFactory::create('', '', '', '');
 
         $apiReflect = new \ReflectionClass(ApiInterface::class);
 
@@ -87,31 +66,27 @@ class ApiFactoryTest extends TestCase
         }
     }
 
-    public function testCreate()
+    public function testCreateCustom()
     {
+        $apiConfig = new ApiConfig();
+
+        $apiConfig->connectivityConfig()
+            ->setPaymentMethods(false)
+            ->setProducts(false)
+            ->setProfiles(false)
+            ->setReports(false)
+            ->setStablecoinConversions(false)
+            ->setTime(false)
+            ->setUserAccount(false)
+            ->setWithdrawals(false)
+        ;
+
         $api = ApiFactory::create(
             '',
             '',
             '',
             '',
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
+            $apiConfig
         );
 
         self::assertInstanceOf(AbstractRequestManagerAware::class, $api->accounts());

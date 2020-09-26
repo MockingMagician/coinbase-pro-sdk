@@ -53,25 +53,25 @@ final class ApiFactory
         'passphrase',
     ];
 
-    const CONFIG_FEATURES_FIELDS = [
-        'accounts',
-        'coinbase_accounts',
-        'currencies',
-        'deposits',
-        'fees',
-        'fills',
-        'limits',
-        'margin',
-        'oracle',
-        'orders',
-        'payment_methods',
-        'products',
-        'profiles',
-        'reports',
-        'stablecoin_conversions',
-        'time',
-        'user_accounts',
-        'withdrawals',
+    const CONFIG_FEATURES_FIELDS_MAPPING = [
+        'accounts' => 'accounts',
+        'coinbase_accounts' => 'coinbaseAccounts',
+        'currencies' => 'currencies',
+        'deposits' => 'deposits',
+        'fees' => 'fees',
+        'fills' => 'fills',
+        'limits' => 'limits',
+        'margin' => 'margin',
+        'oracle' => 'oracle',
+        'orders' => 'orders',
+        'payment_methods' => 'paymentMethods',
+        'products' => 'products',
+        'profiles' => 'profiles',
+        'reports' => 'reports',
+        'stablecoin_conversions' => 'stablecoinConversions',
+        'time' => 'time',
+        'user_account' => 'userAccount',
+        'withdrawals' => 'withdrawals',
     ];
 
     public static function create(
@@ -79,91 +79,41 @@ final class ApiFactory
         string $key,
         string $secret,
         string $passphrase,
-        bool $activateAccounts,
-        bool $activateCoinbaseAccounts,
-        bool $activateCurrencies,
-        bool $activateDeposits,
-        bool $activateFees,
-        bool $activateFills,
-        bool $activateLimits,
-        bool $activateMargin,
-        bool $activateOracle,
-        bool $activateOrders,
-        bool $activatePaymentMethods,
-        bool $activateProducts,
-        bool $activateProfiles,
-        bool $activateReports,
-        bool $activateStableCoinConversions,
-        bool $activateTime,
-        bool $activateUserAccounts,
-        bool $activateWithdrawals,
-        bool $useCoinbaseRemoteTime = false,
-        bool $manageRateLimits = true
+        ?ApiConfig $apiConfig = null
     ): ApiInterface {
+        if (is_null($apiConfig)) {
+            $apiConfig = new ApiConfig();
+        }
+
         $apiParams = new ApiParams($endpoint, $key, $secret, $passphrase);
-        $requestManager = new RequestFactory(new Client(), $apiParams, $manageRateLimits);
+
+        $requestManager = new RequestFactory(new Client(), $apiParams, $apiConfig->isManageRateLimits());
 
         $time = new Time($requestManager);
 
-        if ($useCoinbaseRemoteTime) {
+        if ($apiConfig->isUseCoinbaseRemoteTime()) {
             $requestManager->setTimeInterface($time);
         }
 
-        return new ApiConnectivity(
-            $activateAccounts ? new Accounts($requestManager) : null,
-            $activateCoinbaseAccounts ? new CoinbaseAccounts($requestManager) : null,
-            $activateCurrencies ? new Currencies($requestManager) : null,
-            $activateDeposits ? new Deposits($requestManager) : null,
-            $activateFees ? new Fees($requestManager) : null,
-            $activateFills ? new Fills($requestManager) : null,
-            $activateLimits ? new Limits($requestManager) : null,
-            $activateMargin ? new MarginApiReadyCheckDecorator(new Margin($requestManager)) : null,
-            $activateOracle ? new Oracle($requestManager) : null,
-            $activateOrders ? new Orders($requestManager) : null,
-            $activatePaymentMethods ? new PaymentMethods($requestManager) : null,
-            $activateProducts ? new Products($requestManager) : null,
-            $activateProfiles ? new Profiles($requestManager) : null,
-            $activateReports ? new Reports($requestManager) : null,
-            $activateStableCoinConversions ? new StableCoinConversions($requestManager) : null,
-            $activateTime ? $time : null,
-            $activateUserAccounts ? new UserAccount($requestManager) : null,
-            $activateWithdrawals ? new Withdrawals($requestManager) : null
-        );
-    }
-
-    public static function createFull(
-        string $endpoint,
-        string $key,
-        string $secret,
-        string $passphrase,
-        bool $useCoinbaseRemoteTime = false,
-        bool $manageRateLimits = true
-    ): ApiInterface {
-        return self::create(
-            $endpoint,
-            $key,
-            $secret,
-            $passphrase,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            $useCoinbaseRemoteTime,
-            $manageRateLimits
+        return new Api(
+            $apiConfig->connectivityConfig()->getAccounts() ? new Accounts($requestManager) : null,
+            $apiConfig->connectivityConfig()->getCoinbaseAccounts() ? new CoinbaseAccounts($requestManager) : null,
+            $apiConfig->connectivityConfig()->getCurrencies() ? new Currencies($requestManager) : null,
+            $apiConfig->connectivityConfig()->getDeposits() ? new Deposits($requestManager) : null,
+            $apiConfig->connectivityConfig()->getFees() ? new Fees($requestManager) : null,
+            $apiConfig->connectivityConfig()->getFills() ? new Fills($requestManager) : null,
+            $apiConfig->connectivityConfig()->getLimits() ? new Limits($requestManager) : null,
+            $apiConfig->connectivityConfig()->getMargin() ? new MarginApiReadyCheckDecorator(new Margin($requestManager)) : null,
+            $apiConfig->connectivityConfig()->getOracle() ? new Oracle($requestManager) : null,
+            $apiConfig->connectivityConfig()->getOrders() ? new Orders($requestManager) : null,
+            $apiConfig->connectivityConfig()->getPaymentMethods() ? new PaymentMethods($requestManager) : null,
+            $apiConfig->connectivityConfig()->getProducts() ? new Products($requestManager) : null,
+            $apiConfig->connectivityConfig()->getProfiles() ? new Profiles($requestManager) : null,
+            $apiConfig->connectivityConfig()->getReports() ? new Reports($requestManager) : null,
+            $apiConfig->connectivityConfig()->getStableCoinConversions() ? new StableCoinConversions($requestManager) : null,
+            $apiConfig->connectivityConfig()->getTime() ? $time : null,
+            $apiConfig->connectivityConfig()->getUserAccount() ? new UserAccount($requestManager) : null,
+            $apiConfig->connectivityConfig()->getWithdrawals() ? new Withdrawals($requestManager) : null
         );
     }
 
@@ -172,49 +122,25 @@ final class ApiFactory
         $config = self::parseYamlConfigFile($path);
         self::checkConfig($config);
 
-        $useCoinbaseRemoteTime = (
-            isset($config[self::CONFIG_ROOT_REMOTE_TIME])
-            && true === $config[self::CONFIG_ROOT_REMOTE_TIME]
-        );
-        $manangeRateLimits = (
-            isset($config[self::CONFIG_ROOT_MANAGE_RATE_LIMITS])
-            && false === $config[self::CONFIG_ROOT_MANAGE_RATE_LIMITS]
-        ) ? false : true;
+        $apiConfig = new ApiConfig();
 
-        if (true === $config[self::CONFIG_ROOT_FEATURES] || !isset($config[self::CONFIG_ROOT_FEATURES])) {
-            return self::createFull(
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[0]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[1]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[2]],
-                $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[3]],
-                $useCoinbaseRemoteTime,
-                $manangeRateLimits
-            );
+        if (isset($config[self::CONFIG_ROOT_REMOTE_TIME])) {
+            $apiConfig->setManageRateLimits((bool) $config[self::CONFIG_ROOT_REMOTE_TIME]);
         }
 
-        $params = [
+        if (isset($config[self::CONFIG_ROOT_MANAGE_RATE_LIMITS])) {
+            $apiConfig->setUseCoinbaseRemoteTime((bool) $config[self::CONFIG_ROOT_MANAGE_RATE_LIMITS]);
+        }
+
+        self::configureConnectivity($config, $apiConfig);
+
+        return self::create(
             $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[0]],
             $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[1]],
             $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[2]],
             $config[self::CONFIG_ROOT_CONNECTIVITY][self::CONFIG_CONNECTIVITY_FIELDS[3]],
-        ];
-
-        foreach (self::CONFIG_FEATURES_FIELDS as $CONFIG_FEATURES_FIELD) {
-            if (false === $config[self::CONFIG_ROOT_FEATURES]) {
-                $params[] = false;
-
-                continue;
-            }
-            $params[] = (
-                !isset($config[self::CONFIG_ROOT_FEATURES][$CONFIG_FEATURES_FIELD])
-                || !(false === $config[self::CONFIG_ROOT_FEATURES][$CONFIG_FEATURES_FIELD])
-            );
-        }
-
-        $params[] = $useCoinbaseRemoteTime;
-        $params[] = $manangeRateLimits;
-
-        return self::create(...$params);
+            $apiConfig
+        );
     }
 
     private static function parseYamlConfigFile(string $path): array
@@ -256,14 +182,22 @@ final class ApiFactory
                 $config[self::CONFIG_ROOT_CONNECTIVITY][$k] = getenv($matches[1]);
             }
         }
+    }
 
-        if (!isset($config[self::CONFIG_ROOT_FEATURES])
-            || !(
-                is_array($config[self::CONFIG_ROOT_FEATURES])
-                || is_bool($config[self::CONFIG_ROOT_FEATURES])
-            )
-        ) {
-            throw new ApiError('Config file features root key must be an array or a boolean value.');
+    private static function configureConnectivity(array $config, ApiConfig $apiConfig)
+    {
+        if (!isset($config[self::CONFIG_ROOT_FEATURES]) || !is_array($config[self::CONFIG_ROOT_FEATURES] )) {
+            return;
+        }
+
+        foreach (self::CONFIG_FEATURES_FIELDS_MAPPING as $key => $methodPart) {
+            if (!isset($config[self::CONFIG_ROOT_FEATURES][$key])) {
+                continue;
+            }
+
+            if (false === $config[self::CONFIG_ROOT_FEATURES][$key]) {
+                $apiConfig->{'set'.ucfirst($methodPart)}(false);
+            }
         }
     }
 }

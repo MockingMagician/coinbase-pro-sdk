@@ -24,6 +24,6 @@ features:
     user_accounts: true
     withdrawals: true
 
-remote_time: false
+remote_time: true
 
-manage_rate_limits: true
+manage_rate_limits: false

@@ -3,5 +3,3 @@ connectivity:
     key: '${API_KEY}'
     secret: '${API_SECRET}'
     passphrase: '${API_PASSPHRASE}'
-
-features: true
