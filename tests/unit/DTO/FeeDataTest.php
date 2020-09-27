@@ -2,7 +2,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\FeeData;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
