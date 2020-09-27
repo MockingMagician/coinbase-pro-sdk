@@ -25,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @covers MockingMagician\CoinbaseProSdk\Functional\Request\Request
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\Request\Request
  *
  * @internal
  */

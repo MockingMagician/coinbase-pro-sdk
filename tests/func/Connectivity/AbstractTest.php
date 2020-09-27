@@ -14,7 +14,7 @@ use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
 use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
-use MockingMagician\CoinbaseProSdk\Functional\Request\RequestInspector;
+use MockingMagician\CoinbaseProSdk\Functional\Request\RequestReporter;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTest extends TestCase
@@ -63,7 +63,7 @@ abstract class AbstractTest extends TestCase
         ini_set('xdebug.var_display_max_data', '4096');
         $httpClient = new Client();
         $this->requestManager = new RequestFactory($httpClient, $this->apiParams, false);
-        $this->requestManager->inviteInspector(new RequestInspector(self::INSPECTOR_RECORD_PATH));
+        $this->requestManager->inviteReporter(new RequestReporter(self::INSPECTOR_RECORD_PATH));
         $this->time = new Time($this->requestManager);
         $this->requestManager->setTimeInterface($this->time);
         usleep(750000);

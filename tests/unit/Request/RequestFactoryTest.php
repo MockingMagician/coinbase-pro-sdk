@@ -16,7 +16,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory
  *
  * @internal
  */

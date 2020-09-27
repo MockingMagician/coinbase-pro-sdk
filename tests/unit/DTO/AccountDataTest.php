@@ -5,6 +5,10 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AbstractCreator
+ */
 class AccountDataTest extends TestCase
 {
     public function provideValidJsonData()

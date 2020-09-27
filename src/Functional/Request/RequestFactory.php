@@ -13,11 +13,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorAwareInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterAwareInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 
-class RequestFactory implements RequestFactoryInterface, RequestInspectorAwareInterface
+class RequestFactory implements RequestFactoryInterface, RequestReporterAwareInterface
 {
     /**
      * @var ClientInterface
@@ -36,7 +36,7 @@ class RequestFactory implements RequestFactoryInterface, RequestInspectorAwareIn
      */
     private $manageRateLimits;
     /**
-     * @var null|RequestInspectorInterface
+     * @var null|RequestReporterInterface
      */
     private $requestInspector;
 
@@ -75,9 +75,11 @@ class RequestFactory implements RequestFactoryInterface, RequestInspectorAwareIn
             $this->time
         );
 
+        // @codeCoverageIgnoreStart
         if ($this->requestInspector) {
-            $request->inviteInspector($this->requestInspector);
+            $request->inviteReporter($this->requestInspector);
         }
+        // @codeCoverageIgnoreEnd
 
         return new RequestWithErrorManagement(
             $request,
@@ -85,7 +87,10 @@ class RequestFactory implements RequestFactoryInterface, RequestInspectorAwareIn
         );
     }
 
-    public function inviteInspector(RequestInspectorInterface $requestInspector): void
+    /**
+     * @codeCoverageIgnore
+     */
+    public function inviteReporter(RequestReporterInterface $requestInspector): void
     {
         $this->requestInspector = $requestInspector;
     }

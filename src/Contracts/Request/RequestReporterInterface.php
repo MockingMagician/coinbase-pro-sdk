@@ -4,7 +4,7 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Request;
 
 
-interface RequestInspectorInterface
+interface RequestReporterInterface
 {
     public function recordRequestData(string $data, string $namespace): void;
 }

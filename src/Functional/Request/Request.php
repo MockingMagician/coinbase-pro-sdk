@@ -14,8 +14,8 @@ use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorAwareInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterAwareInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -25,7 +25,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManag
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Throwable;
 
-class Request implements RequestInterface, RequestInspectorAwareInterface
+class Request implements RequestInterface, RequestReporterAwareInterface
 {
     const CURL_ERRORS_TO_MANAGE__REGEX = [
         'connection reset by peer',
@@ -70,7 +70,7 @@ class Request implements RequestInterface, RequestInspectorAwareInterface
      */
     private $mustBeSigned;
     /**
-     * @var null|RequestInspectorInterface
+     * @var null|RequestReporterInterface
      */
     private $requestInspector;
 
@@ -140,9 +140,11 @@ class Request implements RequestInterface, RequestInspectorAwareInterface
 
         $content = $response->getBody()->getContents();
 
+        // @codeCoverageIgnoreStart
         if ($this->requestInspector) {
             $this->requestInspector->recordRequestData($content, $this->routePath);
         }
+        // @codeCoverageIgnoreEnd
 
         return $content;
     }
@@ -227,7 +229,10 @@ class Request implements RequestInterface, RequestInspectorAwareInterface
         return $this->apiParams->getEndPoint().$this->getFullRoutePath();
     }
 
-    public function inviteInspector(RequestInspectorInterface $requestInspector): void
+    /**
+     * @codeCoverageIgnore
+     */
+    public function inviteReporter(RequestReporterInterface $requestInspector): void
     {
         $this->requestInspector = $requestInspector;
     }

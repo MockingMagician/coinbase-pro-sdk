@@ -4,10 +4,13 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Request;
 
 
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInspectorInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class RequestInspector implements RequestInspectorInterface
+/**
+ * @codeCoverageIgnore
+ */
+class RequestReporter implements RequestReporterInterface
 {
     const VALID_NAMESPACE_PATTERN = '#[a-z0-9_/-]#i';
 
