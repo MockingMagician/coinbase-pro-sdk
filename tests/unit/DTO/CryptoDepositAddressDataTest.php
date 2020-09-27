@@ -91,12 +91,6 @@ class CryptoDepositAddressDataTest extends TestCase
         self::assertEquals('7b147f5d-79de-4d3b-b116-446b259f8765', $coinbaseAccountData->getId());
         self::assertEquals('cx3iotaZqweMa7bABi4bRWq6rpponnOIFa', $coinbaseAccountData->getAddress());
         self::assertNullOrEquals('3299925630', $coinbaseAccountData->getDestinationTag());
-        $addressInfo = $coinbaseAccountData->getAddressInfo();
-        self::assertNullOrInstanceOf(CryptoDepositAddressInfoData::class, $addressInfo);
-        if ($addressInfo) {
-            self::assertEquals('cx3iotaZqweMa7bABi4bRWq6rpponnOIFa', $addressInfo->getAddress());
-            self::assertEquals('4938102', $addressInfo->getDestinationTag());
-        }
         self::assertEquals(new \DateTime('2014-05-07T08:41:19-07:00'), $coinbaseAccountData->getCreatedAt());
         self::assertEquals(new \DateTime('2014-05-07T08:41:19-08:00'), $coinbaseAccountData->getUpdatedAt());
         self::assertNullOrEquals('ripple', $coinbaseAccountData->getNetwork());
@@ -105,6 +99,12 @@ class CryptoDepositAddressDataTest extends TestCase
         self::assertEquals(true, $coinbaseAccountData->isExchangeDepositAddress());
         self::assertNullOrEquals('https://some-url.com', $coinbaseAccountData->getCallbackUrl());
         self::assertNullOrEquals('/v2/exchange/accounts/95671473-4dda-5264-a654-fc6923e8a334/addresses/dd3183eb-af1d-5f5d-a90d-cbff946435ff', $coinbaseAccountData->getResourcePath());
+        $addressInfo = $coinbaseAccountData->getAddressInfo();
+        self::assertNullOrInstanceOf(CryptoDepositAddressInfoData::class, $addressInfo);
+        if ($addressInfo) {
+            self::assertEquals('cx3iotaZqweMa7bABi4bRWq6rpponnOIFa', $addressInfo->getAddress());
+            self::assertEquals('4938102', $addressInfo->getDestinationTag());
+        }
     }
 
     /**
