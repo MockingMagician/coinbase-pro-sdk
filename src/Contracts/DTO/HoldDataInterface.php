@@ -25,7 +25,7 @@ interface HoldDataInterface
 
     public function getAmount(): float;
 
-    public function getType(): float;
+    public function getType(): string;
 
     public function getRef(): string;
 }

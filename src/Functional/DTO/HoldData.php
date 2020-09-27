@@ -17,83 +17,83 @@ class HoldData extends AbstractCreator implements HoldDataInterface
     /**
      * @var string
      */
-    private $Id;
+    private $id;
     /**
      * @var string
      */
-    private $AccountId;
+    private $accountId;
     /**
      * @var DateTimeInterface
      */
-    private $CreatedAt;
+    private $createdAt;
     /**
      * @var DateTimeInterface
      */
-    private $UpdatedAt;
+    private $updatedAt;
     /**
      * @var float
      */
-    private $Amount;
-    /**
-     * @var float
-     */
-    private $Type;
+    private $amount;
     /**
      * @var string
      */
-    private $Ref;
+    private $type;
+    /**
+     * @var string
+     */
+    private $ref;
 
     public function __construct(
-        string $Id,
-        string $AccountId,
-        DateTimeInterface $CreatedAt,
-        DateTimeInterface $UpdatedAt,
+        string $id,
+        string $accountId,
+        DateTimeInterface $createdAt,
+        DateTimeInterface $updatedAt,
         float $Amount,
-        float $Type,
-        string $Ref
+        string $type,
+        string $ref
     ) {
-        $this->Id = $Id;
-        $this->AccountId = $AccountId;
-        $this->CreatedAt = $CreatedAt;
-        $this->UpdatedAt = $UpdatedAt;
-        $this->Amount = $Amount;
-        $this->Type = $Type;
-        $this->Ref = $Ref;
+        $this->id = $id;
+        $this->accountId = $accountId;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+        $this->amount = $Amount;
+        $this->type = $type;
+        $this->ref = $ref;
     }
 
     public function getId(): string
     {
-        return $this->Id;
+        return $this->id;
     }
 
     public function getAccountId(): string
     {
-        return $this->AccountId;
+        return $this->accountId;
     }
 
     public function getCreatedAt(): DateTimeInterface
     {
-        return $this->CreatedAt;
+        return $this->createdAt;
     }
 
     public function getUpdatedAt(): DateTimeInterface
     {
-        return $this->UpdatedAt;
+        return $this->updatedAt;
     }
 
     public function getAmount(): float
     {
-        return $this->Amount;
+        return $this->amount;
     }
 
-    public function getType(): float
+    public function getType(): string
     {
-        return $this->Type;
+        return $this->type;
     }
 
     public function getRef(): string
     {
-        return $this->Ref;
+        return $this->ref;
     }
 
     public static function createFromArray(array $array, ...$divers)
