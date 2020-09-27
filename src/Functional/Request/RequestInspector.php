@@ -33,6 +33,7 @@ class RequestInspector implements RequestInspectorInterface
 
     public function recordRequestData(string $data, string $namespace): void
     {
+        $namespace = ltrim($namespace, '/');
         $json = json_encode(json_decode($data, true), JSON_PRETTY_PRINT);
         if (JSON_ERROR_NONE !== json_last_error()) {
             return;
@@ -42,7 +43,13 @@ class RequestInspector implements RequestInspectorInterface
         }
         $dirToRecord = $this->pathToRecord.DIRECTORY_SEPARATOR.$namespace;
         if (!file_exists($dirToRecord)) {
-            mkdir($dirToRecord);
+            try {
+                mkdir($dirToRecord, 0777, true);
+            } catch (\Throwable $exception) {
+                if (!file_exists($dirToRecord)) {
+                    throw new ApiError(sprintf('Failed to create %s path', $dirToRecord), $exception->getCode(), $exception);
+                }
+            }
         }
         file_put_contents($dirToRecord.DIRECTORY_SEPARATOR.(microtime(true) * 10000).'.json', $json);
     }
