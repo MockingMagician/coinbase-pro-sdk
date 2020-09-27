@@ -54,6 +54,18 @@ class FillData extends AbstractCreator implements FillDataInterface
      * @var string
      */
     private $side;
+    /**
+     * @var string|null
+     */
+    private $userId;
+    /**
+     * @var string|null
+     */
+    private $profileId;
+    /**
+     * @var float|null
+     */
+    private $usdVolume;
 
     public function __construct(
         int $tradeId,
@@ -61,10 +73,13 @@ class FillData extends AbstractCreator implements FillDataInterface
         float $price,
         float $size,
         string $orderId,
+        ?string $userId,
+        ?string $profileId,
         DateTimeInterface $createdAt,
         string $liquidity,
         float $fee,
         bool $settled,
+        ?float $usdVolume,
         string $side
     ) {
         $this->tradeId = $tradeId;
@@ -77,6 +92,9 @@ class FillData extends AbstractCreator implements FillDataInterface
         $this->fee = $fee;
         $this->settled = $settled;
         $this->side = $side;
+        $this->userId = $userId;
+        $this->profileId = $profileId;
+        $this->usdVolume = $usdVolume;
     }
 
     public function getTradeId(): int
@@ -129,6 +147,21 @@ class FillData extends AbstractCreator implements FillDataInterface
         return $this->side;
     }
 
+    public function getUserId(): ?string
+    {
+        return $this->userId;
+    }
+
+    public function getProfileId(): ?string
+    {
+        return $this->profileId;
+    }
+
+    public function getUsdVolume(): ?float
+    {
+        return $this->usdVolume;
+    }
+
     public static function createFromArray(array $array, ...$divers)
     {
         return new static(
@@ -137,10 +170,13 @@ class FillData extends AbstractCreator implements FillDataInterface
             $array['price'],
             $array['size'],
             $array['order_id'],
+            $array['user_id'] ?? null,
+            $array['profile_id'] ?? null,
             new DateTimeImmutable($array['created_at']),
             $array['liquidity'],
             $array['fee'],
             $array['settled'],
+            $array['usd_volume'] ??  null,
             $array['side']
         );
     }
