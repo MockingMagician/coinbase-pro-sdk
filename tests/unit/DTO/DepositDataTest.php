@@ -2,13 +2,12 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AbstractCreator
  */
 class DepositDataTest extends TestCase
@@ -93,6 +92,7 @@ class DepositDataTest extends TestCase
         self::assertEquals(new \DateTime('2020-09-26 15:14:56.8849+00'), $depositData->getCreatedAt());
         self::assertEquals(new \DateTime('2020-09-26 15:14:56.889263+00'), $depositData->getCompletedAt());
         self::assertEquals(new \DateTime('2020-09-26 15:14:56.889263+00'), $depositData->getProcessedAt());
+        self::assertNullOrEquals(new \DateTime(), $depositData->getCanceledAt());
         self::assertEquals('619bc976-c6a5-4d3a-9c69-031ff2f0e46a', $depositData->getAccountId());
         self::assertEquals('5e70d9c2371d9322ba7d99f5', $depositData->getUserId());
         self::assertNullOrEquals(1592624441614, $depositData->getUserNonce());
