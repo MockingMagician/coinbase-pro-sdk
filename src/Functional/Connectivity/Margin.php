@@ -17,7 +17,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PositionRefreshAmountsData;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalPowerDataInterface;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatus;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatusData;
 
 /**
  * Class Margin.
@@ -141,6 +141,6 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
      */
     public function getMarginStatus(): MarginStatusDataInterface
     {
-        return MarginStatus::createFromJson($this->getMarginStatusRaw());
+        return MarginStatusData::createFromJson($this->getMarginStatusRaw());
     }
 }

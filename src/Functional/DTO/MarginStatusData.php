@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 
-class MarginStatus extends AbstractCreator implements MarginStatusDataInterface
+class MarginStatusData extends AbstractCreator implements MarginStatusDataInterface
 {
     /**
      * @var int
