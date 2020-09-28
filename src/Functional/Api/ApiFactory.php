@@ -186,7 +186,7 @@ final class ApiFactory
 
     private static function configureConnectivity(array $config, ApiConfig $apiConfig)
     {
-        if (!isset($config[self::CONFIG_ROOT_FEATURES]) || !is_array($config[self::CONFIG_ROOT_FEATURES] )) {
+        if (!isset($config[self::CONFIG_ROOT_FEATURES]) || !is_array($config[self::CONFIG_ROOT_FEATURES])) {
             return;
         }
 

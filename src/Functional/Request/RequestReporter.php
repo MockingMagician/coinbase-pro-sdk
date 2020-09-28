@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Request;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -50,7 +54,7 @@ class RequestReporter implements RequestReporterInterface
                 mkdir($dirToRecord, 0777, true);
             } catch (\Throwable $exception) {
                 if (!file_exists($dirToRecord)) {
-                    throw new ApiError(sprintf('Failed to create %s path', $dirToRecord), $exception->getCode(), $exception);
+                    throw new ApiError(sprintf('Failed to create %s path', $dirToRecord));
                 }
             }
         }

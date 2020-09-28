@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
+
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
 use MockingMagician\CoinbaseProSdk\Functional\DTO\FillData;
@@ -7,8 +13,10 @@ use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\FillData
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AbstractCreator
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\FillData
+ *
+ * @internal
  */
 class FillDataTest extends TestCase
 {
@@ -32,7 +40,7 @@ class FillDataTest extends TestCase
                     "side": "buy",
                     "settled": true,
                     "usd_volume": "10.7285800000000000"
-                }'
+                }',
             ],
             [
                 '{
@@ -46,7 +54,7 @@ class FillDataTest extends TestCase
                     "fee": "0.0214571600000000",
                     "settled": true,
                     "side": "buy"
-                }'
+                }',
             ],
         ];
     }

@@ -29,15 +29,15 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
      */
     private $extraData;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $status;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $message;
     /**
-     * @var float|null
+     * @var null|float
      */
     private $maxPrecision;
     /**

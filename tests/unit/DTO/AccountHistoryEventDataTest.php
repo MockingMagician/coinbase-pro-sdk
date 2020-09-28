@@ -1,16 +1,25 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
+
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountHistoryEventData;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class AccountHistoryEventDataTest extends TestCase
 {
     public function provideValidJsonData()
     {
         return [[
-             '{
+            '{
                   "id": "154612730",
                   "amount": "5.0000000000000000",
                   "balance": "1455.0000000000000000",
@@ -146,8 +155,8 @@ class AccountHistoryEventDataTest extends TestCase
         self::assertEquals(new \DateTime('2020-09-26T15:14:56.527771Z'), $accountHistoryEvent->getCreatedAt());
         self::assertEquals('transfer', $accountHistoryEvent->getType());
         self::assertEquals([
-            "transfer_id" => "bbdfbc16-8032-42fe-a8c0-fd91cdf7838f",
-            "transfer_type" => "deposit",
+            'transfer_id' => 'bbdfbc16-8032-42fe-a8c0-fd91cdf7838f',
+            'transfer_type' => 'deposit',
         ], $accountHistoryEvent->getDetails());
     }
 

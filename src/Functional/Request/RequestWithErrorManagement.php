@@ -49,7 +49,9 @@ class RequestWithErrorManagement implements RequestInterface
                 continue;
             }
         }
-    } // @codeCoverageIgnore
+    }
+
+    // @codeCoverageIgnore
 
     public function setMustBeSigned(bool $set): RequestInterface
     {

@@ -1,11 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
+
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CoinbaseAccountData;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class CoinbaseAccountDataTest extends TestCase
 {
     // CryptoDepositAddressData.php
@@ -39,6 +47,7 @@ class CoinbaseAccountDataTest extends TestCase
             }',
         ]];
     }
+
     public function provideValidJsonDataCollection()
     {
         return [[
@@ -204,19 +213,19 @@ class CoinbaseAccountDataTest extends TestCase
         self::assertEquals(5000, $coinbaseAccountData->getHoldBalance());
         self::assertEquals('USD', $coinbaseAccountData->getHoldCurrency());
         self::assertEquals([
-            "wire_deposit_information" => [
-                "account_number" => "12345678912",
-                "routing_number" => "1234567",
-                "bank_name" => "Coinbase Test Bank",
-                "bank_address" => "1 Test Bank Drive, Nowhere",
-                "bank_country" => [
-                    "code" => "US",
-                    "name" => "United States"
+            'wire_deposit_information' => [
+                'account_number' => '12345678912',
+                'routing_number' => '1234567',
+                'bank_name' => 'Coinbase Test Bank',
+                'bank_address' => '1 Test Bank Drive, Nowhere',
+                'bank_country' => [
+                    'code' => 'US',
+                    'name' => 'United States',
                 ],
-                "account_name" => "Coinbase, Inc",
-                "account_address" => "548 Market Street, #23008, San Francisco, CA 94104",
-                "reference" => "TESTREFERENCE"
-            ]
+                'account_name' => 'Coinbase, Inc',
+                'account_address' => '548 Market Street, #23008, San Francisco, CA 94104',
+                'reference' => 'TESTREFERENCE',
+            ],
         ], $coinbaseAccountData->getExtraData());
     }
 

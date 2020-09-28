@@ -1,15 +1,22 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
+
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\FillData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\HoldData;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\HoldData
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AbstractCreator
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\HoldData
+ *
+ * @internal
  */
 class HoldDataTest extends TestCase
 {
@@ -27,7 +34,7 @@ class HoldDataTest extends TestCase
                     "amount": "4.23",
                     "type": "order",
                     "ref": "0a205de4-dd35-4370-a285-fe8fc375a273"
-                }'
+                }',
             ],
         ];
     }

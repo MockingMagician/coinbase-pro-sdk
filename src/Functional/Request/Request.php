@@ -14,9 +14,9 @@ use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;
@@ -156,6 +156,14 @@ class Request implements RequestInterface, RequestReporterAwareInterface
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
+    public function inviteReporter(RequestReporterInterface $requestInspector): void
+    {
+        $this->requestInspector = $requestInspector;
+    }
+
     private function buildRequest(): PsrRequestInterface
     {
         if ($this->mustBeSigned) {
@@ -227,13 +235,5 @@ class Request implements RequestInterface, RequestReporterAwareInterface
     private function getUri(): string
     {
         return $this->apiParams->getEndPoint().$this->getFullRoutePath();
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function inviteReporter(RequestReporterInterface $requestInspector): void
-    {
-        $this->requestInspector = $requestInspector;
     }
 }

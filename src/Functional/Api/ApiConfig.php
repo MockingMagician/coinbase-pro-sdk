@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Api;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiConfigInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiConnectivityConfigInterface;
@@ -32,7 +36,7 @@ class ApiConfig implements ApiConfigInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function connectivityConfig(): ApiConnectivityConfigInterface
     {
@@ -40,7 +44,7 @@ class ApiConfig implements ApiConfigInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function isUseCoinbaseRemoteTime(): bool
     {
@@ -48,7 +52,7 @@ class ApiConfig implements ApiConfigInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setUseCoinbaseRemoteTime(bool $useCoinbaseRemoteTime): ApiConfigInterface
     {
@@ -58,7 +62,7 @@ class ApiConfig implements ApiConfigInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function isManageRateLimits(): bool
     {
@@ -66,7 +70,7 @@ class ApiConfig implements ApiConfigInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setManageRateLimits(bool $manageRateLimits): ApiConfigInterface
     {

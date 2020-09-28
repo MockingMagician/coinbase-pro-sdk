@@ -55,15 +55,15 @@ class FillData extends AbstractCreator implements FillDataInterface
      */
     private $side;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $userId;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $profileId;
     /**
-     * @var float|null
+     * @var null|float
      */
     private $usdVolume;
 
@@ -176,7 +176,7 @@ class FillData extends AbstractCreator implements FillDataInterface
             $array['liquidity'],
             $array['fee'],
             $array['settled'],
-            $array['usd_volume'] ??  null,
+            $array['usd_volume'] ?? null,
             $array['side']
         );
     }

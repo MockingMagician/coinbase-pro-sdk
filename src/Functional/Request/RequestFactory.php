@@ -13,9 +13,9 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
 
 class RequestFactory implements RequestFactoryInterface, RequestReporterAwareInterface
 {

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
+
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
@@ -7,8 +13,10 @@ use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AbstractCreator
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData
+ *
+ * @internal
  */
 class DepositDataTest extends TestCase
 {
@@ -98,9 +106,9 @@ class DepositDataTest extends TestCase
         self::assertNullOrEquals(1592624441614, $depositData->getUserNonce());
         self::assertEquals(5, $depositData->getAmount());
         self::assertEquals([
-            "coinbase_account_id" => "95671473-4dda-5264-a654-fc6923e8a358",
-            "coinbase_transaction_id" => "507f1f77bcf86cd799439011",
-            "coinbase_payment_method_id" => "",
+            'coinbase_account_id' => '95671473-4dda-5264-a654-fc6923e8a358',
+            'coinbase_transaction_id' => '507f1f77bcf86cd799439011',
+            'coinbase_payment_method_id' => '',
         ], $depositData->getDetails());
     }
 

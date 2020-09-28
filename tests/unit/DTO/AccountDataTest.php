@@ -1,13 +1,21 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
+
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AbstractCreator
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData
+ *
+ * @internal
  */
 class AccountDataTest extends TestCase
 {
@@ -25,6 +33,7 @@ class AccountDataTest extends TestCase
             }',
         ]];
     }
+
     public function provideValidJsonDataCollection()
     {
         return [[

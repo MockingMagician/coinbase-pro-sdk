@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
+
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData;
@@ -7,8 +13,10 @@ use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AbstractCreator
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData
+ *
+ * @internal
  */
 class CurrencyDataTest extends TestCase
 {
@@ -244,19 +252,19 @@ class CurrencyDataTest extends TestCase
         self::assertNullOrEquals('message', $currency->getMessage());
         self::assertNullOrEquals(0.00000001, $currency->getMaxPrecision());
         self::assertNullOrEquals([
-            "type" => "crypto",
-            "symbol" => "",
-            "network_confirmations" => 6,
-            "sort_order" => 3,
-            "crypto_address_link" => "https://live.blockcypher.com/btc/address/{{address}}",
-            "crypto_transaction_link" => "https://live.blockcypher.com/btc/tx/{{txId}}",
-            "push_payment_methods" => [
-                "crypto"
+            'type' => 'crypto',
+            'symbol' => '',
+            'network_confirmations' => 6,
+            'sort_order' => 3,
+            'crypto_address_link' => 'https://live.blockcypher.com/btc/address/{{address}}',
+            'crypto_transaction_link' => 'https://live.blockcypher.com/btc/tx/{{txId}}',
+            'push_payment_methods' => [
+                'crypto',
             ],
-            "group_types" => [
-                "btc",
-                "crypto"
-            ]
+            'group_types' => [
+                'btc',
+                'crypto',
+            ],
         ], $currency->getDetails());
         self::assertIsArray($currency->getExtraData());
     }
