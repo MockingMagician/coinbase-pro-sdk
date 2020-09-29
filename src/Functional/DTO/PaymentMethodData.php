@@ -8,6 +8,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PaymentMethodLimitsDataInterface;
 
@@ -57,10 +59,41 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
      * @var PaymentMethodLimitsDataInterface
      */
     private $limits;
+    /**
+     * @var bool
+     */
+    private $verified;
+    /**
+     * @var string|null
+     */
+    private $verificationMethod;
+    /**
+     * @var string|null
+     */
+    private $cdvStatus;
+    /**
+     * @var DateTimeInterface|null
+     */
+    private $createdAt;
+    /**
+     * @var DateTimeInterface|null
+     */
+    private $updatedAt;
+    /**
+     * @var string|null
+     */
+    private $resource;
+    /**
+     * @var string|null
+     */
+    private $resource_path;
 
     public function __construct(
         string $id,
         string $type,
+        bool $verified,
+        ?string $verificationMethod,
+        ?string $cdvStatus,
         string $name,
         string $currency,
         bool $primary_buy,
@@ -69,6 +102,10 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
         bool $allow_sell,
         bool $allow_deposit,
         bool $allow_withdraw,
+        ?DateTimeInterface $createdAt,
+        ?DateTimeInterface $updatedAt,
+        ?string $resource,
+        ?string $resource_path,
         PaymentMethodLimitsDataInterface $limits
     ) {
         $this->id = $id;
@@ -82,6 +119,13 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
         $this->allow_deposit = $allow_deposit;
         $this->allow_withdraw = $allow_withdraw;
         $this->limits = $limits;
+        $this->verified = $verified;
+        $this->verificationMethod = $verificationMethod;
+        $this->cdvStatus = $cdvStatus;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+        $this->resource = $resource;
+        $this->resource_path = $resource_path;
     }
 
     public function getId(): string
@@ -139,11 +183,49 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
         return $this->limits;
     }
 
+    public function isVerified(): bool
+    {
+        return $this->verified;
+    }
+
+    public function getVerificationMethod(): ?string
+    {
+        return $this->verificationMethod;
+    }
+
+    public function getCdvStatus(): ?string
+    {
+        return $this->cdvStatus;
+    }
+
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function getResource(): ?string
+    {
+        return $this->resource;
+    }
+
+    public function getResourcePath(): ?string
+    {
+        return $this->resource_path;
+    }
+
     public static function createFromArray(array $array, ...$divers)
     {
         return new static(
             $array['id'],
             $array['type'],
+            $array['verified'] ?? false,
+            $array['verification_method'] ?? null,
+            $array['cdv_status'] ?? null,
             $array['name'],
             $array['currency'],
             $array['primary_buy'],
@@ -152,7 +234,13 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
             $array['allow_sell'],
             $array['allow_deposit'],
             $array['allow_withdraw'],
+            isset($array['created_at']) ? new DateTimeImmutable($array['created_at']) : null,
+            isset($array['updated_at']) ? new DateTimeImmutable($array['updated_at']) : null,
+            $array['resource'] ?? null,
+            $array['resource_path'] ?? null,
             PaymentMethodLimitsData::createFromArray($array['limits'])
         );
     }
+
+
 }

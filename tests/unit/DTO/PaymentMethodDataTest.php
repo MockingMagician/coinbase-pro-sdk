@@ -106,6 +106,56 @@ class PaymentMethodDataTest extends TestCase
                     }
                 }',
             ],
+            [
+                '{
+                    "id": "b22911ee-ef35-5c97-bdd4-aef3f65618d9",
+                    "type": "fiat_account",
+                    "name": "GBP Wallet",
+                    "currency": "GBP",
+                    "primary_buy": false,
+                    "primary_sell": false,
+                    "allow_buy": true,
+                    "allow_sell": true,
+                    "allow_deposit": true,
+                    "allow_withdraw": true,
+                    "created_at": "2013-06-27T16:53:47Z",
+                    "updated_at": "2013-06-27T16:54:46Z",
+                    "resource": "payment_method",
+                    "resource_path": "\/v2\/payment-methods\/b22911ee-ef35-5c97-bdd4-aef3f65618d9",
+                    "limits": {
+                        "buy": [
+                            {
+                                "period_in_days": 1,
+                                "total": {
+                                    "amount": "63716.70",
+                                    "currency": "GBP"
+                                },
+                                "remaining": {
+                                    "amount": "63716.70",
+                                    "currency": "GBP"
+                                }
+                            }
+                        ],
+                        "sell": [
+                            {
+                                "period_in_days": 1,
+                                "total": {
+                                    "amount": "63716.70",
+                                    "currency": "GBP"
+                                },
+                                "remaining": {
+                                    "amount": "63716.70",
+                                    "currency": "GBP"
+                                }
+                            }
+                        ]
+                    },
+                    "fiat_account": {
+                        "id": "eebff577-b756-58ec-9387-9bd2b8f4c4ea",
+                        "resource": "account"
+                    }
+                }'
+            ],
         ];
     }
 
@@ -384,23 +434,23 @@ class PaymentMethodDataTest extends TestCase
         /** @var PaymentMethodData $paymentMethodData */
         $paymentMethodData = PaymentMethodData::createFromJson($json);
         self::assertInstanceOf(PaymentMethodData::class, $paymentMethodData);
-        self::assertEquals('6a23926d-74b6-4373-8434-9d437c2bafb2', $paymentMethodData->getId());
-        self::assertEquals('ach_bank_account', $paymentMethodData->getType());
-//        self::assertEquals(false, $paymentMethodData->isVerified());
-//        self::assertEquals('cdv', $paymentMethodData->getVerificationMethod());
-//        self::assertEquals('ready', $paymentMethodData->getCdvStatus());
-        self::assertEquals('TD Bank ******2778', $paymentMethodData->getName());
-        self::assertEquals('USD', $paymentMethodData->getCurrency());
-        self::assertEquals(true, $paymentMethodData->isPrimaryBuy());
-        self::assertEquals(true, $paymentMethodData->isPrimarySell());
-        self::assertEquals(true, $paymentMethodData->isAllowBuy());
-        self::assertEquals(true, $paymentMethodData->isAllowSell());
-        self::assertEquals(true, $paymentMethodData->isAllowDeposit());
-        self::assertEquals(true, $paymentMethodData->isAllowWithdraw());
-//        self::assertEquals(new \DateTime('2013-06-27T16:53:47Z'), $paymentMethodData->getCreatedAt());
-//        self::assertEquals(new \DateTime('2013-06-27T16:54:46Z'), $paymentMethodData->getUpdatedAt());
-//        self::assertEquals('payment_method', $paymentMethodData->getResource());
-//        self::assertEquals('/v2/payment-methods/6a23926d-74b6-4373-8434-9d437c2bafb2', $paymentMethodData->getResourcePath());
+        self::assertEqualsOneOf(['6a23926d-74b6-4373-8434-9d437c2bafb2', 'b22911ee-ef35-5c97-bdd4-aef3f65618d9'], $paymentMethodData->getId());
+        self::assertEqualsOneOf(['ach_bank_account', 'fiat_account'], $paymentMethodData->getType());
+        self::assertIsBool(false, $paymentMethodData->isVerified());
+        self::assertNullOrEquals('cdv', $paymentMethodData->getVerificationMethod());
+        self::assertNullOrEquals('ready', $paymentMethodData->getCdvStatus());
+        self::assertEqualsOneOf(['TD Bank ******2778', 'GBP Wallet'], $paymentMethodData->getName());
+        self::assertEqualsOneOf(['USD', 'GBP'], $paymentMethodData->getCurrency());
+        self::assertIsBool($paymentMethodData->isPrimaryBuy());
+        self::assertIsBool($paymentMethodData->isPrimarySell());
+        self::assertIsBool($paymentMethodData->isAllowBuy());
+        self::assertIsBool($paymentMethodData->isAllowSell());
+        self::assertIsBool($paymentMethodData->isAllowDeposit());
+        self::assertIsBool($paymentMethodData->isAllowWithdraw());
+        self::assertEquals(new \DateTime('2013-06-27T16:53:47Z'), $paymentMethodData->getCreatedAt());
+        self::assertEquals(new \DateTime('2013-06-27T16:54:46Z'), $paymentMethodData->getUpdatedAt());
+        self::assertEquals('payment_method', $paymentMethodData->getResource());
+        self::assertEqualsOneOf(['/v2/payment-methods/6a23926d-74b6-4373-8434-9d437c2bafb2', '/v2/payment-methods/b22911ee-ef35-5c97-bdd4-aef3f65618d9'], $paymentMethodData->getResourcePath());
         $limits = $paymentMethodData->getLimits();
         self::assertInstanceOf(PaymentMethodLimitsData::class, $limits);
         $buy = $limits->getBuy();
@@ -408,18 +458,18 @@ class PaymentMethodDataTest extends TestCase
             self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $b);
             self::assertEquals(1, $b->getPeriodInDays());
             $total = $b->getTotal();
-            self::assertEquals(100000, $total->getAmount());
-            self::assertEquals('USD', $total->getCurrency());
+            self::assertEqualsOneOf([100000, 63716.70], $total->getAmount());
+            self::assertEqualsOneOf(['USD', 'GBP'], $total->getCurrency());
             $remaining = $b->getRemaining();
-            self::assertEquals(100000, $remaining->getAmount());
-            self::assertEquals('USD', $remaining->getCurrency());
+            self::assertEqualsOneOf([100000, 63716.70], $remaining->getAmount());
+            self::assertEqualsOneOf(['USD', 'GBP'], $remaining->getCurrency());
         }
         $instantBuy = $limits->getInstantBuy();
-        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $instantBuy[0]);
+        self::assertNullOrInstanceOf(PaymentMethodLimitsDetailsData::class, $instantBuy[0] ?? null);
         $sell = $limits->getSell();
-        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $sell[0]);
+        self::assertNullOrInstanceOf(PaymentMethodLimitsDetailsData::class, $sell[0] ?? null);
         $deposit = $limits->getDeposit();
-        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $deposit[0]);
+        self::assertNullOrInstanceOf(PaymentMethodLimitsDetailsData::class, $deposit[0] ?? null);
     }
 
     /**
