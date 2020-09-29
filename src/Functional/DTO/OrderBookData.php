@@ -9,6 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDetailsDataInterface;
 
 class OrderBookData extends AbstractCreator implements OrderBookDataInterface
 {
@@ -40,11 +41,17 @@ class OrderBookData extends AbstractCreator implements OrderBookDataInterface
         return $this->sequence;
     }
 
+    /**
+     * @return OrderBookDetailsDataInterface[]
+     */
     public function getBids(): array
     {
         return $this->bids;
     }
 
+    /**
+     * @return OrderBookDetailsDataInterface[]
+     */
     public function getAsks(): array
     {
         return $this->asks;

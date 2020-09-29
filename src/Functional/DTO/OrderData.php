@@ -78,6 +78,18 @@ class OrderData extends AbstractCreator implements OrderDataInterface
      * @var bool
      */
     private $settled;
+    /**
+     * @var string|null
+     */
+    private $profileId;
+    /**
+     * @var DateTimeInterface|null
+     */
+    private $doneAt;
+    /**
+     * @var string|null
+     */
+    private $doneReason;
 
     public function __construct(
         string $id,
@@ -85,12 +97,15 @@ class OrderData extends AbstractCreator implements OrderDataInterface
         ?float $size,
         ?float $funds,
         string $productId,
+        ?string $profileId,
         string $side,
         ?string $selfTradePrevention,
         string $type,
         ?string $timeInForce,
         bool $postOnly,
         DateTimeInterface $createdAt,
+        ?DateTimeInterface $doneAt,
+        ?string $doneReason,
         float $fillFees,
         float $filledSize,
         float $executedValue,
@@ -113,6 +128,9 @@ class OrderData extends AbstractCreator implements OrderDataInterface
         $this->executedValue = $executedValue;
         $this->status = $status;
         $this->settled = $settled;
+        $this->profileId = $profileId;
+        $this->doneAt = $doneAt;
+        $this->doneReason = $doneReason;
     }
 
     public function getId(): string
@@ -155,9 +173,6 @@ class OrderData extends AbstractCreator implements OrderDataInterface
         return $this->timeInForce;
     }
 
-    /**
-     * @return float
-     */
     public function getFunds(): ?float
     {
         return $this->funds;
@@ -198,6 +213,21 @@ class OrderData extends AbstractCreator implements OrderDataInterface
         return $this->settled;
     }
 
+    public function getProfileId(): ?string
+    {
+        return $this->profileId;
+    }
+
+    public function getDoneAt(): ?DateTimeInterface
+    {
+        return $this->doneAt;
+    }
+
+    public function getDoneReason(): ?string
+    {
+        return $this->doneReason;
+    }
+
     public static function createFromArray(array $array, ...$divers)
     {
         return new static(
@@ -206,12 +236,15 @@ class OrderData extends AbstractCreator implements OrderDataInterface
             $array['size'] ?? null,
             $array['funds'] ?? null,
             $array['product_id'],
+            $array['profile_id'] ?? null,
             $array['side'],
             $array['stp'] ?? null,
             $array['type'],
             $array['time_in_force'] ?? null,
             $array['post_only'],
             new DateTimeImmutable($array['created_at']),
+            isset($array['done_at']) ? new DateTimeImmutable($array['done_at']) : null,
+            $array['done_reason'] ?? null,
             $array['fill_fees'],
             $array['filled_size'],
             $array['executed_value'],

@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OracleCryptoSignedPricesInterface;
 
-class OracleCryptoSignedPrices extends AbstractCreator implements OracleCryptoSignedPricesInterface
+class OracleCryptoSignedPricesData extends AbstractCreator implements OracleCryptoSignedPricesInterface
 {
     /**
      * @var int

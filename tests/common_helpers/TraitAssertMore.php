@@ -8,6 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\CommonHelpers;
 
+use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\CustomAsserts\AssertEqualsOneOf;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\CustomAsserts\AssertNullOrEquals;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\CustomAsserts\AssertNullOrInstanceOf;
 
@@ -31,6 +32,15 @@ trait TraitAssertMore
         static::assertThat(
             $actual,
             new AssertNullOrInstanceOf($expected),
+            $message
+        );
+    }
+
+    public static function assertEqualsOneOf(array $expected, $actual, string $message = ''): void
+    {
+        static::assertContains(
+            $actual,
+            $expected,
             $message
         );
     }
