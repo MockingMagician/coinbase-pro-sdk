@@ -404,20 +404,23 @@ class PaymentMethodDataTest extends TestCase
         $limits = $paymentMethodData->getLimits();
         self::assertInstanceOf(PaymentMethodLimitsData::class, $limits);
         $buy = $limits->getBuy();
-        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $buy);
         foreach ($buy as $b) {
+            self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $b);
             self::assertEquals(1, $b->getPeriodInDays());
             $total = $b->getTotal();
             self::assertEquals(100000, $total->getAmount());
             self::assertEquals('USD', $total->getCurrency());
+            $remaining = $b->getRemaining();
+            self::assertEquals(100000, $remaining->getAmount());
+            self::assertEquals('USD', $remaining->getCurrency());
         }
         $instantBuy = $limits->getInstantBuy();
-        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $instantBuy);
+        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $instantBuy[0]);
         $sell = $limits->getSell();
-        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $sell);
+        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $sell[0]);
         $deposit = $limits->getDeposit();
-        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $deposit);
-
+        self::assertInstanceOf(PaymentMethodLimitsDetailsData::class, $deposit[0]);
+    }
 
     /**
      * @dataProvider provideValidJsonDataCollection
