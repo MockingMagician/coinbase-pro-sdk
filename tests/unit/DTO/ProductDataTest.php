@@ -199,7 +199,12 @@ class ProductDataTest extends TestCase
         self::assertEquals('some message', $productData->getStatusMessage());
     }
 
-    public function testTradingIsFullyOperational()
+    private function generatePartialMockForIsFullyOperational(
+        bool $isPostOnly,
+        bool $isLimitOnly,
+        bool $isCancelOnly,
+        bool $isTradingDisabled
+    )
     {
         $productData = $this->createPartialMock(ProductData::class, [
             'isPostOnly',
@@ -208,66 +213,58 @@ class ProductDataTest extends TestCase
             'isTradingDisabled',
         ]);
 
-        $productData->method('isPostOnly')->willReturn(false);
-        $productData->method('isLimitOnly')->willReturn(false);
-        $productData->method('isCancelOnly')->willReturn(false);
-        $productData->method('isTradingDisabled')->willReturn(false);
+        $productData->method('isPostOnly')->willReturn($isPostOnly);
+        $productData->method('isLimitOnly')->willReturn($isLimitOnly);
+        $productData->method('isCancelOnly')->willReturn($isCancelOnly);
+        $productData->method('isTradingDisabled')->willReturn($isTradingDisabled);
+
+        return $productData;
+    }
+
+    public function testTradingIsFullyOperational()
+    {
+        $productData = $this->generatePartialMockForIsFullyOperational(
+            false,
+            false,
+            false,
+            false
+        );
 
         self::assertTrue($productData->isTradingFullyOperational());
 
-        $productData = $this->createPartialMock(ProductData::class, [
-            'isPostOnly',
-            'isLimitOnly',
-            'isCancelOnly',
-            'isTradingDisabled',
-        ]);
-
-        $productData->method('isPostOnly')->willReturn(true);
-        $productData->method('isLimitOnly')->willReturn(false);
-        $productData->method('isCancelOnly')->willReturn(false);
-        $productData->method('isTradingDisabled')->willReturn(false);
+        $productData = $this->generatePartialMockForIsFullyOperational(
+            true,
+            false,
+            false,
+            false
+        );
 
         self::assertFalse($productData->isTradingFullyOperational());
 
-        $productData = $this->createPartialMock(ProductData::class, [
-            'isPostOnly',
-            'isLimitOnly',
-            'isCancelOnly',
-            'isTradingDisabled',
-        ]);
-
-        $productData->method('isPostOnly')->willReturn(false);
-        $productData->method('isLimitOnly')->willReturn(true);
-        $productData->method('isCancelOnly')->willReturn(false);
-        $productData->method('isTradingDisabled')->willReturn(false);
+        $productData = $this->generatePartialMockForIsFullyOperational(
+            false,
+            true,
+            false,
+            false
+        );
 
         self::assertFalse($productData->isTradingFullyOperational());
 
-        $productData = $this->createPartialMock(ProductData::class, [
-            'isPostOnly',
-            'isLimitOnly',
-            'isCancelOnly',
-            'isTradingDisabled',
-        ]);
-
-        $productData->method('isPostOnly')->willReturn(false);
-        $productData->method('isLimitOnly')->willReturn(false);
-        $productData->method('isCancelOnly')->willReturn(true);
-        $productData->method('isTradingDisabled')->willReturn(false);
+        $productData = $this->generatePartialMockForIsFullyOperational(
+            false,
+            false,
+            true,
+            false
+        );
 
         self::assertFalse($productData->isTradingFullyOperational());
 
-        $productData = $this->createPartialMock(ProductData::class, [
-            'isPostOnly',
-            'isLimitOnly',
-            'isCancelOnly',
-            'isTradingDisabled',
-        ]);
-
-        $productData->method('isPostOnly')->willReturn(false);
-        $productData->method('isLimitOnly')->willReturn(false);
-        $productData->method('isCancelOnly')->willReturn(false);
-        $productData->method('isTradingDisabled')->willReturn(true);
+        $productData = $this->generatePartialMockForIsFullyOperational(
+            false,
+            false,
+            false,
+            true
+        );
 
         self::assertFalse($productData->isTradingFullyOperational());
     }
