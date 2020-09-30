@@ -76,6 +76,10 @@ class ProductData extends AbstractCreator implements ProductDataInterface
      * @var bool
      */
     private $tradingDisabled;
+    /**
+     * @var bool
+     */
+    private $isMarginEnabled;
 
     public function __construct(
         string $id,
@@ -93,7 +97,8 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         bool $cancelOnly,
         bool $limitOnly,
         bool $postOnly,
-        bool $tradingDisabled
+        bool $tradingDisabled,
+        bool $isMarginEnabled
     ) {
         $this->id = $id;
         $this->displayName = $displayName;
@@ -111,6 +116,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         $this->limitOnly = $limitOnly;
         $this->postOnly = $postOnly;
         $this->tradingDisabled = $tradingDisabled;
+        $this->isMarginEnabled = $isMarginEnabled;
     }
 
     public function getId(): string
@@ -193,13 +199,20 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         return $this->tradingDisabled;
     }
 
+    public function isMarginEnabled(): bool
+    {
+        return $this->isMarginEnabled;
+    }
+
     public function isTradingFullyOperational(): bool
     {
         return
-            !$this->cancelOnly &&
-            !$this->limitOnly &&
-            !$this->postOnly &&
-            !$this->tradingDisabled
+            !(
+                $this->isCancelOnly() ||
+                $this->isLimitOnly() ||
+                $this->isPostOnly() ||
+                $this->isTradingDisabled()
+            )
         ;
     }
 
@@ -221,7 +234,8 @@ class ProductData extends AbstractCreator implements ProductDataInterface
             $array['cancel_only'],
             $array['limit_only'],
             $array['post_only'],
-            $array['trading_disabled']
+            $array['trading_disabled'],
+            $array['margin_enabled'] ?? false
         );
     }
 

@@ -8,7 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodLimitsData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodLimitsDetailsData;
