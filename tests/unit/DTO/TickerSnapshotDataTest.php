@@ -52,7 +52,7 @@ class TickerSnapshotDataTest extends TestCase
         $tickerSnapshotData = TickerSnapshotData::createFromJson($json);
         self::assertInstanceOf(TickerSnapshotData::class, $tickerSnapshotData);
         self::assertEquals(15829727, $tickerSnapshotData->getTradeId());
-        self::assertEquals(0741.88, $tickerSnapshotData->getPrice());
+        self::assertEquals(10741.88, $tickerSnapshotData->getPrice());
         self::assertEquals(0.214, $tickerSnapshotData->getSize());
         self::assertEquals(new \DateTime('2020-09-26T23:22:24.92294Z'), $tickerSnapshotData->getTime());
         self::assertEquals(10741.86, $tickerSnapshotData->getBid());
