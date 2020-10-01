@@ -17,9 +17,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\AbstractCreator
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodData
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodLimitsAmountDetailsData
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodLimitsData
  * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodLimitsDetailsData
- * @covers \MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodLimitsAmountDetailsData
  *
  * @internal
  */
@@ -153,7 +153,7 @@ class PaymentMethodDataTest extends TestCase
                         "id": "eebff577-b756-58ec-9387-9bd2b8f4c4ea",
                         "resource": "account"
                     }
-                }'
+                }',
             ],
         ];
     }

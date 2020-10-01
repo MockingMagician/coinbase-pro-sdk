@@ -64,27 +64,27 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
      */
     private $verified;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $verificationMethod;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $cdvStatus;
     /**
-     * @var DateTimeInterface|null
+     * @var null|DateTimeInterface
      */
     private $createdAt;
     /**
-     * @var DateTimeInterface|null
+     * @var null|DateTimeInterface
      */
     private $updatedAt;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $resource;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $resource_path;
 
@@ -241,6 +241,4 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
             PaymentMethodLimitsData::createFromArray($array['limits'])
         );
     }
-
-
 }

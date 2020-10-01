@@ -8,10 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderBookData;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderBookDetailsData;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\ProductStats24hrData;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\StableCoinConversionsData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TickerSnapshotData;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;

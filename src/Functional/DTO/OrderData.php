@@ -79,15 +79,15 @@ class OrderData extends AbstractCreator implements OrderDataInterface
      */
     private $settled;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $profileId;
     /**
-     * @var DateTimeInterface|null
+     * @var null|DateTimeInterface
      */
     private $doneAt;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $doneReason;
 

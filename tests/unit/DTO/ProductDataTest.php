@@ -8,7 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProductData;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
@@ -199,28 +198,6 @@ class ProductDataTest extends TestCase
         self::assertEquals('some message', $productData->getStatusMessage());
     }
 
-    private function generatePartialMockForIsFullyOperational(
-        bool $isPostOnly,
-        bool $isLimitOnly,
-        bool $isCancelOnly,
-        bool $isTradingDisabled
-    )
-    {
-        $productData = $this->createPartialMock(ProductData::class, [
-            'isPostOnly',
-            'isLimitOnly',
-            'isCancelOnly',
-            'isTradingDisabled',
-        ]);
-
-        $productData->method('isPostOnly')->willReturn($isPostOnly);
-        $productData->method('isLimitOnly')->willReturn($isLimitOnly);
-        $productData->method('isCancelOnly')->willReturn($isCancelOnly);
-        $productData->method('isTradingDisabled')->willReturn($isTradingDisabled);
-
-        return $productData;
-    }
-
     public function testTradingIsFullyOperational()
     {
         $productData = $this->generatePartialMockForIsFullyOperational(
@@ -279,5 +256,26 @@ class ProductDataTest extends TestCase
         foreach ($collection as $value) {
             self::assertInstanceOf(ProductData::class, $value);
         }
+    }
+
+    private function generatePartialMockForIsFullyOperational(
+        bool $isPostOnly,
+        bool $isLimitOnly,
+        bool $isCancelOnly,
+        bool $isTradingDisabled
+    ) {
+        $productData = $this->createPartialMock(ProductData::class, [
+            'isPostOnly',
+            'isLimitOnly',
+            'isCancelOnly',
+            'isTradingDisabled',
+        ]);
+
+        $productData->method('isPostOnly')->willReturn($isPostOnly);
+        $productData->method('isLimitOnly')->willReturn($isLimitOnly);
+        $productData->method('isCancelOnly')->willReturn($isCancelOnly);
+        $productData->method('isTradingDisabled')->willReturn($isTradingDisabled);
+
+        return $productData;
     }
 }

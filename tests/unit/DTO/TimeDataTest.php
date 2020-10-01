@@ -8,11 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderBookData;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderBookDetailsData;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\ProductStats24hrData;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\StableCoinConversionsData;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\TickerSnapshotData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TimeData;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
@@ -47,7 +42,7 @@ class TimeDataTest extends TestCase
         /** @var TimeData $timeData */
         $timeData = TimeData::createFromJson($json);
         self::assertInstanceOf(TimeData::class, $timeData);
-        self::assertEquals("2020-09-26T21:13:57.446Z", $timeData->getIso());
+        self::assertEquals('2020-09-26T21:13:57.446Z', $timeData->getIso());
         self::assertEquals(1601154837.446, $timeData->getEpoch());
     }
 }
