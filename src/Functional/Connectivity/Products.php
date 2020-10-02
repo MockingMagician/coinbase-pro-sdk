@@ -25,7 +25,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\TickerSnapshotData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TradeData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class Products extends AbstractRequestManagerAware implements ProductsInterface
+class Products extends AbstractRequestFactoryAware implements ProductsInterface
 {
     /**
      * @var null|float
@@ -35,7 +35,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     public function getProductsRaw()
     {
         return $this
-            ->getRequestManager()
+            ->getRequestFactory()
             ->createRequest('GET', '/products')
             ->setMustBeSigned(false)
             ->send()
@@ -53,7 +53,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     public function getSingleProductRaw(string $productId)
     {
         return $this
-            ->getRequestManager()
+            ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s', $productId))
             ->setMustBeSigned(false)
             ->send()
@@ -79,7 +79,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         }
 
         return $this
-            ->getRequestManager()
+            ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/book', $productId))
             ->setMustBeSigned(false)
             ->send()
@@ -100,7 +100,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     public function getProductTickerRaw(string $productId)
     {
         return $this
-            ->getRequestManager()
+            ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/ticker', $productId))
             ->setMustBeSigned(false)
             ->send()
@@ -118,7 +118,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     public function getTradesRaw(string $productId, ?PaginationInterface $pagination = null)
     {
         return $this
-            ->getRequestManager()
+            ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/trades', $productId), [], null, $pagination)
             ->setMustBeSigned(false)
             ->send()
@@ -150,7 +150,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
         $this->blockRequestWhileExceedRates();
 
         $raw = $this
-            ->getRequestManager()
+            ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/candles', $productId), $query)
             ->setMustBeSigned(false)
             ->send()
@@ -179,7 +179,7 @@ class Products extends AbstractRequestManagerAware implements ProductsInterface
     public function get24hrStatsRaw(string $productId)
     {
         return $this
-            ->getRequestManager()
+            ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/stats', $productId))
             ->setMustBeSigned(false)
             ->send()

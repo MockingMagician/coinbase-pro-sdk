@@ -15,7 +15,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\ReportDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ReportData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class Reports extends AbstractRequestManagerAware implements ReportsInterface
+class Reports extends AbstractRequestFactoryAware implements ReportsInterface
 {
     public function createNewReportRaw(
         string $type,
@@ -61,7 +61,7 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
             $body['email'] = $email;
         }
 
-        return $this->getRequestManager()->createRequest('POST', '/reports', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/reports', [], json_encode($body))->send();
     }
 
     /**
@@ -81,7 +81,7 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
 
     public function getReportStatusRaw(string $reportId)
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/reports/%s', $reportId))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/reports/%s', $reportId))->send();
     }
 
     /**

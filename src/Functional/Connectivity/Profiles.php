@@ -12,13 +12,13 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProfileData;
 
-class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
+class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
 {
     public function listProfilesRaw(bool $active)
     {
         $query = ['active' => $active];
 
-        return $this->getRequestManager()->createRequest('GET', '/profiles', $query)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/profiles', $query)->send();
     }
 
     /**
@@ -31,7 +31,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
 
     public function getProfileRaw(string $profileId)
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/profiles/%s', $profileId))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/profiles/%s', $profileId))->send();
     }
 
     /**
@@ -51,7 +51,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
             'amount' => $amount,
         ];
 
-        return $this->getRequestManager()->createRequest('POST', '/profiles/transfer', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/profiles/transfer', [], json_encode($body))->send();
     }
 
     /**

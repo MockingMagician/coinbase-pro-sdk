@@ -12,11 +12,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FeesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\FeeDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\FeeData;
 
-class Fees extends AbstractRequestManagerAware implements FeesInterface
+class Fees extends AbstractRequestFactoryAware implements FeesInterface
 {
     public function getCurrentFeesRaw()
     {
-        return $this->getRequestManager()->createRequest('GET', '/fees')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/fees')->send();
     }
 
     /**

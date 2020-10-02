@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class RequestFactoryTest extends TestCase
 {
-    public function testSome()
+    public function testCreateARequest()
     {
         $client = $this->prophesize(ClientInterface::class);
         $apiParams = $this->prophesize(ApiParams::class);

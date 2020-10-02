@@ -12,11 +12,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TimeDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TimeData;
 
-class Time extends AbstractRequestManagerAware implements TimeInterface
+class Time extends AbstractRequestFactoryAware implements TimeInterface
 {
     public function getTimeRaw()
     {
-        return $this->getRequestManager()->createRequest('GET', '/time')->setMustBeSigned(false)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/time')->setMustBeSigned(false)->send();
     }
 
     public function getTime(): TimeDataInterface

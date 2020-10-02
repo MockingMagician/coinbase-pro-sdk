@@ -11,11 +11,11 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\VolumeData;
 
-class UserAccount extends AbstractRequestManagerAware implements UserAccountInterface
+class UserAccount extends AbstractRequestFactoryAware implements UserAccountInterface
 {
     public function getTrailingVolumeRaw()
     {
-        return $this->getRequestManager()->createRequest('GET', '/users/self/trailing-volume')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/users/self/trailing-volume')->send();
     }
 
     /**

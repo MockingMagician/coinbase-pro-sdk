@@ -12,7 +12,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsI
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\StableCoinConversionsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\StableCoinConversionsData;
 
-class StableCoinConversions extends AbstractRequestManagerAware implements StableCoinConversionsInterface
+class StableCoinConversions extends AbstractRequestFactoryAware implements StableCoinConversionsInterface
 {
     public function createConversionRaw(string $fromCurrencyId, string $toCurrencyId, float $amount)
     {
@@ -22,7 +22,7 @@ class StableCoinConversions extends AbstractRequestManagerAware implements Stabl
             'amount' => $amount,
         ];
 
-        return $this->getRequestManager()->createRequest('POST', '/conversions', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/conversions', [], json_encode($body))->send();
     }
 
     /**

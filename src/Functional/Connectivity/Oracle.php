@@ -12,11 +12,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OracleInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OracleCryptoSignedPricesInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\OracleCryptoSignedPricesData;
 
-class Oracle extends AbstractRequestManagerAware implements OracleInterface
+class Oracle extends AbstractRequestFactoryAware implements OracleInterface
 {
     public function getCryptographicallySignedPricesRaw()
     {
-        return $this->getRequestManager()->createRequest('GET', '/oracle')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/oracle')->send();
     }
 
     /**

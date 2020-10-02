@@ -1,6 +1,14 @@
 .PHONY: chained-tests
 chained-tests: phpstan phpcs-dry-run tests-unit ## Run phpstan, phpcs and PHPUnit tests 'Unit' suite
 
+.PHONY: tests-unit-and-functional
+tests-unit-and-functional: ## Launch PHPUnit tests 'Unit' and 'Functional' suites
+	rm -Rf .coverage && vendor/bin/phpunit --colors=always --testdox
+
+.PHONY: tests-unit-and-functional-with-coverage
+tests-unit-and-functional-with-coverage: ## Launch PHPUnit tests 'Unit' and 'Functional' suites
+	rm -Rf .coverage && vendor/bin/phpunit --colors=always --coverage-html .coverage
+
 .PHONY: tests-unit
 tests-unit: ## Launch PHPUnit tests 'Unit' suite
 	rm -Rf .coverage && vendor/bin/phpunit --colors=always --testdox --testsuite Unit

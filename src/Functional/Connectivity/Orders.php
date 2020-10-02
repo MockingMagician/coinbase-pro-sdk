@@ -14,11 +14,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OrdersInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderData;
 
-class Orders extends AbstractRequestManagerAware implements OrdersInterface
+class Orders extends AbstractRequestFactoryAware implements OrdersInterface
 {
     public function placeOrderRaw(CommonOrderToPlaceInterface $orderToPlace)
     {
-        return $this->getRequestManager()->createRequest('POST', '/orders', [], json_encode($orderToPlace->getBodyForRequest()))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/orders', [], json_encode($orderToPlace->getBodyForRequest()))->send();
     }
 
     /**
@@ -37,7 +37,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $body = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()
+        return $this->getRequestFactory()
             ->createRequest('DELETE', sprintf('/orders/%s', $orderId), [], $body ? json_encode($body) : null)
             ->send()
         ;
@@ -59,7 +59,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $body = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()
+        return $this->getRequestFactory()
             ->createRequest('DELETE', sprintf('/orders/client:%s', $clientOrderId), [], $body ? json_encode($body) : null)
             ->send()
         ;
@@ -80,7 +80,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $body = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()
+        return $this->getRequestFactory()
             ->createRequest('DELETE', '/orders', [], $body ? json_encode($body) : null)
             ->send()
         ;
@@ -110,7 +110,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $query = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()->createRequest('GET', '/orders', $query, null, $pagination)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/orders', $query, null, $pagination)->send();
     }
 
     /**
@@ -123,7 +123,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
     public function getOrderByIdRaw(string $orderId)
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/orders/%s', $orderId))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/orders/%s', $orderId))->send();
     }
 
     /**
@@ -136,7 +136,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
 
     public function getOrderByClientOrderIdRaw(string $clientOrderId)
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/orders/client:%s', $clientOrderId))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/orders/client:%s', $clientOrderId))->send();
     }
 
     public function getOrderByClientOrderId(string $clientOrderId): OrderDataInterface

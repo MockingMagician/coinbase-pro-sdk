@@ -55,7 +55,7 @@ abstract class AbstractTest extends TestCase
         if (self::API_TEST_ENDPOINT !== $this->apiParams->getEndPoint()) {
             $this->markTestSkipped('Looks like you\'re running tests on a non-testing API. Tests must be run on the test API, otherwise dangerous and undesirable effects could happen to your account. Never run on a non-testing API.');
         }
-        if (!$this->retryIsConnected(3, 1)) {
+        if (!$this->retryHasInternetConnection(3, 1)) {
             $this->markTestSkipped('Functional tests require an internet connection.');
         }
         ini_set('xdebug.var_display_max_depth', '16');
@@ -66,10 +66,9 @@ abstract class AbstractTest extends TestCase
         $this->requestManager->inviteReporter(new RequestReporter(self::INSPECTOR_RECORD_PATH));
         $this->time = new Time($this->requestManager);
         $this->requestManager->setTimeInterface($this->time);
-        usleep(750000);
     }
 
-    private function isConnected()
+    private function hasInternetConnection()
     {
         $en = $es = null;
         $connected = @fsockopen('dns.google', 443, $en, $es, 3);
@@ -82,10 +81,10 @@ abstract class AbstractTest extends TestCase
         return true;
     }
 
-    private function retryIsConnected(int $numberOfRetry, int $delayBetweenRetryInSeconds)
+    private function retryHasInternetConnection(int $numberOfRetry, int $delayBetweenRetryInSeconds)
     {
         while ($numberOfRetry--) {
-            if ($this->isConnected()) {
+            if ($this->hasInternetConnection()) {
                 return true;
             }
             sleep($delayBetweenRetryInSeconds);

@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Api\ApiConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Api\ApiFactory;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestManagerAware;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestFactoryAware;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -35,7 +35,7 @@ class ApiFactoryTest extends TestCase
         $apiReflect = new \ReflectionClass(ApiInterface::class);
 
         foreach ($apiReflect->getMethods() as $method) {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->{$method->getName()}());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->{$method->getName()}());
         }
     }
 
@@ -51,7 +51,7 @@ class ApiFactoryTest extends TestCase
         $apiReflect = new \ReflectionClass(ApiInterface::class);
 
         foreach ($apiReflect->getMethods() as $method) {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->{$method->getName()}());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->{$method->getName()}());
         }
     }
 
@@ -62,7 +62,7 @@ class ApiFactoryTest extends TestCase
         $apiReflect = new \ReflectionClass(ApiInterface::class);
 
         foreach ($apiReflect->getMethods() as $method) {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->{$method->getName()}());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->{$method->getName()}());
         }
     }
 
@@ -89,20 +89,20 @@ class ApiFactoryTest extends TestCase
             $apiConfig
         );
 
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->accounts());
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->coinbaseAccounts());
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->currencies());
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->deposits());
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->fees());
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->fills());
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->limits());
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->margin());
-        self::assertInstanceOf(AbstractRequestManagerAware::class, $api->oracle());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->accounts());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->coinbaseAccounts());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->currencies());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->deposits());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->fees());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->fills());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->limits());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->margin());
+        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->oracle());
 
         $exception = null;
 
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->paymentMethods());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->paymentMethods());
         } catch (\Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -110,7 +110,7 @@ class ApiFactoryTest extends TestCase
         $exception = null;
 
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->products());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->products());
         } catch (\Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -118,7 +118,7 @@ class ApiFactoryTest extends TestCase
         $exception = null;
 
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->profiles());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->profiles());
         } catch (\Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -126,7 +126,7 @@ class ApiFactoryTest extends TestCase
         $exception = null;
 
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->reports());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->reports());
         } catch (\Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -134,7 +134,7 @@ class ApiFactoryTest extends TestCase
         $exception = null;
 
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->stablecoinConversions());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->stablecoinConversions());
         } catch (\Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -142,7 +142,7 @@ class ApiFactoryTest extends TestCase
         $exception = null;
 
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->time());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->time());
         } catch (\Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -150,7 +150,7 @@ class ApiFactoryTest extends TestCase
         $exception = null;
 
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->userAccount());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->userAccount());
         } catch (\Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -158,7 +158,7 @@ class ApiFactoryTest extends TestCase
         $exception = null;
 
         try {
-            self::assertInstanceOf(AbstractRequestManagerAware::class, $api->withdrawals());
+            self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->withdrawals());
         } catch (\Throwable $exception) {
         }
         self::assertNotNull($exception);
