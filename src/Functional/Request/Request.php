@@ -76,15 +76,8 @@ class Request implements RequestInterface, RequestReporterAwareInterface
 
     /**
      * Request constructor.
-     * @param ClientInterface $client
-     * @param ApiParamsInterface $apiParams
-     * @param string $method
-     * @param string $routePath
+     *
      * @param array<string, string> $queryArgs
-     * @param string|null $body
-     * @param PaginationInterface|null $pagination
-     * @param bool $mustBeSigned
-     * @param TimeInterface|null $time
      */
     public function __construct(
         ClientInterface $client,

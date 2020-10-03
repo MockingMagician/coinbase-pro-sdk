@@ -12,21 +12,22 @@ interface CreatorInterface
 {
     /**
      * @param mixed[] $array
-     * @param mixed ...$extraData
+     * @param mixed   ...$extraData
+     *
      * @return static
      */
     public static function createFromArray(array $array, ...$extraData);
 
     /**
-     * @param string $json
      * @param mixed ...$extraData
+     *
      * @return static
      */
     public static function createFromJson(string $json, ...$extraData);
 
     /**
-     * @param string $json
      * @param mixed ...$extraData
+     *
      * @return static[]
      */
     public static function createCollectionFromJson(string $json, ...$extraData): array;

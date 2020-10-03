@@ -48,13 +48,7 @@ class ReportData extends AbstractCreator implements ReportDataInterface
 
     /**
      * ReportData constructor.
-     * @param string $id
-     * @param string $type
-     * @param string $status
-     * @param DateTimeImmutable|null $createdAt
-     * @param DateTimeImmutable|null $completedAt
-     * @param DateTimeImmutable|null $expiredAt
-     * @param string|null $fileUrl
+     *
      * @param array<string, mixed> $params
      */
     public function __construct(

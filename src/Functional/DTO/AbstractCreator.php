@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\CreatorInterface;
 
 abstract class AbstractCreator implements CreatorInterface
 {
-
     /**
      * {@inheritdoc}
      */
@@ -41,7 +40,8 @@ abstract class AbstractCreator implements CreatorInterface
 
     /**
      * @param mixed[] $array
-     * @param mixed ...$extraData
+     * @param mixed   ...$extraData
+     *
      * @return static[]
      */
     public static function createCollectionFromArray(array $array, ...$extraData): array

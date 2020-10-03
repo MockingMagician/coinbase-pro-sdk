@@ -56,13 +56,7 @@ class RequestFactory implements RequestFactoryInterface, RequestReporterAwareInt
     }
 
     /**
-     * @param string $method
-     * @param string $routePath
      * @param array<string, string> $queryArgs
-     * @param string|null $body
-     * @param PaginationInterface|null $pagination
-     * @param bool $mustBeSigned
-     * @return RequestInterface
      */
     public function createRequest(
         string $method,
