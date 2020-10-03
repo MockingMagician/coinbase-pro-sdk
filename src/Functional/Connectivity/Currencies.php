@@ -13,7 +13,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData;
 
 class Currencies extends AbstractRequestFactoryAware implements CurrenciesInterface
 {
-    public function getCurrenciesRaw()
+    public function getCurrenciesRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/currencies')->setMustBeSigned(false)->send();
     }

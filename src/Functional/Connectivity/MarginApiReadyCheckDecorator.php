@@ -78,7 +78,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestFactoryAware implement
     /**
      * {@inheritdoc}
      */
-    public function getAllWithdrawalPowers()
+    public function getAllWithdrawalPowers(): array
     {
         if (!$this->isMarginReadyToUse()) {
             throw new ApiError(self::ERROR_MESSAGE);

@@ -15,7 +15,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\WithdrawalsData;
 
 class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInterface
 {
-    public function listWithdrawalsRaw(?string $profileId = null, ?PaginationInterface $pagination = null)
+    public function listWithdrawalsRaw(?string $profileId = null, ?PaginationInterface $pagination = null): string
     {
         $query = [
             'type' => 'withdraw',
@@ -33,7 +33,7 @@ class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInte
         return WithdrawalsData::createCollectionFromJson($this->listWithdrawalsRaw($profileId, $pagination));
     }
 
-    public function getWithdrawalRaw(string $transferId)
+    public function getWithdrawalRaw(string $transferId): string
     {
         $query = [
             'type' => 'withdraw',
@@ -88,7 +88,7 @@ class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInte
         return json_decode($this->doWithdrawToCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
     }
 
-    public function doWithdrawToCryptoAddressRaw(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null)
+    public function doWithdrawToCryptoAddressRaw(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string
     {
         $body = [
             'amount' => $amount,

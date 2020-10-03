@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\OracleCryptoSignedPricesData;
 
 class Oracle extends AbstractRequestFactoryAware implements OracleInterface
 {
-    public function getCryptographicallySignedPricesRaw()
+    public function getCryptographicallySignedPricesRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/oracle')->send();
     }

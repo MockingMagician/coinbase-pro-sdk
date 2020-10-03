@@ -13,7 +13,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodData;
 
 class PaymentMethods extends AbstractRequestFactoryAware implements PaymentMethodsInterface
 {
-    public function listPaymentMethodsRaw()
+    public function listPaymentMethodsRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/payment-methods')->send();
     }

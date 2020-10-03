@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\FeeData;
 
 class Fees extends AbstractRequestFactoryAware implements FeesInterface
 {
-    public function getCurrentFeesRaw()
+    public function getCurrentFeesRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/fees')->send();
     }

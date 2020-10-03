@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\TimeData;
 
 class Time extends AbstractRequestFactoryAware implements TimeInterface
 {
-    public function getTimeRaw()
+    public function getTimeRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/time')->setMustBeSigned(false)->send();
     }

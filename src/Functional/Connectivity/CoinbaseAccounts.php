@@ -13,7 +13,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\CoinbaseAccountData;
 
 class CoinbaseAccounts extends AbstractRequestFactoryAware implements CoinbaseAccountsInterface
 {
-    public function listCoinbaseAccountsRaw()
+    public function listCoinbaseAccountsRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/coinbase-accounts')->send();
     }

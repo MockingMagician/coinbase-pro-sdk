@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\LimitsData;
 
 class Limits extends AbstractRequestFactoryAware implements LimitsInterface
 {
-    public function getCurrentExchangeLimitsRaw()
+    public function getCurrentExchangeLimitsRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/users/self/exchange-limits')->send();
     }

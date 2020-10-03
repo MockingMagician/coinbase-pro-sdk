@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\StableCoinConversionsData;
 
 class StableCoinConversions extends AbstractRequestFactoryAware implements StableCoinConversionsInterface
 {
-    public function createConversionRaw(string $fromCurrencyId, string $toCurrencyId, float $amount)
+    public function createConversionRaw(string $fromCurrencyId, string $toCurrencyId, float $amount): string
     {
         $body = [
             'from' => $fromCurrencyId,

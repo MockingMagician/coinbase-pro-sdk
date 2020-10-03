@@ -16,7 +16,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderData;
 
 class Orders extends AbstractRequestFactoryAware implements OrdersInterface
 {
-    public function placeOrderRaw(CommonOrderToPlaceInterface $orderToPlace)
+    public function placeOrderRaw(CommonOrderToPlaceInterface $orderToPlace): string
     {
         return $this->getRequestFactory()->createRequest('POST', '/orders', [], json_encode($orderToPlace->getBodyForRequest()))->send();
     }
@@ -29,7 +29,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         return OrderData::createFromJson($this->placeOrderRaw($orderToPlace));
     }
 
-    public function cancelOrderByIdRaw(string $orderId, string $productId = null)
+    public function cancelOrderByIdRaw(string $orderId, string $productId = null): string
     {
         $body = null;
 
@@ -51,7 +51,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         return $orderId === json_decode($this->cancelOrderByIdRaw($orderId, $productId), true);
     }
 
-    public function cancelOrderByClientOrderIdRaw(string $clientOrderId, string $productId = null)
+    public function cancelOrderByClientOrderIdRaw(string $clientOrderId, string $productId = null): string
     {
         $body = null;
 
@@ -72,7 +72,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         return true; // assume error was not throw equals true
     }
 
-    public function cancelAllOrdersRaw(string $productId = null)
+    public function cancelAllOrdersRaw(string $productId = null): string
     {
         $body = null;
 
@@ -100,7 +100,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         return [];
     }
 
-    public function listOrdersRaw(array $status = self::STATUS, string $productId = null, PaginationInterface $pagination = null)
+    public function listOrdersRaw(array $status = self::STATUS, string $productId = null, PaginationInterface $pagination = null): string
     {
         $query = [];
 
@@ -121,7 +121,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         return OrderData::createCollectionFromJson($this->listOrdersRaw($status, $productId, $pagination));
     }
 
-    public function getOrderByIdRaw(string $orderId)
+    public function getOrderByIdRaw(string $orderId): string
     {
         return $this->getRequestFactory()->createRequest('GET', sprintf('/orders/%s', $orderId))->send();
     }
@@ -134,7 +134,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         return OrderData::createFromJson($this->getOrderByIdRaw($orderId));
     }
 
-    public function getOrderByClientOrderIdRaw(string $clientOrderId)
+    public function getOrderByClientOrderIdRaw(string $clientOrderId): string
     {
         return $this->getRequestFactory()->createRequest('GET', sprintf('/orders/client:%s', $clientOrderId))->send();
     }

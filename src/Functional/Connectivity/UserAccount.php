@@ -13,7 +13,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\VolumeData;
 
 class UserAccount extends AbstractRequestFactoryAware implements UserAccountInterface
 {
-    public function getTrailingVolumeRaw()
+    public function getTrailingVolumeRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/users/self/trailing-volume')->send();
     }

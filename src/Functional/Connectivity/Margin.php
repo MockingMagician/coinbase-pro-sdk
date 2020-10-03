@@ -27,7 +27,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatusData;
  */
 class Margin extends AbstractRequestFactoryAware implements MarginInterface
 {
-    public function getMarginProfileInformationRaw(string $productId)
+    public function getMarginProfileInformationRaw(string $productId): string
     {
         $query['product_id'] = $productId;
 
@@ -81,12 +81,12 @@ class Margin extends AbstractRequestFactoryAware implements MarginInterface
      * // todo need a real return typed value
      * {@inheritdoc}
      */
-    public function getAllWithdrawalPowers()
+    public function getAllWithdrawalPowers(): array
     {
         // TODO: Implement getAllWithdrawalPowers() method.
     }
 
-    public function getExitPlanRaw()
+    public function getExitPlanRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/margin/exit_plan')->send();
     }
@@ -118,7 +118,7 @@ class Margin extends AbstractRequestFactoryAware implements MarginInterface
         // TODO: Implement listLiquidationHistory() method.
     }
 
-    public function getPositionsRefreshAmountRaw()
+    public function getPositionsRefreshAmountRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/margin/position_refresh_amounts')->send();
     }
@@ -131,7 +131,7 @@ class Margin extends AbstractRequestFactoryAware implements MarginInterface
         // TODO: Implement getPositionsRefreshAmount() method.
     }
 
-    public function getMarginStatusRaw()
+    public function getMarginStatusRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/margin/status')->send();
     }

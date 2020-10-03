@@ -85,7 +85,7 @@ interface MarginInterface
      * API KEY PERMISSIONS
      * This endpoint requires either the "view" or "trade" permission.
      */
-    public function getAllWithdrawalPowers();
+    public function getAllWithdrawalPowers(): array;
 
     /**
      * Get exit plan.

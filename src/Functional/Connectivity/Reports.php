@@ -25,7 +25,7 @@ class Reports extends AbstractRequestFactoryAware implements ReportsInterface
         ?string $accountId = null,
         string $format = self::FORMAT_PDF,
         ?string $email = null
-    ) {
+    ): string {
         if (!in_array($type, self::TYPES)) {
             throw new ApiError(sprintf('type must be one of : %s', implode(', ', self::TYPES)));
         }
@@ -79,7 +79,7 @@ class Reports extends AbstractRequestFactoryAware implements ReportsInterface
         return ReportData::createFromJson($this->createNewReportRaw($type, $startDate, $endDate, $productId, $accountId, $format, $email));
     }
 
-    public function getReportStatusRaw(string $reportId)
+    public function getReportStatusRaw(string $reportId): string
     {
         return $this->getRequestFactory()->createRequest('GET', sprintf('/reports/%s', $reportId))->send();
     }

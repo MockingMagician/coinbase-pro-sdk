@@ -32,7 +32,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
      */
     private static $lastCallToHistoricRates = null;
 
-    public function getProductsRaw()
+    public function getProductsRaw(): string
     {
         return $this
             ->getRequestFactory()
@@ -50,7 +50,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
         return ProductData::createCollectionFromJson($this->getProductsRaw());
     }
 
-    public function getSingleProductRaw(string $productId)
+    public function getSingleProductRaw(string $productId): string
     {
         return $this
             ->getRequestFactory()
@@ -68,7 +68,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
         return ProductData::createFromJson($this->getSingleProductRaw($productId));
     }
 
-    public function getProductOrderBookRaw(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false)
+    public function getProductOrderBookRaw(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false): string
     {
         $query = ['level' => 1];
         if (2 === $level) {
@@ -97,7 +97,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
         return OrderBookData::createFromJson($this->getProductOrderBookRaw($productId, $level, $forceLevel3));
     }
 
-    public function getProductTickerRaw(string $productId)
+    public function getProductTickerRaw(string $productId): string
     {
         return $this
             ->getRequestFactory()
@@ -115,7 +115,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
         return TickerSnapshotData::createFromJson($this->getProductTickerRaw($productId));
     }
 
-    public function getTradesRaw(string $productId, ?PaginationInterface $pagination = null)
+    public function getTradesRaw(string $productId, ?PaginationInterface $pagination = null): string
     {
         return $this
             ->getRequestFactory()
@@ -138,7 +138,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
         DateTimeInterface $startTime,
         DateTimeInterface $endTime,
         int $granularity
-    ) {
+    ): string {
         $this->checkHistoricRatesParams($startTime, $endTime, $granularity);
 
         $query = [
@@ -176,7 +176,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
         );
     }
 
-    public function get24hrStatsRaw(string $productId)
+    public function get24hrStatsRaw(string $productId): string
     {
         return $this
             ->getRequestFactory()
@@ -194,7 +194,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
         return ProductStats24hrData::createFromJson($this->get24hrStatsRaw($productId));
     }
 
-    private function checkHistoricRatesParams(DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity)
+    private function checkHistoricRatesParams(DateTimeInterface $startTime, DateTimeInterface $endTime, int $granularity): void
     {
         if (!in_array($granularity, self::GRANULARITY)) {
             throw new ApiError(sprintf(
@@ -221,7 +221,7 @@ class Products extends AbstractRequestFactoryAware implements ProductsInterface
         }
     }
 
-    private function blockRequestWhileExceedRates()
+    private function blockRequestWhileExceedRates(): void
     {
         if (!is_null(self::$lastCallToHistoricRates)) {
             while (

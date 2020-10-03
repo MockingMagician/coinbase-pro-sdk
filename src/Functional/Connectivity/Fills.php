@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\FillData;
 
 class Fills extends AbstractRequestFactoryAware implements FillsInterface
 {
-    public function listFillsRaw(?string $orderId = null, ?string $productId = null, ?PaginationInterface $pagination = null)
+    public function listFillsRaw(?string $orderId = null, ?string $productId = null, ?PaginationInterface $pagination = null): string
     {
         $query = [];
 

@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\ProfileData;
 
 class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
 {
-    public function listProfilesRaw(bool $active)
+    public function listProfilesRaw(bool $active): string
     {
         $query = ['active' => $active];
 
@@ -29,7 +29,7 @@ class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
         return ProfileData::createCollectionFromJson($this->listProfilesRaw($active));
     }
 
-    public function getProfileRaw(string $profileId)
+    public function getProfileRaw(string $profileId): string
     {
         return $this->getRequestFactory()->createRequest('GET', sprintf('/profiles/%s', $profileId))->send();
     }
@@ -42,7 +42,7 @@ class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
         return ProfileData::createFromJson($this->getProfileRaw($profileId));
     }
 
-    public function createProfileTransferRaw(string $fromProfileId, string $toProfileId, string $currency, float $amount)
+    public function createProfileTransferRaw(string $fromProfileId, string $toProfileId, string $currency, float $amount): string
     {
         $body = [
             'from' => $fromProfileId,

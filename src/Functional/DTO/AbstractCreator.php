@@ -42,7 +42,7 @@ abstract class AbstractCreator implements CreatorInterface
     /**
      * @param mixed[] $array
      * @param mixed ...$extraData
-     * @return self[]
+     * @return static[]
      */
     public static function createCollectionFromArray(array $array, ...$extraData): array
     {

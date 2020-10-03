@@ -42,10 +42,21 @@ class ReportData extends AbstractCreator implements ReportDataInterface
      */
     private $fileUrl;
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     private $params;
 
+    /**
+     * ReportData constructor.
+     * @param string $id
+     * @param string $type
+     * @param string $status
+     * @param DateTimeImmutable|null $createdAt
+     * @param DateTimeImmutable|null $completedAt
+     * @param DateTimeImmutable|null $expiredAt
+     * @param string|null $fileUrl
+     * @param array<string, mixed> $params
+     */
     public function __construct(
         string $id,
         string $type,
@@ -101,6 +112,9 @@ class ReportData extends AbstractCreator implements ReportDataInterface
         return $this->fileUrl;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getParams(): array
     {
         return $this->params;
