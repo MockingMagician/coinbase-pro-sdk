@@ -50,7 +50,7 @@ class MarginStatusData extends AbstractCreator implements MarginStatusDataInterf
         return $this->eligible;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['tier'],

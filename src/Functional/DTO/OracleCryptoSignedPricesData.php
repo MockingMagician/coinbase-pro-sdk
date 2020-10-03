@@ -61,7 +61,7 @@ class OracleCryptoSignedPricesData extends AbstractCreator implements OracleCryp
         return $this->prices;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['timestamp'],
@@ -71,7 +71,7 @@ class OracleCryptoSignedPricesData extends AbstractCreator implements OracleCryp
         );
     }
 
-    public static function createFromJson(string $json, ...$divers)
+    public static function createFromJson(string $json, ...$extraData)
     {
         return self::createFromArray(json_decode($json, true));
     }

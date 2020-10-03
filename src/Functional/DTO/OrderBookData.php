@@ -57,20 +57,20 @@ class OrderBookData extends AbstractCreator implements OrderBookDataInterface
         return $this->asks;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         $bids = [];
         foreach ($array['bids'] as $k => $v) {
-            $array['bids'][$k] = OrderBookDetailsData::createFromArray($v, $divers);
+            $array['bids'][$k] = OrderBookDetailsData::createFromArray($v, $extraData);
         }
         foreach ($array['asks'] as $k => $v) {
-            $array['asks'][$k] = OrderBookDetailsData::createFromArray($v, $divers);
+            $array['asks'][$k] = OrderBookDetailsData::createFromArray($v, $extraData);
         }
 
         return new static($array['sequence'], $array['bids'], $array['asks']);
     }
 
-    public static function createFromJson(string $json, ...$divers)
+    public static function createFromJson(string $json, ...$extraData)
     {
         return self::createFromArray(json_decode($json, true));
     }

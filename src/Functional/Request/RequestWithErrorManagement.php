@@ -23,7 +23,9 @@ class RequestWithErrorManagement implements RequestInterface
      * @var bool
      */
     private $manageRateLimits;
-
+    /**
+     * @var int
+     */
     private $countHandlesExceptionalError = 0;
 
     public function __construct(Request $request, bool $manageRateLimits = true)
@@ -32,7 +34,7 @@ class RequestWithErrorManagement implements RequestInterface
         $this->manageRateLimits = $manageRateLimits;
     }
 
-    public function send()
+    public function send(): string
     {
         while (true) {
             try {

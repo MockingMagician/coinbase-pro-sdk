@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Request;
 
 interface RequestInterface
 {
-    public function send();
+    public function send(): string;
 
     public function setMustBeSigned(bool $set): RequestInterface;
 }

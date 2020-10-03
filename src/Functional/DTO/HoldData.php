@@ -96,7 +96,7 @@ class HoldData extends AbstractCreator implements HoldDataInterface
         return $this->ref;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],

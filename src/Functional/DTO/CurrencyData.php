@@ -97,7 +97,7 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
         return $this->details;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         $extraData = [];
 

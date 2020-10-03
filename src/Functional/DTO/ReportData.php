@@ -106,7 +106,7 @@ class ReportData extends AbstractCreator implements ReportDataInterface
         return $this->params;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],

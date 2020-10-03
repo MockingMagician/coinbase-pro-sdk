@@ -12,9 +12,16 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\CreatorInterface;
 
 abstract class AbstractCreator implements CreatorInterface
 {
-    abstract public static function createFromArray(array $array, ...$divers);
 
-    public static function createFromJson(string $json, ...$divers)
+    /**
+     * {@inheritdoc}
+     */
+    abstract public static function createFromArray(array $array, ...$extraData);
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function createFromJson(string $json, ...$extraData)
     {
         return static::createFromArray(json_decode($json, true));
     }
@@ -22,7 +29,7 @@ abstract class AbstractCreator implements CreatorInterface
     /**
      * {@inheritdoc}
      */
-    public static function createCollectionFromJson(string $json, ...$divers): array
+    public static function createCollectionFromJson(string $json, ...$extraData): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => $value) {
@@ -32,7 +39,12 @@ abstract class AbstractCreator implements CreatorInterface
         return $collection;
     }
 
-    public static function createCollectionFromArray(array $array, ...$divers): array
+    /**
+     * @param mixed[] $array
+     * @param mixed ...$extraData
+     * @return self[]
+     */
+    public static function createCollectionFromArray(array $array, ...$extraData): array
     {
         foreach ($array as $k => $value) {
             $array[$k] = static::createFromArray($value);

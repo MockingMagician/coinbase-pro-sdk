@@ -12,7 +12,13 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\TimeDataInterface;
 
 class TimeData extends AbstractCreator implements TimeDataInterface
 {
+    /**
+     * @var string
+     */
     private $iso;
+    /**
+     * @var float
+     */
     private $epoch;
 
     public function __construct(string $body)
@@ -32,7 +38,7 @@ class TimeData extends AbstractCreator implements TimeDataInterface
         return $this->epoch;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(json_encode($array));
     }

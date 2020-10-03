@@ -37,12 +37,12 @@ class LimitsData extends AbstractCreator implements LimitsDataInterface
         return $this->transferLimits;
     }
 
-    public static function createFromJson(string $json, ...$divers)
+    public static function createFromJson(string $json, ...$extraData)
     {
         return self::createFromArray(json_decode($json, true));
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static($array['limit_currency'], $array['transfer_limits']);
     }

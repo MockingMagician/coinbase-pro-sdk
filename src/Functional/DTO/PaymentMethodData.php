@@ -218,7 +218,7 @@ class PaymentMethodData extends AbstractCreator implements PaymentMethodDataInte
         return $this->resource_path;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],

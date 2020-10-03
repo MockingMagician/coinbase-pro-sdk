@@ -162,7 +162,7 @@ class FillData extends AbstractCreator implements FillDataInterface
         return $this->usdVolume;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['trade_id'],
@@ -181,7 +181,7 @@ class FillData extends AbstractCreator implements FillDataInterface
         );
     }
 
-    public static function createCollectionFromJson(string $json, ...$divers): array
+    public static function createCollectionFromJson(string $json, ...$extraData): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => &$value) {

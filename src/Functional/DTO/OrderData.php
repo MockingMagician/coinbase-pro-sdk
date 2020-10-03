@@ -228,7 +228,7 @@ class OrderData extends AbstractCreator implements OrderDataInterface
         return $this->doneReason;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],
@@ -253,12 +253,12 @@ class OrderData extends AbstractCreator implements OrderDataInterface
         );
     }
 
-    public static function createFromJson(string $json, ...$divers)
+    public static function createFromJson(string $json, ...$extraData)
     {
         return self::createFromArray(json_decode($json, true));
     }
 
-    public static function createCollectionFromJson(string $json, ...$divers): array
+    public static function createCollectionFromJson(string $json, ...$extraData): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => $v) {

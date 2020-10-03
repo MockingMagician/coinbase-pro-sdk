@@ -50,11 +50,20 @@ class RequestFactory implements RequestFactoryInterface, RequestReporterAwareInt
         $this->manageRateLimits = $manageRateLimits;
     }
 
-    public function setTimeInterface(TimeInterface $time)
+    public function setTimeInterface(TimeInterface $time): void
     {
         $this->time = $time;
     }
 
+    /**
+     * @param string $method
+     * @param string $routePath
+     * @param array<string, string> $queryArgs
+     * @param string|null $body
+     * @param PaginationInterface|null $pagination
+     * @param bool $mustBeSigned
+     * @return RequestInterface
+     */
     public function createRequest(
         string $method,
         string $routePath,

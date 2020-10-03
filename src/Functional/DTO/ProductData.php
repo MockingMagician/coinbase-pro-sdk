@@ -216,7 +216,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         ;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],
@@ -239,7 +239,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         );
     }
 
-    public static function createFromJson(string $json, ...$divers)
+    public static function createFromJson(string $json, ...$extraData)
     {
         return self::createFromArray(json_decode($json, true));
     }

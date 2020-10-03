@@ -138,7 +138,7 @@ class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountData
         return $this->extraData;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         $extraData = [];
 

@@ -62,7 +62,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
      */
     private $pagination;
     /**
-     * @var array
+     * @var array<string, string>
      */
     private $queryArgs;
     /**
@@ -74,6 +74,18 @@ class Request implements RequestInterface, RequestReporterAwareInterface
      */
     private $requestInspector;
 
+    /**
+     * Request constructor.
+     * @param ClientInterface $client
+     * @param ApiParamsInterface $apiParams
+     * @param string $method
+     * @param string $routePath
+     * @param array<string, string> $queryArgs
+     * @param string|null $body
+     * @param PaginationInterface|null $pagination
+     * @param bool $mustBeSigned
+     * @param TimeInterface|null $time
+     */
     public function __construct(
         ClientInterface $client,
         ApiParamsInterface $apiParams,
@@ -96,7 +108,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
         $this->mustBeSigned = $mustBeSigned;
     }
 
-    public function send()
+    public function send(): string
     {
         $request = $this->buildRequest();
 
@@ -202,7 +214,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
         );
     }
 
-    private function getTime()
+    private function getTime(): float
     {
         if ($this->time) {
             try {
@@ -211,7 +223,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
             }
         }
 
-        return time();
+        return microtime(true);
     }
 
     private function getQueryString(): string
@@ -223,7 +235,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
         return http_build_query($this->queryArgs);
     }
 
-    private function getFullRoutePath()
+    private function getFullRoutePath(): string
     {
         if (!empty($query = $this->getQueryString())) {
             return $this->routePath.'?'.$query;
