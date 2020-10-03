@@ -46,7 +46,7 @@ class RequestWithErrorManagement implements RequestInterface
 
                 throw $exception;
             } catch (CurlErrorToManaged | TimestampExpiredErrorToManaged $exception) {
-                usleep(ceil(25000 * sqrt(++$this->countHandlesExceptionalError)));
+                usleep((int) ceil(25000 * sqrt(++$this->countHandlesExceptionalError)));
 
                 continue;
             }

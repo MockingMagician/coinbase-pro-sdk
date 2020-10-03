@@ -11,6 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\StableCoinConversionsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\StableCoinConversionsData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class StableCoinConversions extends AbstractRequestFactoryAware implements StableCoinConversionsInterface
 {
@@ -22,7 +23,7 @@ class StableCoinConversions extends AbstractRequestFactoryAware implements Stabl
             'amount' => $amount,
         ];
 
-        return $this->getRequestFactory()->createRequest('POST', '/conversions', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/conversions', [], Json::encode($body))->send();
     }
 
     /**

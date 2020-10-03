@@ -13,12 +13,13 @@ use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OrdersInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class Orders extends AbstractRequestFactoryAware implements OrdersInterface
 {
     public function placeOrderRaw(CommonOrderToPlaceInterface $orderToPlace): string
     {
-        return $this->getRequestFactory()->createRequest('POST', '/orders', [], json_encode($orderToPlace->getBodyForRequest()))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/orders', [], Json::encode($orderToPlace->getBodyForRequest()))->send();
     }
 
     /**
@@ -38,7 +39,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         }
 
         return $this->getRequestFactory()
-            ->createRequest('DELETE', sprintf('/orders/%s', $orderId), [], $body ? json_encode($body) : null)
+            ->createRequest('DELETE', sprintf('/orders/%s', $orderId), [], $body ? Json::encode($body) : null)
             ->send()
         ;
     }
@@ -60,7 +61,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         }
 
         return $this->getRequestFactory()
-            ->createRequest('DELETE', sprintf('/orders/client:%s', $clientOrderId), [], $body ? json_encode($body) : null)
+            ->createRequest('DELETE', sprintf('/orders/client:%s', $clientOrderId), [], $body ? Json::encode($body) : null)
             ->send()
         ;
     }
@@ -81,7 +82,7 @@ class Orders extends AbstractRequestFactoryAware implements OrdersInterface
         }
 
         return $this->getRequestFactory()
-            ->createRequest('DELETE', '/orders', [], $body ? json_encode($body) : null)
+            ->createRequest('DELETE', '/orders', [], $body ? Json::encode($body) : null)
             ->send()
         ;
     }

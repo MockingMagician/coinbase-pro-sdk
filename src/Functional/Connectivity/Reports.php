@@ -14,6 +14,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ReportDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ReportData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class Reports extends AbstractRequestFactoryAware implements ReportsInterface
 {
@@ -61,7 +62,7 @@ class Reports extends AbstractRequestFactoryAware implements ReportsInterface
             $body['email'] = $email;
         }
 
-        return $this->getRequestFactory()->createRequest('POST', '/reports', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/reports', [], Json::encode($body))->send();
     }
 
     /**

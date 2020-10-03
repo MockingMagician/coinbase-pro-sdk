@@ -11,6 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProfileData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
 {
@@ -51,7 +52,7 @@ class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
             'amount' => $amount,
         ];
 
-        return $this->getRequestFactory()->createRequest('POST', '/profiles/transfer', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/profiles/transfer', [], Json::encode($body))->send();
     }
 
     /**

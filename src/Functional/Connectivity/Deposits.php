@@ -14,6 +14,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterfa
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CryptoDepositAddressData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class Deposits extends AbstractRequestFactoryAware implements DepositsInterface
 {
@@ -59,7 +60,7 @@ class Deposits extends AbstractRequestFactoryAware implements DepositsInterface
             'payment_method_id' => $paymentMethodId,
         ];
 
-        return $this->getRequestFactory()->createRequest('POST', '/deposits/payment-method', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/deposits/payment-method', [], Json::encode($body))->send();
     }
 
     /**
@@ -78,7 +79,7 @@ class Deposits extends AbstractRequestFactoryAware implements DepositsInterface
             'coinbase_account_id' => $coinbaseAccountId,
         ];
 
-        return $this->getRequestFactory()->createRequest('POST', '/deposits/coinbase-account', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/deposits/coinbase-account', [], Json::encode($body))->send();
     }
 
     /**

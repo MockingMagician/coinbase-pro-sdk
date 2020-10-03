@@ -12,6 +12,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\WithdrawalsData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInterface
 {
@@ -58,7 +59,7 @@ class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInte
             'payment_method_id' => $paymentMethodId,
         ];
 
-        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/payment-method', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/payment-method', [], Json::encode($body))->send();
     }
 
     /**
@@ -77,7 +78,7 @@ class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInte
             'coinbase_account_id' => $coinbaseAccountId,
         ];
 
-        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/coinbase-account', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/coinbase-account', [], Json::encode($body))->send();
     }
 
     /**
@@ -102,7 +103,7 @@ class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInte
             $body['no_destination_tag'] = true;
         }
 
-        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/crypto', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/crypto', [], Json::encode($body))->send();
     }
 
     /**
