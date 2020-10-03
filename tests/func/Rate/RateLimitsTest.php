@@ -9,7 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Rate;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Api\ApiConfig;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 use MockingMagician\CoinbaseProSdk\Functional\Api\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
@@ -33,7 +33,7 @@ class RateLimitsTest extends AbstractTest
     {
         parent::setUp();
 
-        $apiConfig = new ApiConfig();
+        $apiConfig = new Config();
         $apiConfig->setManageRateLimits(false);
 
         $this->apiWithOutRateLimitsGuard = ApiFactory::create(

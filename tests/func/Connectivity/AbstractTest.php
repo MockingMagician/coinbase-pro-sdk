@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 use Dotenv\Dotenv;
 use Exception;
 use GuzzleHttp\Client;
-use MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Params;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
 use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Request\RequestReporter;
@@ -31,7 +31,7 @@ abstract class AbstractTest extends TestCase
      */
     protected $time;
     /**
-     * @var ApiParams
+     * @var Params
      */
     protected $apiParams;
 
@@ -46,7 +46,7 @@ abstract class AbstractTest extends TestCase
         } catch (\Throwable $exception) {
             // We don't care, it is just a way between a lot to load envs
         }
-        $this->apiParams = new ApiParams(
+        $this->apiParams = new Params(
             self::API_TEST_ENDPOINT,
             getenv('API_KEY'),
             getenv('API_SECRET'),

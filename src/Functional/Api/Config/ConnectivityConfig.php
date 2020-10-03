@@ -6,11 +6,12 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Functional\Api;
+namespace MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiConnectivityConfigInterface;
 
-class ApiConnectivityConfig implements ApiConnectivityConfigInterface
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConnectivityConfigInterface;
+
+class ConnectivityConfig implements ConnectivityConfigInterface
 {
     /**
      * @var bool
@@ -85,7 +86,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
      */
     private $time = true;
 
-    public function setAccounts(bool $set): ApiConnectivityConfigInterface
+    public function setAccounts(bool $set): ConnectivityConfigInterface
     {
         $this->accounts = $set;
 
@@ -97,7 +98,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->accounts;
     }
 
-    public function setOrders(bool $set): ApiConnectivityConfigInterface
+    public function setOrders(bool $set): ConnectivityConfigInterface
     {
         $this->orders = $set;
 
@@ -109,7 +110,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->orders;
     }
 
-    public function setFills(bool $set): ApiConnectivityConfigInterface
+    public function setFills(bool $set): ConnectivityConfigInterface
     {
         $this->fills = $set;
 
@@ -121,7 +122,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->fills;
     }
 
-    public function setLimits(bool $set): ApiConnectivityConfigInterface
+    public function setLimits(bool $set): ConnectivityConfigInterface
     {
         $this->limits = $set;
 
@@ -133,7 +134,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->limits;
     }
 
-    public function setDeposits(bool $set): ApiConnectivityConfigInterface
+    public function setDeposits(bool $set): ConnectivityConfigInterface
     {
         $this->deposits = $set;
 
@@ -145,7 +146,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->deposits;
     }
 
-    public function setWithdrawals(bool $set): ApiConnectivityConfigInterface
+    public function setWithdrawals(bool $set): ConnectivityConfigInterface
     {
         $this->withdrawals = $set;
 
@@ -157,7 +158,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->withdrawals;
     }
 
-    public function setStablecoinConversions(bool $set): ApiConnectivityConfigInterface
+    public function setStablecoinConversions(bool $set): ConnectivityConfigInterface
     {
         $this->stablecoinConversions = $set;
 
@@ -169,7 +170,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->stablecoinConversions;
     }
 
-    public function setPaymentMethods(bool $set): ApiConnectivityConfigInterface
+    public function setPaymentMethods(bool $set): ConnectivityConfigInterface
     {
         $this->paymentMethods = $set;
 
@@ -181,7 +182,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->paymentMethods;
     }
 
-    public function setCoinbaseAccounts(bool $set): ApiConnectivityConfigInterface
+    public function setCoinbaseAccounts(bool $set): ConnectivityConfigInterface
     {
         $this->coinbaseAccounts = $set;
 
@@ -193,7 +194,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->coinbaseAccounts;
     }
 
-    public function setFees(bool $set): ApiConnectivityConfigInterface
+    public function setFees(bool $set): ConnectivityConfigInterface
     {
         $this->fees = $set;
 
@@ -205,7 +206,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->fees;
     }
 
-    public function setReports(bool $set): ApiConnectivityConfigInterface
+    public function setReports(bool $set): ConnectivityConfigInterface
     {
         $this->reports = $set;
 
@@ -217,7 +218,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->reports;
     }
 
-    public function setProfiles(bool $set): ApiConnectivityConfigInterface
+    public function setProfiles(bool $set): ConnectivityConfigInterface
     {
         $this->profiles = $set;
 
@@ -229,7 +230,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->profiles;
     }
 
-    public function setUserAccount(bool $set): ApiConnectivityConfigInterface
+    public function setUserAccount(bool $set): ConnectivityConfigInterface
     {
         $this->userAccount = $set;
 
@@ -241,7 +242,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->userAccount;
     }
 
-    public function setMargin(bool $set): ApiConnectivityConfigInterface
+    public function setMargin(bool $set): ConnectivityConfigInterface
     {
         $this->margin = $set;
 
@@ -253,7 +254,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->margin;
     }
 
-    public function setOracle(bool $set): ApiConnectivityConfigInterface
+    public function setOracle(bool $set): ConnectivityConfigInterface
     {
         $this->oracle = $set;
 
@@ -265,7 +266,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->oracle;
     }
 
-    public function setProducts(bool $set): ApiConnectivityConfigInterface
+    public function setProducts(bool $set): ConnectivityConfigInterface
     {
         $this->products = $set;
 
@@ -277,7 +278,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->products;
     }
 
-    public function setCurrencies(bool $set): ApiConnectivityConfigInterface
+    public function setCurrencies(bool $set): ConnectivityConfigInterface
     {
         $this->currencies = $set;
 
@@ -289,7 +290,7 @@ class ApiConnectivityConfig implements ApiConnectivityConfigInterface
         return $this->currencies;
     }
 
-    public function setTime(bool $set): ApiConnectivityConfigInterface
+    public function setTime(bool $set): ConnectivityConfigInterface
     {
         $this->time = $set;
 

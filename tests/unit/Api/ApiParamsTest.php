@@ -8,11 +8,11 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
 
-use MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Config\Params;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\Api\Params
  *
  * @internal
  */
@@ -25,7 +25,7 @@ class ApiParamsTest extends TestCase
         $secret = 'secret';
         $passphrase = 'passphrase';
 
-        $apiParams = new ApiParams($endpoint, $key, $secret, $passphrase);
+        $apiParams = new Params($endpoint, $key, $secret, $passphrase);
 
         self::assertEquals($endpoint, $apiParams->getEndPoint());
         self::assertEquals($key, $apiParams->getKey());

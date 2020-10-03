@@ -10,6 +10,8 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Api;
 
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Config\Config;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Config\Params;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Currencies;
@@ -79,13 +81,13 @@ final class ApiFactory
         string $key,
         string $secret,
         string $passphrase,
-        ?ApiConfig $apiConfig = null
+        ?Config $apiConfig = null
     ): ApiInterface {
         if (is_null($apiConfig)) {
-            $apiConfig = new ApiConfig();
+            $apiConfig = new Config();
         }
 
-        $apiParams = new ApiParams($endpoint, $key, $secret, $passphrase);
+        $apiParams = new Params($endpoint, $key, $secret, $passphrase);
 
         $requestManager = new RequestFactory(new Client(), $apiParams, $apiConfig->isManageRateLimits());
 
@@ -95,25 +97,25 @@ final class ApiFactory
             $requestManager->setTimeInterface($time);
         }
 
-        return new Api(
-            $apiConfig->connectivityConfig()->getAccounts() ? new Accounts($requestManager) : null,
-            $apiConfig->connectivityConfig()->getCoinbaseAccounts() ? new CoinbaseAccounts($requestManager) : null,
-            $apiConfig->connectivityConfig()->getCurrencies() ? new Currencies($requestManager) : null,
-            $apiConfig->connectivityConfig()->getDeposits() ? new Deposits($requestManager) : null,
-            $apiConfig->connectivityConfig()->getFees() ? new Fees($requestManager) : null,
-            $apiConfig->connectivityConfig()->getFills() ? new Fills($requestManager) : null,
-            $apiConfig->connectivityConfig()->getLimits() ? new Limits($requestManager) : null,
-            $apiConfig->connectivityConfig()->getMargin() ? new MarginApiReadyCheckDecorator(new Margin($requestManager)) : null,
-            $apiConfig->connectivityConfig()->getOracle() ? new Oracle($requestManager) : null,
-            $apiConfig->connectivityConfig()->getOrders() ? new Orders($requestManager) : null,
-            $apiConfig->connectivityConfig()->getPaymentMethods() ? new PaymentMethods($requestManager) : null,
-            $apiConfig->connectivityConfig()->getProducts() ? new Products($requestManager) : null,
-            $apiConfig->connectivityConfig()->getProfiles() ? new Profiles($requestManager) : null,
-            $apiConfig->connectivityConfig()->getReports() ? new Reports($requestManager) : null,
-            $apiConfig->connectivityConfig()->getStableCoinConversions() ? new StableCoinConversions($requestManager) : null,
-            $apiConfig->connectivityConfig()->getTime() ? $time : null,
-            $apiConfig->connectivityConfig()->getUserAccount() ? new UserAccount($requestManager) : null,
-            $apiConfig->connectivityConfig()->getWithdrawals() ? new Withdrawals($requestManager) : null
+        return new CoinbaseApi(
+            $apiConfig->getConnectivityConfig()->getAccounts() ? new Accounts($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getCoinbaseAccounts() ? new CoinbaseAccounts($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getCurrencies() ? new Currencies($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getDeposits() ? new Deposits($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getFees() ? new Fees($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getFills() ? new Fills($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getLimits() ? new Limits($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getMargin() ? new MarginApiReadyCheckDecorator(new Margin($requestManager)) : null,
+            $apiConfig->getConnectivityConfig()->getOracle() ? new Oracle($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getOrders() ? new Orders($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getPaymentMethods() ? new PaymentMethods($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getProducts() ? new Products($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getProfiles() ? new Profiles($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getReports() ? new Reports($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getStableCoinConversions() ? new StableCoinConversions($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getTime() ? $time : null,
+            $apiConfig->getConnectivityConfig()->getUserAccount() ? new UserAccount($requestManager) : null,
+            $apiConfig->getConnectivityConfig()->getWithdrawals() ? new Withdrawals($requestManager) : null
         );
     }
 
@@ -122,7 +124,7 @@ final class ApiFactory
         $config = self::parseYamlConfigFile($path);
         self::checkConfig($config);
 
-        $apiConfig = new ApiConfig();
+        $apiConfig = new Config();
 
         if (isset($config[self::CONFIG_ROOT_REMOTE_TIME])) {
             $apiConfig->setManageRateLimits((bool) $config[self::CONFIG_ROOT_REMOTE_TIME]);
@@ -184,7 +186,7 @@ final class ApiFactory
         }
     }
 
-    private static function configureConnectivity(array $config, ApiConfig $apiConfig): void
+    private static function configureConnectivity(array $config, Config $apiConfig): void
     {
         if (!isset($config[self::CONFIG_ROOT_FEATURES]) || !is_array($config[self::CONFIG_ROOT_FEATURES])) {
             return;

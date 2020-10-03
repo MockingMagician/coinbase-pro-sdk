@@ -9,7 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Request;
 
 use GuzzleHttp\ClientInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
@@ -24,7 +24,7 @@ class RequestFactory implements RequestFactoryInterface, RequestReporterAwareInt
      */
     private $client;
     /**
-     * @var ApiParamsInterface
+     * @var ParamsInterface
      */
     private $apiParams;
     /**
@@ -42,7 +42,7 @@ class RequestFactory implements RequestFactoryInterface, RequestReporterAwareInt
 
     public function __construct(
         ClientInterface $client,
-        ApiParamsInterface $apiParams,
+        ParamsInterface $apiParams,
         bool $manageRateLimits = true
     ) {
         $this->client = $client;

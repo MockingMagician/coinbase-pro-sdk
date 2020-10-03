@@ -6,15 +6,17 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Functional\Api;
+namespace MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiConfigInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiConnectivityConfigInterface;
 
-class ApiConfig implements ApiConfigInterface
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConfigInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConnectivityConfigInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
+
+class Config implements ConfigInterface
 {
     /**
-     * @var ApiConnectivityConfigInterface
+     * @var ConnectivityConfigInterface
      */
     private $apiConnectivityConfig;
     /**
@@ -25,12 +27,26 @@ class ApiConfig implements ApiConfigInterface
      * @var bool
      */
     private $manageRateLimits;
+    /**
+     * @var ParamsInterface
+     */
+    private $params;
 
     public function __construct(
+//        string $endpoint,
+//        string $key,
+//        string $secret,
+//        string $passphrase,
         bool $useCoinbaseRemoteTime = false,
         bool $manageRateLimits = true
     ) {
-        $this->apiConnectivityConfig = new ApiConnectivityConfig();
+//        $this->params = new Params(
+//            $endpoint,
+//            $key,
+//            $secret,
+//            $passphrase
+//        );
+        $this->apiConnectivityConfig = new ConnectivityConfig();
         $this->useCoinbaseRemoteTime = $useCoinbaseRemoteTime;
         $this->manageRateLimits = $manageRateLimits;
     }
@@ -38,7 +54,7 @@ class ApiConfig implements ApiConfigInterface
     /**
      * {@inheritdoc}
      */
-    public function connectivityConfig(): ApiConnectivityConfigInterface
+    public function getConnectivityConfig(): ConnectivityConfigInterface
     {
         return $this->apiConnectivityConfig;
     }
@@ -54,7 +70,7 @@ class ApiConfig implements ApiConfigInterface
     /**
      * {@inheritdoc}
      */
-    public function setUseCoinbaseRemoteTime(bool $useCoinbaseRemoteTime): ApiConfigInterface
+    public function setUseCoinbaseRemoteTime(bool $useCoinbaseRemoteTime): ConfigInterface
     {
         $this->useCoinbaseRemoteTime = $useCoinbaseRemoteTime;
 
@@ -72,10 +88,15 @@ class ApiConfig implements ApiConfigInterface
     /**
      * {@inheritdoc}
      */
-    public function setManageRateLimits(bool $manageRateLimits): ApiConfigInterface
+    public function setManageRateLimits(bool $manageRateLimits): ConfigInterface
     {
         $this->manageRateLimits = $manageRateLimits;
 
         return $this;
+    }
+
+    public function getParams(): ParamsInterface
+    {
+        return $this->params;
     }
 }

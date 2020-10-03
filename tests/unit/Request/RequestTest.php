@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Request;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
@@ -331,7 +331,7 @@ class RequestTest extends TestCase
 
     public function providePropheciesForTests()
     {
-        $apiParams = $this->prophesize(ApiParamsInterface::class);
+        $apiParams = $this->prophesize(ParamsInterface::class);
         $apiParams->getEndPoint()->willReturn('endpoint')->shouldBeCalledOnce();
 
         return [

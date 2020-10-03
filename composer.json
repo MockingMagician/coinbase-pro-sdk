@@ -17,6 +17,7 @@
     "require": {
         "php": ">7.1",
         "ext-json": "*",
+        "ext-openssl": "*",
         "psr/http-client": "^1.0",
         "guzzlehttp/guzzle": "^6.0",
         "symfony/yaml": "^4.0"

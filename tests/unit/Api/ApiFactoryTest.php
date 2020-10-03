@@ -9,8 +9,8 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Api\ApiConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Api\ApiFactory;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Config\Config;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestFactoryAware;
 use PHPUnit\Framework\TestCase;
 
@@ -68,9 +68,9 @@ class ApiFactoryTest extends TestCase
 
     public function testCreateCustom()
     {
-        $apiConfig = new ApiConfig();
+        $apiConfig = new Config();
 
-        $apiConfig->connectivityConfig()
+        $apiConfig->getConnectivityConfig()
             ->setPaymentMethods(false)
             ->setProducts(false)
             ->setProfiles(false)

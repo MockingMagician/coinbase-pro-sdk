@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Request;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
@@ -50,7 +50,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
      */
     private $body;
     /**
-     * @var ApiParamsInterface
+     * @var ParamsInterface
      */
     private $apiParams;
     /**
@@ -81,7 +81,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
      */
     public function __construct(
         ClientInterface $client,
-        ApiParamsInterface $apiParams,
+        ParamsInterface $apiParams,
         string $method,
         string $routePath,
         array $queryArgs = [],

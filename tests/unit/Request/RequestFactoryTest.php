@@ -9,9 +9,9 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Request;
 
 use GuzzleHttp\ClientInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Api\ApiParams;
 use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ class RequestFactoryTest extends TestCase
     public function testCreateARequest()
     {
         $client = $this->prophesize(ClientInterface::class);
-        $apiParams = $this->prophesize(ApiParams::class);
+        $apiParams = $this->prophesize(ParamsInterface::class);
 
         $requestFactory = new RequestFactory(
             $client->reveal(),

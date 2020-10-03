@@ -6,11 +6,11 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Functional\Api;
+namespace MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
 
-class ApiParams implements ApiParamsInterface
+class Params implements ParamsInterface
 {
     /**
      * @var string
