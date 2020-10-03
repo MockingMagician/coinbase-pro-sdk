@@ -6,17 +6,18 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
+namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api\Config;
 
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\Params;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Config\SecureParams;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\Api\Params
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\Api\Config\Params
  *
  * @internal
  */
-class ApiParamsTest extends TestCase
+class SecureParamsTest extends TestCase
 {
     public function testGetter()
     {
@@ -25,7 +26,7 @@ class ApiParamsTest extends TestCase
         $secret = 'secret';
         $passphrase = 'passphrase';
 
-        $apiParams = new Params($endpoint, $key, $secret, $passphrase);
+        $apiParams = new SecureParams(new Params($endpoint, $key, $secret, $passphrase));
 
         self::assertEquals($endpoint, $apiParams->getEndPoint());
         self::assertEquals($key, $apiParams->getKey());

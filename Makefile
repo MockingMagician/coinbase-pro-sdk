@@ -19,7 +19,7 @@ tests-unit-with-coverage: ## Launch PHPUnit tests 'Unit' suite with coverage
 
 .PHONY: tests-functional
 tests-functional: ## Launch PHPUnit tests 'Functional' suite
-	vendor/bin/phpunit --colors=always -testdox --coverage-html .coverage --testsuite Functional
+	vendor/bin/phpunit --colors=always --testdox --coverage-html .coverage --testsuite Functional
 
 .PHONY: phpcs
 phpcs: ## Apply PHP CS fixes

@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 use Dotenv\Dotenv;
 use Exception;
 use GuzzleHttp\Client;
-use MockingMagician\CoinbaseProSdk\Functional\Api\Params;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Config\Params;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
 use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Request\RequestReporter;

@@ -9,9 +9,8 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
-use function random_bytes;
 
-class SecureParamsInterface implements ParamsInterface
+class SecureParams implements ParamsInterface
 {
     /**
      * @var string
@@ -20,11 +19,15 @@ class SecureParamsInterface implements ParamsInterface
     /**
      * @var string
      */
-    private $params;
+    private $cipher;
     /**
      * @var string
      */
-    private $cipher;
+    private $tag;
+    /**
+     * @var string
+     */
+    private $params;
     /**
      * @var string
      */
@@ -78,11 +81,11 @@ class SecureParamsInterface implements ParamsInterface
 
     private function encryptParams(ParamsInterface $params): string
     {
-        return openssl_encrypt(serialize($params), $this->cipher, file_get_contents($this->keyPath), 0, $this->iv);
+        return openssl_encrypt(serialize($params), $this->cipher, file_get_contents($this->keyPath), 0, $this->iv, $this->tag);
     }
 
     private function getParams(): ParamsInterface
     {
-        return unserialize(openssl_decrypt($this->params, $this->cipher, file_get_contents($this->keyPath), 0, $this->iv));
+        return unserialize(openssl_decrypt($this->params, $this->cipher, file_get_contents($this->keyPath), 0, $this->iv, $this->tag));
     }
 }
