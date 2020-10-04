@@ -28,7 +28,7 @@ jobs:
                   extensions: mbstring, intl, zip
 
             - name: Composer install
-              run: rm composer.lock && composer install
+              run: (rm composer.lock || true) &&  composer update
 
             - name: PHP version
               run: php --version
