@@ -1,10 +1,10 @@
-connectivity:
+params:
     endpoint: '${API_ENDPOINT}'
     key: '${API_KEY}'
     secret: '${API_SECRET}'
     passphrase: '${API_PASSPHRASE}'
 
-features:
+connectivity:
     accounts: true
     coinbase_accounts: true
     currencies: true
@@ -27,3 +27,5 @@ features:
 remote_time: true
 
 manage_rate_limits: false
+
+secure_params: false

@@ -86,218 +86,218 @@ class ConnectivityConfig implements ConnectivityConfigInterface
      */
     private $time = true;
 
-    public function setAccounts(bool $set): ConnectivityConfigInterface
+    public function activateAccounts(bool $set): ConnectivityConfigInterface
     {
         $this->accounts = $set;
 
         return $this;
     }
 
-    public function getAccounts(): bool
+    public function isAccountsActivate(): bool
     {
         return $this->accounts;
     }
 
-    public function setOrders(bool $set): ConnectivityConfigInterface
+    public function activateOrders(bool $set): ConnectivityConfigInterface
     {
         $this->orders = $set;
 
         return $this;
     }
 
-    public function getOrders(): bool
+    public function isOrdersActivate(): bool
     {
         return $this->orders;
     }
 
-    public function setFills(bool $set): ConnectivityConfigInterface
+    public function activateFills(bool $set): ConnectivityConfigInterface
     {
         $this->fills = $set;
 
         return $this;
     }
 
-    public function getFills(): bool
+    public function isFillsActivate(): bool
     {
         return $this->fills;
     }
 
-    public function setLimits(bool $set): ConnectivityConfigInterface
+    public function activateLimits(bool $set): ConnectivityConfigInterface
     {
         $this->limits = $set;
 
         return $this;
     }
 
-    public function getLimits(): bool
+    public function isLimitsActivate(): bool
     {
         return $this->limits;
     }
 
-    public function setDeposits(bool $set): ConnectivityConfigInterface
+    public function activateDeposits(bool $set): ConnectivityConfigInterface
     {
         $this->deposits = $set;
 
         return $this;
     }
 
-    public function getDeposits(): bool
+    public function isDepositsActivate(): bool
     {
         return $this->deposits;
     }
 
-    public function setWithdrawals(bool $set): ConnectivityConfigInterface
+    public function activateWithdrawals(bool $set): ConnectivityConfigInterface
     {
         $this->withdrawals = $set;
 
         return $this;
     }
 
-    public function getWithdrawals(): bool
+    public function isWithdrawalsActivate(): bool
     {
         return $this->withdrawals;
     }
 
-    public function setStablecoinConversions(bool $set): ConnectivityConfigInterface
+    public function activateStablecoinConversions(bool $set): ConnectivityConfigInterface
     {
         $this->stablecoinConversions = $set;
 
         return $this;
     }
 
-    public function getStablecoinConversions(): bool
+    public function isStablecoinConversionsActivate(): bool
     {
         return $this->stablecoinConversions;
     }
 
-    public function setPaymentMethods(bool $set): ConnectivityConfigInterface
+    public function activatePaymentMethods(bool $set): ConnectivityConfigInterface
     {
         $this->paymentMethods = $set;
 
         return $this;
     }
 
-    public function getPaymentMethods(): bool
+    public function isPaymentMethodsActivate(): bool
     {
         return $this->paymentMethods;
     }
 
-    public function setCoinbaseAccounts(bool $set): ConnectivityConfigInterface
+    public function activateCoinbaseAccounts(bool $set): ConnectivityConfigInterface
     {
         $this->coinbaseAccounts = $set;
 
         return $this;
     }
 
-    public function getCoinbaseAccounts(): bool
+    public function isCoinbaseAccountsActivate(): bool
     {
         return $this->coinbaseAccounts;
     }
 
-    public function setFees(bool $set): ConnectivityConfigInterface
+    public function activateFees(bool $set): ConnectivityConfigInterface
     {
         $this->fees = $set;
 
         return $this;
     }
 
-    public function getFees(): bool
+    public function isFeesActivate(): bool
     {
         return $this->fees;
     }
 
-    public function setReports(bool $set): ConnectivityConfigInterface
+    public function activateReports(bool $set): ConnectivityConfigInterface
     {
         $this->reports = $set;
 
         return $this;
     }
 
-    public function getReports(): bool
+    public function isReportsActivate(): bool
     {
         return $this->reports;
     }
 
-    public function setProfiles(bool $set): ConnectivityConfigInterface
+    public function activateProfiles(bool $set): ConnectivityConfigInterface
     {
         $this->profiles = $set;
 
         return $this;
     }
 
-    public function getProfiles(): bool
+    public function isProfilesActivate(): bool
     {
         return $this->profiles;
     }
 
-    public function setUserAccount(bool $set): ConnectivityConfigInterface
+    public function activateUserAccount(bool $set): ConnectivityConfigInterface
     {
         $this->userAccount = $set;
 
         return $this;
     }
 
-    public function getUserAccount(): bool
+    public function isUserAccountActivate(): bool
     {
         return $this->userAccount;
     }
 
-    public function setMargin(bool $set): ConnectivityConfigInterface
+    public function activateMargin(bool $set): ConnectivityConfigInterface
     {
         $this->margin = $set;
 
         return $this;
     }
 
-    public function getMargin(): bool
+    public function isMarginActivate(): bool
     {
         return $this->margin;
     }
 
-    public function setOracle(bool $set): ConnectivityConfigInterface
+    public function activateOracle(bool $set): ConnectivityConfigInterface
     {
         $this->oracle = $set;
 
         return $this;
     }
 
-    public function getOracle(): bool
+    public function isOracleActivate(): bool
     {
         return $this->oracle;
     }
 
-    public function setProducts(bool $set): ConnectivityConfigInterface
+    public function activateProducts(bool $set): ConnectivityConfigInterface
     {
         $this->products = $set;
 
         return $this;
     }
 
-    public function getProducts(): bool
+    public function isProductsActivate(): bool
     {
         return $this->products;
     }
 
-    public function setCurrencies(bool $set): ConnectivityConfigInterface
+    public function activateCurrencies(bool $set): ConnectivityConfigInterface
     {
         $this->currencies = $set;
 
         return $this;
     }
 
-    public function getCurrencies(): bool
+    public function isCurrenciesActivate(): bool
     {
         return $this->currencies;
     }
 
-    public function setTime(bool $set): ConnectivityConfigInterface
+    public function activateTime(bool $set): ConnectivityConfigInterface
     {
         $this->time = $set;
 
         return $this;
     }
 
-    public function getTime(): bool
+    public function isTimeActivate(): bool
     {
         return $this->time;
     }

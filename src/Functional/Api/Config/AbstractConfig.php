@@ -9,46 +9,56 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 
 
+use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConfigInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConnectivityConfigInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
+use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 
-class Config implements ConfigInterface
+abstract class AbstractConfig implements ConfigInterface
 {
     /**
      * @var ConnectivityConfigInterface
      */
-    private $apiConnectivityConfig;
+    protected $apiConnectivityConfig;
     /**
      * @var bool
      */
-    private $useCoinbaseRemoteTime;
+    protected $useCoinbaseRemoteTime;
     /**
      * @var bool
      */
-    private $manageRateLimits;
+    protected $manageRateLimits;
     /**
      * @var ParamsInterface
      */
-    private $params;
+    protected $params;
+    /**
+     * @var bool
+     */
+    private $useSecurityLayerForParams;
 
-    public function __construct(
-//        string $endpoint,
-//        string $key,
-//        string $secret,
-//        string $passphrase,
+    protected function __construct(
+        string $endpoint,
+        string $key,
+        string $secret,
+        string $passphrase,
         bool $useCoinbaseRemoteTime = false,
-        bool $manageRateLimits = true
+        bool $manageRateLimits = true,
+        bool $useSecurityLayerForParams = true
     ) {
-//        $this->params = new Params(
-//            $endpoint,
-//            $key,
-//            $secret,
-//            $passphrase
-//        );
+        $this->params = new Params(
+            $endpoint,
+            $key,
+            $secret,
+            $passphrase
+        );
         $this->apiConnectivityConfig = new ConnectivityConfig();
         $this->useCoinbaseRemoteTime = $useCoinbaseRemoteTime;
         $this->manageRateLimits = $manageRateLimits;
+        $this->useSecurityLayerForParams = $useSecurityLayerForParams;
     }
 
     /**
@@ -95,8 +105,32 @@ class Config implements ConfigInterface
         return $this;
     }
 
-    public function getParams(): ParamsInterface
+    public function setUseSecurityLayerForParams(bool $set): ConfigInterface
     {
-        return $this->params;
+        $this->useSecurityLayerForParams = $set;
+
+        return $this;
+    }
+
+    public function isUseSecurityLayerForParams(): bool
+    {
+        return $this->useSecurityLayerForParams;
+    }
+
+    public function getBuildRequestFactory(): RequestFactoryInterface
+    {
+        $params = $this->params;
+
+        if ($this->isUseSecurityLayerForParams()) {
+            $params = new SecureParams($params);
+        }
+
+        $requestFactory = new RequestFactory(new Client(), $params, $this->isManageRateLimits());
+
+        if ($this->isUseCoinbaseRemoteTime()) {
+            $requestFactory->setTimeInterface(new Time($requestFactory));
+        }
+
+        return $requestFactory;
     }
 }

@@ -1,0 +1,12 @@
+params:
+    endpoint: '${API_ENDPOINT}'
+    key: '${API_KEY}'
+    secret: '${API_SECRET}'
+    passphrase: '${API_PASSPHRASE}'
+
+connectivity:
+    deposits: false
+    coinbase_accounts: false
+    payment_methods: false
+    stablecoin_conversions: false
+    user_account: false

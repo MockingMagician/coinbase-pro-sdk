@@ -1,4 +1,4 @@
-connectivity:
+params_is_now_missing:
     endpoint: '${API_ENDPOINT}'
     key: '${API_KEY}'
     secret: '${API_SECRET}'

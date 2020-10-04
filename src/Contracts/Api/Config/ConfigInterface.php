@@ -8,6 +8,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Api\Config;
 
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
+
 interface ConfigInterface
 {
     public function getConnectivityConfig(): ConnectivityConfigInterface;
@@ -20,5 +22,9 @@ interface ConfigInterface
 
     public function isManageRateLimits(): bool;
 
-    public function getParams(): ParamsInterface;
+    public function setUseSecurityLayerForParams(bool $set): ConfigInterface;
+
+    public function isUseSecurityLayerForParams(): bool;
+
+    public function getBuildRequestFactory(): RequestFactoryInterface;
 }

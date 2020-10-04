@@ -10,75 +10,75 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Api\Config;
 
 interface ConnectivityConfigInterface
 {
-    public function setAccounts(bool $set): ConnectivityConfigInterface;
+    public function activateAccounts(bool $set): ConnectivityConfigInterface;
 
-    public function getAccounts(): bool;
+    public function isAccountsActivate(): bool;
 
-    public function setOrders(bool $set): ConnectivityConfigInterface;
+    public function activateOrders(bool $set): ConnectivityConfigInterface;
 
-    public function getOrders(): bool;
+    public function isOrdersActivate(): bool;
 
-    public function setFills(bool $set): ConnectivityConfigInterface;
+    public function activateFills(bool $set): ConnectivityConfigInterface;
 
-    public function getFills(): bool;
+    public function isFillsActivate(): bool;
 
-    public function setLimits(bool $set): ConnectivityConfigInterface;
+    public function activateLimits(bool $set): ConnectivityConfigInterface;
 
-    public function getLimits(): bool;
+    public function isLimitsActivate(): bool;
 
-    public function setDeposits(bool $set): ConnectivityConfigInterface;
+    public function activateDeposits(bool $set): ConnectivityConfigInterface;
 
-    public function getDeposits(): bool;
+    public function isDepositsActivate(): bool;
 
-    public function setWithdrawals(bool $set): ConnectivityConfigInterface;
+    public function activateWithdrawals(bool $set): ConnectivityConfigInterface;
 
-    public function getWithdrawals(): bool;
+    public function isWithdrawalsActivate(): bool;
 
-    public function setStablecoinConversions(bool $set): ConnectivityConfigInterface;
+    public function activateStablecoinConversions(bool $set): ConnectivityConfigInterface;
 
-    public function getStablecoinConversions(): bool;
+    public function isStablecoinConversionsActivate(): bool;
 
-    public function setPaymentMethods(bool $set): ConnectivityConfigInterface;
+    public function activatePaymentMethods(bool $set): ConnectivityConfigInterface;
 
-    public function getPaymentMethods(): bool;
+    public function isPaymentMethodsActivate(): bool;
 
-    public function setCoinbaseAccounts(bool $set): ConnectivityConfigInterface;
+    public function activateCoinbaseAccounts(bool $set): ConnectivityConfigInterface;
 
-    public function getCoinbaseAccounts(): bool;
+    public function isCoinbaseAccountsActivate(): bool;
 
-    public function setFees(bool $set): ConnectivityConfigInterface;
+    public function activateFees(bool $set): ConnectivityConfigInterface;
 
-    public function getFees(): bool;
+    public function isFeesActivate(): bool;
 
-    public function setReports(bool $set): ConnectivityConfigInterface;
+    public function activateReports(bool $set): ConnectivityConfigInterface;
 
-    public function getReports(): bool;
+    public function isReportsActivate(): bool;
 
-    public function setProfiles(bool $set): ConnectivityConfigInterface;
+    public function activateProfiles(bool $set): ConnectivityConfigInterface;
 
-    public function getProfiles(): bool;
+    public function isProfilesActivate(): bool;
 
-    public function setUserAccount(bool $set): ConnectivityConfigInterface;
+    public function activateUserAccount(bool $set): ConnectivityConfigInterface;
 
-    public function getUserAccount(): bool;
+    public function isUserAccountActivate(): bool;
 
-    public function setMargin(bool $set): ConnectivityConfigInterface;
+    public function activateMargin(bool $set): ConnectivityConfigInterface;
 
-    public function getMargin(): bool;
+    public function isMarginActivate(): bool;
 
-    public function setOracle(bool $set): ConnectivityConfigInterface;
+    public function activateOracle(bool $set): ConnectivityConfigInterface;
 
-    public function getOracle(): bool;
+    public function isOracleActivate(): bool;
 
-    public function setProducts(bool $set): ConnectivityConfigInterface;
+    public function activateProducts(bool $set): ConnectivityConfigInterface;
 
-    public function getProducts(): bool;
+    public function isProductsActivate(): bool;
 
-    public function setCurrencies(bool $set): ConnectivityConfigInterface;
+    public function activateCurrencies(bool $set): ConnectivityConfigInterface;
 
-    public function getCurrencies(): bool;
+    public function isCurrenciesActivate(): bool;
 
-    public function setTime(bool $set): ConnectivityConfigInterface;
+    public function activateTime(bool $set): ConnectivityConfigInterface;
 
-    public function getTime(): bool;
+    public function isTimeActivate(): bool;
 }

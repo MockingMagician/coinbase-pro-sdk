@@ -13,7 +13,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Api\Config\SecureParams;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MockingMagician\CoinbaseProSdk\Functional\Api\Config\Params
+ * @covers \MockingMagician\CoinbaseProSdk\Functional\Api\Config\SecureParams
  *
  * @internal
  */

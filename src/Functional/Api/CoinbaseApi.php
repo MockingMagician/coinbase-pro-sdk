@@ -8,6 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Api;
 
+use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterface;
@@ -27,7 +28,28 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsI
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Currencies;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Deposits;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Fees;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Fills;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Limits;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Margin;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\MarginApiReadyCheckDecorator;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Oracle;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\PaymentMethods;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Products;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Profiles;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Reports;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\StableCoinConversions;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccount;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 
 class CoinbaseApi implements ApiInterface
 {
@@ -106,44 +128,27 @@ class CoinbaseApi implements ApiInterface
      */
     private $withdrawals;
 
-    public function __construct(
-        ?AccountsInterface $accounts,
-        ?CoinbaseAccountsInterface $coinbaseAccounts,
-        ?CurrenciesInterface $currencies,
-        ?DepositsInterface $deposits,
-        ?FeesInterface $fees,
-        ?FillsInterface $fills,
-        ?LimitsInterface $limits,
-        ?MarginInterface $margin,
-        ?OracleInterface $oracle,
-        ?OrdersInterface $orders,
-        ?PaymentMethodsInterface $paymentMethods,
-        ?ProductsInterface $products,
-        ?ProfilesInterface $profiles,
-        ?ReportsInterface $reports,
-        ?StableCoinConversionsInterface $stableCoinConversions,
-        ?TimeInterface $time,
-        ?UserAccountInterface $userAccount,
-        ?WithdrawalsInterface $withdrawals
-    ) {
-        $this->accounts = $accounts;
-        $this->coinbaseAccounts = $coinbaseAccounts;
-        $this->currencies = $currencies;
-        $this->deposits = $deposits;
-        $this->fees = $fees;
-        $this->fills = $fills;
-        $this->limits = $limits;
-        $this->margin = $margin;
-        $this->oracle = $oracle;
-        $this->orders = $orders;
-        $this->paymentMethods = $paymentMethods;
-        $this->products = $products;
-        $this->profiles = $profiles;
-        $this->reports = $reports;
-        $this->stableCoinConversions = $stableCoinConversions;
-        $this->time = $time;
-        $this->userAccount = $userAccount;
-        $this->withdrawals = $withdrawals;
+    public function __construct(CoinbaseConfig $config) {
+        $requestFactory = $config->getBuildRequestFactory();
+
+        $this->accounts = $config->getConnectivityConfig()->isAccountsActivate() ? new Accounts($requestFactory) : null;
+        $this->coinbaseAccounts = $config->getConnectivityConfig()->isCoinbaseAccountsActivate() ? new CoinbaseAccounts($requestFactory) : null;
+        $this->currencies = $config->getConnectivityConfig()->isCoinbaseAccountsActivate() ? new Currencies($requestFactory) : null;
+        $this->deposits = $config->getConnectivityConfig()->isDepositsActivate() ? new Deposits($requestFactory) : null;
+        $this->fees = $config->getConnectivityConfig()->isFeesActivate() ? new Fees($requestFactory) : null;
+        $this->fills = $config->getConnectivityConfig()->isFillsActivate() ? new Fills($requestFactory) : null;
+        $this->limits = $config->getConnectivityConfig()->isLimitsActivate() ? new Limits($requestFactory) : null;
+        $this->margin = $config->getConnectivityConfig()->isMarginActivate() ? new MarginApiReadyCheckDecorator(new Margin($requestFactory)) : null;
+        $this->oracle = $config->getConnectivityConfig()->isOracleActivate() ? new Oracle($requestFactory) : null;
+        $this->orders = $config->getConnectivityConfig()->isOrdersActivate() ? new Orders($requestFactory) : null;
+        $this->paymentMethods = $config->getConnectivityConfig()->isPaymentMethodsActivate() ? new PaymentMethods($requestFactory) : null;
+        $this->products = $config->getConnectivityConfig()->isProductsActivate() ? new Products($requestFactory) : null;
+        $this->profiles = $config->getConnectivityConfig()->isProfilesActivate() ? new Profiles($requestFactory) : null;
+        $this->reports = $config->getConnectivityConfig()->isReportsActivate() ? new Reports($requestFactory) : null;
+        $this->stableCoinConversions = $config->getConnectivityConfig()->isStablecoinConversionsActivate() ? new StableCoinConversions($requestFactory) : null;
+        $this->time = $config->getConnectivityConfig()->isTimeActivate() ? new Time($requestFactory) : null;
+        $this->userAccount = $config->getConnectivityConfig()->isUserAccountActivate() ? new UserAccount($requestFactory) : null;
+        $this->withdrawals = $config->getConnectivityConfig()->isWithdrawalsActivate() ? new Withdrawals($requestFactory) : null;
     }
 
     public function accounts(): AccountsInterface

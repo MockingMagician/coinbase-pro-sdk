@@ -62,6 +62,9 @@ class SecureParams implements ParamsInterface
         return $this->getParams()->getPassphrase();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function __debugInfo()
     {
         return [];
@@ -73,7 +76,9 @@ class SecureParams implements ParamsInterface
         if (in_array('aes-256-gcm', $ciphers)) {
             $this->cipher = 'aes-256-gcm';
         } else {
+            // @codeCoverageIgnoreStart
             $this->cipher = $ciphers[0];
+            // @codeCoverageIgnoreEnd
         }
         $ivLength = openssl_cipher_iv_length($this->cipher);
         $this->iv = openssl_random_pseudo_bytes($ivLength);
