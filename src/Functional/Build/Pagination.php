@@ -32,7 +32,7 @@ class Pagination implements PaginationInterface
 
     public function __construct(
         string $direction = self::DIRECTION_DESC,
-        string $offsetAfterOrBeforeDependingOnDirection = null,
+        ?string $offsetAfterOrBeforeDependingOnDirection = null,
         int $limit = self::LIMIT
     ) {
         $this->setDirection($direction);

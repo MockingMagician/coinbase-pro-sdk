@@ -91,7 +91,7 @@ class CoinbaseConfig extends AbstractConfig implements ConfigInterface
         return $config;
     }
 
-    public function createFromYaml(string $pathToYamlConfig): self
+    public static function createFromYaml(string $pathToYamlConfig): self
     {
         $config = self::parseYamlConfigFile($pathToYamlConfig);
         self::checkConfig($config);
