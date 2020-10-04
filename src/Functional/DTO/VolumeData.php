@@ -63,7 +63,10 @@ class VolumeData extends AbstractCreator implements VolumeDataInterface
         return $this->recordedAt;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    /**
+     * @{inhetitedDoc}
+     */
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['product_id'],

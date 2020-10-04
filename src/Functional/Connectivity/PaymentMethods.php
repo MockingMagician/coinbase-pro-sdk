@@ -11,11 +11,11 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\PaymentMethodsInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodData;
 
-class PaymentMethods extends AbstractRequestManagerAware implements PaymentMethodsInterface
+class PaymentMethods extends AbstractRequestFactoryAware implements PaymentMethodsInterface
 {
-    public function listPaymentMethodsRaw()
+    public function listPaymentMethodsRaw(): string
     {
-        return $this->getRequestManager()->createRequest('GET', '/payment-methods')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/payment-methods')->send();
     }
 
     /**

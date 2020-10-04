@@ -17,7 +17,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PositionRefreshAmountsData;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalPowerDataInterface;
-use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatus;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatusData;
 
 /**
  * Class Margin.
@@ -25,13 +25,13 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatus;
  * @codeCoverageIgnore
  * @warning Margin api is not yet eligible to consume for now. Do not call any methods except getStatus() to check eligibility
  */
-class Margin extends AbstractRequestManagerAware implements MarginInterface
+class Margin extends AbstractRequestFactoryAware implements MarginInterface
 {
-    public function getMarginProfileInformationRaw(string $productId)
+    public function getMarginProfileInformationRaw(string $productId): string
     {
         $query['product_id'] = $productId;
 
-        return $this->getRequestManager()->createRequest('GET', '/margin/profile_information', $query)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/margin/profile_information', $query)->send();
     }
 
     /**
@@ -46,7 +46,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     {
         $query['product_id'] = $productId;
 
-        return $this->getRequestManager()->createRequest('GET', '/margin/buying_power', $query)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/margin/buying_power', $query)->send();
     }
 
     /**
@@ -61,7 +61,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
     {
         $query['currency'] = $currency;
 
-        return $this->getRequestManager()->createRequest('GET', '/margin/withdrawal_power', $query)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/margin/withdrawal_power', $query)->send();
     }
 
     /**
@@ -74,21 +74,21 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
 
     public function getAllWithdrawalPowersRaw()
     {
-        return $this->getRequestManager()->createRequest('GET', '/margin/withdrawal_power_all')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/margin/withdrawal_power_all')->send();
     }
 
     /**
      * // todo need a real return typed value
      * {@inheritdoc}
      */
-    public function getAllWithdrawalPowers()
+    public function getAllWithdrawalPowers(): array
     {
         // TODO: Implement getAllWithdrawalPowers() method.
     }
 
-    public function getExitPlanRaw()
+    public function getExitPlanRaw(): string
     {
-        return $this->getRequestManager()->createRequest('GET', '/margin/exit_plan')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/margin/exit_plan')->send();
     }
 
     /**
@@ -107,7 +107,7 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
             $query['after'] = $after->format(DateTime::ISO8601);
         }
 
-        return $this->getRequestManager()->createRequest('GET', '/margin/liquidation_history', $query)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/margin/liquidation_history', $query)->send();
     }
 
     /**
@@ -118,9 +118,9 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
         // TODO: Implement listLiquidationHistory() method.
     }
 
-    public function getPositionsRefreshAmountRaw()
+    public function getPositionsRefreshAmountRaw(): string
     {
-        return $this->getRequestManager()->createRequest('GET', '/margin/position_refresh_amounts')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/margin/position_refresh_amounts')->send();
     }
 
     /**
@@ -131,9 +131,9 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
         // TODO: Implement getPositionsRefreshAmount() method.
     }
 
-    public function getMarginStatusRaw()
+    public function getMarginStatusRaw(): string
     {
-        return $this->getRequestManager()->createRequest('GET', '/margin/status')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/margin/status')->send();
     }
 
     /**
@@ -141,6 +141,6 @@ class Margin extends AbstractRequestManagerAware implements MarginInterface
      */
     public function getMarginStatus(): MarginStatusDataInterface
     {
-        return MarginStatus::createFromJson($this->getMarginStatusRaw());
+        return MarginStatusData::createFromJson($this->getMarginStatusRaw());
     }
 }

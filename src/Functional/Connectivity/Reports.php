@@ -14,8 +14,9 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ReportDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ReportData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Reports extends AbstractRequestManagerAware implements ReportsInterface
+class Reports extends AbstractRequestFactoryAware implements ReportsInterface
 {
     public function createNewReportRaw(
         string $type,
@@ -25,7 +26,7 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
         ?string $accountId = null,
         string $format = self::FORMAT_PDF,
         ?string $email = null
-    ) {
+    ): string {
         if (!in_array($type, self::TYPES)) {
             throw new ApiError(sprintf('type must be one of : %s', implode(', ', self::TYPES)));
         }
@@ -61,7 +62,7 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
             $body['email'] = $email;
         }
 
-        return $this->getRequestManager()->createRequest('POST', '/reports', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/reports', [], Json::encode($body))->send();
     }
 
     /**
@@ -79,9 +80,9 @@ class Reports extends AbstractRequestManagerAware implements ReportsInterface
         return ReportData::createFromJson($this->createNewReportRaw($type, $startDate, $endDate, $productId, $accountId, $format, $email));
     }
 
-    public function getReportStatusRaw(string $reportId)
+    public function getReportStatusRaw(string $reportId): string
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/reports/%s', $reportId))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/reports/%s', $reportId))->send();
     }
 
     /**

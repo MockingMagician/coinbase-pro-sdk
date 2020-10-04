@@ -14,10 +14,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\CryptoDepositAddressDataInterfa
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\DepositDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CryptoDepositAddressData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Deposits extends AbstractRequestManagerAware implements DepositsInterface
+class Deposits extends AbstractRequestFactoryAware implements DepositsInterface
 {
-    public function listDepositsRaw(?string $profileId = null, ?PaginationInterface $pagination = null)
+    public function listDepositsRaw(?string $profileId = null, ?PaginationInterface $pagination = null): string
     {
         $query = ['type' => 'deposit'];
 
@@ -25,7 +26,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             $query['profile_id'] = $profileId;
         }
 
-        return $this->getRequestManager()->createRequest('GET', '/transfers', $query, null, $pagination)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/transfers', $query, null, $pagination)->send();
     }
 
     /**
@@ -36,11 +37,11 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
         return DepositData::createCollectionFromJson($this->listDepositsRaw($profileId, $pagination));
     }
 
-    public function getDepositRaw(string $depositId)
+    public function getDepositRaw(string $depositId): string
     {
         $query = ['type' => 'deposit'];
 
-        return $this->getRequestManager()->createRequest('GET', sprintf('/transfers/%s', $depositId), $query)->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/transfers/%s', $depositId), $query)->send();
     }
 
     /**
@@ -59,7 +60,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             'payment_method_id' => $paymentMethodId,
         ];
 
-        return $this->getRequestManager()->createRequest('POST', '/deposits/payment-method', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/deposits/payment-method', [], Json::encode($body))->send();
     }
 
     /**
@@ -70,7 +71,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
         return json_decode($this->doDepositRaw($amount, $currency, $paymentMethodId), true)['id'];
     }
 
-    public function doDepositFromCoinbaseRaw(float $amount, string $currency, string $coinbaseAccountId)
+    public function doDepositFromCoinbaseRaw(float $amount, string $currency, string $coinbaseAccountId): string
     {
         $body = [
             'amount' => $amount,
@@ -78,7 +79,7 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
             'coinbase_account_id' => $coinbaseAccountId,
         ];
 
-        return $this->getRequestManager()->createRequest('POST', '/deposits/coinbase-account', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/deposits/coinbase-account', [], Json::encode($body))->send();
     }
 
     /**
@@ -89,9 +90,9 @@ class Deposits extends AbstractRequestManagerAware implements DepositsInterface
         return json_decode($this->doDepositFromCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
     }
 
-    public function generateCryptoDepositAddressRaw(string $coinbaseAccountId)
+    public function generateCryptoDepositAddressRaw(string $coinbaseAccountId): string
     {
-        return $this->getRequestManager()->createRequest('POST', sprintf('/coinbase-accounts/%s/addresses', $coinbaseAccountId))->send();
+        return $this->getRequestFactory()->createRequest('POST', sprintf('/coinbase-accounts/%s/addresses', $coinbaseAccountId))->send();
     }
 
     /**

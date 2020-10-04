@@ -44,6 +44,18 @@ class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountData
      * @var array
      */
     private $extraData;
+    /**
+     * @var bool
+     */
+    private $availableOnConsumer;
+    /**
+     * @var float
+     */
+    private $holdBalance;
+    /**
+     * @var string
+     */
+    private $holdCurrency;
 
     public function __construct(
         string $id,
@@ -53,6 +65,9 @@ class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountData
         string $type,
         bool $primary,
         bool $active,
+        bool $availableOnConsumer,
+        float $holdBalance,
+        string $holdCurrency,
         array $extraData = []
     ) {
         $this->id = $id;
@@ -63,6 +78,9 @@ class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountData
         $this->primary = $primary;
         $this->active = $active;
         $this->extraData = $extraData;
+        $this->availableOnConsumer = $availableOnConsumer;
+        $this->holdBalance = $holdBalance;
+        $this->holdCurrency = $holdCurrency;
     }
 
     public function getId(): string
@@ -100,12 +118,27 @@ class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountData
         return $this->active;
     }
 
+    public function isAvailableOnConsumer(): bool
+    {
+        return $this->availableOnConsumer;
+    }
+
+    public function getHoldBalance(): float
+    {
+        return $this->holdBalance;
+    }
+
+    public function getHoldCurrency(): string
+    {
+        return $this->holdCurrency;
+    }
+
     public function getExtraData(): array
     {
         return $this->extraData;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         $extraData = [];
 
@@ -123,6 +156,9 @@ class CoinbaseAccountData extends AbstractCreator implements CoinbaseAccountData
             $array['type'],
             $array['primary'],
             $array['active'],
+            $array['available_on_consumer'],
+            $array['hold_balance'],
+            $array['hold_currency'],
             $extraData
         );
     }

@@ -45,5 +45,7 @@ interface ProductDataInterface
 
     public function isTradingDisabled(): bool;
 
+    public function isMarginEnabled(): bool;
+
     public function isTradingFullyOperational(): bool;
 }

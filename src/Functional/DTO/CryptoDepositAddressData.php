@@ -152,13 +152,13 @@ class CryptoDepositAddressData extends AbstractCreator implements CryptoDepositA
         return $this->exchangeDepositAddress;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],
             $array['address'],
             $array['destination_tag'] ?? null,
-            isset($array['address_info']) ? CryptoDepositAddressInfoData::createFromArray($array['address_info'], $divers) : null,
+            isset($array['address_info']) ? CryptoDepositAddressInfoData::createFromArray($array['address_info'], $extraData) : null,
             $array['callback_url'] ?? null,
             new DateTimeImmutable($array['created_at']),
             new DateTimeImmutable($array['updated_at']),

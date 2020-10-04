@@ -83,9 +83,9 @@ class HistoricRatesCandlesData extends AbstractCreator implements HistoricRatesC
         return $this->tradingVolume;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
-        return  new self(
+        return new static(
             $array[0],
             $array[1],
             $array[2],

@@ -96,7 +96,7 @@ class TickerSnapshotData extends AbstractCreator implements TickerSnapshotDataIn
         return $this->time;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['trade_id'],

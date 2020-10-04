@@ -11,11 +11,11 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CurrenciesInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData;
 
-class Currencies extends AbstractRequestManagerAware implements CurrenciesInterface
+class Currencies extends AbstractRequestFactoryAware implements CurrenciesInterface
 {
-    public function getCurrenciesRaw()
+    public function getCurrenciesRaw(): string
     {
-        return $this->getRequestManager()->createRequest('GET', '/currencies')->setMustBeSigned(false)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/currencies')->setMustBeSigned(false)->send();
     }
 
     /**

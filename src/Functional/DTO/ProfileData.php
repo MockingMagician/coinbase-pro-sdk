@@ -84,7 +84,7 @@ class ProfileData extends AbstractCreator implements ProfileDataInterface
         return $this->createdAt;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],

@@ -83,7 +83,7 @@ class StableCoinConversionsData extends AbstractCreator implements StableCoinCon
         return $this->toCurrencyId;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],

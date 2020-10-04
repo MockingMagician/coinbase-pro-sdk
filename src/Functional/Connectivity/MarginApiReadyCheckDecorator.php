@@ -16,7 +16,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PositionRefreshAmountsData;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalPowerDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\RequestFactoryInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 /**
@@ -25,7 +25,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
  * @codeCoverageIgnore
  * @warning Margin api is not yet eligible to consume for now. Do not call any methods except getStatus() to check eligibility
  */
-class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implements MarginInterface
+class MarginApiReadyCheckDecorator extends AbstractRequestFactoryAware implements MarginInterface
 {
     const ERROR_MESSAGE = 'Margin api is not yet available and enabled';
 
@@ -78,7 +78,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
     /**
      * {@inheritdoc}
      */
-    public function getAllWithdrawalPowers()
+    public function getAllWithdrawalPowers(): array
     {
         if (!$this->isMarginReadyToUse()) {
             throw new ApiError(self::ERROR_MESSAGE);
@@ -131,9 +131,9 @@ class MarginApiReadyCheckDecorator extends AbstractRequestManagerAware implement
         return $this->margin->getMarginStatus();
     }
 
-    protected function getRequestManager(): RequestFactoryInterface
+    protected function getRequestFactory(): RequestFactoryInterface
     {
-        return $this->margin->getRequestManager();
+        return $this->margin->getRequestFactory();
     }
 
     private function isMarginReadyToUse(): bool
