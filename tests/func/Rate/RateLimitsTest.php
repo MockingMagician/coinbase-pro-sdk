@@ -10,8 +10,6 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Rate;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Api\CoinbaseApi;
-use MockingMagician\CoinbaseProSdk\Functional\Api\Config;
-use MockingMagician\CoinbaseProSdk\Functional\Api\ApiFactory;
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Orders;
 use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;

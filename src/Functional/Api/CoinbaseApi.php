@@ -8,7 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Api;
 
-use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterface;
@@ -49,7 +48,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccount;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
-use MockingMagician\CoinbaseProSdk\Functional\Request\RequestFactory;
 
 class CoinbaseApi implements ApiInterface
 {
@@ -128,7 +126,8 @@ class CoinbaseApi implements ApiInterface
      */
     private $withdrawals;
 
-    public function __construct(CoinbaseConfig $config) {
+    public function __construct(CoinbaseConfig $config)
+    {
         $requestFactory = $config->getBuildRequestFactory();
 
         $this->accounts = $config->getConnectivityConfig()->isAccountsActivate() ? new Accounts($requestFactory) : null;

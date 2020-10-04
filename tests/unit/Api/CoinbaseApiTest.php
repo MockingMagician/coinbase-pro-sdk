@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
-
 
 use MockingMagician\CoinbaseProSdk\Functional\Api\CoinbaseApi;
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
@@ -12,6 +16,8 @@ use Throwable;
 
 /**
  * @covers \MockingMagician\CoinbaseProSdk\Functional\Api\CoinbaseApi
+ *
+ * @internal
  */
 class CoinbaseApiTest extends TestCase
 {
@@ -46,7 +52,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->accounts();
+            $api->accounts();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -54,7 +60,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->orders();
+            $api->orders();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -62,7 +68,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->fills();
+            $api->fills();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -70,7 +76,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->limits();
+            $api->limits();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -78,7 +84,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->deposits();
+            $api->deposits();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -86,7 +92,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->withdrawals();
+            $api->withdrawals();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -94,7 +100,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->stablecoinConversions();
+            $api->stablecoinConversions();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -102,7 +108,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->paymentMethods();
+            $api->paymentMethods();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -110,7 +116,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->coinbaseAccounts();
+            $api->coinbaseAccounts();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -118,7 +124,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->fees();
+            $api->fees();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -126,7 +132,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->reports();
+            $api->reports();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -134,7 +140,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->profiles();
+            $api->profiles();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -142,7 +148,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->userAccount();
+            $api->userAccount();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -150,7 +156,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->margin();
+            $api->margin();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -158,7 +164,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->oracle();
+            $api->oracle();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -166,7 +172,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->products();
+            $api->products();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -174,7 +180,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->currencies();
+            $api->currencies();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);
@@ -182,7 +188,7 @@ class CoinbaseApiTest extends TestCase
         $exception = null;
 
         try {
-             $api->time();
+            $api->time();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);

@@ -8,7 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 
-
 use GuzzleHttp\Client;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConfigInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConnectivityConfigInterface;

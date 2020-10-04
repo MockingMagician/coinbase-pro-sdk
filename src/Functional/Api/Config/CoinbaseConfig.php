@@ -8,10 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConfigInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConnectivityConfigInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use Symfony\Component\Yaml\Yaml;
 

@@ -1,16 +1,17 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api\Config;
 
-
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConfigInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConnectivityConfigInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Api\Config\AbstractConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestFactoryAware;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use PHPUnit\Framework\TestCase;
 

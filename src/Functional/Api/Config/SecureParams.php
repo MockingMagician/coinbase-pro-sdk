@@ -50,6 +50,16 @@ class SecureParams implements ParamsInterface
         $this->params = $this->encryptParams($params);
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return mixed[]
+     */
+    public function __debugInfo()
+    {
+        return [];
+    }
+
     public function getEndPoint(): string
     {
         return $this->getParams()->getEndPoint();
@@ -68,15 +78,6 @@ class SecureParams implements ParamsInterface
     public function getPassphrase(): string
     {
         return $this->getParams()->getPassphrase();
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @return mixed[]
-     */
-    public function __debugInfo()
-    {
-        return [];
     }
 
     /**

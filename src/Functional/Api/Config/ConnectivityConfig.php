@@ -8,7 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Api\Config;
 
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ConnectivityConfigInterface;
 
 class ConnectivityConfig implements ConnectivityConfigInterface
