@@ -12,17 +12,18 @@ use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\WithdrawalsData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInterface
+class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInterface
 {
-    public function listWithdrawalsRaw(?string $profileId = null, ?PaginationInterface $pagination = null)
+    public function listWithdrawalsRaw(?string $profileId = null, ?PaginationInterface $pagination = null): string
     {
         $query = [
             'type' => 'withdraw',
             'profile_id' => $profileId,
         ];
 
-        return $this->getRequestManager()->createRequest('GET', '/transfers', $query, null, $pagination)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/transfers', $query, null, $pagination)->send();
     }
 
     /**
@@ -33,13 +34,13 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
         return WithdrawalsData::createCollectionFromJson($this->listWithdrawalsRaw($profileId, $pagination));
     }
 
-    public function getWithdrawalRaw(string $transferId)
+    public function getWithdrawalRaw(string $transferId): string
     {
         $query = [
             'type' => 'withdraw',
         ];
 
-        return $this->getRequestManager()->createRequest('GET', sprintf('/transfers/%s', $transferId), $query)->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/transfers/%s', $transferId), $query)->send();
     }
 
     /**
@@ -58,7 +59,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
             'payment_method_id' => $paymentMethodId,
         ];
 
-        return $this->getRequestManager()->createRequest('POST', '/withdrawals/payment-method', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/payment-method', [], Json::encode($body))->send();
     }
 
     /**
@@ -77,7 +78,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
             'coinbase_account_id' => $coinbaseAccountId,
         ];
 
-        return $this->getRequestManager()->createRequest('POST', '/withdrawals/coinbase-account', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/coinbase-account', [], Json::encode($body))->send();
     }
 
     /**
@@ -88,7 +89,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
         return json_decode($this->doWithdrawToCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
     }
 
-    public function doWithdrawToCryptoAddressRaw(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null)
+    public function doWithdrawToCryptoAddressRaw(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string
     {
         $body = [
             'amount' => $amount,
@@ -102,7 +103,7 @@ class Withdrawals extends AbstractRequestManagerAware implements WithdrawalsInte
             $body['no_destination_tag'] = true;
         }
 
-        return $this->getRequestManager()->createRequest('POST', '/withdrawals/crypto', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/withdrawals/crypto', [], Json::encode($body))->send();
     }
 
     /**

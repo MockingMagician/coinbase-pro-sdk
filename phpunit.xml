@@ -21,11 +21,11 @@
   </php>
 
   <testsuites>
-    <testsuite name="Functional tests">
-      <directory>tests/Func</directory>
+    <testsuite name="Functional">
+      <directory>tests/func</directory>
     </testsuite>
-    <testsuite name="Unit tests">
-      <directory>tests/Unit</directory>
+    <testsuite name="Unit">
+      <directory>tests/unit</directory>
     </testsuite>
   </testsuites>
 

@@ -33,5 +33,11 @@ interface FillDataInterface
 
     public function isSettled(): bool;
 
+    public function getUserId(): ?string;
+
+    public function getProfileId(): ?string;
+
+    public function getUsdVolume(): ?float;
+
     public function getSide(): string;
 }

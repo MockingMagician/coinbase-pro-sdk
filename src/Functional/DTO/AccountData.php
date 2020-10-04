@@ -94,7 +94,7 @@ class AccountData extends AbstractCreator implements AccountDataInterface
         return $this->profileId;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],

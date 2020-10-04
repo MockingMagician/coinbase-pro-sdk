@@ -12,11 +12,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\LimitsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\LimitsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\LimitsData;
 
-class Limits extends AbstractRequestManagerAware implements LimitsInterface
+class Limits extends AbstractRequestFactoryAware implements LimitsInterface
 {
-    public function getCurrentExchangeLimitsRaw()
+    public function getCurrentExchangeLimitsRaw(): string
     {
-        return $this->getRequestManager()->createRequest('GET', '/users/self/exchange-limits')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/users/self/exchange-limits')->send();
     }
 
     /**

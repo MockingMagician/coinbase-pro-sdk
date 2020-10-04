@@ -47,7 +47,7 @@ class FeeData extends AbstractCreator implements FeeDataInterface
         return $this->usdVolume;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static($array['maker_fee_rate'], $array['taker_fee_rate'], $array['usd_volume']);
     }

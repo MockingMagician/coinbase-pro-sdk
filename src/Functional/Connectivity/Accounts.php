@@ -15,11 +15,11 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountHistoryEventData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\HoldData;
 
-class Accounts extends AbstractRequestManagerAware implements AccountsInterface
+class Accounts extends AbstractRequestFactoryAware implements AccountsInterface
 {
-    public function listRaw()
+    public function listRaw(): string
     {
-        return $this->getRequestManager()->createRequest('GET', '/accounts')->send();
+        return $this->getRequestFactory()->createRequest('GET', '/accounts')->send();
     }
 
     /**
@@ -30,9 +30,9 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
         return AccountData::createCollectionFromJson($this->listRaw());
     }
 
-    public function getAccountRaw(string $id)
+    public function getAccountRaw(string $id): string
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/accounts/%s', $id))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/accounts/%s', $id))->send();
     }
 
     /**
@@ -43,9 +43,9 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
         return AccountData::createFromJson($this->getAccountRaw($id));
     }
 
-    public function getAccountHistoryRaw(string $id, ?PaginationInterface $pagination = null)
+    public function getAccountHistoryRaw(string $id, ?PaginationInterface $pagination = null): string
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/accounts/%s/ledger', $id), [], null, $pagination)->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/accounts/%s/ledger', $id), [], null, $pagination)->send();
     }
 
     /**
@@ -56,9 +56,9 @@ class Accounts extends AbstractRequestManagerAware implements AccountsInterface
         return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($id, $pagination));
     }
 
-    public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null)
+    public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null): string
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/accounts/%s/holds', $id), [], null, $pagination)->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/accounts/%s/holds', $id), [], null, $pagination)->send();
     }
 
     /**

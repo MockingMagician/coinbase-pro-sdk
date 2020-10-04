@@ -74,23 +74,23 @@ class PaymentMethodLimitsData extends AbstractCreator implements PaymentMethodLi
         return $this->deposit;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         $buy = [];
         foreach ($array['buy'] ?? [] as $value) {
-            $buy[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
+            $buy[] = PaymentMethodLimitsDetailsData::createFromArray($value, $extraData);
         }
         $instantBuy = [];
         foreach ($array['instant_buy'] ?? [] as $value) {
-            $instantBuy[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
+            $instantBuy[] = PaymentMethodLimitsDetailsData::createFromArray($value, $extraData);
         }
         $sell = [];
         foreach ($array['sell'] ?? [] as $value) {
-            $sell[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
+            $sell[] = PaymentMethodLimitsDetailsData::createFromArray($value, $extraData);
         }
         $deposit = [];
         foreach ($array['deposit'] ?? [] as $value) {
-            $deposit[] = PaymentMethodLimitsDetailsData::createFromArray($value, $divers);
+            $deposit[] = PaymentMethodLimitsDetailsData::createFromArray($value, $extraData);
         }
 
         return new static($buy, $instantBuy, $sell, $deposit);

@@ -3,3 +3,5 @@
 !.github
 !.php_cs
 /vendor
+composer.lock
+/tests/fixtures_from_test_api

@@ -13,12 +13,13 @@ use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\OrdersInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Orders extends AbstractRequestManagerAware implements OrdersInterface
+class Orders extends AbstractRequestFactoryAware implements OrdersInterface
 {
-    public function placeOrderRaw(CommonOrderToPlaceInterface $orderToPlace)
+    public function placeOrderRaw(CommonOrderToPlaceInterface $orderToPlace): string
     {
-        return $this->getRequestManager()->createRequest('POST', '/orders', [], json_encode($orderToPlace->getBodyForRequest()))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/orders', [], Json::encode($orderToPlace->getBodyForRequest()))->send();
     }
 
     /**
@@ -29,7 +30,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
         return OrderData::createFromJson($this->placeOrderRaw($orderToPlace));
     }
 
-    public function cancelOrderByIdRaw(string $orderId, string $productId = null)
+    public function cancelOrderByIdRaw(string $orderId, string $productId = null): string
     {
         $body = null;
 
@@ -37,8 +38,8 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $body = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()
-            ->createRequest('DELETE', sprintf('/orders/%s', $orderId), [], $body ? json_encode($body) : null)
+        return $this->getRequestFactory()
+            ->createRequest('DELETE', sprintf('/orders/%s', $orderId), [], $body ? Json::encode($body) : null)
             ->send()
         ;
     }
@@ -51,7 +52,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
         return $orderId === json_decode($this->cancelOrderByIdRaw($orderId, $productId), true);
     }
 
-    public function cancelOrderByClientOrderIdRaw(string $clientOrderId, string $productId = null)
+    public function cancelOrderByClientOrderIdRaw(string $clientOrderId, string $productId = null): string
     {
         $body = null;
 
@@ -59,8 +60,8 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $body = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()
-            ->createRequest('DELETE', sprintf('/orders/client:%s', $clientOrderId), [], $body ? json_encode($body) : null)
+        return $this->getRequestFactory()
+            ->createRequest('DELETE', sprintf('/orders/client:%s', $clientOrderId), [], $body ? Json::encode($body) : null)
             ->send()
         ;
     }
@@ -72,7 +73,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
         return true; // assume error was not throw equals true
     }
 
-    public function cancelAllOrdersRaw(string $productId = null)
+    public function cancelAllOrdersRaw(string $productId = null): string
     {
         $body = null;
 
@@ -80,8 +81,8 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $body = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()
-            ->createRequest('DELETE', '/orders', [], $body ? json_encode($body) : null)
+        return $this->getRequestFactory()
+            ->createRequest('DELETE', '/orders', [], $body ? Json::encode($body) : null)
             ->send()
         ;
     }
@@ -100,7 +101,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
         return [];
     }
 
-    public function listOrdersRaw(array $status = self::STATUS, string $productId = null, PaginationInterface $pagination = null)
+    public function listOrdersRaw(array $status = self::STATUS, string $productId = null, PaginationInterface $pagination = null): string
     {
         $query = [];
 
@@ -110,7 +111,7 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
             $query = ['product_id' => $productId];
         }
 
-        return $this->getRequestManager()->createRequest('GET', '/orders', $query, null, $pagination)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/orders', $query, null, $pagination)->send();
     }
 
     /**
@@ -121,9 +122,9 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
         return OrderData::createCollectionFromJson($this->listOrdersRaw($status, $productId, $pagination));
     }
 
-    public function getOrderByIdRaw(string $orderId)
+    public function getOrderByIdRaw(string $orderId): string
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/orders/%s', $orderId))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/orders/%s', $orderId))->send();
     }
 
     /**
@@ -134,9 +135,9 @@ class Orders extends AbstractRequestManagerAware implements OrdersInterface
         return OrderData::createFromJson($this->getOrderByIdRaw($orderId));
     }
 
-    public function getOrderByClientOrderIdRaw(string $clientOrderId)
+    public function getOrderByClientOrderIdRaw(string $clientOrderId): string
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/orders/client:%s', $clientOrderId))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/orders/client:%s', $clientOrderId))->send();
     }
 
     public function getOrderByClientOrderId(string $clientOrderId): OrderDataInterface

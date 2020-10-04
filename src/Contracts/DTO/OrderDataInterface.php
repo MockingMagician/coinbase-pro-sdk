@@ -69,4 +69,10 @@ interface OrderDataInterface
     public function getStatus(): string;
 
     public function isSettled(): bool;
+
+    public function getProfileId(): ?string;
+
+    public function getDoneAt(): ?DateTimeInterface;
+
+    public function getDoneReason(): ?string;
 }

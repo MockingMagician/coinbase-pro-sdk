@@ -37,7 +37,7 @@ class PaymentMethodLimitsAmountDetailsData extends AbstractCreator implements Pa
         return $this->currency;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static($array['amount'], $array['currency']);
     }

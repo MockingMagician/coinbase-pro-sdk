@@ -54,6 +54,18 @@ class FillData extends AbstractCreator implements FillDataInterface
      * @var string
      */
     private $side;
+    /**
+     * @var null|string
+     */
+    private $userId;
+    /**
+     * @var null|string
+     */
+    private $profileId;
+    /**
+     * @var null|float
+     */
+    private $usdVolume;
 
     public function __construct(
         int $tradeId,
@@ -61,10 +73,13 @@ class FillData extends AbstractCreator implements FillDataInterface
         float $price,
         float $size,
         string $orderId,
+        ?string $userId,
+        ?string $profileId,
         DateTimeInterface $createdAt,
         string $liquidity,
         float $fee,
         bool $settled,
+        ?float $usdVolume,
         string $side
     ) {
         $this->tradeId = $tradeId;
@@ -77,6 +92,9 @@ class FillData extends AbstractCreator implements FillDataInterface
         $this->fee = $fee;
         $this->settled = $settled;
         $this->side = $side;
+        $this->userId = $userId;
+        $this->profileId = $profileId;
+        $this->usdVolume = $usdVolume;
     }
 
     public function getTradeId(): int
@@ -129,7 +147,22 @@ class FillData extends AbstractCreator implements FillDataInterface
         return $this->side;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public function getUserId(): ?string
+    {
+        return $this->userId;
+    }
+
+    public function getProfileId(): ?string
+    {
+        return $this->profileId;
+    }
+
+    public function getUsdVolume(): ?float
+    {
+        return $this->usdVolume;
+    }
+
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['trade_id'],
@@ -137,15 +170,18 @@ class FillData extends AbstractCreator implements FillDataInterface
             $array['price'],
             $array['size'],
             $array['order_id'],
+            $array['user_id'] ?? null,
+            $array['profile_id'] ?? null,
             new DateTimeImmutable($array['created_at']),
             $array['liquidity'],
             $array['fee'],
             $array['settled'],
+            $array['usd_volume'] ?? null,
             $array['side']
         );
     }
 
-    public static function createCollectionFromJson(string $json, ...$divers): array
+    public static function createCollectionFromJson(string $json, ...$extraData): array
     {
         $collection = json_decode($json, true);
         foreach ($collection as $k => &$value) {

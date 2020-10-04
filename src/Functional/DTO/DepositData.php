@@ -155,7 +155,7 @@ class DepositData extends AbstractCreator implements DepositDataInterface
         return $this->details;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],

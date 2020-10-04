@@ -11,14 +11,15 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProfileData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
+class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
 {
-    public function listProfilesRaw(bool $active)
+    public function listProfilesRaw(bool $active): string
     {
         $query = ['active' => $active];
 
-        return $this->getRequestManager()->createRequest('GET', '/profiles', $query)->send();
+        return $this->getRequestFactory()->createRequest('GET', '/profiles', $query)->send();
     }
 
     /**
@@ -29,9 +30,9 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
         return ProfileData::createCollectionFromJson($this->listProfilesRaw($active));
     }
 
-    public function getProfileRaw(string $profileId)
+    public function getProfileRaw(string $profileId): string
     {
-        return $this->getRequestManager()->createRequest('GET', sprintf('/profiles/%s', $profileId))->send();
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/profiles/%s', $profileId))->send();
     }
 
     /**
@@ -42,7 +43,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
         return ProfileData::createFromJson($this->getProfileRaw($profileId));
     }
 
-    public function createProfileTransferRaw(string $fromProfileId, string $toProfileId, string $currency, float $amount)
+    public function createProfileTransferRaw(string $fromProfileId, string $toProfileId, string $currency, float $amount): string
     {
         $body = [
             'from' => $fromProfileId,
@@ -51,7 +52,7 @@ class Profiles extends AbstractRequestManagerAware implements ProfilesInterface
             'amount' => $amount,
         ];
 
-        return $this->getRequestManager()->createRequest('POST', '/profiles/transfer', [], json_encode($body))->send();
+        return $this->getRequestFactory()->createRequest('POST', '/profiles/transfer', [], Json::encode($body))->send();
     }
 
     /**

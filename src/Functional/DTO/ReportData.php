@@ -42,10 +42,15 @@ class ReportData extends AbstractCreator implements ReportDataInterface
      */
     private $fileUrl;
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     private $params;
 
+    /**
+     * ReportData constructor.
+     *
+     * @param array<string, mixed> $params
+     */
     public function __construct(
         string $id,
         string $type,
@@ -101,12 +106,15 @@ class ReportData extends AbstractCreator implements ReportDataInterface
         return $this->fileUrl;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getParams(): array
     {
         return $this->params;
     }
 
-    public static function createFromArray(array $array, ...$divers)
+    public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
             $array['id'],

@@ -4,17 +4,20 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "MockingMagician\\CoinbaseProSdk\\": "./src"
+            "MockingMagician\\CoinbaseProSdk\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MockingMagician\\CoinbaseProSdk\\Tests\\": "./tests"
+            "MockingMagician\\CoinbaseProSdk\\Tests\\CommonHelpers\\": "tests/common_helpers",
+            "MockingMagician\\CoinbaseProSdk\\Tests\\Func\\": "tests/func",
+            "MockingMagician\\CoinbaseProSdk\\Tests\\Unit\\": "tests/unit"
         }
     },
     "require": {
         "php": ">7.1",
         "ext-json": "*",
+        "ext-openssl": "*",
         "psr/http-client": "^1.0",
         "guzzlehttp/guzzle": "^6.0",
         "symfony/yaml": "^4.0"

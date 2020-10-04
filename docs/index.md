@@ -1,8 +1,8 @@
-![Coinbase LOGO](https://github.com/MockingMagician/coinbase-pro-sdk/raw/master/coinbase-pro-sdk-min.png "Coinbase LOGO")
+![Coinbase LOGO](./assets/coinbase-pro-sdk-min.png "Coinbase LOGO")
 
 # This package is designed to communicate easily with the Coinbase Pro API in PHP.
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/MockingMagician/coinbase-pro-sdk) ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/MockingMagician/coinbase-pro-sdk/Testing%20suite/master?label=tests) ![PHPStan level](https://img.shields.io/badge/phpstan-level%203-success) ![](https://img.shields.io/badge/coverage-89%25-yellowgreen) ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/MockingMagician/coinbase-pro-sdk?label=code%20climate) ![LICENSE BADGE](https://img.shields.io/packagist/l/mocking-magician/coinbase-pro-sdk?color=blue) ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/mocking-magician/coinbase-pro-sdk) 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/MockingMagician/coinbase-pro-sdk) ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/MockingMagician/coinbase-pro-sdk/Testing%20suite/master?label=tests) ![PHPStan level](https://img.shields.io/badge/phpstan-level%207-success) ![](https://img.shields.io/badge/coverage-93%25-green) ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/MockingMagician/coinbase-pro-sdk?label=code%20climate) ![LICENSE BADGE](https://img.shields.io/packagist/l/mocking-magician/coinbase-pro-sdk?color=blue) ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/mocking-magician/coinbase-pro-sdk) 
 
 ## Install the package
 
@@ -16,15 +16,17 @@ composer require mocking-magician/coinbase-pro-sdk
 
 ## How do I access the features?
 
-### 1 : Create an ApiConnectivity object.
+All the main and necessary functionalities to use this library are grouped in the CoinbaseFacade class.
 
-#### 1.1 : Full API access
+### 1 : Create an CoinbaseApi object.
+
+#### 1.1 : Full API access with default features
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
-$api = ApiFactory::createFull(
+$api = CoinbaseFacade::createDefaultCoinbaseApi(
     'API_ENDPOINT',
     'API_KEY',
     'API_SECRET',
@@ -33,46 +35,59 @@ $api = ApiFactory::createFull(
 
 ```
 
-#### 1.2 : Customize API access
+#### 1.2 : Customize API
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
-$api = ApiFactory::create(
+$config = CoinbaseFacade::createDefaultCoinbaseConfig(
     'API_ENDPOINT',
     'API_KEY',
     'API_SECRET',
-    'API_PASSPHRASE',
-    true, // activate or deactivate Accounts
-    true, // activate or deactivate CoinbaseAccounts
-    true, // activate or deactivate Currencies
-    true, // activate or deactivate Deposits
-    true, // activate or deactivate Fees
-    true, // activate or deactivate Fills
-    true, // activate or deactivate Limits
-    true, // activate or deactivate Margin
-    true, // activate or deactivate Oracle
-    true, // activate or deactivate Orders
-    true, // activate or deactivate PaymentMethods
-    true, // activate or deactivate Products
-    true, // activate or deactivate Profiles
-    true, // activate or deactivate Reports
-    true, // activate or deactivate StableCoinConversions
-    true, // activate or deactivate Time
-    true, // activate or deactivate UserAccount
-    true  // activate or deactivate Withdrawals
+    'API_PASSPHRASE'
 );
+
+// Choose to activate or deactivate some of the API endpoints
+$config->getConnectivityConfig()
+    ->activateAccounts(false)
+    ->activateOrders(false)
+    ->activateFills(false)
+    ->activateLimits(false)
+    ->activateDeposits(false)
+    ->activateWithdrawals(false)
+    ->activateStablecoinConversions(false)
+    ->activatePaymentMethods(false)
+    ->activateCoinbaseAccounts(false)
+    ->activateFees(false)
+    ->activateReports(false)
+    ->activateProfiles(false)
+    ->activateUserAccount(false)
+    ->activateMargin(false)
+    ->activateOracle(false)
+    ->activateProducts(false)
+    ->activateCurrencies(false)
+    ->activateTime(false)
+;
+
+// Enable or disable the use of remote time during the requests, default to false
+$config->setUseCoinbaseRemoteTime(true);
+// Enable or disable management of rate limits imposed by remote API, default to true
+$config->setManageRateLimits(true);
+// Enable or disable the use of a security layer that encrypt parameters used each time by the requests, default to true
+$config->setUseSecurityLayerForParams(true);
+
+$api = CoinbaseFacade::createCoinbaseApi($config);
 
 ```
 
-#### 1.3 : Create from config file
+#### 1.3 : Create from yaml config file
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
-$api = ApiFactory::createFromYamlConfig('path/to/config.yaml');
+$api = CoinbaseFacade::createCoinbaseApiFromYaml('path/to/config.yaml');
 
 ```
 
@@ -80,34 +95,38 @@ Example of a complete configuration file :
 
 ```yaml
 
-connectivity: 
-    # endpoint: '${SOME_ENV}' <= formatting as is autoload SOME_ENV if exist 
+params: 
+    # endpoint: '${SOME_ENV}' <= formatting as is autoload SOME_ENV (if exist)
     endpoint: '${API_ENDPOINT}'
     key: '${API_KEY}'
     secret: '${API_SECRET}'
     passphrase: '${API_PASSPHRASE}'
 
-features:
-    accounts: true
-    coinbase_accounts: true
-    currencies: true
-    deposits: true
-    fees: true
-    fills: true
-    limits: true
-    margin: true
-    oracle: true
-    orders: true
-    payment_methods: true
-    products: true
-    profiles: true
-    reports: true
-    stablecoin_conversions: true
-    time: true
-    user_accounts: true
-    withdrawals: true
+connectivity:
+    accounts: true # default
+    coinbase_accounts: true # default
+    currencies: true # default
+    deposits: true # default
+    fees: true # default
+    fills: true # default
+    limits: true # default
+    margin: true # default
+    oracle: true # default
+    orders: true # default
+    payment_methods: true # default
+    products: true # default
+    profiles: true # default
+    reports: true # default
+    stablecoin_conversions: true # default
+    time: true # default
+    user_accounts: true # default
+    withdrawals: true # default
 
-remote_time: false
+remote_time: false # default
+
+manage_rate_limits: true # default
+
+secure_params: true # default
 
 ```
 
@@ -115,13 +134,11 @@ Minimal configuration file :
 
 ```yaml
 
-connectivity:
+params: 
     endpoint: '${API_ENDPOINT}'
     key: '${API_KEY}'
     secret: '${API_SECRET}'
     passphrase: '${API_PASSPHRASE}'
-
-features: true
 
 ```
 
@@ -147,15 +164,18 @@ Example 1 :
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
-$api = ApiFactory::createFull(
+$config = CoinbaseFacade::createDefaultCoinbaseConfig(
     'API_ENDPOINT',
     'API_KEY',
     'API_SECRET',
-    'API_PASSPHRASE',
-    true // pass true here to enable the remote timestamp provided by the remote Coinbase server
+    'API_PASSPHRASE'
 );
+
+$config->setUseCoinbaseRemoteTime(true); // pass true here to enable the remote timestamp provided by the remote Coinbase server
+
+$api = CoinbaseFacade::createCoinbaseApi($config);
 
 ```
 
@@ -163,28 +183,9 @@ Example 2 :
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
-$api = ApiFactory::create(
-    'API_ENDPOINT',
-    'API_KEY',
-    'API_SECRET',
-    'API_PASSPHRASE',
-    true, // activate or deactivate Accounts
-    ...
-    true, // activate or deactivate Withdrawals
-    true  // pass true here to enable the remote timestamp provided by the remote Coinbase server
-);
-
-```
-
-Example 3 :
-
-```php
-
-use MockingMagician\CoinbaseProSdk\Functional\ApiFactory;
-
-$api = ApiFactory::createFromYamlConfig('path/to/config.yaml');
+$api = CoinbaseFacade::createCoinbaseApiFromYaml('path/to/config.yaml');
 
 ```
 
@@ -192,22 +193,80 @@ Config file :
 
 ```yaml
 
-connectivity: 
-    # endpoint: '${SOME_ENV}' <= formatting as is autoload SOME_ENV if exist 
+params: 
     endpoint: '${API_ENDPOINT}'
     key: '${API_KEY}'
     secret: '${API_SECRET}'
     passphrase: '${API_PASSPHRASE}'
 
-features: true
-
 remote_time: true # pass true here to enable the remote timestamp provided by the remote Coinbase server
+
+```
+
+#### 1.5 : API rate limits
+
+According to documentation :
+
+>When a rate limit is exceeded, a status of 429 Too Many Requests will be returned.
+>
+>PUBLIC ENDPOINTS
+>
+>We throttle public endpoints by IP: 3 requests per second, up to 6 requests per second in bursts. Some endpoints may have custom rate limits.
+>
+>PRIVATE ENDPOINTS
+>
+>We throttle private endpoints by profile ID: 5 requests per second, up to 10 requests per second in bursts. Some endpoints may have custom rate limits.
+
+***The package has a mechanism to respect the established limits.***
+
+***This parameter is active by default but can be disabled if necessary.***
+
+Example 1 :
+
+```php
+
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+
+$config = CoinbaseFacade::createDefaultCoinbaseConfig(
+    'API_ENDPOINT',
+    'API_KEY',
+    'API_SECRET',
+    'API_PASSPHRASE'
+);
+
+$config->setManageRateLimits(false); // pass false here to disable rate limit managing
+
+$api = CoinbaseFacade::createCoinbaseApi($config);
+
+```
+
+Example 2 :
+
+```php
+
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+
+$api = CoinbaseFacade::createCoinbaseApiFromYaml('path/to/config.yaml');
+
+```
+
+Config file :
+
+```yaml
+
+params: 
+    endpoint: '${API_ENDPOINT}'
+    key: '${API_KEY}'
+    secret: '${API_SECRET}'
+    passphrase: '${API_PASSPHRASE}'
+
+manage_rate_limits: false # pass false here to disable rate limit managing
 
 ```
 
 ### 2 : Using the ApiConnectivity object
 
-***In the rest of the documentation, we will assume that you know how to create an ApiConnectivity object and the variable $api will refer to this object.***
+***In the rest of the documentation, we will assume that you know how to create an CoinbaseApi object and the variable $api will refer to this object.***
 
 #### 2.1 : List of features 
 
@@ -226,7 +285,7 @@ All features described in the [documentation](https://docs.pro.coinbase.com) are
 - Reports
 - Profiles
 - User Account
-- Margin
+- Margin (Limited on remote)
 - Oracle
 - Market Data
 - Products
@@ -235,9 +294,9 @@ All features described in the [documentation](https://docs.pro.coinbase.com) are
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->accounts();
 $api->orders();
@@ -266,9 +325,9 @@ $api->time();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->accounts()->list();
 $api->accounts()->getAccount('132fb6ae-456b-4654-b4e0-d681ac05cea1');
@@ -281,9 +340,9 @@ $api->accounts()->getHolds('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->orders()->getOrderById('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 $api->orders()->listOrders();
@@ -300,12 +359,13 @@ $api->orders()->getOrderByClientOrderId('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
-$marketOrder = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 0.0001);
+$marketOrder = CoinbaseFacade::createMarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 0.0001);
 $api->orders()->placeOrder($marketOrder);
 
 ```
@@ -314,12 +374,13 @@ $api->orders()->placeOrder($marketOrder);
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
-$limitOrder = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 10000, 0.0001);
+$limitOrder = CoinbaseFacade::createLimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 10000, 0.0001);
 
 $api->orders()->placeOrder($limitOrder);
 
@@ -335,12 +396,13 @@ Example of complex orders :
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
-$marketOrder = new MarketOrderToPlace(
+$marketOrder = CoinbaseFacade::createMarketOrderToPlace(
     MarketOrderToPlace::SIDE_BUY,
     'BTC-USD',
     0.0001, // null if funds is set and "vice versa"
@@ -359,12 +421,13 @@ $api->orders()->placeOrder($marketOrder);
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
-$limitOrder = new LimitOrderToPlace(
+$limitOrder = CoinbaseFacade::createLimitOrderToPlace(
     LimitOrderToPlace::SIDE_BUY,
     'BTC-USD',
     10000, // Price
@@ -386,9 +449,9 @@ $api->orders()->placeOrder($limitOrder);
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->fills()->listFills();
 
@@ -398,9 +461,9 @@ $api->fills()->listFills();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->limits()->getCurrentExchangeLimits();
 
@@ -410,9 +473,9 @@ $api->limits()->getCurrentExchangeLimits();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->deposits()->listDeposits();
 $api->deposits()->getDeposit('132fb6ae-456b-4654-b4e0-d681ac05cea1');
@@ -426,9 +489,9 @@ $api->deposits()->generateCryptoDepositAddress('132fb6ae-456b-4654-b4e0-d681ac05
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->withdrawals()->listWithdrawals();
 $api->withdrawals()->getWithdrawal('132fb6ae-456b-4654-b4e0-d681ac05cea1');
@@ -442,9 +505,9 @@ $api->withdrawals()->doWithdrawToCryptoAddress(0.1, 'BTC', 'bc1qar0srrr7xfkvy5l6
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->stablecoinConversions()->createConversion('USD', 'USDC', 100);
 
@@ -454,9 +517,9 @@ $api->stablecoinConversions()->createConversion('USD', 'USDC', 100);
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->paymentMethods()->listPaymentMethods();
 
@@ -466,9 +529,9 @@ $api->paymentMethods()->listPaymentMethods();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->coinbaseAccounts()->listCoinbaseAccounts();
 
@@ -478,9 +541,9 @@ $api->coinbaseAccounts()->listCoinbaseAccounts();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->fees()->getCurrentFees();
 
@@ -490,10 +553,10 @@ $api->fees()->getCurrentFees();
 
 ```php
 
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->reports()->createNewReport(
     ReportsInterface::TYPE_FILLS,
@@ -512,9 +575,9 @@ $api->reports()->getReportStatus('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->profiles()->listProfiles(true /* list active only or not */);
 $api->profiles()->getProfile('132fb6ae-456b-4654-b4e0-d681ac05cea1');
@@ -526,9 +589,9 @@ $api->profiles()->createProfileTransfer('132fb6ae-456b-4654-b4e0-d681ac05cea1', 
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->userAccount()->getTrailingVolume();
 
@@ -538,9 +601,9 @@ $api->userAccount()->getTrailingVolume();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->margin()->getMarginStatus(); // Returns the status of margin API
 
@@ -566,9 +629,9 @@ $api->margin()->getMarginProfileInformation();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->oracle()->getCryptographicallySignedPrices();
 
@@ -578,9 +641,9 @@ $api->oracle()->getCryptographicallySignedPrices();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->products()->getProducts();
 $api->products()->get24hrStats('132fb6ae-456b-4654-b4e0-d681ac05cea1');
@@ -601,9 +664,9 @@ $api->products()->getHistoricRates(
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->currencies()->getCurrencies();
 
@@ -613,9 +676,9 @@ $api->currencies()->getCurrencies();
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->time()->getTime();
 
@@ -641,9 +704,9 @@ This standardization allows a better understanding of the path taken by the pagi
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $api->accounts()->getAccountHistoryRaw('132fb6ae-456b-4654-b4e0-d681ac05cea1'); // Paginated request
 $api->accounts()->getHolds('132fb6ae-456b-4654-b4e0-d681ac05cea1'); // Paginated request
@@ -659,14 +722,14 @@ Example :
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $accountId = '132fb6ae-456b-4654-b4e0-d681ac05cea1';
 
-$pagination = new Pagination(); // The pagination object
+$pagination = CoinbaseFacade::createPagination(); // The pagination object
 
 while ($pagination->hasNext()) { // Fetch new page while has next
     $history = $api->accounts()->getAccountHistory($accountId, $pagination);
@@ -678,14 +741,15 @@ Pagination Settings :
 
 ```php
 
-use MockingMagician\CoinbaseProSdk\Contracts\ApiConnectivityInterface;
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
 
-/** @var ApiConnectivityInterface $api */
+/** @var ApiInterface $api */
 
 $accountId = '132fb6ae-456b-4654-b4e0-d681ac05cea1';
 
-$pagination = new Pagination( // The pagination object
+$pagination = CoinbaseFacade::createPagination( // The pagination object
     Pagination::DIRECTION_DESC, // DESC is default value
     1547662, // An offset cursor value
     25 // The limit on the number of results to bring back per query (max 100)
