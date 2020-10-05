@@ -10,6 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDetailsDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class OrderBookData extends AbstractCreator implements OrderBookDataInterface
 {
@@ -72,6 +73,6 @@ class OrderBookData extends AbstractCreator implements OrderBookDataInterface
 
     public static function createFromJson(string $json, ...$extraData)
     {
-        return self::createFromArray(json_decode($json, true));
+        return self::createFromArray(Json::decode($json, true));
     }
 }

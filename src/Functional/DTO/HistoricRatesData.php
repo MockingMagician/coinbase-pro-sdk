@@ -10,6 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesCandlesDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HistoricRatesDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class HistoricRatesData extends AbstractCreator implements HistoricRatesDataInterface
 {
@@ -55,6 +56,6 @@ class HistoricRatesData extends AbstractCreator implements HistoricRatesDataInte
 
     public static function createFromJson(string $json, ...$extraData)
     {
-        return self::createFromArray(json_decode($json, true), $extraData[0]);
+        return self::createFromArray(Json::decode($json, true), $extraData[0]);
     }
 }

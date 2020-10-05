@@ -17,5 +17,5 @@ interface FeeDataInterface
 
     public function getTakerFeeRate(): float;
 
-    public function getUsdVolume(): float;
+    public function getUsdVolume(): ?float;
 }

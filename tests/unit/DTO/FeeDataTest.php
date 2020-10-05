@@ -24,13 +24,22 @@ class FeeDataTest extends TestCase
 
     public function provideValidJsonData()
     {
-        return [[
-            '{
-                "maker_fee_rate": "0.0010",
-                "taker_fee_rate": "0.0020",
-                "usd_volume": "648040.15"
-            }',
-        ]];
+        return [
+            [
+                '{
+                    "maker_fee_rate": "0.0010",
+                    "taker_fee_rate": "0.0020",
+                    "usd_volume": "648040.15"
+                }',
+            ],
+            [
+                '{
+                    "maker_fee_rate": "0.0010",
+                    "taker_fee_rate": "0.0020",
+                    "usd_volume": null
+                }',
+            ],
+        ];
     }
 
     /**
@@ -43,6 +52,6 @@ class FeeDataTest extends TestCase
         self::assertInstanceOf(FeeData::class, $feeData);
         self::assertEquals(0.001, $feeData->getMakerFeeRate());
         self::assertEquals(0.002, $feeData->getTakerFeeRate());
-        self::assertEquals(648040.15, $feeData->getUsdVolume());
+        self::assertNullOrEquals(648040.15, $feeData->getUsdVolume());
     }
 }

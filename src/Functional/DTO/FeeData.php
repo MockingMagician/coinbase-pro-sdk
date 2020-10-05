@@ -21,11 +21,11 @@ class FeeData extends AbstractCreator implements FeeDataInterface
      */
     private $takerFeeRate;
     /**
-     * @var float
+     * @var null|float
      */
     private $usdVolume;
 
-    public function __construct(float $makerFeeRate, float $takerFeeRate, float $usdVolume)
+    public function __construct(float $makerFeeRate, float $takerFeeRate, ?float $usdVolume)
     {
         $this->makerFeeRate = $makerFeeRate;
         $this->takerFeeRate = $takerFeeRate;
@@ -42,7 +42,7 @@ class FeeData extends AbstractCreator implements FeeDataInterface
         return $this->takerFeeRate;
     }
 
-    public function getUsdVolume(): float
+    public function getUsdVolume(): ?float
     {
         return $this->usdVolume;
     }

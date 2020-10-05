@@ -11,6 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 use DateTimeImmutable;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class OrderData extends AbstractCreator implements OrderDataInterface
 {
@@ -255,12 +256,12 @@ class OrderData extends AbstractCreator implements OrderDataInterface
 
     public static function createFromJson(string $json, ...$extraData)
     {
-        return self::createFromArray(json_decode($json, true));
+        return self::createFromArray(Json::decode($json, true));
     }
 
     public static function createCollectionFromJson(string $json, ...$extraData): array
     {
-        $collection = json_decode($json, true);
+        $collection = Json::decode($json, true);
         foreach ($collection as $k => $v) {
             $collection[$k] = self::createFromArray($v);
         }

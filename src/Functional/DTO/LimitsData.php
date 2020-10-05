@@ -9,6 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\LimitsDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class LimitsData extends AbstractCreator implements LimitsDataInterface
 {
@@ -39,7 +40,7 @@ class LimitsData extends AbstractCreator implements LimitsDataInterface
 
     public static function createFromJson(string $json, ...$extraData)
     {
-        return self::createFromArray(json_decode($json, true));
+        return self::createFromArray(Json::decode($json, true));
     }
 
     public static function createFromArray(array $array, ...$extraData)

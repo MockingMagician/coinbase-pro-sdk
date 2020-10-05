@@ -9,6 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProductDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class ProductData extends AbstractCreator implements ProductDataInterface
 {
@@ -241,6 +242,6 @@ class ProductData extends AbstractCreator implements ProductDataInterface
 
     public static function createFromJson(string $json, ...$extraData)
     {
-        return self::createFromArray(json_decode($json, true));
+        return self::createFromArray(Json::decode($json, true));
     }
 }
