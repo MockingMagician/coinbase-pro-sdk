@@ -67,9 +67,9 @@ interface PaginationInterface
 
     const LIMIT = 100;
 
-    public function setDirection(string $direction): void;
+    public function setDirection(?string $direction): void;
 
-    public function setOffset(string $offset): void;
+    public function setOffset(?string $offset): void;
 
     public function setLimit(int $limit): void;
 
@@ -83,5 +83,5 @@ interface PaginationInterface
 
     public function hasNext(): bool;
 
-    public function autoPaginateFromHeaders(string $before, string $after): void;
+    public function autoPaginateFromHeaders(?string $before, ?string $after): void;
 }
