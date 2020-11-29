@@ -31,6 +31,12 @@ class UserAccountTest extends AbstractTest
     {
         $raw = $this->userAccount->getTrailingVolumeRaw();
 
+        if ($raw === '[]') {
+            $this->markTestSkipped(
+                'Not enough data for executing this test'
+            );
+        }
+
         self::assertStringContainsString('"product_id":', $raw);
         self::assertStringContainsString('"exchange_volume":', $raw);
         self::assertStringContainsString('"volume":', $raw);
@@ -39,7 +45,15 @@ class UserAccountTest extends AbstractTest
 
     public function testGetReportStatus()
     {
-        $volume = $this->userAccount->getTrailingVolume()[0];
+        $volume = $this->userAccount->getTrailingVolume();
+
+        if (empty($volume)) {
+            $this->markTestSkipped(
+                'Not enough data for executing this test'
+            );
+        }
+
+        $volume = $volume[0];
 
         self::assertIsString($volume->getProductId());
         self::assertIsFloat($volume->getVolume());

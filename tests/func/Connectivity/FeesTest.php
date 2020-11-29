@@ -41,6 +41,9 @@ class FeesTest extends AbstractTest
 
         self::assertIsFloat($fees->getMakerFeeRate());
         self::assertIsFloat($fees->getTakerFeeRate());
-        self::assertIsFloat($fees->getUsdVolume());
+        self::assertTrue(
+            is_null($fees->getUsdVolume())
+            || is_float($fees->getUsdVolume())
+        );
     }
 }

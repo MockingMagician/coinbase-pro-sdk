@@ -19,7 +19,7 @@
         "ext-json": "*",
         "ext-openssl": "*",
         "psr/http-client": "^1.0",
-        "guzzlehttp/guzzle": "^6.0",
+        "guzzlehttp/guzzle": "^6.0 | ^7.0",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {

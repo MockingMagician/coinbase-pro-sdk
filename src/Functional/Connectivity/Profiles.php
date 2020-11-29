@@ -17,7 +17,22 @@ class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
 {
     public function listProfilesRaw(bool $active): string
     {
+        /*
+         * Api documentation declare :
+         *
+         * PARAMETERS
+         * Param	Description
+         * active	Only return active profiles if set true
+         */
         $query = ['active' => $active];
+        /*
+         * But response returned by test api is :
+         *
+         * Invalid 'active' parameter value
+         *
+         * So active parameter is disabled for now (29/11/2020)
+         */
+        unset($query['active']);
 
         return $this->getRequestFactory()->createRequest('GET', '/profiles', $query)->send();
     }
