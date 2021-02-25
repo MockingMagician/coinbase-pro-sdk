@@ -25,7 +25,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
@@ -45,7 +44,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Profiles;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Reports;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\StableCoinConversions;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\UserAccount;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
@@ -118,10 +116,6 @@ class CoinbaseApi implements ApiInterface
      */
     private $time;
     /**
-     * @var null|UserAccountInterface
-     */
-    private $userAccount;
-    /**
      * @var null|WithdrawalsInterface
      */
     private $withdrawals;
@@ -146,7 +140,6 @@ class CoinbaseApi implements ApiInterface
         $this->reports = $config->getConnectivityConfig()->isReportsActivate() ? new Reports($requestFactory) : null;
         $this->stableCoinConversions = $config->getConnectivityConfig()->isStablecoinConversionsActivate() ? new StableCoinConversions($requestFactory) : null;
         $this->time = $config->getConnectivityConfig()->isTimeActivate() ? new Time($requestFactory) : null;
-        $this->userAccount = $config->getConnectivityConfig()->isUserAccountActivate() ? new UserAccount($requestFactory) : null;
         $this->withdrawals = $config->getConnectivityConfig()->isWithdrawalsActivate() ? new Withdrawals($requestFactory) : null;
     }
 
@@ -256,15 +249,6 @@ class CoinbaseApi implements ApiInterface
         }
 
         return $this->profiles;
-    }
-
-    public function userAccount(): UserAccountInterface
-    {
-        if (!$this->userAccount) {
-            throw new ApiError(sprintf(self::FUNCTIONALITY_NOT_LOADED, 'userAccounts'));
-        }
-
-        return $this->userAccount;
     }
 
     public function margin(): MarginInterface

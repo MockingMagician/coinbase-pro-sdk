@@ -51,7 +51,6 @@ class CoinbaseConfig extends AbstractConfig implements ConfigInterface
         'reports' => 'reports',
         'stablecoin_conversions' => 'stablecoinConversions',
         'time' => 'time',
-        'user_account' => 'userAccount',
         'withdrawals' => 'withdrawals',
     ];
 
@@ -77,7 +76,6 @@ class CoinbaseConfig extends AbstractConfig implements ConfigInterface
             ->activateFees(false)
             ->activateReports(false)
             ->activateProfiles(false)
-            ->activateUserAccount(false)
             ->activateMargin(false)
             ->activateOracle(false)
             ->activateProducts(false)

@@ -37,7 +37,6 @@ class CoinbaseApiTest extends TestCase
         self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->fees());
         self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->reports());
         self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->profiles());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->userAccount());
         self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->margin());
         self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->oracle());
         self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->products());
@@ -141,14 +140,6 @@ class CoinbaseApiTest extends TestCase
 
         try {
             $api->profiles();
-        } catch (Throwable $exception) {
-        }
-        self::assertNotNull($exception);
-
-        $exception = null;
-
-        try {
-            $api->userAccount();
         } catch (Throwable $exception) {
         }
         self::assertNotNull($exception);

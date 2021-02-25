@@ -24,7 +24,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProfilesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\UserAccountInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 
 interface ApiInterface
@@ -53,8 +52,6 @@ interface ApiInterface
     public function reports(): ReportsInterface;
 
     public function profiles(): ProfilesInterface;
-
-    public function userAccount(): UserAccountInterface;
 
     public function margin(): MarginInterface;
 

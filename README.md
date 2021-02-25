@@ -62,7 +62,6 @@ $config->getConnectivityConfig()
     ->activateFees(false)
     ->activateReports(false)
     ->activateProfiles(false)
-    ->activateUserAccount(false)
     ->activateMargin(false)
     ->activateOracle(false)
     ->activateProducts(false)
@@ -119,7 +118,6 @@ connectivity:
     reports: true # default
     stablecoin_conversions: true # default
     time: true # default
-    user_accounts: true # default
     withdrawals: true # default
 
 remote_time: false # default
@@ -284,7 +282,6 @@ All features described in the [documentation](https://docs.pro.coinbase.com) are
 - Fees
 - Reports
 - Profiles
-- User Account
 - Margin (Limited on remote)
 - Oracle
 - Market Data
@@ -310,7 +307,6 @@ $api->coinbaseAccounts();
 $api->fees();
 $api->reports();
 $api->profiles();
-$api->userAccount();
 $api->margin();
 $api->oracle();
 $api->products();
@@ -585,7 +581,11 @@ $api->profiles()->createProfileTransfer('132fb6ae-456b-4654-b4e0-d681ac05cea1', 
 
 ```
 
-##### 2.2.13 : User Account methods
+##### 2.2.13 : User Account methods - Deprecated
+
+__DEPRECATED__ : According to coinbase api documentation changelog (04/02/2021) this endpoint has been deprecated in favor of the Fees endpoint to get the latest volumes. 25/02/2021: Endpoint is already disabled.
+
+__This method and userAccount endpoint are removed from 7.0__
 
 ```php
 
@@ -593,7 +593,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
 
-$api->userAccount()->getTrailingVolume();
+$api->userAccount()->getTrailingVolume(); // userAccount method removed from 7.0
 
 ```
 

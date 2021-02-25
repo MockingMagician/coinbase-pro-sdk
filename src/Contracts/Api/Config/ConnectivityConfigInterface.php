@@ -58,10 +58,6 @@ interface ConnectivityConfigInterface
 
     public function isProfilesActivate(): bool;
 
-    public function activateUserAccount(bool $set): ConnectivityConfigInterface;
-
-    public function isUserAccountActivate(): bool;
-
     public function activateMargin(bool $set): ConnectivityConfigInterface;
 
     public function isMarginActivate(): bool;

@@ -97,7 +97,6 @@ class CoinbaseConfigTest extends TestCase
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isFeesActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isReportsActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isProfilesActivate());
-        self::assertFalse($coinbaseConfig->getConnectivityConfig()->isUserAccountActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isMarginActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isOracleActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isProductsActivate());
@@ -142,7 +141,6 @@ class CoinbaseConfigTest extends TestCase
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isFeesActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isReportsActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isProfilesActivate());
-        self::assertTrue($coinbaseConfig->getConnectivityConfig()->isUserAccountActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isMarginActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isOracleActivate());
         self::assertTrue($coinbaseConfig->getConnectivityConfig()->isProductsActivate());
@@ -162,7 +160,6 @@ class CoinbaseConfigTest extends TestCase
             ->activateFees(false)
             ->activateReports(false)
             ->activateProfiles(false)
-            ->activateUserAccount(false)
             ->activateMargin(false)
             ->activateOracle(false)
             ->activateProducts(false)
@@ -182,7 +179,6 @@ class CoinbaseConfigTest extends TestCase
         self::assertFalse($coinbaseConfig->getConnectivityConfig()->isFeesActivate());
         self::assertFalse($coinbaseConfig->getConnectivityConfig()->isReportsActivate());
         self::assertFalse($coinbaseConfig->getConnectivityConfig()->isProfilesActivate());
-        self::assertFalse($coinbaseConfig->getConnectivityConfig()->isUserAccountActivate());
         self::assertFalse($coinbaseConfig->getConnectivityConfig()->isMarginActivate());
         self::assertFalse($coinbaseConfig->getConnectivityConfig()->isOracleActivate());
         self::assertFalse($coinbaseConfig->getConnectivityConfig()->isProductsActivate());

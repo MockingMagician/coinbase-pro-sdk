@@ -63,10 +63,6 @@ class ConnectivityConfig implements ConnectivityConfigInterface
     /**
      * @var bool
      */
-    private $userAccount = true;
-    /**
-     * @var bool
-     */
     private $margin = true;
     /**
      * @var bool
@@ -227,18 +223,6 @@ class ConnectivityConfig implements ConnectivityConfigInterface
     public function isProfilesActivate(): bool
     {
         return $this->profiles;
-    }
-
-    public function activateUserAccount(bool $set): ConnectivityConfigInterface
-    {
-        $this->userAccount = $set;
-
-        return $this;
-    }
-
-    public function isUserAccountActivate(): bool
-    {
-        return $this->userAccount;
     }
 
     public function activateMargin(bool $set): ConnectivityConfigInterface
