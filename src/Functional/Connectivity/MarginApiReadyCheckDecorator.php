@@ -16,7 +16,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\MarginStatusDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\PositionRefreshAmountsData;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalPowerDataInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 /**
