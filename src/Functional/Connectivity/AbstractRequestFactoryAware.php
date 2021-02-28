@@ -8,9 +8,10 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
 
-class AbstractRequestFactoryAware
+class AbstractRequestFactoryAware implements RequestAwareInterface
 {
     /**
      * @var RequestFactoryInterface
@@ -22,7 +23,7 @@ class AbstractRequestFactoryAware
         $this->requestFactory = $requestFactory;
     }
 
-    protected function getRequestFactory(): RequestFactoryInterface
+    public function getRequestFactory(): RequestFactoryInterface
     {
         return $this->requestFactory;
     }

@@ -27,7 +27,7 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
  */
 class MarginApiReadyCheckDecorator extends AbstractRequestFactoryAware implements MarginInterface
 {
-    const ERROR_MESSAGE = 'Margin api is not yet available and enabled';
+    const ERROR_MESSAGE = 'Margin api is not yet available and/or enabled. Check availability and activation with getMarginStatus method';
 
     /**
      * @var Margin
@@ -36,6 +36,7 @@ class MarginApiReadyCheckDecorator extends AbstractRequestFactoryAware implement
 
     public function __construct(Margin $margin)
     {
+        parent::__construct($margin->getRequestFactory());
         $this->margin = $margin;
     }
 
@@ -129,11 +130,6 @@ class MarginApiReadyCheckDecorator extends AbstractRequestFactoryAware implement
     public function getMarginStatus(): MarginStatusDataInterface
     {
         return $this->margin->getMarginStatus();
-    }
-
-    protected function getRequestFactory(): RequestFactoryInterface
-    {
-        return $this->margin->getRequestFactory();
     }
 
     private function isMarginReadyToUse(): bool
