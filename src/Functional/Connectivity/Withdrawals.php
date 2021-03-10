@@ -86,7 +86,7 @@ class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInte
      */
     public function getFeeEstimate(string $currency, string $cryptoAddress): string
     {
-        return json_decode($this->getFeeEstimateRaw($currency, $cryptoAddress), true);
+        return json_decode($this->getFeeEstimateRaw($currency, $cryptoAddress), true)['fee'];
     }
 
     public function getFeeEstimateRaw(string $currency, string $cryptoAddress): string
