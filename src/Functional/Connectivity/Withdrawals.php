@@ -80,6 +80,25 @@ class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInte
 
         return $this->getRequestFactory()->createRequest('POST', '/withdrawals/coinbase-account', [], Json::encode($body))->send();
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getFeeEstimate(string $currency, string $cryptoAddress): string
+    {
+        return json_decode($this->getFeeEstimateRaw($currency, $cryptoAddress), true);
+    }
+
+    public function getFeeEstimateRaw(string $currency, string $cryptoAddress): string
+    {
+        $query = [
+            'currency' => $currency,
+            'crypto_address' => $cryptoAddress,
+        ];
+        
+        return $this->getRequestFactory()->createRequest('GET', '/withdrawals/fee-estimate', $query)->send();
+    }
+    
 
     /**
      * {@inheritdoc}
