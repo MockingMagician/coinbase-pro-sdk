@@ -14,7 +14,9 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 interface CurrencyDataInterface
 {
     /**
-     * @TODO Highlander thing. message or message_status, only one should/must survive ?
+     * @TODO Highlander thing. message or message_status, only one should/must survive ? May be not...
+     * @TODO In case of websocket, it is message_status, in case of API it is message.
+     * @TODO So deal with both and merge in one field, statusMessage is more explicit.
      */
     const FIELDS = ['id', 'name', 'min_size', 'status', 'message', 'status_message', 'max_precision', 'details'];
 

@@ -246,7 +246,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
             $array['cancel_only'],
             $array['limit_only'],
             $array['post_only'],
-            $array['trading_disabled'],
+            $array['trading_disabled'] ?? false,
             $array['margin_enabled'] ?? false,
             $array['spot'] ?? false
         );

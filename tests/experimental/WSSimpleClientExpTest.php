@@ -62,7 +62,7 @@ DOC;
             $payload = wait($message->buffer());
             $message = MessageHandler::handle(Json::decode($payload, true));
             if ($message instanceof StatusMessage) {
-                dump($message->getPayload()); die;
+                dump($message->getPayload()['currencies'][0]['details']); die;
             }
             usleep(10000);
         }

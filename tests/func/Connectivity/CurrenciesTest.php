@@ -30,6 +30,8 @@ class CurrenciesTest extends AbstractTest
     {
         $raw = $this->currencies->getCurrenciesRaw();
 
+        dump($raw);
+
         self::assertStringContainsString('"id":', $raw);
         self::assertStringContainsString('"name":', $raw);
         self::assertStringContainsString('"min_size":', $raw);

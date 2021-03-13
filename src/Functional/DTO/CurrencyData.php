@@ -9,6 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDetailsDataInterface;
 
 class CurrencyData extends AbstractCreator implements CurrencyDataInterface
 {
@@ -41,12 +42,20 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
      */
     private $maxPrecision;
     /**
-     * @var array
+     * @var CurrencyDetailsDataInterface
      */
     private $details;
 
-    public function __construct(string $id, string $name, float $minSize, ?string $status, ?string $statusMessage, ?float $maxPrecision, array $details, array $extraData = [])
-    {
+    public function __construct(
+        string $id,
+        string $name,
+        float $minSize,
+        ?string $status,
+        ?string $statusMessage,
+        ?float $maxPrecision,
+        CurrencyDetailsDataInterface $details,
+        array $extraData = []
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->minSize = $minSize;
@@ -114,7 +123,7 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
             $array['status'] ?? null,
             ($array['status_message'] ?? $array['message']) ?? null,
             $array['max_precision'] ?? null,
-            $array['details'] ?? [],
+            CurrencyDetailsData::createFromArray($array['details']),
             $extraData
         );
     }
