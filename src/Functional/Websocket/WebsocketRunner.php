@@ -13,14 +13,16 @@ use function Amp\Promise\wait;
 
 class WebsocketRunner implements WebsocketRunnerInterface
 {
-    /**
-     * @var Connection
-     */
-    private $connexion;
+    private $connection;
+
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
 
     public function subscribe(SubscriberInterface $subscriber): void
     {
-        wait($this->connexion->send($subscriber->getJsonDescription()));
+        wait($this->connection->send($subscriber->getJsonDescription()));
     }
 
     public function unsubscribe(SubscriberInterface $subscriber): void
@@ -28,12 +30,12 @@ class WebsocketRunner implements WebsocketRunnerInterface
         /**
          * TODO change type to unsubscribe
          */
-        wait($this->connexion->send($subscriber->getJsonDescription()));
+        wait($this->connection->send($subscriber->getJsonDescription()));
     }
 
     public function getMessage(): MessageInterface
     {
-        $message = wait($this->connexion->receive());
+        $message = wait($this->connection->receive());
         $payload = wait($message->buffer());
 
         return MessageHandler::handle(Json::decode($payload));

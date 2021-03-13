@@ -3,13 +3,15 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Exp;
 
 use Amp\Coroutine;
-use Amp\Loop;
 use Amp\Websocket\Client\Connection;
-use Amp\Websocket\Message;
+use Composer\InstalledVersions;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
-use MockingMagician\CoinbaseProSdk\Functional\Websocket\WSSimpleClient;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\AbstractMessage;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\StatusMessage;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\SubscriptionsMessage;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\UnknownMessage;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\MessageHandler;
 use PHPUnit\Framework\TestCase;
-use function Amp\delay;
 use function Amp\Promise\wait;
 use function Amp\Websocket\Client\connect;
 
@@ -34,25 +36,34 @@ class WSSimpleClientExpTest extends TestCase
         "XLM-EUR"
     ],
     "channels": [
+        "level2",
+        "heartbeat",
+        "status",
+        "ticker",
+        "user",
+        "match",
         "full"
     ]
 }
 DOC;
-        $this->coinbaseSocket = new WSSimpleClient('wss://ws-feed.pro.coinbase.com');
     }
 
     public function testConnection()
     {
+//        dump(InstalledVersions::getReference('amphp/websocket-client'));die;
         /** @var Coroutine $connection */
         $connection = connect('wss://ws-feed.pro.coinbase.com');
         $connection = wait($connection);
         /** @var Connection $connection */
         wait($connection->send($this->subscriber));
         $i = 0;
-        while (++$i < 30) {
+        while (++$i < 50) {
             $message = wait($connection->receive());
             $payload = wait($message->buffer());
-            dump(Json::decode($payload));
+            $message = MessageHandler::handle(Json::decode($payload, true));
+            if ($message instanceof StatusMessage) {
+                dump($message->getPayload()); die;
+            }
             usleep(10000);
         }
         $connection->close();

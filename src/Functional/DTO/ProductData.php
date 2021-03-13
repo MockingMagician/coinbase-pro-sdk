@@ -81,6 +81,10 @@ class ProductData extends AbstractCreator implements ProductDataInterface
      * @var bool
      */
     private $isMarginEnabled;
+    /**
+     * @var string|null
+     */
+    private $spot;
 
     public function __construct(
         string $id,
@@ -99,7 +103,8 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         bool $limitOnly,
         bool $postOnly,
         bool $tradingDisabled,
-        bool $isMarginEnabled
+        bool $isMarginEnabled,
+        ?string $spot
     ) {
         $this->id = $id;
         $this->displayName = $displayName;
@@ -118,6 +123,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         $this->postOnly = $postOnly;
         $this->tradingDisabled = $tradingDisabled;
         $this->isMarginEnabled = $isMarginEnabled;
+        $this->spot = $spot;
     }
 
     public function getId(): string
@@ -217,6 +223,11 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         ;
     }
 
+    public function getSpot(): ?string
+    {
+        return $this->spot;
+    }
+
     public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
@@ -236,7 +247,8 @@ class ProductData extends AbstractCreator implements ProductDataInterface
             $array['limit_only'],
             $array['post_only'],
             $array['trading_disabled'],
-            $array['margin_enabled'] ?? false
+            $array['margin_enabled'] ?? false,
+            $array['spot'] ?? false
         );
     }
 

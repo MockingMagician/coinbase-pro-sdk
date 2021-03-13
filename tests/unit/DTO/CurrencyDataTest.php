@@ -249,7 +249,7 @@ class CurrencyDataTest extends TestCase
         self::assertEquals('Bitcoin', $currency->getName());
         self::assertEquals(0.00000001, $currency->getMinSize());
         self::assertNullOrEquals('online', $currency->getStatus());
-        self::assertNullOrEquals('message', $currency->getMessage());
+        self::assertNullOrEquals('message', $currency->getStatusMessage());
         self::assertNullOrEquals(0.00000001, $currency->getMaxPrecision());
         self::assertNullOrEquals([
             'type' => 'crypto',

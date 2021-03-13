@@ -35,7 +35,7 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
     /**
      * @var null|string
      */
-    private $message;
+    private $statusMessage;
     /**
      * @var null|float
      */
@@ -45,14 +45,14 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
      */
     private $details;
 
-    public function __construct(string $id, string $name, float $minSize, ?string $status, ?string $message, ?float $maxPrecision, array $details, array $extraData = [])
+    public function __construct(string $id, string $name, float $minSize, ?string $status, ?string $statusMessage, ?float $maxPrecision, array $details, array $extraData = [])
     {
         $this->id = $id;
         $this->name = $name;
         $this->minSize = $minSize;
         $this->extraData = $extraData;
         $this->status = $status;
-        $this->message = $message;
+        $this->statusMessage = $statusMessage;
         $this->maxPrecision = $maxPrecision;
         $this->details = $details;
     }
@@ -82,9 +82,9 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
         return $this->status;
     }
 
-    public function getMessage(): ?string
+    public function getStatusMessage(): ?string
     {
-        return $this->message;
+        return $this->statusMessage;
     }
 
     public function getMaxPrecision(): ?float
@@ -112,7 +112,7 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
             $array['name'],
             $array['min_size'],
             $array['status'] ?? null,
-            $array['message'] ?? null,
+            ($array['status_message'] ?? $array['message']) ?? null,
             $array['max_precision'] ?? null,
             $array['details'] ?? [],
             $extraData

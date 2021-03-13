@@ -9,14 +9,10 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 /**
- * Interface CurrencyInfoData.
+ * Interface CurrencyDetailsDataInterface
  */
-interface CurrencyDataInterface
+interface CurrencyDetailsDataInterface
 {
-    /**
-     * @TODO Highlander thing. message or message_status, only one should/must survive ?
-     */
-    const FIELDS = ['id', 'name', 'min_size', 'status', 'message', 'status_message', 'max_precision', 'details'];
 
     public function getId(): string;
 
