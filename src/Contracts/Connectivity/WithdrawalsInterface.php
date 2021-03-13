@@ -115,4 +115,22 @@ interface WithdrawalsInterface
      * This is required when not providing a destination tag.
      */
     public function doWithdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string;
+
+    /**
+     *Crypto.
+     *
+     * Gets the network fee estimate when sending to the given address.
+     *
+     * HTTP REQUEST
+     * POST /withdrawals/fee-estimate
+     *
+     * API KEY PERMISSIONS
+     * This endpoint requires the "transfer" permission. API key must belong to default profile.
+     *
+     * PARAMETERS
+     * Param	Description
+     * currency	The type of currency
+     * crypto_address	A crypto address of the recipient
+     */
+    public function getFeeEstimate(string $currency, string $cryptoAddress): float;
 }

@@ -113,4 +113,22 @@ class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInte
     {
         return json_decode($this->doWithdrawToCryptoAddressRaw($amount, $currency, $cryptoAddress, $destinationTag), true)['id'];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFeeEstimate(string $currency, string $cryptoAddress): float
+    {
+        return json_decode($this->getFeeEstimateRaw($currency, $cryptoAddress), true)['fee'];
+    }
+
+    public function getFeeEstimateRaw(string $currency, string $cryptoAddress): string
+    {
+        $query = [
+            'currency' => $currency,
+            'crypto_address' => $cryptoAddress,
+        ];
+
+        return $this->getRequestFactory()->createRequest('GET', '/withdrawals/fee-estimate', $query)->send();
+    }
 }

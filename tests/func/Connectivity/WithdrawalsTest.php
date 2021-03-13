@@ -202,4 +202,18 @@ class WithdrawalsTest extends AbstractTest
         );
         $this->withdrawals->doWithdrawToCryptoAddress(5, 'BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
     }
+
+    public function testGetFeeEstimateRaw()
+    {
+        $raw = $this->withdrawals->getFeeEstimateRaw('BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
+
+        self::assertStringContainsString('"fee":', $raw);
+    }
+
+    public function testGetFeeEstimate()
+    {
+        $fee = $this->withdrawals->getFeeEstimate('BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
+
+        self::assertIsFloat($fee);
+    }
 }
