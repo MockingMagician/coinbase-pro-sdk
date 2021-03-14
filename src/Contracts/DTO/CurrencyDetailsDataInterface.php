@@ -9,7 +9,7 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
 /**
- * Interface CurrencyDetailsDataInterface
+ * Interface CurrencyDetailsDataInterface.
  */
 interface CurrencyDetailsDataInterface
 {

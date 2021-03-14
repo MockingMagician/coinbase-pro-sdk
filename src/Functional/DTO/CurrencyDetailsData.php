@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
-
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDetailsDataInterface;
 
@@ -37,19 +41,19 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
      */
     private $pushPaymentMethods;
     /**
-     * @var int
+     * @var null|int
      */
     private $processingTimeSeconds;
     /**
-     * @var float
+     * @var null|float
      */
     private $minWithdrawalAmount;
     /**
-     * @var float
+     * @var null|float
      */
     private $maxWithdrawalAmount;
     /**
-     * @var array|null
+     * @var null|array
      */
     private $groupTypes;
 
@@ -79,89 +83,56 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
         $this->groupTypes = $groupTypes;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
     public function getSymbol(): string
     {
         return $this->symbol;
     }
 
-    /**
-     * @return int
-     */
     public function getNetworkConfirmations(): int
     {
         return $this->networkConfirmations;
     }
 
-    /**
-     * @return int
-     */
     public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    /**
-     * @return string
-     */
     public function getCryptoAddressLink(): string
     {
         return $this->cryptoAddressLink;
     }
 
-    /**
-     * @return string
-     */
     public function getCryptoTransactionLink(): string
     {
         return $this->cryptoTransactionLink;
     }
 
-    /**
-     * @return array
-     */
     public function getPushPaymentMethods(): array
     {
         return $this->pushPaymentMethods;
     }
 
-    /**
-     * @return int
-     */
     public function getProcessingTimeSeconds(): ?int
     {
         return $this->processingTimeSeconds;
     }
 
-    /**
-     * @return float
-     */
     public function getMinWithdrawalAmount(): ?float
     {
         return $this->minWithdrawalAmount;
     }
 
-    /**
-     * @return float
-     */
     public function getMaxWithdrawalAmount(): ?float
     {
         return $this->maxWithdrawalAmount;
     }
 
-    /**
-     * @return array|null
-     */
     public function getGroupTypes(): ?array
     {
         return $this->groupTypes;

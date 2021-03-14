@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Websocket;
-
 
 interface SubscriberInterface
 {
@@ -10,12 +14,19 @@ interface SubscriberInterface
     public const AUTHENTICATION_LIKE_URI = '/users/self/verify';
 
     public function runWithAuthentication(bool $bool, bool $useCoinbaseRemoteTime = false): void;
+
     public function setProducts(array $productIds): void;
+
     public function activeChannelHearBeat(array $productIds): void;
+
     public function activeChannelStatus(): void;
+
     public function activeChannelTicker(array $productIds): void;
+
     public function activeChannelLevel2(array $productIds): void;
+
     public function activeUserChannel(): void;
+
     public function activeFullChannel(): void;
 
     public function getJsonDescription(): string;

@@ -8,19 +8,21 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket\Message;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Websocket\MessageInterface;
-
-abstract class AbstractMessage implements MessageInterface
+class DoneMessage extends OpenMessage
 {
-    private $payload;
+    /**
+     * @var string
+     */
+    private $reason;
 
     public function __construct(array $payload)
     {
-        $this->payload = $payload;
+        parent::__construct($payload);
+        $this->reason = $payload['reason'];
     }
 
-    public function getPayload(): array
+    public function getReason(): string
     {
-        return $this->payload;
+        return $this->reason;
     }
 }

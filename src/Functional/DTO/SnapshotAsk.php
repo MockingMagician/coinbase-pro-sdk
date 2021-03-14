@@ -6,9 +6,8 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Contracts\Websocket;
+namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
-interface MessageInterface
+class SnapshotAsk extends AbstractSnapshotAskBidInterface
 {
-    public function getPayload(): array;
 }

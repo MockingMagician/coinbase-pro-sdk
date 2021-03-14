@@ -1,15 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket\Message;
 
-
-use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\Fragment\Channel;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\ChannelData;
 
 class SubscriptionsMessage extends AbstractMessage
 {
     /**
-     * @var Channel[]
+     * @var ChannelData[]
      */
     private $channels;
 
@@ -18,12 +22,12 @@ class SubscriptionsMessage extends AbstractMessage
         parent::__construct($payload);
         $this->channels = [];
         foreach ($payload['channels'] as $channel) {
-            $this->channels[] = new Channel($channel['name'], $channel['product_ids']);
+            $this->channels[] = ChannelData::createFromArray($channel);
         }
     }
 
     /**
-     * @return Channel[]
+     * @return ChannelData[]
      */
     public function getChannels(): array
     {

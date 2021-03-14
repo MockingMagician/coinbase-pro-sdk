@@ -1,15 +1,19 @@
 <?php
 
+/**
+ * @author Marc MOREAU <moreau.marc.web@gmail.com>
+ * @license https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/LICENSE.md MIT
+ * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
+ */
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket;
 
-
+use function Amp\Promise\wait;
 use Amp\Websocket\Client\Connection;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\MessageInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\WebsocketRunnerInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
-use function Amp\Promise\wait;
 
 class WebsocketRunner implements WebsocketRunnerInterface
 {
@@ -27,9 +31,7 @@ class WebsocketRunner implements WebsocketRunnerInterface
 
     public function unsubscribe(SubscriberInterface $subscriber): void
     {
-        /**
-         * TODO change type to unsubscribe
-         */
+        // TODO change type to unsubscribe
         wait($this->connection->send($subscriber->getJsonDescription()));
     }
 

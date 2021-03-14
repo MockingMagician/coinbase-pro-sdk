@@ -82,7 +82,7 @@ class ProductData extends AbstractCreator implements ProductDataInterface
      */
     private $isMarginEnabled;
     /**
-     * @var string|null
+     * @var null|string
      */
     private $spot;
 

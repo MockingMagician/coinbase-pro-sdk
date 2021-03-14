@@ -6,9 +6,11 @@
  * @link https://github.com/MockingMagician/coinbase-pro-sdk/blob/master/README.md
  */
 
-namespace MockingMagician\CoinbaseProSdk\Contracts\Websocket;
+namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
-interface MessageInterface
+interface ChannelDataInterface
 {
-    public function getPayload(): array;
+    public function getName(): string;
+
+    public function getProductsIds(): array;
 }
