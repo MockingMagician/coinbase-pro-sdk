@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\PaymentMethodsInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\PaymentMethodData;
 
-class PaymentMethods extends AbstractRequestFactoryAware implements PaymentMethodsInterface
+class PaymentMethods extends AbstractConnectivity implements PaymentMethodsInterface
 {
     public function listPaymentMethodsRaw(): string
     {

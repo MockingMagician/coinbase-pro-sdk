@@ -25,8 +25,9 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestAwareInterface;
 
-interface ApiInterface
+interface ApiInterface extends RequestAwareInterface
 {
     // Private
     public function accounts(): AccountsInterface;

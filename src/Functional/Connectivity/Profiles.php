@@ -13,7 +13,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\ProfileDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\ProfileData;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Profiles extends AbstractRequestFactoryAware implements ProfilesInterface
+class Profiles extends AbstractConnectivity implements ProfilesInterface
 {
     public function listProfilesRaw(bool $active): string
     {

@@ -10,16 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Websocket\Message;
 
 use DateTimeImmutable;
 
-/**
- * Class AbstractMORDMessage.
- *
- * "side" => "buy" --
- * "product_id" => "XLM-EUR" --
- * "time" => "2021-03-14T00:08:20.048193Z" --
- * "sequence" => 1942667821 --
- * "price" => "0.333754" --
- */
-class AbstractMORDMessage extends AbstractMessage
+class AbstractFullChannelMessage extends AbstractMessage
 {
     /**
      * @var string
@@ -36,24 +27,18 @@ class AbstractMORDMessage extends AbstractMessage
      */
     private $time;
 
-    /**
-     * @var int
-     */
-    private $sequence;
-
-    /**
-     * @var null|float
-     */
-    private $price;
-
     public function __construct(array $payload)
     {
         parent::__construct($payload);
         $this->side = $payload['side'];
         $this->productId = $payload['product_id'];
-        $this->time = new DateTimeImmutable($payload['time']);
-        $this->sequence = (int) $payload['sequence'];
-        $this->price = $payload['price'] ? (float) $payload['price'] : null;
+        if (isset($payload['time'])) {
+            $this->time = new DateTimeImmutable($payload['time']);
+        } else {
+            $time = new \DateTime();
+            $time->setTimezone(new \DateTimeZone('Z'))->setTimestamp($payload['timestamp']);
+            $this->time = DateTimeImmutable::createFromMutable($time);
+        }
     }
 
     public function getSide(): string
@@ -69,15 +54,5 @@ class AbstractMORDMessage extends AbstractMessage
     public function getTime(): DateTimeImmutable
     {
         return $this->time;
-    }
-
-    public function getSequence(): int
-    {
-        return $this->sequence;
-    }
-
-    public function getPrice(): ?float
-    {
-        return $this->price;
     }
 }

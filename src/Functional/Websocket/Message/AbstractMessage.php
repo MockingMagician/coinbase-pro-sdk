@@ -12,6 +12,9 @@ use MockingMagician\CoinbaseProSdk\Contracts\Websocket\MessageInterface;
 
 abstract class AbstractMessage implements MessageInterface
 {
+    /**
+     * @var array
+     */
     private $payload;
 
     public function __construct(array $payload)

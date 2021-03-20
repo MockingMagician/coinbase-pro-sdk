@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
 
-class AbstractRequestFactoryAware implements RequestAwareInterface
+class AbstractConnectivity implements RequestAwareInterface
 {
     /**
      * @var RequestFactoryInterface

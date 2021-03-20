@@ -39,7 +39,7 @@ class SnapshotMessage extends AbstractMessage
         }
 
         foreach ($payload['bids'] as $bid) {
-            $this->bids[] = SnapshotAsk::createFromArray($bid);
+            $this->bids[] = SnapshotBid::createFromArray($bid);
         }
     }
 

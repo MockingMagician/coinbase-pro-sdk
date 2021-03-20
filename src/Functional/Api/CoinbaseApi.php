@@ -26,6 +26,8 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestAwareInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
@@ -119,28 +121,32 @@ class CoinbaseApi implements ApiInterface
      * @var null|WithdrawalsInterface
      */
     private $withdrawals;
+    /**
+     * @var RequestFactoryInterface
+     */
+    private $requestFactory;
 
     public function __construct(CoinbaseConfig $config)
     {
-        $requestFactory = $config->getBuildRequestFactory();
+        $this->requestFactory = $config->getBuildRequestFactory();
 
-        $this->accounts = $config->getConnectivityConfig()->isAccountsActivate() ? new Accounts($requestFactory) : null;
-        $this->coinbaseAccounts = $config->getConnectivityConfig()->isCoinbaseAccountsActivate() ? new CoinbaseAccounts($requestFactory) : null;
-        $this->currencies = $config->getConnectivityConfig()->isCoinbaseAccountsActivate() ? new Currencies($requestFactory) : null;
-        $this->deposits = $config->getConnectivityConfig()->isDepositsActivate() ? new Deposits($requestFactory) : null;
-        $this->fees = $config->getConnectivityConfig()->isFeesActivate() ? new Fees($requestFactory) : null;
-        $this->fills = $config->getConnectivityConfig()->isFillsActivate() ? new Fills($requestFactory) : null;
-        $this->limits = $config->getConnectivityConfig()->isLimitsActivate() ? new Limits($requestFactory) : null;
-        $this->margin = $config->getConnectivityConfig()->isMarginActivate() ? new MarginApiReadyCheckDecorator(new Margin($requestFactory)) : null;
-        $this->oracle = $config->getConnectivityConfig()->isOracleActivate() ? new Oracle($requestFactory) : null;
-        $this->orders = $config->getConnectivityConfig()->isOrdersActivate() ? new Orders($requestFactory) : null;
-        $this->paymentMethods = $config->getConnectivityConfig()->isPaymentMethodsActivate() ? new PaymentMethods($requestFactory) : null;
-        $this->products = $config->getConnectivityConfig()->isProductsActivate() ? new Products($requestFactory) : null;
-        $this->profiles = $config->getConnectivityConfig()->isProfilesActivate() ? new Profiles($requestFactory) : null;
-        $this->reports = $config->getConnectivityConfig()->isReportsActivate() ? new Reports($requestFactory) : null;
-        $this->stableCoinConversions = $config->getConnectivityConfig()->isStablecoinConversionsActivate() ? new StableCoinConversions($requestFactory) : null;
-        $this->time = $config->getConnectivityConfig()->isTimeActivate() ? new Time($requestFactory) : null;
-        $this->withdrawals = $config->getConnectivityConfig()->isWithdrawalsActivate() ? new Withdrawals($requestFactory) : null;
+        $this->accounts = $config->getConnectivityConfig()->isAccountsActivate() ? new Accounts($this->requestFactory) : null;
+        $this->coinbaseAccounts = $config->getConnectivityConfig()->isCoinbaseAccountsActivate() ? new CoinbaseAccounts($this->requestFactory) : null;
+        $this->currencies = $config->getConnectivityConfig()->isCoinbaseAccountsActivate() ? new Currencies($this->requestFactory) : null;
+        $this->deposits = $config->getConnectivityConfig()->isDepositsActivate() ? new Deposits($this->requestFactory) : null;
+        $this->fees = $config->getConnectivityConfig()->isFeesActivate() ? new Fees($this->requestFactory) : null;
+        $this->fills = $config->getConnectivityConfig()->isFillsActivate() ? new Fills($this->requestFactory) : null;
+        $this->limits = $config->getConnectivityConfig()->isLimitsActivate() ? new Limits($this->requestFactory) : null;
+        $this->margin = $config->getConnectivityConfig()->isMarginActivate() ? new MarginApiReadyCheckDecorator(new Margin($this->requestFactory)) : null;
+        $this->oracle = $config->getConnectivityConfig()->isOracleActivate() ? new Oracle($this->requestFactory) : null;
+        $this->orders = $config->getConnectivityConfig()->isOrdersActivate() ? new Orders($this->requestFactory) : null;
+        $this->paymentMethods = $config->getConnectivityConfig()->isPaymentMethodsActivate() ? new PaymentMethods($this->requestFactory) : null;
+        $this->products = $config->getConnectivityConfig()->isProductsActivate() ? new Products($this->requestFactory) : null;
+        $this->profiles = $config->getConnectivityConfig()->isProfilesActivate() ? new Profiles($this->requestFactory) : null;
+        $this->reports = $config->getConnectivityConfig()->isReportsActivate() ? new Reports($this->requestFactory) : null;
+        $this->stableCoinConversions = $config->getConnectivityConfig()->isStablecoinConversionsActivate() ? new StableCoinConversions($this->requestFactory) : null;
+        $this->time = $config->getConnectivityConfig()->isTimeActivate() ? new Time($this->requestFactory) : null;
+        $this->withdrawals = $config->getConnectivityConfig()->isWithdrawalsActivate() ? new Withdrawals($this->requestFactory) : null;
     }
 
     public function accounts(): AccountsInterface
@@ -294,5 +300,10 @@ class CoinbaseApi implements ApiInterface
         }
 
         return $this->time;
+    }
+
+    public function getRequestFactory(): RequestFactoryInterface
+    {
+        return $this->requestFactory;
     }
 }

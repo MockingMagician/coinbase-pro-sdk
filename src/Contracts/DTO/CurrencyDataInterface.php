@@ -8,6 +8,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
+use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyDetailsData;
+
 /**
  * Interface CurrencyInfoData.
  */
@@ -32,7 +34,7 @@ interface CurrencyDataInterface
 
     public function getMaxPrecision(): ?float;
 
-    public function getDetails(): array;
+    public function getDetails(): CurrencyDetailsDataInterface;
 
     public function getExtraData(): array;
 }

@@ -8,7 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket\Message;
 
-class OpenMessage extends AbstractMORDMessage
+class OpenMessage extends AbstractFullChannelMessage
 {
     /**
      * @var float
@@ -20,11 +20,23 @@ class OpenMessage extends AbstractMORDMessage
      */
     private $orderId;
 
+    /**
+     * @var int
+     */
+    private $sequence;
+
+    /**
+     * @var null|float
+     */
+    private $price;
+
     public function __construct(array $payload)
     {
         parent::__construct($payload);
-        $this->remainingSize = (float) $payload['remaining_size'];
+        $this->remainingSize = isset($payload['remaining_size']) ? (float) $payload['remaining_size'] : null;
         $this->orderId = $payload['order_id'];
+        $this->sequence = (int) $payload['sequence'];
+        $this->price = isset($payload['price']) ? (float) $payload['price'] : null;
     }
 
     public function getRemainingSize(): float
@@ -35,5 +47,15 @@ class OpenMessage extends AbstractMORDMessage
     public function getOrderId(): string
     {
         return $this->orderId;
+    }
+
+    public function getSequence(): int
+    {
+        return $this->sequence;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
     }
 }

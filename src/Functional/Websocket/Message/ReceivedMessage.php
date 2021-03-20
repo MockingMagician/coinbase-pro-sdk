@@ -8,7 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket\Message;
 
-class ReceivedMessage extends AbstractMORDMessage
+class ReceivedMessage extends AbstractFullChannelMessage
 {
     /**
      * @var string
@@ -16,7 +16,7 @@ class ReceivedMessage extends AbstractMORDMessage
     private $orderType;
 
     /**
-     * @var int
+     * @var null|float
      */
     private $size;
 
@@ -30,11 +30,29 @@ class ReceivedMessage extends AbstractMORDMessage
      */
     private $orderId;
 
+    /**
+     * @var int
+     */
+    private $sequence;
+
+    /**
+     * @var null|float
+     */
+    private $price;
+
+    /**
+     * @var null|float
+     */
+    private $funds;
+
     public function __construct(array $payload)
     {
         parent::__construct($payload);
+        $this->sequence = (int) $payload['sequence'];
         $this->orderType = $payload['order_type'];
-        $this->size = (int) $payload['size'];
+        $this->size = isset($payload['size']) ? (float) $payload['size'] : null;
+        $this->price = isset($payload['price']) ? (float) $payload['price'] : null;
+        $this->funds = isset($payload['funds']) ? (float) $payload['funds'] : null;
         $this->clientOrderId = $payload['client_oid'] ?? null;
         $this->orderId = $payload['order_id'];
     }
@@ -44,7 +62,7 @@ class ReceivedMessage extends AbstractMORDMessage
         return $this->orderType;
     }
 
-    public function getSize(): int
+    public function getSize(): ?float
     {
         return $this->size;
     }
@@ -57,5 +75,20 @@ class ReceivedMessage extends AbstractMORDMessage
     public function getOrderId(): string
     {
         return $this->orderId;
+    }
+
+    public function getSequence(): int
+    {
+        return $this->sequence;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function getFunds(): ?float
+    {
+        return $this->funds;
     }
 }

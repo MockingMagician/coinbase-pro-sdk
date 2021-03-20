@@ -25,7 +25,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\TickerSnapshotData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TradeData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class Products extends AbstractRequestFactoryAware implements ProductsInterface
+class Products extends AbstractConnectivity implements ProductsInterface
 {
     /**
      * @var null|float

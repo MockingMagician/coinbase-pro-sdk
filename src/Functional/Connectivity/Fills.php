@@ -12,7 +12,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FillsInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\FillData;
 
-class Fills extends AbstractRequestFactoryAware implements FillsInterface
+class Fills extends AbstractConnectivity implements FillsInterface
 {
     public function listFillsRaw(?string $orderId = null, ?string $productId = null, ?PaginationInterface $pagination = null): string
     {

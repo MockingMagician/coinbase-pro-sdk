@@ -12,7 +12,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\LimitsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\LimitsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\LimitsData;
 
-class Limits extends AbstractRequestFactoryAware implements LimitsInterface
+class Limits extends AbstractConnectivity implements LimitsInterface
 {
     public function getCurrentExchangeLimitsRaw(): string
     {

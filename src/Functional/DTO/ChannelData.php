@@ -12,7 +12,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\ChannelDataInterface;
 
 class ChannelData extends AbstractCreator implements ChannelDataInterface
 {
+    /**
+     * @var string
+     */
     private $name;
+
     /**
      * @var string[]
      */

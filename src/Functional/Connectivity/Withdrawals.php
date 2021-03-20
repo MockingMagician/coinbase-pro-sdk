@@ -14,7 +14,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\WithdrawalsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\WithdrawalsData;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Withdrawals extends AbstractRequestFactoryAware implements WithdrawalsInterface
+class Withdrawals extends AbstractConnectivity implements WithdrawalsInterface
 {
     public function listWithdrawalsRaw(?string $profileId = null, ?PaginationInterface $pagination = null): string
     {

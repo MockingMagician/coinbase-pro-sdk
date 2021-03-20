@@ -10,8 +10,19 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Websocket\Message;
 
 class ErrorMessage extends AbstractMessage
 {
+    /**
+     * @var string
+     */
     private $type;
+
+    /**
+     * @var string
+     */
     private $message;
+
+    /**
+     * @var string|null
+     */
     private $reason;
 
     public function __construct(array $payload)

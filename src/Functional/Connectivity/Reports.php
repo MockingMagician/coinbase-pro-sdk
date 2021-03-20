@@ -16,7 +16,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\ReportData;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Reports extends AbstractRequestFactoryAware implements ReportsInterface
+class Reports extends AbstractConnectivity implements ReportsInterface
 {
     public function createNewReportRaw(
         string $type,

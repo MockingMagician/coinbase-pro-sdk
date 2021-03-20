@@ -15,19 +15,21 @@ interface SubscriberInterface
 
     public function runWithAuthentication(bool $bool, bool $useCoinbaseRemoteTime = false): void;
 
-    public function setProducts(array $productIds): void;
+    public function setProductIds(array $productIds): void;
 
-    public function activeChannelHearBeat(array $productIds): void;
+    public function activateChannelHeartbeat(bool $activate, array $productIds = []): void;
 
-    public function activeChannelStatus(): void;
+    public function activateChannelStatus(bool $activate): void;
 
-    public function activeChannelTicker(array $productIds): void;
+    public function activateChannelTicker(bool $activate, array $productIds = []): void;
 
-    public function activeChannelLevel2(array $productIds): void;
+    public function activateChannelLevel2(bool $activate, array $productIds = []): void;
 
-    public function activeUserChannel(): void;
+    public function activateChannelUser(bool $activate, array $productIds = []): void;
 
-    public function activeFullChannel(): void;
+    public function activateChannelFull(bool $activate, array $productIds = []): void;
 
-    public function getJsonDescription(): string;
+    public function activateChannelMatches(bool $activate, array $productIds = []): void;
+
+    public function getPayload(bool $unsubscribe = false): string;
 }

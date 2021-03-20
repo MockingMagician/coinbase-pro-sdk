@@ -12,7 +12,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TimeDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TimeData;
 
-class Time extends AbstractRequestFactoryAware implements TimeInterface
+class Time extends AbstractConnectivity implements TimeInterface
 {
     public function getTimeRaw(): string
     {

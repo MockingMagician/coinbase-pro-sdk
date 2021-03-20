@@ -15,7 +15,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\OrderData;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Orders extends AbstractRequestFactoryAware implements OrdersInterface
+class Orders extends AbstractConnectivity implements OrdersInterface
 {
     public function placeOrderRaw(CommonOrderToPlaceInterface $orderToPlace): string
     {

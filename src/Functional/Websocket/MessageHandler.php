@@ -9,10 +9,13 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\MessageInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\ActivateMessage;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\ChangeMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\DoneMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\ErrorMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\HeartbeatMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\L2UpdateMessage;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\LastMatchMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\MatchMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\OpenMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\ReceivedMessage;
@@ -49,6 +52,12 @@ class MessageHandler
                 return new DoneMessage($payload);
             case 'match':
                 return new MatchMessage($payload);
+            case 'last_match':
+                return new LastMatchMessage($payload);
+            case 'activate':
+                return new ActivateMessage($payload);
+            case 'change':
+                return new ChangeMessage($payload);
             default:
                 return new UnknownMessage($payload);
         }

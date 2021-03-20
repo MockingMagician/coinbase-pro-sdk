@@ -16,7 +16,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\CryptoDepositAddressData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Deposits extends AbstractRequestFactoryAware implements DepositsInterface
+class Deposits extends AbstractConnectivity implements DepositsInterface
 {
     public function listDepositsRaw(?string $profileId = null, ?PaginationInterface $pagination = null): string
     {

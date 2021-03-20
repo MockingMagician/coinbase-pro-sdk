@@ -15,7 +15,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountHistoryEventData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\HoldData;
 
-class Accounts extends AbstractRequestFactoryAware implements AccountsInterface
+class Accounts extends AbstractConnectivity implements AccountsInterface
 {
     public function listRaw(): string
     {
