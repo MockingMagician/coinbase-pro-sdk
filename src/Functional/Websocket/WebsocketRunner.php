@@ -63,4 +63,13 @@ class WebsocketRunner implements WebsocketRunnerInterface
 
         return MessageHandler::handle(Json::decode($payload, true));
     }
+
+    public function isConnected(): bool
+    {
+        if (is_null($this->connection)) {
+            return false;
+        }
+
+        return $this->connection->isConnected();
+    }
 }
