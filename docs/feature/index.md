@@ -13,28 +13,28 @@ nav_order: 2
 
 All features described in the [documentation](https://docs.pro.coinbase.com) are implemented :
 
-- [Accounts](/feature/accounts.html)
-- [Orders](/feature/orders.html)
-- [Fills](/feature/fills.html)
-- [Limits](/feature/limits.html)
-- [Deposits](/feature/deposits.html)
-- [Withdrawals](/feature/withdrawals.html)
-- [Stablecoin Conversions](/feature/stablecoin-conversions.html)
-- [Payment Methods](/feature/payment-methods.html)
-- [Coinbase Accounts](/feature/coinbase-accounts.html)
-- [Fees](/feature/fees.html)
-- [Reports](/feature/reports.html)
-- [Profiles](/feature/profiles.html)
-- [Margin](/feature/margin.html) (Limited on remote side)
-- [Oracle](/feature/oracle.html)
+- [Accounts](./accounts.html)
+- [Orders](./orders.html)
+- [Fills](./fills.html)
+- [Limits](./limits.html)
+- [Deposits](./deposits.html)
+- [Withdrawals](./withdrawals.html)
+- [Stablecoin Conversions](./stablecoin-conversions.html)
+- [Payment Methods](./payment-methods.html)
+- [Coinbase Accounts](./coinbase-accounts.html)
+- [Fees](./fees.html)
+- [Reports](./reports.html)
+- [Profiles](./profiles.html)
+- [Margin](./margin.html) (Limited on remote side)
+- [Oracle](./oracle.html)
   
-- [Products](/feature/products.html)
-- [Currencies](/feature/currencies.html)
-- [Time](/feature/time.html)
+- [Products](./products.html)
+- [Currencies](./currencies.html)
+- [Time](./time.html)
   
 Not part of the REST API but fully supported
 
-- [Websocket](/feature/websocket.html)
+- [Websocket](./websocket.html)
 
 ```php
 
