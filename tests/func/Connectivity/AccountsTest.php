@@ -112,19 +112,18 @@ class AccountsTest extends AbstractTest
 
     public function testGetHoldsRaw()
     {
-        $this->markTestIncomplete(
+        $this->markTestSkipped(
             'Data is missing for tests'
         );
         $list = $this->accounts->list();
         foreach ($list as $accountData) {
             $raw = $this->accounts->getHoldsRaw($list[0]->getId());
-            var_dump($raw);
         }
     }
 
     public function testGetHolds()
     {
-        $this->markTestIncomplete(
+        $this->markTestSkipped(
             'Data is missing for tests'
         );
     }

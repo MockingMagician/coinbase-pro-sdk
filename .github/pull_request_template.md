@@ -8,6 +8,6 @@ A clear and concise description of the purpose of that PR
 - [ ] Code style is respected
 - [ ] My author name is added to composer.json file (optional but preferred)
 
-**Describe more the PR if need**
+**Describe more the PR if needed**
 
 Long description here

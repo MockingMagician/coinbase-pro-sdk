@@ -25,7 +25,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\MarginStatusData;
  * @codeCoverageIgnore
  * @warning Margin api is not yet eligible to consume for now. Do not call any methods except getStatus() to check eligibility
  */
-class Margin extends AbstractRequestFactoryAware implements MarginInterface
+class Margin extends AbstractConnectivity implements MarginInterface
 {
     public function getMarginProfileInformationRaw(string $productId): string
     {

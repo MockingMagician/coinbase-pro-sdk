@@ -10,7 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
 
 use MockingMagician\CoinbaseProSdk\Functional\Api\CoinbaseApi;
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
-use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractRequestFactoryAware;
+use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractConnectivity;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
@@ -25,23 +25,23 @@ class CoinbaseApiTest extends TestCase
     {
         $api = new CoinbaseApi(CoinbaseConfig::createDefault('', '', '', ''));
 
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->accounts());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->orders());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->fills());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->limits());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->deposits());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->withdrawals());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->stablecoinConversions());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->paymentMethods());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->coinbaseAccounts());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->fees());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->reports());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->profiles());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->margin());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->oracle());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->products());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->currencies());
-        self::assertInstanceOf(AbstractRequestFactoryAware::class, $api->time());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->accounts());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->orders());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->fills());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->limits());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->deposits());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->withdrawals());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->stablecoinConversions());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->paymentMethods());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->coinbaseAccounts());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->fees());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->reports());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->profiles());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->margin());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->oracle());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->products());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->currencies());
+        self::assertInstanceOf(AbstractConnectivity::class, $api->time());
     }
 
     public function testWithAllConnectivityDisabled()

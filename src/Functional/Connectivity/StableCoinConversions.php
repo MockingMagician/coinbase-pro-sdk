@@ -13,7 +13,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\StableCoinConversionsDataInterf
 use MockingMagician\CoinbaseProSdk\Functional\DTO\StableCoinConversionsData;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class StableCoinConversions extends AbstractRequestFactoryAware implements StableCoinConversionsInterface
+class StableCoinConversions extends AbstractConnectivity implements StableCoinConversionsInterface
 {
     public function createConversionRaw(string $fromCurrencyId, string $toCurrencyId, float $amount): string
     {

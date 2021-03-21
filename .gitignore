@@ -5,3 +5,4 @@
 /vendor
 composer.lock
 /tests/fixtures_from_test_api
+/docs/_site

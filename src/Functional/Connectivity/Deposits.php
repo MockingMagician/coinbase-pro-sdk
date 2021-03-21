@@ -16,7 +16,7 @@ use MockingMagician\CoinbaseProSdk\Functional\DTO\CryptoDepositAddressData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\DepositData;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
-class Deposits extends AbstractRequestFactoryAware implements DepositsInterface
+class Deposits extends AbstractConnectivity implements DepositsInterface
 {
     public function listDepositsRaw(?string $profileId = null, ?PaginationInterface $pagination = null): string
     {
@@ -68,7 +68,7 @@ class Deposits extends AbstractRequestFactoryAware implements DepositsInterface
      */
     public function doDeposit(float $amount, string $currency, string $paymentMethodId): string
     {
-        return json_decode($this->doDepositRaw($amount, $currency, $paymentMethodId), true)['id'];
+        return Json::decode($this->doDepositRaw($amount, $currency, $paymentMethodId), true)['id'];
     }
 
     public function doDepositFromCoinbaseRaw(float $amount, string $currency, string $coinbaseAccountId): string
@@ -87,7 +87,7 @@ class Deposits extends AbstractRequestFactoryAware implements DepositsInterface
      */
     public function doDepositFromCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
     {
-        return json_decode($this->doDepositFromCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
+        return Json::decode($this->doDepositFromCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
     }
 
     public function generateCryptoDepositAddressRaw(string $coinbaseAccountId): string

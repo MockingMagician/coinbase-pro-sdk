@@ -22,9 +22,9 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
  * Class Margin.
  *
  * @codeCoverageIgnore
- * @warning Margin api is not yet eligible to consume for now. Do not call any methods except getStatus() to check eligibility
+ * @warning Margin api is not yet eligible to consume for now. Do not call any methods before calling getStatus() to check eligibility
  */
-class MarginApiReadyCheckDecorator extends AbstractRequestFactoryAware implements MarginInterface
+class MarginApiReadyCheckDecorator extends AbstractConnectivity implements MarginInterface
 {
     const ERROR_MESSAGE = 'Margin api is not yet available and/or enabled. Check availability and activation with getMarginStatus method';
 

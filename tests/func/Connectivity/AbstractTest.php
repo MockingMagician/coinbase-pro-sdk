@@ -68,6 +68,18 @@ abstract class AbstractTest extends TestCase
         $this->requestManager->setTimeInterface($this->time);
     }
 
+    protected function retryHasInternetConnection(int $numberOfRetry, int $delayBetweenRetryInSeconds)
+    {
+        while ($numberOfRetry--) {
+            if ($this->hasInternetConnection()) {
+                return true;
+            }
+            sleep($delayBetweenRetryInSeconds);
+        }
+
+        return false;
+    }
+
     private function hasInternetConnection()
     {
         $en = $es = null;
@@ -79,17 +91,5 @@ abstract class AbstractTest extends TestCase
         fclose($connected);
 
         return true;
-    }
-
-    private function retryHasInternetConnection(int $numberOfRetry, int $delayBetweenRetryInSeconds)
-    {
-        while ($numberOfRetry--) {
-            if ($this->hasInternetConnection()) {
-                return true;
-            }
-            sleep($delayBetweenRetryInSeconds);
-        }
-
-        return false;
     }
 }

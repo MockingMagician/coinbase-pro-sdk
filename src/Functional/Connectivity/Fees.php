@@ -12,7 +12,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\FeesInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\FeeDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\FeeData;
 
-class Fees extends AbstractRequestFactoryAware implements FeesInterface
+class Fees extends AbstractConnectivity implements FeesInterface
 {
     public function getCurrentFeesRaw(): string
     {

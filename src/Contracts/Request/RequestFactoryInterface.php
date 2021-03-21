@@ -8,9 +8,10 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Request;
 
+use MockingMagician\CoinbaseProSdk\Contracts\Api\Config\ParamsAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 
-interface RequestFactoryInterface
+interface RequestFactoryInterface extends ParamsAwareInterface
 {
     public function createRequest(
         string $method,

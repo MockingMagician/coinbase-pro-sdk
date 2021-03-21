@@ -97,4 +97,9 @@ class RequestFactory implements RequestFactoryInterface, RequestReporterAwareInt
     {
         $this->requestInspector = $requestInspector;
     }
+
+    public function getParams(): ParamsInterface
+    {
+        return $this->apiParams;
+    }
 }

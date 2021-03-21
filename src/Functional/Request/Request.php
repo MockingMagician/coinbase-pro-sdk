@@ -22,6 +22,8 @@ use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use MockingMagician\CoinbaseProSdk\Functional\Error\CurlErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\RateLimitsErrorToManaged;
 use MockingMagician\CoinbaseProSdk\Functional\Error\TimestampExpiredErrorToManaged;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Signer;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Throwable;
 
@@ -118,7 +120,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
                 throw new RateLimitsErrorToManaged();
             }
 
-            if (($array = json_decode($exception->getResponse()->getBody()->getContents(), true))
+            if (($array = Json::decode($exception->getResponse()->getBody()->getContents(), true))
                 && isset($array['message'])
             ) {
                 $message = $array['message'];
@@ -187,20 +189,24 @@ class Request implements RequestInterface, RequestReporterAwareInterface
 
     private function buildSignedRequest(): PsrRequestInterface
     {
-        $time = $this->getTime();
-        $what = $time.$this->method.$this->getFullRoutePath().($this->body ?? '');
-        $key = base64_decode($this->apiParams->getSecret());
-        $hmac = hash_hmac('sha256', $what, $key, true);
-        $sign = base64_encode($hmac);
+        $signData = Signer::sign(
+            $this->apiParams->getKey(),
+            $this->apiParams->getSecret(),
+            $this->apiParams->getPassphrase(),
+            $this->method,
+            $this->getFullRoutePath(),
+            $this->body ?? '',
+            $this->getTime()
+        );
 
         return new GuzzleRequest(
             $this->method,
             $this->getUri(),
             [
-                'CB-ACCESS-KEY' => $this->apiParams->getKey(),
-                'CB-ACCESS-SIGN' => $sign,
-                'CB-ACCESS-TIMESTAMP' => $time,
-                'CB-ACCESS-PASSPHRASE' => $this->apiParams->getPassphrase(),
+                'CB-ACCESS-KEY' => $signData->getKey(),
+                'CB-ACCESS-SIGN' => $signData->getSignature(),
+                'CB-ACCESS-TIMESTAMP' => $signData->getTimestamp(),
+                'CB-ACCESS-PASSPHRASE' => $signData->getPassphrase(),
                 'Content-Type' => 'application/json',
             ],
             $this->body

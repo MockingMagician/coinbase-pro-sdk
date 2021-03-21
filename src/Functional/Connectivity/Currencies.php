@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CurrenciesInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData;
 
-class Currencies extends AbstractRequestFactoryAware implements CurrenciesInterface
+class Currencies extends AbstractConnectivity implements CurrenciesInterface
 {
     public function getCurrenciesRaw(): string
     {
