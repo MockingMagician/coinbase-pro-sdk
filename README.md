@@ -1,4 +1,4 @@
-![Coinbase LOGO](https://github.com/MockingMagician/coinbase-pro-sdk/raw/master/docs/assets/coinbase-pro-sdk-min.png "Coinbase LOGO")
+![Coinbase LOGO](./docs/assets/images/coinbase-pro-sdk-min.png "Coinbase LOGO")
 
 # This package is designed to communicate easily with the Coinbase Pro API in PHP.
 
