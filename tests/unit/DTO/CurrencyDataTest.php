@@ -8,6 +8,7 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\DTO;
 
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDetailsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 use PHPUnit\Framework\TestCase;
@@ -251,21 +252,7 @@ class CurrencyDataTest extends TestCase
         self::assertNullOrEquals('online', $currency->getStatus());
         self::assertNullOrEquals('message', $currency->getStatusMessage());
         self::assertNullOrEquals(0.00000001, $currency->getMaxPrecision());
-        self::assertNullOrEquals([
-            'type' => 'crypto',
-            'symbol' => '',
-            'network_confirmations' => 6,
-            'sort_order' => 3,
-            'crypto_address_link' => 'https://live.blockcypher.com/btc/address/{{address}}',
-            'crypto_transaction_link' => 'https://live.blockcypher.com/btc/tx/{{txId}}',
-            'push_payment_methods' => [
-                'crypto',
-            ],
-            'group_types' => [
-                'btc',
-                'crypto',
-            ],
-        ], $currency->getDetails());
+        self::assertInstanceOf(CurrencyDetailsDataInterface::class, $currency->getDetails());
         self::assertIsArray($currency->getExtraData());
     }
 

@@ -11,6 +11,8 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Reports;
+use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 /**
  * @internal
@@ -36,6 +38,7 @@ class ReportsTest extends AbstractTest
 
     public function testCreateNewReportRaw()
     {
+        sleep(10); // let some time to remote server for treating in case of too much report
         $endDate = new \DateTime();
         $startDate = clone $endDate;
         $startDate->modify('-1 year');
@@ -59,13 +62,19 @@ class ReportsTest extends AbstractTest
             }
         }
 
-        $raw = $this->reports->createNewReportRaw(
-            Reports::TYPE_ACCOUNT,
-            $startDate,
-            $endDate,
-            null,
-            $accountId
-        );
+        try {
+            $raw = $this->reports->createNewReportRaw(
+                Reports::TYPE_ACCOUNT,
+                $startDate,
+                $endDate,
+                null,
+                $accountId
+            );
+        } catch (ApiError $apiError) {
+            if ('User has too many reports currently running. Please try again later' === $apiError->getMessage()) {
+                $this->markTestSkipped($apiError->getMessage());
+            }
+        }
 
         self::assertStringContainsString('"id":', $raw);
         self::assertStringContainsString('"type":', $raw);
@@ -74,16 +83,23 @@ class ReportsTest extends AbstractTest
 
     public function testCreateNewReport()
     {
+        sleep(10); // let some time to remote server for treating in case of too much report
         $endDate = new \DateTime();
         $startDate = clone $endDate;
         $startDate->modify('-1 year');
 
-        $report = $this->reports->createNewReport(
-            Reports::TYPE_FILLS,
-            $startDate,
-            $endDate,
-            'BTC-USD'
-        );
+        try {
+            $report = $this->reports->createNewReport(
+                Reports::TYPE_FILLS,
+                $startDate,
+                $endDate,
+                'BTC-USD'
+            );
+        } catch (ApiError $apiError) {
+            if ('User has too many reports currently running. Please try again later' === $apiError->getMessage()) {
+                $this->markTestSkipped($apiError->getMessage());
+            }
+        }
 
         self::assertIsString($report->getId());
         self::assertIsString($report->getType());
@@ -92,18 +108,31 @@ class ReportsTest extends AbstractTest
 
     public function testGetReportStatusRaw()
     {
+        sleep(10); // let some time to remote server for treating in case of too much report
         $endDate = new \DateTime();
         $startDate = clone $endDate;
         $startDate->modify('-1 year');
 
-        $report = $this->reports->createNewReport(
-            Reports::TYPE_FILLS,
-            $startDate,
-            $endDate,
-            'BTC-USD'
-        );
+        try {
+            $report = $this->reports->createNewReport(
+                Reports::TYPE_FILLS,
+                $startDate,
+                $endDate,
+                'BTC-USD'
+            );
+        } catch (ApiError $apiError) {
+            if ('User has too many reports currently running. Please try again later' === $apiError->getMessage()) {
+                $this->markTestSkipped($apiError->getMessage());
+            }
+        }
 
-        $raw = $this->reports->getReportStatusRaw($report->getId());
+        do {
+            usleep(200000); // Waiting for report generation
+            $raw = $this->reports->getReportStatusRaw($report->getId());
+            $raw = Json::decode($raw, true);
+        } while ('ready' !== $raw['status'] ?? null);
+
+        $raw = Json::encode($raw);
 
         self::assertStringContainsString('"created_at":', $raw);
         self::assertStringContainsString('"expires_at":', $raw);
@@ -117,16 +146,23 @@ class ReportsTest extends AbstractTest
 
     public function testGetReportStatus()
     {
+        sleep(10); // let some time to remote server for treating in case of too much report
         $endDate = new \DateTime();
         $startDate = clone $endDate;
         $startDate->modify('-1 year');
 
-        $report = $this->reports->createNewReport(
-            Reports::TYPE_FILLS,
-            $startDate,
-            $endDate,
-            'BTC-USD'
-        );
+        try {
+            $report = $this->reports->createNewReport(
+                Reports::TYPE_FILLS,
+                $startDate,
+                $endDate,
+                'BTC-USD'
+            );
+        } catch (ApiError $apiError) {
+            if ('User has too many reports currently running. Please try again later' === $apiError->getMessage()) {
+                $this->markTestSkipped($apiError->getMessage());
+            }
+        }
 
         do {
             usleep(200000); // Waiting for report generation

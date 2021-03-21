@@ -21,7 +21,7 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
      */
     private $symbol;
     /**
-     * @var int
+     * @var null|int
      */
     private $networkConfirmations;
     /**
@@ -60,10 +60,10 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
     public function __construct(
         string $type,
         string $symbol,
-        int $networkConfirmations,
+        ?int $networkConfirmations,
         int $sortOrder,
-        string $cryptoAddressLink,
-        string $cryptoTransactionLink,
+        ?string $cryptoAddressLink,
+        ?string $cryptoTransactionLink,
         array $pushPaymentMethods,
         ?int $processingTimeSeconds,
         ?float $minWithdrawalAmount,
@@ -93,7 +93,7 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
         return $this->symbol;
     }
 
-    public function getNetworkConfirmations(): int
+    public function getNetworkConfirmations(): ?int
     {
         return $this->networkConfirmations;
     }
@@ -103,12 +103,12 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
         return $this->sortOrder;
     }
 
-    public function getCryptoAddressLink(): string
+    public function getCryptoAddressLink(): ?string
     {
         return $this->cryptoAddressLink;
     }
 
-    public function getCryptoTransactionLink(): string
+    public function getCryptoTransactionLink(): ?string
     {
         return $this->cryptoTransactionLink;
     }
@@ -143,10 +143,10 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
         return new static(
             $array['type'],
             $array['symbol'],
-            $array['network_confirmations'],
+            $array['network_confirmations'] ?? null,
             $array['sort_order'],
-            $array['crypto_address_link'],
-            $array['crypto_transaction_link'],
+            $array['crypto_address_link'] ?? null,
+            $array['crypto_transaction_link'] ?? null,
             $array['push_payment_methods'],
             $array['processing_time_seconds'] ?? null,
             $array['min_withdrawal_amount'] ?? null,

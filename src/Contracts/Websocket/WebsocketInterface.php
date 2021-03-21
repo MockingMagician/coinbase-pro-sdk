@@ -11,9 +11,8 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Websocket;
 interface WebsocketInterface
 {
     /**
-     * @param SubscriberInterface $subscriber
-     * @param callable $userFunc (WebsocketInterface $websocket, ...$args):void
-     * @param mixed ...$args
+     * @param callable $userFunc (WebsocketRunnerInterface $websocket, ...$args):void
+     * @param mixed    ...$args
      */
     public function run(SubscriberInterface $subscriber, callable $userFunc, ...$args): void;
 }

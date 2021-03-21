@@ -101,9 +101,6 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
         return $this->maxPrecision;
     }
 
-    /**
-     * @return CurrencyDetailsDataInterface
-     */
     public function getDetails(): CurrencyDetailsDataInterface
     {
         return $this->details;

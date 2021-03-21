@@ -13,29 +13,18 @@ class ErrorMessage extends AbstractMessage
     /**
      * @var string
      */
-    private $type;
-
-    /**
-     * @var string
-     */
     private $message;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     private $reason;
 
     public function __construct(array $payload)
     {
         parent::__construct($payload);
-        $this->type = $payload['type'];
         $this->message = $payload['message'];
         $this->reason = $payload['reason'] ?? null;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
     }
 
     public function getMessage(): string

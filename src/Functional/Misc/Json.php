@@ -17,7 +17,7 @@ class Json
         /** @var string $json */
         $json = \json_encode($value, $options, $depth);
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new ApiError(json_last_error_msg());
+            throw new ApiError(sprintf('json encode error (%s)', json_last_error_msg()));
         }
 
         return $json;
@@ -30,7 +30,7 @@ class Json
     {
         $data = \json_decode($json, $assoc, $depth, $options);
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new ApiError(json_last_error_msg());
+            throw new ApiError(sprintf('json decode error (%s). Value given : %s', json_last_error_msg(), $json));
         }
 
         return $data;

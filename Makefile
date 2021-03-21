@@ -33,15 +33,6 @@ phpcs-dry-run: ## Coding style checks
 phpstan: ## Static analysis
 	vendor/bin/phpstan analyse --level=7 src
 
-.PHONY: docker-test-php-71
-docker-test-php-71: ## Docker test on PHP 7.1
-	docker build -t php-test-env:7.1 tests/env/PHP_7.1
-	docker run -it -v "${PWD}":/usr/src/coinbase-php-sdk -v $(shell composer config --global cache-dir):/.composer \
-	-w /usr/src/coinbase-php-sdk \
-	--user $(shell id -u):$(shell id -g) \
-	php-test-env:7.1 \
-	/bin/bash -c "composer update -no --no-progress --no-suggest && make phpstan && make tests-unit"
-
 .PHONY: docker-test-php-72
 docker-test-php-72: ## Docker test on PHP 7.2
 	docker build -t php-test-env:7.2 tests/env/PHP_7.2
@@ -79,7 +70,7 @@ docker-test-php-80: ## Docker test on PHP 8.0
 	/bin/bash -c "composer update --ignore-platform-reqs -no --no-progress --no-suggest && make phpstan && make tests-unit"
 
 .PHONY: tests-unit-in-all-php-versions
-tests-in-all-php-versions: docker-test-php-71 docker-test-php-72 docker-test-php-73 docker-test-php-74 ## Run tests 'Unit' in all PHP versions through containers
+tests-in-all-php-versions: docker-test-php-72 docker-test-php-73 docker-test-php-74 ## Run tests 'Unit' in all PHP versions through containers
 
 .PHONY: help
 help: ## Display this help message

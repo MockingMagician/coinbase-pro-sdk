@@ -17,13 +17,13 @@ interface CurrencyDetailsDataInterface
 
     public function getSymbol(): string;
 
-    public function getNetworkConfirmations(): int;
+    public function getNetworkConfirmations(): ?int;
 
     public function getSortOrder(): int;
 
-    public function getCryptoAddressLink(): string;
+    public function getCryptoAddressLink(): ?string;
 
-    public function getCryptoTransactionLink(): string;
+    public function getCryptoTransactionLink(): ?string;
 
     public function getPushPaymentMethods(): array;
 

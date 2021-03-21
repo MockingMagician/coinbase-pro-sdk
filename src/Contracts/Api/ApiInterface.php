@@ -26,6 +26,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsI
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestAwareInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Websocket\WebsocketInterface;
 
 interface ApiInterface extends RequestAwareInterface
 {
@@ -64,4 +65,7 @@ interface ApiInterface extends RequestAwareInterface
     public function currencies(): CurrenciesInterface;
 
     public function time(): TimeInterface;
+
+    // Websocket
+    public function websocket(): WebsocketInterface;
 }

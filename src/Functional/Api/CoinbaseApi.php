@@ -26,8 +26,8 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\StableCoinConversionsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\WithdrawalsInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestFactoryInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Websocket\WebsocketInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
@@ -48,6 +48,8 @@ use MockingMagician\CoinbaseProSdk\Functional\Connectivity\StableCoinConversions
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Time;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Withdrawals;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Websocket;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\WebsocketRunner;
 
 class CoinbaseApi implements ApiInterface
 {
@@ -125,6 +127,10 @@ class CoinbaseApi implements ApiInterface
      * @var RequestFactoryInterface
      */
     private $requestFactory;
+    /**
+     * @var Websocket
+     */
+    private $websocket;
 
     public function __construct(CoinbaseConfig $config)
     {
@@ -147,6 +153,8 @@ class CoinbaseApi implements ApiInterface
         $this->stableCoinConversions = $config->getConnectivityConfig()->isStablecoinConversionsActivate() ? new StableCoinConversions($this->requestFactory) : null;
         $this->time = $config->getConnectivityConfig()->isTimeActivate() ? new Time($this->requestFactory) : null;
         $this->withdrawals = $config->getConnectivityConfig()->isWithdrawalsActivate() ? new Withdrawals($this->requestFactory) : null;
+
+        $this->websocket = new Websocket(new WebsocketRunner());
     }
 
     public function accounts(): AccountsInterface
@@ -305,5 +313,10 @@ class CoinbaseApi implements ApiInterface
     public function getRequestFactory(): RequestFactoryInterface
     {
         return $this->requestFactory;
+    }
+
+    public function websocket(): WebsocketInterface
+    {
+        return $this->websocket;
     }
 }

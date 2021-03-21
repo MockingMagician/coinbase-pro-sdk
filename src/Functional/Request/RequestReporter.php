@@ -10,6 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Request;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Request\RequestReporterInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 /**
  * @codeCoverageIgnore
@@ -41,8 +42,10 @@ class RequestReporter implements RequestReporterInterface
     public function recordRequestData(string $data, string $namespace): void
     {
         $namespace = ltrim($namespace, '/');
-        $json = json_encode(json_decode($data, true), JSON_PRETTY_PRINT);
-        if (JSON_ERROR_NONE !== json_last_error()) {
+
+        try {
+            $json = Json::encode(Json::decode($data, true), JSON_PRETTY_PRINT);
+        } catch (\Throwable $exception) {
             return;
         }
         if (!preg_match(self::VALID_NAMESPACE_PATTERN, $namespace)) {

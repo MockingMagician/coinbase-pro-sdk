@@ -49,7 +49,7 @@ class Orders extends AbstractConnectivity implements OrdersInterface
      */
     public function cancelOrderById(string $orderId, string $productId = null): bool
     {
-        return $orderId === json_decode($this->cancelOrderByIdRaw($orderId, $productId), true);
+        return $orderId === Json::decode($this->cancelOrderByIdRaw($orderId, $productId), true);
     }
 
     public function cancelOrderByClientOrderIdRaw(string $clientOrderId, string $productId = null): string
@@ -92,7 +92,7 @@ class Orders extends AbstractConnectivity implements OrdersInterface
      */
     public function cancelAllOrders(string $productId = null): array
     {
-        $ids = json_decode($this->cancelAllOrdersRaw($productId), true);
+        $ids = Json::decode($this->cancelAllOrdersRaw($productId), true);
 
         if (is_array($ids)) {
             return $ids;

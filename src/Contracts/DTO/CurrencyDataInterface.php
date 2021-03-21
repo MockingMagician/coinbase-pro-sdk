@@ -8,8 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
-use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyDetailsData;
-
 /**
  * Interface CurrencyInfoData.
  */

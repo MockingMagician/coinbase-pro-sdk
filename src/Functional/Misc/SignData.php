@@ -35,33 +35,21 @@ class SignData
         $this->timestamp = $timestamp;
     }
 
-    /**
-     * @return string
-     */
     public function getSignature(): string
     {
         return $this->signature;
     }
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return string
-     */
     public function getPassphrase(): string
     {
         return $this->passphrase;
     }
 
-    /**
-     * @return float
-     */
     public function getTimestamp(): float
     {
         return $this->timestamp;

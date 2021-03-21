@@ -10,6 +10,12 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Websocket;
 
 interface WebsocketRunnerInterface
 {
+    public const WEBSOCKET_URI = 'wss://ws-feed.pro.coinbase.com';
+
+    public function connect(): void;
+
+    public function close(): void;
+
     public function subscribe(SubscriberInterface $subscriber): void;
 
     public function unsubscribe(SubscriberInterface $subscriber): void;

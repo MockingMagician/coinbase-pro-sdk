@@ -67,7 +67,7 @@ class Withdrawals extends AbstractConnectivity implements WithdrawalsInterface
      */
     public function doWithdraw(float $amount, string $currency, string $paymentMethodId): string
     {
-        return json_decode($this->doWithdrawRaw($amount, $currency, $paymentMethodId), true)['id'];
+        return Json::decode($this->doWithdrawRaw($amount, $currency, $paymentMethodId), true)['id'];
     }
 
     public function doWithdrawToCoinbaseRaw(float $amount, string $currency, string $coinbaseAccountId): string
@@ -86,7 +86,7 @@ class Withdrawals extends AbstractConnectivity implements WithdrawalsInterface
      */
     public function doWithdrawToCoinbase(float $amount, string $currency, string $coinbaseAccountId): string
     {
-        return json_decode($this->doWithdrawToCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
+        return Json::decode($this->doWithdrawToCoinbaseRaw($amount, $currency, $coinbaseAccountId), true)['id'];
     }
 
     public function doWithdrawToCryptoAddressRaw(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string
@@ -111,7 +111,7 @@ class Withdrawals extends AbstractConnectivity implements WithdrawalsInterface
      */
     public function doWithdrawToCryptoAddress(float $amount, string $currency, string $cryptoAddress, string $destinationTag = null): string
     {
-        return json_decode($this->doWithdrawToCryptoAddressRaw($amount, $currency, $cryptoAddress, $destinationTag), true)['id'];
+        return Json::decode($this->doWithdrawToCryptoAddressRaw($amount, $currency, $cryptoAddress, $destinationTag), true)['id'];
     }
 
     /**
@@ -119,7 +119,7 @@ class Withdrawals extends AbstractConnectivity implements WithdrawalsInterface
      */
     public function getFeeEstimate(string $currency, string $cryptoAddress): float
     {
-        return json_decode($this->getFeeEstimateRaw($currency, $cryptoAddress), true)['fee'];
+        return Json::decode($this->getFeeEstimateRaw($currency, $cryptoAddress), true)['fee'];
     }
 
     public function getFeeEstimateRaw(string $currency, string $cryptoAddress): string
