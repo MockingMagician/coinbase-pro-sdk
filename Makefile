@@ -66,7 +66,7 @@ docker-test-php-80: ## Docker test on PHP 8.0
 	docker run -it -v "${PWD}":/usr/src/coinbase-php-sdk -v $(shell composer config --global cache-dir):/.composer \
 	-w /usr/src/coinbase-php-sdk \
 	--user $(shell id -u):$(shell id -g) \
-	php-test-env:7.4 \
+	php-test-env:8.0 \
 	/bin/bash -c "composer update --ignore-platform-reqs -no --no-progress --no-suggest && make phpstan && make tests-unit"
 
 .PHONY: tests-unit-in-all-php-versions
