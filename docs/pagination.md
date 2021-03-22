@@ -4,7 +4,7 @@ title: Pagination
 nav_order: 3
 ---
 
-# 3 : Pagination
+# Pagination
 
 ***Some queries are paginated. A complete mechanism is provided to manage this pagination with the Pagination object.***
 

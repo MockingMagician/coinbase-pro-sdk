@@ -37,7 +37,6 @@ A Makefile is present in the project and provides shortcuts to run the tests. Ru
 
 ```bash
 chained-tests                               Run phpstan, phpcs and PHPUnit tests 'Unit' suite
-docker-test-php-71                          Docker test on PHP 7.1
 docker-test-php-72                          Docker test on PHP 7.2
 docker-test-php-73                          Docker test on PHP 7.3
 docker-test-php-74                          Docker test on PHP 7.4
