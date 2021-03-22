@@ -7,7 +7,6 @@ parent: Features
 # Products methods
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
@@ -24,5 +23,4 @@ $api->products()->getHistoricRates(
     new DateTime(),
     3600
 );
-
 ```

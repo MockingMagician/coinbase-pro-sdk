@@ -7,7 +7,6 @@ parent: Features
 # Orders methods
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
@@ -18,15 +17,12 @@ $api->orders()->cancelOrderById('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 $api->orders()->cancelAllOrders();
 $api->orders()->cancelOrderByClientOrderId('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 $api->orders()->getOrderByClientOrderId('132fb6ae-456b-4654-b4e0-d681ac05cea1');
-
 ```
-
 ## How to place an order
 
 ### Place market order
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
@@ -40,13 +36,10 @@ $marketOrder = CoinbaseFacade::createMarketOrderToPlace(
 );
 
 $api->orders()->placeOrder($marketOrder);
-
 ```
-
 ### Place limit order
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
@@ -61,9 +54,7 @@ $limitOrder = CoinbaseFacade::createLimitOrderToPlace(
 );
 
 $api->orders()->placeOrder($limitOrder);
-
 ```
-
 ## Understanding orders
 
 ***For a good understanding of the orders and parameters available for each order, please refer to the [Coinbase Pro documentation](https://docs.pro.coinbase.com/#orders), as well as the documentation available in the interfaces of this package.***
@@ -73,7 +64,6 @@ Example of complex orders :
 - Market
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
@@ -92,13 +82,10 @@ $marketOrder = CoinbaseFacade::createMarketOrderToPlace(
 );
 
 $api->orders()->placeOrder($marketOrder);
-
 ```
-
 - Limit
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
@@ -120,5 +107,4 @@ $limitOrder = CoinbaseFacade::createLimitOrderToPlace(
 );
 
 $api->orders()->placeOrder($limitOrder);
-
 ```

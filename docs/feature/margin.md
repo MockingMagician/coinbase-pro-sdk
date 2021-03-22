@@ -7,7 +7,6 @@ parent: Features
 # Margin methods
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
@@ -29,5 +28,4 @@ $api->margin()->getPositionsRefreshAmount();
 $api->margin()->getMarginProfileInformation();
 
 */
-
 ```

@@ -22,7 +22,6 @@ API_KEY=my-api-key
 API_SECRET=my-secret
 API_PASSPHRASE=my-passphrase
 ```
-
 The vast majority of the test set is composed of functional call and response tests of the API.
 
 In order for these tests to pass, your test account on Coinbase Pro must be funded with cash.
@@ -51,5 +50,4 @@ tests-unit-and-functional                   Launch PHPUnit tests 'Unit' and 'Fun
 tests-unit-and-functional-with-coverage     Launch PHPUnit tests 'Unit' and 'Functional' suites
 tests-unit                                  Launch PHPUnit tests 'Unit' suite
 tests-unit-with-coverage                    Launch PHPUnit tests 'Unit' suite with coverage
-
 ```

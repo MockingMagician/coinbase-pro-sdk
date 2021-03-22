@@ -19,7 +19,6 @@ The websocket feed is publicly available, but connections to it are rate-limited
 Simple example :
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\ErrorMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Subscriber;
@@ -43,9 +42,7 @@ $api->websocket()->run($subscriber, function ($runner) {
         // do something with your message
     }
 });
-
 ```
-
 ## Websocket subscriber
 
 There are two types of subscriber, the simple subscriber and the authenticated subscriber, the latter gives more information about the messages that can be linked to the authenticated user.
@@ -53,7 +50,6 @@ There are two types of subscriber, the simple subscriber and the authenticated s
 AuthenticateSubscriber example
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\ErrorMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\SubscriberAuthenticateAware;use MockingMagician\CoinbaseProSdk\Functional\Websocket\WebsocketRunner;
@@ -77,9 +73,7 @@ $api->websocket()->run($subscriber, function ($runner) {
         // do something with your message
     }
 });
-
 ```
-
 Accordind to documentation :
 
 > The user channel is a version of the full channel that only contains messages that include the authenticated user. Consequently, you need to be authenticated to receive any messages.
@@ -110,7 +104,6 @@ Accordind to documentation :
 ## Websocket subscriber in details
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\SubscriberAuthenticateAware;
 
@@ -133,5 +126,4 @@ $subscriber->setProductIds([
     'BTC-EUR',
     'XLM-EUR',
 ]); // Global productIds, activate productIds for all active channels
-
 ```

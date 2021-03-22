@@ -11,7 +11,6 @@ nav_order: 1
 ### Full API access with default features
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
 $api = CoinbaseFacade::createDefaultCoinbaseApi(
@@ -20,13 +19,10 @@ $api = CoinbaseFacade::createDefaultCoinbaseApi(
     'API_SECRET',
     'API_PASSPHRASE'
 );
-
 ```
-
 ### Customize API
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
 $config = CoinbaseFacade::createDefaultCoinbaseConfig(
@@ -66,23 +62,17 @@ $config->setManageRateLimits(true);
 $config->setUseSecurityLayerForParams(true);
 
 $api = CoinbaseFacade::createCoinbaseApi($config);
-
 ```
-
 ### Create from yaml config file
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
 $api = CoinbaseFacade::createCoinbaseApiFromYaml('path/to/config.yaml');
-
 ```
-
 Example of a complete configuration file :
 
 ```yaml
-
 params: 
     # endpoint: '${SOME_ENV}' <= formatting as is autoload SOME_ENV (if exist)
     endpoint: '${API_ENDPOINT}'
@@ -115,21 +105,16 @@ remote_time: false # default
 manage_rate_limits: true # default
 
 secure_params: true # default
-
 ```
-
 Minimal configuration file :
 
 ```yaml
-
 params: 
     endpoint: '${API_ENDPOINT}'
     key: '${API_KEY}'
     secret: '${API_SECRET}'
     passphrase: '${API_PASSPHRASE}'
-
 ```
-
 ### Time in API request
 
 According to documentation :
@@ -151,7 +136,6 @@ In order to ensure good timestamp in requests, you just need to activate the fun
 Example 1 :
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
 $config = CoinbaseFacade::createDefaultCoinbaseConfig(
@@ -164,23 +148,17 @@ $config = CoinbaseFacade::createDefaultCoinbaseConfig(
 $config->setUseCoinbaseRemoteTime(true); // pass true here to enable the remote timestamp provided by the remote Coinbase server
 
 $api = CoinbaseFacade::createCoinbaseApi($config);
-
 ```
-
 Example 2 :
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
 $api = CoinbaseFacade::createCoinbaseApiFromYaml('path/to/config.yaml');
-
 ```
-
 Config file :
 
 ```yaml
-
 params: 
     endpoint: '${API_ENDPOINT}'
     key: '${API_KEY}'
@@ -188,9 +166,7 @@ params:
     passphrase: '${API_PASSPHRASE}'
 
 remote_time: true # pass true here to enable the remote timestamp provided by the remote Coinbase server
-
 ```
-
 ### API rate limits
 
 According to documentation :
@@ -212,7 +188,6 @@ According to documentation :
 Example 1 :
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
 $config = CoinbaseFacade::createDefaultCoinbaseConfig(
@@ -225,23 +200,17 @@ $config = CoinbaseFacade::createDefaultCoinbaseConfig(
 $config->setManageRateLimits(false); // pass false here to disable rate limit managing
 
 $api = CoinbaseFacade::createCoinbaseApi($config);
-
 ```
-
 Example 2 :
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 
 $api = CoinbaseFacade::createCoinbaseApiFromYaml('path/to/config.yaml');
-
 ```
-
 Config file :
 
 ```yaml
-
 params: 
     endpoint: '${API_ENDPOINT}'
     key: '${API_KEY}'
@@ -249,15 +218,12 @@ params:
     passphrase: '${API_PASSPHRASE}'
 
 manage_rate_limits: false # pass false here to disable rate limit managing
-
 ```
-
 ## CoinbaseFacade other methods list
 
 ### Market order
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
@@ -269,14 +235,12 @@ $marketOrder = CoinbaseFacade::createMarketOrderToPlace(
     'BTC-USD',
     0.0001
 );
-
 ```
-More information about orders can be found in [Orders feature](/feature/orders.html)
+More information about orders can be found in [Orders feature](./feature/orders.html)
 
 ### Limit order
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
@@ -289,20 +253,17 @@ $limitOrder = CoinbaseFacade::createLimitOrderToPlace(
     10000,
     0.0001
 );
-
 ```
-More information about orders can be found in [Orders feature](/feature/orders.html)
+More information about orders can be found in [Orders feature](./feature/orders.html)
 
 ### Pagination
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
 
 $pagination = CoinbaseFacade::createPagination();
-
 ```
-More information about pagination can be found in [Pagination](/pagination.html)
+More information about pagination can be found in [Pagination](./pagination.html)

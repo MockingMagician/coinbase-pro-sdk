@@ -37,7 +37,6 @@ Not part of the REST API but fully supported
 - [Websocket](./websocket.html)
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
@@ -62,5 +61,4 @@ $api->currencies();
 $api->time();
 
 $api->websocket();
-
 ```

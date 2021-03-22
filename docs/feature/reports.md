@@ -7,7 +7,6 @@ parent: Features
 # Reports methods
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 
@@ -23,5 +22,4 @@ $api->reports()->createNewReport(
     null // Optional, if filled report will be sent to this email
 );
 $api->reports()->getReportStatus('132fb6ae-456b-4654-b4e0-d681ac05cea1');
-
 ```

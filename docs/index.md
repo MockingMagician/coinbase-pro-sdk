@@ -13,11 +13,8 @@ nav_order: 0
 ## Install the package
 
 ```bash
-
 composer require mocking-magician/coinbase-pro-sdk
-
 ```
-
 ***Please take the time to read all the documentation carefully.***
 
 ## How do I access the features?

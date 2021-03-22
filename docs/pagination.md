@@ -23,7 +23,6 @@ This standardization allows a better understanding of the path taken by the pagi
 ## List of paginated features
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
@@ -33,15 +32,12 @@ $api->accounts()->getHolds('132fb6ae-456b-4654-b4e0-d681ac05cea1'); // Paginated
 $api->fills()->listFills(); // Paginated request
 $api->deposits()->listDeposits(); // Paginated request
 $api->withdrawals()->listWithdrawals(); // Paginated request
-
 ```
-
 ## How pagination works
 
 Example :
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
@@ -54,13 +50,10 @@ $pagination = CoinbaseFacade::createPagination(); // The pagination object
 while ($pagination->hasNext()) { // Fetch new page while has next
     $history = $api->accounts()->getAccountHistory($accountId, $pagination);
 }
-
 ```
-
 Pagination Settings :
 
 ```php
-
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
@@ -78,5 +71,4 @@ $pagination = CoinbaseFacade::createPagination( // The pagination object
 while ($pagination->hasNext()) { // Fetch new page while has next
     $history = $api->accounts()->getAccountHistory($accountId, $pagination);
 }
-
 ```
