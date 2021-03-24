@@ -46,7 +46,6 @@ $config->getConnectivityConfig()
     ->activateFees(false)
     ->activateReports(false)
     ->activateProfiles(false)
-    ->activateUserAccount(false)
     ->activateMargin(false)
     ->activateOracle(false)
     ->activateProducts(false)
@@ -97,7 +96,6 @@ connectivity:
     reports: true # default
     stablecoin_conversions: true # default
     time: true # default
-    user_accounts: true # default
     withdrawals: true # default
 
 remote_time: false # default
