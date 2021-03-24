@@ -236,7 +236,7 @@ $marketOrder = CoinbaseFacade::createMarketOrderToPlace(
     0.0001
 );
 ```
-More information about orders can be found in [Orders feature](./feature/orders.html)
+More information about orders can be found in [Orders feature](./feature/orders.md)
 
 ### Limit order
 
@@ -254,7 +254,7 @@ $limitOrder = CoinbaseFacade::createLimitOrderToPlace(
     0.0001
 );
 ```
-More information about orders can be found in [Orders feature](./feature/orders.html)
+More information about orders can be found in [Orders feature](./feature/orders.md)
 
 ### Pagination
 
@@ -266,4 +266,4 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 $pagination = CoinbaseFacade::createPagination();
 ```
-More information about pagination can be found in [Pagination](./pagination.html)
+More information about pagination can be found in [Pagination](./pagination.md)

@@ -19,5 +19,4 @@ composer require mocking-magician/coinbase-pro-sdk
 
 ## How do I access the features?
 
-All the main and necessary functionalities to use this library are grouped in the [CoinbaseFacade class](./coinbase-facade.html).
-
+All the main and necessary functionalities to use this library are grouped in the [CoinbaseFacade class](./coinbase-facade.md).

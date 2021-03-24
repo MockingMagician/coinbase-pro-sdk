@@ -13,28 +13,28 @@ nav_order: 2
 
 All features described in the [documentation](https://docs.pro.coinbase.com) are implemented :
 
-- [Accounts](./accounts.html)
-- [Orders](./orders.html)
-- [Fills](./fills.html)
-- [Limits](./limits.html)
-- [Deposits](./deposits.html)
-- [Withdrawals](./withdrawals.html)
-- [Stablecoin Conversions](./stablecoin-conversions.html)
-- [Payment Methods](./payment-methods.html)
-- [Coinbase Accounts](./coinbase-accounts.html)
-- [Fees](./fees.html)
-- [Reports](./reports.html)
-- [Profiles](./profiles.html)
-- [Margin](./margin.html) (Limited on remote side)
-- [Oracle](./oracle.html)
+- [Accounts](./accounts.md)
+- [Orders](./orders.md)
+- [Fills](./fills.md)
+- [Limits](./limits.md)
+- [Deposits](./deposits.md)
+- [Withdrawals](./withdrawals.md)
+- [Stablecoin Conversions](./stablecoin-conversions.md)
+- [Payment Methods](./payment-methods.md)
+- [Coinbase Accounts](./coinbase-accounts.md)
+- [Fees](./fees.md)
+- [Reports](./reports.md)
+- [Profiles](./profiles.md)
+- [Margin](./margin.md) (Limited on remote side)
+- [Oracle](./oracle.md)
   
-- [Products](./products.html)
-- [Currencies](./currencies.html)
-- [Time](./time.html)
+- [Products](./products.md)
+- [Currencies](./currencies.md)
+- [Time](./time.md)
   
 Not part of the REST API but fully supported
 
-- [Websocket](./websocket.html)
+- [Websocket](./websocket.md)
 
 ```php
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
