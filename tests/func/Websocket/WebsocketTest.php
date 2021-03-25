@@ -10,7 +10,9 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Websocket;
 
 use Dotenv\Dotenv;
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberAuthenticationAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\WebsocketRunnerInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Api\CoinbaseApi;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\ActivateMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\ChangeMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\DoneMessage;
@@ -26,8 +28,6 @@ use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\StatusMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\SubscriptionsMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\TickerMessage;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Message\UnknownMessage;
-use MockingMagician\CoinbaseProSdk\Functional\Websocket\Subscriber;
-use MockingMagician\CoinbaseProSdk\Functional\Websocket\SubscriberAuthenticateAware;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\Websocket;
 use MockingMagician\CoinbaseProSdk\Functional\Websocket\WebsocketRunner;
 use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
@@ -37,14 +37,19 @@ use MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity\AbstractTest;
  */
 final class WebsocketTest extends AbstractTest
 {
+    private $websocket;
+    /**
+     * @var CoinbaseApi
+     */
+    private $coinbaseApi;
     /**
      * @var Websocket
      */
-    private $websocket;
+    private $simpleWebsocket;
     /**
-     * @var \MockingMagician\CoinbaseProSdk\Functional\Api\CoinbaseApi
+     * @var Websocket|null
      */
-    private $coinbaseApi;
+    private $authenticatedWebsocket;
 
     public function setUp(): void
     {
@@ -61,8 +66,8 @@ final class WebsocketTest extends AbstractTest
             getenv('API_PASSPHRASE_REAL_FOR_WEBSOCKET'),
         ];
 
-        if (in_array(false, $params)) {
-            $this->markTestSkipped('Functional tests for websocket require REAL(production) key, secret, passphrase.');
+        if (!in_array(false, $params)) {
+            $this->authenticatedWebsocket = new Websocket(new WebsocketRunner(), $this->coinbaseApi);
         }
 
         $this->coinbaseApi = CoinbaseFacade::createDefaultCoinbaseApi(
@@ -75,16 +80,19 @@ final class WebsocketTest extends AbstractTest
         ini_set('xdebug.var_display_max_depth', '16');
         ini_set('xdebug.var_display_max_children', '256');
         ini_set('xdebug.var_display_max_data', '4096');
-        $this->websocket = new Websocket(new WebsocketRunner());
+
+        $this->simpleWebsocket = new Websocket(new WebsocketRunner());
     }
 
-    public function testSubscription()
+    public function testSubscribeChannelHeartbeat()
     {
-        $this->websocket->run($this->getSimpleSubscriber(), function ($runner) {
+        $subscriber = $this->simpleWebsocket->newSubscriber();
+        $subscriber->activateChannelHeartbeat(true, ['BTC-EUR', 'BTC-USD']);
+        $this->simpleWebsocket->run($subscriber, function ($runner) {
             /** @var WebsocketRunnerInterface $runner */
             $error = null;
             $subscriptionMessageFound = false;
-            $im = $i = 500;
+            $im = $i = 10;
             while ($i--) {
                 $message = $runner->getMessage();
                 if ($message instanceof SubscriptionsMessage) {
@@ -101,13 +109,15 @@ final class WebsocketTest extends AbstractTest
         });
     }
 
-    public function testSubscriptionAuthenticate()
+    public function testSubscribeChannelMatches()
     {
-        $this->websocket->run($this->getAuthenticateSubscriber(), function ($runner) {
+        $subscriber = $this->simpleWebsocket->newSubscriber();
+        $subscriber->activateChannelMatches(true, ['BTC-EUR', 'BTC-USD']);
+        $this->simpleWebsocket->run($subscriber, function ($runner) {
             /** @var WebsocketRunnerInterface $runner */
             $error = null;
             $subscriptionMessageFound = false;
-            $im = $i = 500;
+            $im = $i = 10;
             while ($i--) {
                 $message = $runner->getMessage();
                 if ($message instanceof SubscriptionsMessage) {
@@ -124,93 +134,270 @@ final class WebsocketTest extends AbstractTest
         });
     }
 
-    public function testMessagesLongRun()
+    public function testSubscribeChannelTicker()
     {
-        $method = __METHOD__;
-        $subscriber = $this->getSimpleSubscriber();
-        $subscriber->activateChannelLevel2(false);
-        $subscriber->activateChannelStatus(false);
-        $subscriber->activateChannelTicker(false);
-        $subscriber->activateChannelMatches(false);
-        $subscriber->activateChannelHeartbeat(false);
-        $this->websocket->run($subscriber, function ($runner, $method) {
+        $subscriber = $this->simpleWebsocket->newSubscriber();
+        $subscriber->activateChannelTicker(true, ['BTC-EUR', 'BTC-USD']);
+        $this->simpleWebsocket->run($subscriber, function ($runner) {
             /** @var WebsocketRunnerInterface $runner */
-            $messagesTypeCounter = [
-                ActivateMessage::class => 0,
-                ChangeMessage::class => 0,
-                DoneMessage::class => 0,
-                ErrorMessage::class => 0,
-                HeartbeatMessage::class => 0,
-                L2UpdateMessage::class => 0,
-                LastMatchMessage::class => 0,
-                MatchMessage::class => 0,
-                OpenMessage::class => 0,
-                ReceivedMessage::class => 0,
-                SnapshotMessage::class => 0,
-                StatusMessage::class => 0,
-                SubscriptionsMessage::class => 0,
-                TickerMessage::class => 0,
-                UnknownMessage::class => 0,
-            ];
-            $im = $i = 10 ** 5;
-            fwrite(STDOUT, sprintf("\nExecuting %s", $method));
-            fwrite(STDOUT, "\nHas {$im} messages to fetch, rest :\n\r");
+            $error = null;
+            $subscriptionMessageFound = false;
+            $im = $i = 10;
             while ($i--) {
-                fwrite(STDOUT, "\r".preg_replace('/./', ' ', $im)."\r{$i}");
                 $message = $runner->getMessage();
-                ++$messagesTypeCounter[get_class($message)];
+                if ($message instanceof SubscriptionsMessage) {
+                    $subscriptionMessageFound = true;
+                }
+                if ($message instanceof ErrorMessage) {
+                    $error = $message->getMessage().'. '.$message->getReason();
+
+                    break;
+                }
             }
-            $this->assertEquals(array_sum($messagesTypeCounter), $im);
-        }, $method);
+            self::assertNull($error, $error ?? '');
+            self::assertTrue($subscriptionMessageFound, sprintf('No subscription message found in %s first messages received', $im));
+        });
     }
 
-    private function getSimpleSubscriber(): Subscriber
+    public function testSubscribeChannelStatus()
     {
-        $subscriber = new Subscriber();
-        $subscriber->setProductIds($this->getProductIds());
-        $subscriber->activateChannelTicker(true);
-        $subscriber->activateChannelMatches(true);
+        $subscriber = $this->simpleWebsocket->newSubscriber();
         $subscriber->activateChannelStatus(true);
-        $subscriber->activateChannelLevel2(true);
-        $subscriber->activateChannelHeartbeat(true);
-        $subscriber->activateChannelFull(true);
+        $this->simpleWebsocket->run($subscriber, function ($runner) {
+            /** @var WebsocketRunnerInterface $runner */
+            $error = null;
+            $subscriptionMessageFound = false;
+            $im = $i = 3;
+            while ($i--) {
+                $message = $runner->getMessage();
+                if ($message instanceof SubscriptionsMessage) {
+                    $subscriptionMessageFound = true;
+                }
+                if ($message instanceof ErrorMessage) {
+                    $error = $message->getMessage().'. '.$message->getReason();
 
-        return $subscriber;
+                    break;
+                }
+            }
+            self::assertNull($error, $error ?? '');
+            self::assertTrue($subscriptionMessageFound, sprintf('No subscription message found in %s first messages received', $im));
+        });
     }
 
-    private function getProductIds(): array
+    public function testSubscribeChannelLevel2()
     {
-        $products = $this->coinbaseApi->products()->getProducts();
-        $productIds = [];
-        foreach ($products as $product) {
-            $productIds[] = $product->getId();
+        $subscriber = $this->simpleWebsocket->newSubscriber();
+        $subscriber->activateChannelLevel2(true, ['BTC-EUR', 'BTC-USD']);
+        $this->simpleWebsocket->run($subscriber, function ($runner) {
+            /** @var WebsocketRunnerInterface $runner */
+            $error = null;
+            $subscriptionMessageFound = false;
+            $im = $i = 4;
+            while ($i--) {
+                $message = $runner->getMessage();
+                if ($message instanceof SubscriptionsMessage) {
+                    $subscriptionMessageFound = true;
+                }
+                if ($message instanceof ErrorMessage) {
+                    $error = $message->getMessage().'. '.$message->getReason();
+
+                    break;
+                }
+            }
+            self::assertNull($error, $error ?? '');
+            self::assertTrue($subscriptionMessageFound, sprintf('No subscription message found in %s first messages received', $im));
+        });
+    }
+
+    public function testSubscribeChannelFull()
+    {
+        $subscriber = $this->simpleWebsocket->newSubscriber();
+        $subscriber->activateChannelFull(true, ['BTC-EUR', 'BTC-USD']);
+        $this->simpleWebsocket->run($subscriber, function ($runner) {
+            /** @var WebsocketRunnerInterface $runner */
+            $error = null;
+            $subscriptionMessageFound = false;
+            $im = $i = 10;
+            while ($i--) {
+                $message = $runner->getMessage();
+                if ($message instanceof SubscriptionsMessage) {
+                    $subscriptionMessageFound = true;
+                }
+                if ($message instanceof ErrorMessage) {
+                    $error = $message->getMessage().'. '.$message->getReason();
+
+                    break;
+                }
+            }
+            self::assertNull($error, $error ?? '');
+            self::assertTrue($subscriptionMessageFound, sprintf('No subscription message found in %s first messages received', $im));
+        });
+    }
+
+    public function testSubscribeChannelUser()
+    {
+        if (is_null($this->authenticatedWebsocket)) {
+            $this->markTestSkipped('Functional tests for websocket require REAL(production) key, secret, passphrase.');
+            return;
         }
+        $subscriber = $this->authenticatedWebsocket->newSubscriber();
+        $subscriber->activateChannelUser(true, ['BTC-EUR', 'BTC-USD']);
+        $this->authenticatedWebsocket->run($subscriber, function ($runner) {
+            /** @var WebsocketRunnerInterface $runner */
+            $error = null;
+            $subscriptionMessageFound = false;
+            $im = $i = 1;
+            while ($i--) {
+                $message = $runner->getMessage();
+                if ($message instanceof SubscriptionsMessage) {
+                    $subscriptionMessageFound = true;
+                }
+                if ($message instanceof ErrorMessage) {
+                    $error = $message->getMessage().'. '.$message->getReason();
 
-        return array_values(array_filter($productIds, function ($value) {
-            if (
-                false === stripos($value, 'USDC')
-                && false === stripos($value, 'GBP')
-                && false === stripos($value, 'USD')
-            ) {
-                return true;
+                    break;
+                }
             }
-
-            return false;
-        }));
-    }
-
-    private function getAuthenticateSubscriber(): Subscriber
-    {
-        $subscriber = new SubscriberAuthenticateAware($this->coinbaseApi);
-        $subscriber->setProductIds($this->getProductIds());
-        $subscriber->runWithAuthentication(true);
-        $subscriber->activateChannelUser(true);
-        $subscriber->activateChannelTicker(true);
-        $subscriber->activateChannelMatches(true);
-        $subscriber->activateChannelStatus(true);
-        $subscriber->activateChannelLevel2(true);
-        $subscriber->activateChannelHeartbeat(true);
-
-        return $subscriber;
+            self::assertNull($error, $error ?? '');
+            self::assertTrue($subscriptionMessageFound, sprintf('No subscription message found in %s first messages received', $im));
+        });
     }
 }
+//
+//    public function testSubscription()
+//    {
+//        dump('hello');
+//        $this->simpleWebsocket->run($this->getSimpleSubscriber(), function ($runner) {
+//            /** @var WebsocketRunnerInterface $runner */
+//            $error = null;
+//            $subscriptionMessageFound = false;
+//            $im = $i = 500;
+//            while ($i--) {
+//                dump($i);
+//                $message = $runner->getMessage();
+//                if ($message instanceof SubscriptionsMessage) {
+//                    $subscriptionMessageFound = true;
+//                }
+//                if ($message instanceof ErrorMessage) {
+//                    $error = $message->getMessage().'. '.$message->getReason();
+//
+//                    break;
+//                }
+//            }
+//            self::assertNull($error, $error ?? '');
+//            self::assertTrue($subscriptionMessageFound, sprintf('No subscription message found in %s first messages received', $im));
+//        });
+//    }
+//
+//    public function testSubscriptionAuthenticate()
+//    {
+//        $this->authenticatedWebsocket->run($this->getAuthenticateSubscriber(), function ($runner) {
+//            /** @var WebsocketRunnerInterface $runner */
+//            $error = null;
+//            $subscriptionMessageFound = false;
+//            $im = $i = 500;
+//            while ($i--) {
+//                $message = $runner->getMessage();
+//                if ($message instanceof SubscriptionsMessage) {
+//                    $subscriptionMessageFound = true;
+//                }
+//                if ($message instanceof ErrorMessage) {
+//                    $error = $message->getMessage().'. '.$message->getReason();
+//
+//                    break;
+//                }
+//            }
+//            self::assertNull($error, $error ?? '');
+//            self::assertTrue($subscriptionMessageFound, sprintf('No subscription message found in %s first messages received', $im));
+//        });
+//    }
+//
+//    public function testMessagesLongRun()
+//    {
+//        $method = __METHOD__;
+//        $subscriber = $this->getSimpleSubscriber();
+//        $subscriber->activateChannelLevel2(false);
+//        $subscriber->activateChannelStatus(false);
+//        $subscriber->activateChannelTicker(false);
+//        $subscriber->activateChannelMatches(false);
+//        $subscriber->activateChannelHeartbeat(false);
+//        $this->simpleWebsocket->run($subscriber, function ($runner, $method) {
+//            /** @var WebsocketRunnerInterface $runner */
+//            $messagesTypeCounter = [
+//                ActivateMessage::class => 0,
+//                ChangeMessage::class => 0,
+//                DoneMessage::class => 0,
+//                ErrorMessage::class => 0,
+//                HeartbeatMessage::class => 0,
+//                L2UpdateMessage::class => 0,
+//                LastMatchMessage::class => 0,
+//                MatchMessage::class => 0,
+//                OpenMessage::class => 0,
+//                ReceivedMessage::class => 0,
+//                SnapshotMessage::class => 0,
+//                StatusMessage::class => 0,
+//                SubscriptionsMessage::class => 0,
+//                TickerMessage::class => 0,
+//                UnknownMessage::class => 0,
+//            ];
+//            $im = $i = 10 ** 5;
+//            fwrite(STDOUT, sprintf("\nExecuting %s", $method));
+//            fwrite(STDOUT, "\nHas {$im} messages to fetch, rest :\n\r");
+//            while ($i--) {
+//                fwrite(STDOUT, "\r".preg_replace('/./', ' ', $im)."\r{$i}");
+//                $message = $runner->getMessage();
+//                ++$messagesTypeCounter[get_class($message)];
+//            }
+//            $this->assertEquals(array_sum($messagesTypeCounter), $im);
+//        }, $method);
+//    }
+//
+//    private function getSimpleSubscriber(): SubscriberAuthenticationAwareInterface
+//    {
+//        $subscriber = $this->simpleWebsocket->newSubscriber();
+//        $subscriber->setProductIds($this->getProductIds());
+//        $subscriber->activateChannelTicker(true);
+//        $subscriber->activateChannelMatches(true);
+//        $subscriber->activateChannelStatus(true);
+//        $subscriber->activateChannelLevel2(true);
+//        $subscriber->activateChannelHeartbeat(true);
+//        $subscriber->activateChannelFull(true);
+//
+//        return $subscriber;
+//    }
+//
+//    private function getAuthenticateSubscriber(): SubscriberAuthenticationAwareInterface
+//    {
+//        $subscriber = $this->authenticatedWebsocket->newSubscriber();
+//        $subscriber->setProductIds($this->getProductIds());
+//        $subscriber->activateChannelUser(true);
+//        $subscriber->activateChannelTicker(true);
+//        $subscriber->activateChannelMatches(true);
+//        $subscriber->activateChannelStatus(true);
+//        $subscriber->activateChannelLevel2(true);
+//        $subscriber->activateChannelHeartbeat(true);
+//
+//        return $subscriber;
+//    }
+//
+//    private function getProductIds(): array
+//    {
+//        $products = $this->coinbaseApi->products()->getProducts();
+//        $productIds = [];
+//        foreach ($products as $product) {
+//            $productIds[] = $product->getId();
+//        }
+//
+//        return array_values(array_filter($productIds, function ($value) {
+//            if (
+//                false === stripos($value, 'USDC')
+//                && false === stripos($value, 'GBP')
+//                && false === stripos($value, 'USD')
+//            ) {
+//                return true;
+//            }
+//
+//            return false;
+//        }));
+//    }
+//}

@@ -13,6 +13,8 @@ use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
 use MockingMagician\CoinbaseProSdk\Functional\Build\Pagination;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Websocket;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\WebsocketRunner;
 
 /**
  * @codeCoverageIgnore
@@ -112,5 +114,10 @@ final class CoinbaseFacade
             $stopPrice,
             $clientOrderId
         );
+    }
+
+    public static function createUnauthenticatedWebsocket()
+    {
+        return new Websocket(new WebsocketRunner());
     }
 }
