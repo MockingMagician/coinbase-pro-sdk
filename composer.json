@@ -1,7 +1,25 @@
 {
     "name": "mocking-magician/coinbase-pro-sdk",
-    "description": "Library for coinbase pro API calls",
     "type": "library",
+    "description": "Library for coinbase pro API calls",
+    "keywords": [
+        "coinbase",
+        "coinbase pro",
+        "sdk",
+        "crypto",
+        "exchange",
+        "bitcoin",
+        "etherum",
+        "blockchain"
+    ],
+    "homepage": "https://github.com/MockingMagician/coinbase-pro-sdk",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marc MOREAU",
+            "email": "moreau.marc.web@gmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "MockingMagician\\CoinbaseProSdk\\": "src"
@@ -15,28 +33,24 @@
             "MockingMagician\\CoinbaseProSdk\\Tests\\Exp\\": "tests/experimental"
         }
     },
+    "config": {
+        "sort-packages": true
+    },
     "require": {
-        "php": ">=7.2",
+        "amphp/websocket-client": "^1.0",
         "ext-json": "*",
         "ext-openssl": "*",
-        "psr/http-client": "^1.0",
         "guzzlehttp/guzzle": "^6.0 | ^7.0",
-        "symfony/yaml": "^4.0",
-        "amphp/websocket-client": "^1.0"
+        "php": ">=7.2",
+        "psr/http-client": "^1.0",
+        "symfony/yaml": "^4.0"
     },
     "require-dev": {
+        "ext-pcntl": "*",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpstan/phpstan": "^0.12.42",
         "phpunit/phpunit": "^7.5",
         "vlucas/phpdotenv": "^4.0",
-        "phpstan/phpstan": "^0.12.42",
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "symfony/var-dumper": "^4.0",
-        "ext-pcntl": "*"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Marc MOREAU",
-            "email": "moreau.marc.web@gmail.com"
-        }
-    ]
+        "symfony/var-dumper": "^4.0"
+    }
 }
