@@ -223,10 +223,7 @@ manage_rate_limits: false # pass false here to disable rate limit managing
 
 ```php
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\MarketOrderToPlace;
-
-/** @var ApiInterface $api */
 
 $marketOrder = CoinbaseFacade::createMarketOrderToPlace(
     MarketOrderToPlace::SIDE_BUY,
@@ -234,16 +231,13 @@ $marketOrder = CoinbaseFacade::createMarketOrderToPlace(
     0.0001
 );
 ```
-More information about orders can be found in [Orders feature](./feature/orders.md)
+More information about [Orders](./feature/orders.md)
 
 ### Limit order
 
 ```php
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Build\LimitOrderToPlace;
-
-/** @var ApiInterface $api */
 
 $limitOrder = CoinbaseFacade::createLimitOrderToPlace(
     LimitOrderToPlace::SIDE_BUY,
@@ -252,16 +246,29 @@ $limitOrder = CoinbaseFacade::createLimitOrderToPlace(
     0.0001
 );
 ```
-More information about orders can be found in [Orders feature](./feature/orders.md)
+More information about [Orders](./feature/orders.md)
 
 ### Pagination
 
 ```php
 use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
-
-/** @var ApiInterface $api */
 
 $pagination = CoinbaseFacade::createPagination();
 ```
-More information about pagination can be found in [Pagination](./pagination.md)
+More information about [Pagination](./pagination.md)
+
+### Websocket
+
+Websocket is not part of the Coinbase REST api, it is real-time market data updates provided by coinbase.
+
+***It is not necessary to be authenticated*** to take advantage of it, so a method is directly defined in CoinbaseFacade to take advantage of this feature.
+
+```php
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
+
+$websocket = CoinbaseFacade::createUnauthenticatedWebsocket();
+```
+
+***It is also possible to take advantage of it in an authenticated way*** in order to obtain more detailed information about the operations that concern the authenticated user. In this case it is necessary to use the websocket provided with the api.
+
+More information about [Websocket](./feature/websocket.md)

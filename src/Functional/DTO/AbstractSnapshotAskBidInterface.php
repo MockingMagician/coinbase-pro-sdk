@@ -25,6 +25,16 @@ abstract class AbstractSnapshotAskBidInterface extends AbstractCreator
         $this->size = $size;
     }
 
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function getSize(): float
+    {
+        return $this->size;
+    }
+
     public static function createFromArray(array $array, ...$extraData)
     {
         return new static(

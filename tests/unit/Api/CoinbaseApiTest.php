@@ -8,9 +8,13 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Unit\Api;
 
+use MockingMagician\CoinbaseProSdk\CoinbaseFacade;
 use MockingMagician\CoinbaseProSdk\Functional\Api\CoinbaseApi;
 use MockingMagician\CoinbaseProSdk\Functional\Api\Config\CoinbaseConfig;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\AbstractConnectivity;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Subscriber;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\SubscriberAuthenticateAware;
+use MockingMagician\CoinbaseProSdk\Functional\Websocket\Websocket;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
@@ -42,6 +46,11 @@ class CoinbaseApiTest extends TestCase
         self::assertInstanceOf(AbstractConnectivity::class, $api->products());
         self::assertInstanceOf(AbstractConnectivity::class, $api->currencies());
         self::assertInstanceOf(AbstractConnectivity::class, $api->time());
+
+        self::assertInstanceOf(Websocket::class, $api->websocket());
+        self::assertInstanceOf(SubscriberAuthenticateAware::class, $api->websocket()->newSubscriber());
+
+        self::assertInstanceOf(Subscriber::class, CoinbaseFacade::createUnauthenticatedWebsocket()->newSubscriber());
     }
 
     public function testWithAllConnectivityDisabled()

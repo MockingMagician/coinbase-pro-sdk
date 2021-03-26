@@ -9,49 +9,31 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberAuthenticationAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Signer;
 
-class SubscriberAuthenticateAware extends Subscriber implements SubscriberAuthenticationAwareInterface
+final class SubscriberAuthenticateAware extends AbstractSubscriber implements SubscriberAuthenticationAwareInterface
 {
     /**
-     * @var null|ApiInterface
+     * @var ApiInterface
      */
     private $coinbaseApi;
     /**
-     * @var bool
+     * @var null|TimeInterface
      */
-    private $useCoinbaseRemoteTime;
-    /**
-     * @var bool
-     */
-    private $authenticate;
+    private $time;
 
-    public function __construct(ApiInterface $api)
+    public function __construct(AbstractSubscriber $subscriber, ApiInterface $api, ?TimeInterface $time)
     {
+        $this->payloadTemplate = $subscriber->payloadTemplate;
         $this->coinbaseApi = $api;
-        $this->authenticate = false;
-        $this->useCoinbaseRemoteTime = false;
-    }
-
-    public function getCoinbaseApi(): ApiInterface
-    {
-        return $this->coinbaseApi;
-    }
-
-    public function runWithAuthentication(bool $bool, bool $useCoinbaseRemoteTime = false): void
-    {
-        $this->authenticate = $bool;
-        $this->useCoinbaseRemoteTime = $useCoinbaseRemoteTime;
+        $this->time = $time;
     }
 
     public function activateChannelUser(bool $activate, array $productIds = []): void
     {
-        if (!$this->authenticate) {
-            throw new ApiError('Activate channel user require to be authenticated, first activate with runWithAuthentication method');
-        }
         $this->activateChannel('user', $activate, $productIds);
     }
 
@@ -59,22 +41,21 @@ class SubscriberAuthenticateAware extends Subscriber implements SubscriberAuthen
     {
         $payload = parent::getPayload($unsubscribe);
 
-        if ($this->authenticate) {
-            $params = $this->coinbaseApi->getRequestFactory()->getParams();
-            $signData = Signer::sign(
-                $params->getKey(),
-                $params->getSecret(),
-                $params->getPassphrase(),
-                SubscriberInterface::AUTHENTICATION_LIKE_METHOD,
-                SubscriberInterface::AUTHENTICATION_LIKE_URI,
-                '',
-                $this->useCoinbaseRemoteTime ? $this->coinbaseApi->time()->getTime()->getEpoch() : time()
-            );
-            $payload['signature'] = $signData->getSignature();
-            $payload['key'] = $signData->getKey();
-            $payload['passphrase'] = $signData->getPassphrase();
-            $payload['timestamp'] = $signData->getTimestamp();
-        }
+        $params = $this->coinbaseApi->getRequestFactory()->getParams();
+        $signData = Signer::sign(
+            $params->getKey(),
+            $params->getSecret(),
+            $params->getPassphrase(),
+            SubscriberInterface::AUTHENTICATION_LIKE_METHOD,
+            SubscriberInterface::AUTHENTICATION_LIKE_URI,
+            '',
+            $this->time ? $this->time->getTime()->getEpoch() : time()
+        );
+
+        $payload['signature'] = $signData->getSignature();
+        $payload['key'] = $signData->getKey();
+        $payload['passphrase'] = $signData->getPassphrase();
+        $payload['timestamp'] = $signData->getTimestamp();
 
         return $payload;
     }

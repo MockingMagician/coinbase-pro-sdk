@@ -8,6 +8,9 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket;
 
+use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberAuthenticationAwareInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\WebsocketInterface;
 
@@ -17,10 +20,29 @@ class Websocket implements WebsocketInterface
      * @var WebsocketRunner
      */
     private $runner;
+    /**
+     * @var null|ApiInterface
+     */
+    private $api;
+    /**
+     * @var null|TimeInterface
+     */
+    private $time;
 
-    public function __construct(WebsocketRunner $runner)
+    public function __construct(WebsocketRunner $runner, ?ApiInterface $api = null, ?TimeInterface $time = null)
     {
         $this->runner = $runner;
+        $this->api = $api;
+        $this->time = $time;
+    }
+
+    public function newSubscriber(): SubscriberAuthenticationAwareInterface
+    {
+        if (isset($this->api)) {
+            return new SubscriberAuthenticateAware(new Subscriber(), $this->api, $this->time);
+        }
+
+        return new Subscriber();
     }
 
     public function run(SubscriberInterface $subscriber, callable $userFunc, ...$args): void

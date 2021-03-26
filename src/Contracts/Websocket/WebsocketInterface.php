@@ -10,6 +10,8 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Websocket;
 
 interface WebsocketInterface
 {
+    public function newSubscriber(): SubscriberAuthenticationAwareInterface;
+
     /**
      * @param callable $userFunc (WebsocketRunnerInterface $websocket, ...$args):void
      * @param mixed    ...$args

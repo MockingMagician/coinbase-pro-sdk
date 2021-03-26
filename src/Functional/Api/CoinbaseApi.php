@@ -154,7 +154,7 @@ class CoinbaseApi implements ApiInterface
         $this->time = $config->getConnectivityConfig()->isTimeActivate() ? new Time($this->requestFactory) : null;
         $this->withdrawals = $config->getConnectivityConfig()->isWithdrawalsActivate() ? new Withdrawals($this->requestFactory) : null;
 
-        $this->websocket = new Websocket(new WebsocketRunner());
+        $this->websocket = new Websocket(new WebsocketRunner(), $this, $config->isUseCoinbaseRemoteTime() ? new Time($this->requestFactory) : null);
     }
 
     public function accounts(): AccountsInterface
@@ -310,13 +310,13 @@ class CoinbaseApi implements ApiInterface
         return $this->time;
     }
 
-    public function getRequestFactory(): RequestFactoryInterface
-    {
-        return $this->requestFactory;
-    }
-
     public function websocket(): WebsocketInterface
     {
         return $this->websocket;
+    }
+
+    public function getRequestFactory(): RequestFactoryInterface
+    {
+        return $this->requestFactory;
     }
 }
