@@ -32,32 +32,46 @@ class MessageHandler
         switch ($payload['type']) {
             case 'error':
                 return new ErrorMessage($payload);
+
             case 'subscriptions':
                 return new SubscriptionsMessage($payload);
+
             case 'status':
                 return new StatusMessage($payload);
+
             case 'snapshot':
                 return new SnapshotMessage($payload);
+
             case 'ticker':
                 return new TickerMessage($payload);
+
             case 'l2update':
                 return new L2UpdateMessage($payload);
+
             case 'heartbeat':
                 return new HeartbeatMessage($payload);
+
             case 'received':
                 return new ReceivedMessage($payload);
+
             case 'open':
                 return new OpenMessage($payload);
+
             case 'done':
                 return new DoneMessage($payload);
+
             case 'match':
                 return new MatchMessage($payload);
+
             case 'last_match':
                 return new LastMatchMessage($payload);
+
             case 'activate':
                 return new ActivateMessage($payload);
+
             case 'change':
                 return new ChangeMessage($payload);
+
             default:
                 return new UnknownMessage($payload);
         }

@@ -8,8 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Websocket;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
-
 interface SubscriberAuthenticationAwareInterface extends SubscriberInterface
 {
     public function activateChannelUser(bool $activate, array $productIds = []): void;

@@ -20,12 +20,12 @@ class ChannelData extends AbstractCreator implements ChannelDataInterface
     /**
      * @var string[]
      */
-    private $productsIds;
+    private $productIds;
 
-    public function __construct(string $name, array $productsIds)
+    public function __construct(string $name, array $productIds)
     {
         $this->name = $name;
-        $this->productsIds = $productsIds;
+        $this->productIds = $productIds;
     }
 
     public function getName(): string
@@ -36,9 +36,9 @@ class ChannelData extends AbstractCreator implements ChannelDataInterface
     /**
      * @return string[]
      */
-    public function getProductsIds(): array
+    public function getProductIds(): array
     {
-        return $this->productsIds;
+        return $this->productIds;
     }
 
     public static function createFromArray(array $array, ...$extraData)

@@ -12,5 +12,5 @@ interface ChannelDataInterface
 {
     public function getName(): string;
 
-    public function getProductsIds(): array;
+    public function getProductIds(): array;
 }

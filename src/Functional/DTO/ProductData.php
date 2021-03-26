@@ -215,10 +215,10 @@ class ProductData extends AbstractCreator implements ProductDataInterface
     {
         return
             !(
-                $this->isCancelOnly() ||
-                $this->isLimitOnly() ||
-                $this->isPostOnly() ||
-                $this->isTradingDisabled()
+                $this->isCancelOnly()
+                || $this->isLimitOnly()
+                || $this->isPostOnly()
+                || $this->isTradingDisabled()
             )
         ;
     }

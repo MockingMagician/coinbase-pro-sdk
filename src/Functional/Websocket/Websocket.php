@@ -21,11 +21,11 @@ class Websocket implements WebsocketInterface
      */
     private $runner;
     /**
-     * @var ApiInterface|null
+     * @var null|ApiInterface
      */
     private $api;
     /**
-     * @var TimeInterface|null
+     * @var null|TimeInterface
      */
     private $time;
 

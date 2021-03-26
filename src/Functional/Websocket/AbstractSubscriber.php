@@ -8,10 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Websocket;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
-use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberAuthenticationAwareInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
-
 abstract class AbstractSubscriber
 {
     /**
@@ -22,22 +18,6 @@ abstract class AbstractSubscriber
         'product_ids' => [],
         'channels' => [],
     ];
-
-    protected function activateChannel(string $channelKey, bool $activate, ?array $productIds): void
-    {
-        if ($activate) {
-            $this->payloadTemplate['channels'][$channelKey] = ['name' => $channelKey];
-            if (!is_null($productIds) && !empty($productIds)) {
-                $this->payloadTemplate['channels'][$channelKey]['product_ids'] = $productIds;
-            }
-
-            return;
-        }
-
-        if (isset($this->payloadTemplate['channels'][$channelKey])) {
-            unset($this->payloadTemplate['channels'][$channelKey]);
-        }
-    }
 
     public function setProductIds(array $productIds): void
     {
@@ -81,5 +61,21 @@ abstract class AbstractSubscriber
         $payload['channels'] = array_values($this->payloadTemplate['channels']);
 
         return $payload;
+    }
+
+    protected function activateChannel(string $channelKey, bool $activate, ?array $productIds): void
+    {
+        if ($activate) {
+            $this->payloadTemplate['channels'][$channelKey] = ['name' => $channelKey];
+            if (!is_null($productIds) && !empty($productIds)) {
+                $this->payloadTemplate['channels'][$channelKey]['product_ids'] = $productIds;
+            }
+
+            return;
+        }
+
+        if (isset($this->payloadTemplate['channels'][$channelKey])) {
+            unset($this->payloadTemplate['channels'][$channelKey]);
+        }
     }
 }
