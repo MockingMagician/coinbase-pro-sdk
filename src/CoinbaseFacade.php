@@ -116,7 +116,7 @@ final class CoinbaseFacade
         );
     }
 
-    public static function createUnauthenticatedWebsocket()
+    public static function createUnauthenticatedWebsocket(): Websocket
     {
         return new Websocket(new WebsocketRunner());
     }
