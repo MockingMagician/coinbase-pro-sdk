@@ -17,7 +17,7 @@ The only recommended way to provide these variables in the test set is to provid
 
 .env file example :
 
-```dotenv
+```shell
 API_KEY=my-api-key
 API_SECRET=my-secret
 API_PASSPHRASE=my-passphrase
@@ -34,7 +34,7 @@ It is intended that the set of tests will fund your account from virtual Coinbas
 
 A Makefile is present in the project and provides shortcuts to run the tests. Run the ***make help*** command for the complete list of shortcuts :
 
-```bash
+```shell
 chained-tests                               Run phpstan, phpcs and PHPUnit tests 'Unit' suite
 docker-test-php-72                          Docker test on PHP 7.2
 docker-test-php-73                          Docker test on PHP 7.3

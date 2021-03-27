@@ -6,6 +6,8 @@ nav_order: 1
 
 # CoinbaseFacade
 
+All the main and necessary functionalities to use this library are grouped here in the CoinbaseFacade class
+
 ## Create an CoinbaseApi object
 
 ### Full API access with default features
