@@ -11,6 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\TimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TimeDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TimeData;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class Time extends AbstractConnectivity implements TimeInterface
 {
@@ -21,6 +22,6 @@ class Time extends AbstractConnectivity implements TimeInterface
 
     public function getTime(): TimeDataInterface
     {
-        return new TimeData($this->getTimeRaw());
+        return TimeData::createFromArray(Json::decode($this->getTimeRaw(), true));
     }
 }

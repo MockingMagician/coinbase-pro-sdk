@@ -11,6 +11,9 @@ namespace MockingMagician\CoinbaseProSdk\Functional\Websocket;
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberAuthenticationAwareInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
+/**
+ * @internal
+ */
 final class Subscriber extends AbstractSubscriber implements SubscriberAuthenticationAwareInterface
 {
     public function activateChannelUser(bool $activate, array $productIds = []): void

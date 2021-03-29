@@ -9,7 +9,6 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TimeDataInterface;
-use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class TimeData extends AbstractCreator implements TimeDataInterface
 {
@@ -22,11 +21,10 @@ class TimeData extends AbstractCreator implements TimeDataInterface
      */
     private $epoch;
 
-    public function __construct(string $body)
+    public function __construct(string $iso, float $epoch)
     {
-        $body = Json::decode($body, true);
-        $this->iso = $body['iso'];
-        $this->epoch = (float) $body['epoch'];
+        $this->iso = $iso;
+        $this->epoch = $epoch;
     }
 
     public function getIso(): string
@@ -41,6 +39,6 @@ class TimeData extends AbstractCreator implements TimeDataInterface
 
     public static function createFromArray(array $array, ...$extraData)
     {
-        return new static(Json::encode($array));
+        return new static($array['iso'], (float) $array['epoch']);
     }
 }

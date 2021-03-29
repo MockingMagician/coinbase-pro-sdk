@@ -39,7 +39,7 @@ class Websocket implements WebsocketInterface
     public function newSubscriber(): SubscriberAuthenticationAwareInterface
     {
         if (isset($this->api)) {
-            return new SubscriberAuthenticateAware(new Subscriber(), $this->api, $this->time);
+            return new SubscriberAuthenticated($this->api, $this->time);
         }
 
         return new Subscriber();

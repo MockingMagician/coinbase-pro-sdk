@@ -14,7 +14,10 @@ use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberAuthenticationA
 use MockingMagician\CoinbaseProSdk\Contracts\Websocket\SubscriberInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Signer;
 
-final class SubscriberAuthenticateAware extends AbstractSubscriber implements SubscriberAuthenticationAwareInterface
+/**
+ * @internal
+ */
+final class SubscriberAuthenticated extends AbstractSubscriber implements SubscriberAuthenticationAwareInterface
 {
     /**
      * @var ApiInterface
@@ -25,9 +28,8 @@ final class SubscriberAuthenticateAware extends AbstractSubscriber implements Su
      */
     private $time;
 
-    public function __construct(AbstractSubscriber $subscriber, ApiInterface $api, ?TimeInterface $time)
+    public function __construct(ApiInterface $api, ?TimeInterface $time)
     {
-        $this->payloadTemplate = $subscriber->payloadTemplate;
         $this->coinbaseApi = $api;
         $this->time = $time;
     }
