@@ -36,6 +36,8 @@ search:
     # Supports true or false (default)
     button: false
 
+ga_tracking: G-7R3HP50HNG
+
 # Aux links for the upper right navigation
 aux_links:
     "Coinbase Pro PHP SDK on GitHub":
