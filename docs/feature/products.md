@@ -12,13 +12,13 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 /** @var ApiInterface $api */
 
 $api->products()->getProducts();
-$api->products()->get24hrStats('132fb6ae-456b-4654-b4e0-d681ac05cea1');
-$api->products()->getProductTicker('132fb6ae-456b-4654-b4e0-d681ac05cea1');
-$api->products()->getProductOrderBook('132fb6ae-456b-4654-b4e0-d681ac05cea1');
-$api->products()->getTrades('132fb6ae-456b-4654-b4e0-d681ac05cea1');
-$api->products()->getSingleProduct('132fb6ae-456b-4654-b4e0-d681ac05cea1');
+$api->products()->get24hrStats('BTC-USD');
+$api->products()->getProductTicker('BTC-USD');
+$api->products()->getProductOrderBook('BTC-USD');
+$api->products()->getTrades('BTC-USD');
+$api->products()->getSingleProduct('BTC-USD');
 $api->products()->getHistoricRates(
-    '132fb6ae-456b-4654-b4e0-d681ac05cea1',
+    'BTC-USD',
     (new DateTime())->modify('-1 year'),
     new DateTime(),
     3600
