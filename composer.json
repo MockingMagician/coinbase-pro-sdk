@@ -18,6 +18,10 @@
         {
             "name": "Marc MOREAU",
             "email": "moreau.marc.web@gmail.com"
+        },
+        {
+            "name": "Roger Thomas",
+            "email": "rogere84@gmail.com"
         }
     ],
     "autoload": {
