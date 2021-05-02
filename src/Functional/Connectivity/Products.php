@@ -38,8 +38,7 @@ class Products extends AbstractConnectivity implements ProductsInterface
             ->getRequestFactory()
             ->createRequest('GET', '/products')
             ->setMustBeSigned(false)
-            ->send()
-        ;
+            ->send();
     }
 
     /**
@@ -56,8 +55,7 @@ class Products extends AbstractConnectivity implements ProductsInterface
             ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s', $productId))
             ->setMustBeSigned(false)
-            ->send()
-        ;
+            ->send();
     }
 
     /**
@@ -70,20 +68,17 @@ class Products extends AbstractConnectivity implements ProductsInterface
 
     public function getProductOrderBookRaw(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false): string
     {
-        $query = ['level' => 1];
-        if (2 === $level) {
-            $query['level'] = 2;
-        }
-        if (3 === $level && $forceLevel3) {
-            $query['level'] = 3;
+        if ($forceLevel3 === true) {
+            $level = 3;
+        } else {
+            $level = $level <= 3 ? $level : 1;
         }
 
         return $this
             ->getRequestFactory()
-            ->createRequest('GET', sprintf('/products/%s/book', $productId))
+            ->createRequest('GET', sprintf('/products/%s/book?level=%s', $productId, $level))
             ->setMustBeSigned(false)
-            ->send()
-        ;
+            ->send();
     }
 
     /**
@@ -93,7 +88,8 @@ class Products extends AbstractConnectivity implements ProductsInterface
         string $productId,
         int $level = self::LEVEL_ONE,
         bool $forceLevel3 = false
-    ): OrderBookDataInterface {
+    ): OrderBookDataInterface
+    {
         return OrderBookData::createFromJson($this->getProductOrderBookRaw($productId, $level, $forceLevel3));
     }
 
@@ -103,8 +99,7 @@ class Products extends AbstractConnectivity implements ProductsInterface
             ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/ticker', $productId))
             ->setMustBeSigned(false)
-            ->send()
-        ;
+            ->send();
     }
 
     /**
@@ -121,8 +116,7 @@ class Products extends AbstractConnectivity implements ProductsInterface
             ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/trades', $productId), [], null, $pagination)
             ->setMustBeSigned(false)
-            ->send()
-        ;
+            ->send();
     }
 
     /**
@@ -138,7 +132,8 @@ class Products extends AbstractConnectivity implements ProductsInterface
         DateTimeInterface $startTime,
         DateTimeInterface $endTime,
         int $granularity
-    ): string {
+    ): string
+    {
         $this->checkHistoricRatesParams($startTime, $endTime, $granularity);
 
         $query = [
@@ -153,8 +148,7 @@ class Products extends AbstractConnectivity implements ProductsInterface
             ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/candles', $productId), $query)
             ->setMustBeSigned(false)
-            ->send()
-        ;
+            ->send();
 
         self::$lastCallToHistoricRates = microtime(true);
 
@@ -169,7 +163,8 @@ class Products extends AbstractConnectivity implements ProductsInterface
         DateTimeInterface $startTime,
         DateTimeInterface $endTime,
         int $granularity
-    ): HistoricRatesDataInterface {
+    ): HistoricRatesDataInterface
+    {
         return HistoricRatesData::createFromJson(
             $this->getHistoricRatesRaw($productId, $startTime, $endTime, $granularity),
             $granularity
@@ -182,8 +177,7 @@ class Products extends AbstractConnectivity implements ProductsInterface
             ->getRequestFactory()
             ->createRequest('GET', sprintf('/products/%s/stats', $productId))
             ->setMustBeSigned(false)
-            ->send()
-        ;
+            ->send();
     }
 
     /**
@@ -213,7 +207,7 @@ class Products extends AbstractConnectivity implements ProductsInterface
             > self::MAX_CANDLES
         ) {
             throw new ApiError(sprintf(
-                'This exception happen cause you request a too large set of data. %s candles max is allowed.'.
+                'This exception happen cause you request a too large set of data. %s candles max is allowed.' .
                 'Please, change one of this value of granularity, startTime, endTime. Current values request an expected set of %s of candles',
                 self::MAX_CANDLES,
                 $expectedCandles
