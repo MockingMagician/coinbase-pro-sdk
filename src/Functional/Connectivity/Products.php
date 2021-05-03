@@ -68,15 +68,15 @@ class Products extends AbstractConnectivity implements ProductsInterface
 
     public function getProductOrderBookRaw(string $productId, int $level = self::LEVEL_ONE, bool $forceLevel3 = false): string
     {
-        if ($forceLevel3 === true) {
-            $level = 3;
+        if ($forceLevel3 === true and $level === 3) {
+            $query = ["level" => 3];
         } else {
-            $level = $level <= 3 ? $level : 1;
+            $query = ["level" => $level === 2 ? 2 : 1];
         }
 
         return $this
             ->getRequestFactory()
-            ->createRequest('GET', sprintf('/products/%s/book?level=%s', $productId, $level))
+            ->createRequest('GET', sprintf('/products/%s/book', $productId), $query)
             ->setMustBeSigned(false)
             ->send();
     }
