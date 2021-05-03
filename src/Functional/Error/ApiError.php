@@ -8,8 +8,8 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Error;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Error\ApiErrorInterface;
 use Exception;
+use MockingMagician\CoinbaseProSdk\Contracts\Error\ApiErrorInterface;
 
 class ApiError extends Exception implements ApiErrorInterface
 {
