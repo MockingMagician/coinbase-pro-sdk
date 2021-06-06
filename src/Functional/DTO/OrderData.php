@@ -144,7 +144,7 @@ class OrderData extends AbstractCreator implements OrderDataInterface
         return $this->price;
     }
 
-    public function getSize(): float
+    public function getSize(): ?float
     {
         return $this->size;
     }

@@ -11,6 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryEventDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\HoldDataInterface;
 
 interface AccountsInterface
 {
@@ -68,18 +69,7 @@ interface AccountsInterface
      * REF
      * The ref field contains the id of the order or transfer which created the hold.
      *
-     * TODO check returned data from api to define HoldDataInterface
-     * [
-     *   {
-     *     "id": "82dcd140-c3c7-4507-8de4-2c529cd1a28f",
-     *     "account_id": "e0b3f39a-183d-453e-b754-0c13e5bab0b3",
-     *     "created_at": "2014-11-06T10:34:47.123456Z",
-     *     "updated_at": "2014-11-06T10:40:47.123456Z",
-     *     "amount": "4.23",
-     *     "type": "order",
-     *     "ref": "0a205de4-dd35-4370-a285-fe8fc375a273",
-     *   }
-     * ]
+     * @return HoldDataInterface[]
      */
     public function getHolds(string $id, ?PaginationInterface $pagination = null): array;
 }

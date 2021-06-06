@@ -20,3 +20,18 @@ composer require mocking-magician/coinbase-pro-sdk
 ## How do I access the features?
 
 All the main and necessary functionalities to use this library are grouped in the [CoinbaseFacade class](./coinbase-facade.md).
+
+## Versioning
+
+Coinbase Pro SDK follow the [semver specification](https://semver.org/)
+
+>Given a version number `MAJOR.MINOR.PATCH`, increment the:
+>
+>- `MAJOR` version when you make incompatible API changes
+>- `MINOR` version when you add functionality in a backwards compatible manner
+>- `PATCH` version when you make backwards compatible bug fixes.
+>
+>Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+
+Zero version, specific case (as 0.y.z) during initial development:
+>Anything MAY change at any time. The public API SHOULD NOT be considered stable.

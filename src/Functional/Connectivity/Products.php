@@ -141,8 +141,8 @@ class Products extends AbstractConnectivity implements ProductsInterface
         $this->checkHistoricRatesParams($startTime, $endTime, $granularity);
 
         $query = [
-            'start' => $startTime->format(DateTime::ISO8601),
-            'end' => $endTime->format(DateTime::ISO8601),
+            'start' => $startTime->format(DateTimeInterface::ATOM),
+            'end' => $endTime->format(DateTimeInterface::ATOM),
             'granularity' => $granularity,
         ];
 

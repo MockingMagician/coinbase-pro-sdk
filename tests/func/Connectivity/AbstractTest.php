@@ -46,18 +46,22 @@ abstract class AbstractTest extends TestCase
         } catch (\Throwable $exception) {
             // We don't care, it is just a way between a lot to load envs
         }
+
         $this->apiParams = new Params(
             self::API_TEST_ENDPOINT,
             getenv('API_KEY'),
             getenv('API_SECRET'),
             getenv('API_PASSPHRASE')
         );
+
         if (self::API_TEST_ENDPOINT !== $this->apiParams->getEndPoint()) {
             $this->markTestSkipped('Looks like you\'re running tests on a non-testing API. Tests must be run on the test API, otherwise dangerous and undesirable effects could happen to your account. Never run on a non-testing API.');
         }
+
         if (!$this->retryHasInternetConnection(3, 1)) {
             $this->markTestSkipped('Functional tests require an internet connection.');
         }
+
         ini_set('xdebug.var_display_max_depth', '16');
         ini_set('xdebug.var_display_max_children', '256');
         ini_set('xdebug.var_display_max_data', '4096');

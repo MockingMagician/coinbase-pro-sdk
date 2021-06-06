@@ -37,8 +37,8 @@ class Reports extends AbstractConnectivity implements ReportsInterface
 
         $body = [
             'type' => $type,
-            'start_date' => $startDate->format(DateTime::ISO8601),
-            'end_date' => $endDate->format(DateTime::ISO8601),
+            'start_date' => $startDate->format(DateTimeInterface::ATOM),
+            'end_date' => $endDate->format(DateTimeInterface::ATOM),
             'format' => $format,
         ];
 

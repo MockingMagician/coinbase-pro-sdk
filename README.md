@@ -10,4 +10,24 @@
 composer require mocking-magician/coinbase-pro-sdk
 ```
 
+## How to use the package
 ***Please take the time to read the [documentation](https://mockingmagician.github.io/coinbase-pro-sdk/) carefully.***
+
+## Versioning
+
+Coinbase Pro SDK follow the [semver specification](https://semver.org/)
+
+>Given a version number `MAJOR.MINOR.PATCH`, increment the:
+> 
+>- `MAJOR` version when you make incompatible API changes 
+>- `MINOR` version when you add functionality in a backwards compatible manner
+>- `PATCH` version when you make backwards compatible bug fixes. 
+> 
+>Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+
+Zero version, specific case (as 0.y.z) during initial development: 
+>Anything MAY change at any time. The public API SHOULD NOT be considered stable.
+
+# Issues
+
+***Please, in case of discovery of any bug or security issues related to the package. Please [launch an issue](https://github.com/MockingMagician/coinbase-pro-sdk/issues/new/choose) describing the problem and how to reproduce it.***

@@ -104,7 +104,7 @@ class Margin extends AbstractConnectivity implements MarginInterface
         $query = [];
 
         if ($after) {
-            $query['after'] = $after->format(DateTime::ISO8601);
+            $query['after'] = $after->format(DateTimeInterface::ATOM);
         }
 
         return $this->getRequestFactory()->createRequest('GET', '/margin/liquidation_history', $query)->send();

@@ -44,6 +44,8 @@ aux_links:
         - "https://github.com/MockingMagician/coinbase-pro-sdk"
     "Releases":
         - "https://github.com/MockingMagician/coinbase-pro-sdk/releases"
+    "Available on Packagist":
+        - "https://packagist.org/packages/mocking-magician/coinbase-pro-sdk"
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: true

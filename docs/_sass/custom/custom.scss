@@ -73,3 +73,9 @@ code { background-color: #232525; line-height: unset; }
 .highlight .vg { color: #ca7732 } /* Name.Variable.Global */
 .highlight .vi { color: #ca7732 } /* Name.Variable.Instance */
 .highlight .il { color: #3f99d1; font-weight: bold } /* Literal.Number.Integer.Long */
+.highlighter-rouge {
+  padding: 0.25rem 0.35rem ;
+  border-color: rgba(0, 0, 0, 0.5) !important;
+  color: rgba(139, 0, 0, 0.88);
+  background: white;
+}
