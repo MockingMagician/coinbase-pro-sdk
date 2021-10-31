@@ -250,7 +250,6 @@ class WithdrawalsTest extends AbstractTest
         } catch (ApiError $exception) {
             self::assertEquals('Forbidden', $exception->getMessage());
         }
-
     }
 
     public function testGetFeeEstimate()

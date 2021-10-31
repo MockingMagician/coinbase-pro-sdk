@@ -8,7 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
-use DateTime;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ProductsInterface;
@@ -30,7 +29,7 @@ class Products extends AbstractConnectivity implements ProductsInterface
     /**
      * @var null|float
      */
-    private static $lastCallToHistoricRates = null;
+    private static $lastCallToHistoricRates;
 
     public function getProductsRaw(): string
     {

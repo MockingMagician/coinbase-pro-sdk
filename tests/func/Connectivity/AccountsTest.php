@@ -89,7 +89,7 @@ class AccountsTest extends AbstractTest
 
         foreach ($list as $account) {
             $raw = $this->accounts->getAccountHistoryRaw($account->getId());
-            if ($raw !== '[]') {
+            if ('[]' !== $raw) {
                 self::assertStringContainsString('"id":', $raw);
                 self::assertStringContainsString('"created_at":', $raw);
                 self::assertStringContainsString('"amount":', $raw);

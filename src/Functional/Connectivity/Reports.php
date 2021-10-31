@@ -8,7 +8,6 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
-use DateTime;
 use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\ReportsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\ReportDataInterface;
