@@ -87,7 +87,12 @@ class ProfilesTest extends AbstractTest
             );
         }
 
-        $raw = $this->profiles->createProfileTransferRaw($default->getId(), $other->getId(), 'USD', 15);
+        try {
+            $raw = $this->profiles->createProfileTransferRaw($default->getId(), $other->getId(), 'USD', 15);
+        } catch (\Throwable $exception) {
+            self::assertStringContainsString('not have permission to transfer', $exception->getMessage());
+            return;
+        }
 
         self::assertStringContainsString('OK', $raw);
     }
@@ -102,7 +107,13 @@ class ProfilesTest extends AbstractTest
             );
         }
 
-        $bool = $this->profiles->createProfileTransfer($default->getId(), $other->getId(), 'USD', 15);
+        try {
+            $bool = $this->profiles->createProfileTransfer($default->getId(), $other->getId(), 'USD', 15);
+        } catch (\Throwable $exception) {
+            self::assertStringContainsString('not have permission to transfer', $exception->getMessage());
+            return;
+        }
+
 
         self::assertTrue($bool);
     }

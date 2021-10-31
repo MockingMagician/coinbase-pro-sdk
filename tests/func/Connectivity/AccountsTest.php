@@ -86,28 +86,36 @@ class AccountsTest extends AbstractTest
     public function testGetAccountHistoryRaw()
     {
         $list = $this->accounts->list();
-        $raw = $this->accounts->getAccountHistoryRaw($list[0]->getId());
 
-        self::assertStringContainsString('"id":', $raw);
-        self::assertStringContainsString('"created_at":', $raw);
-        self::assertStringContainsString('"amount":', $raw);
-        self::assertStringContainsString('"balance":', $raw);
-        self::assertStringContainsString('"type":', $raw);
-        self::assertStringContainsString('"details":', $raw);
+        foreach ($list as $account) {
+            $raw = $this->accounts->getAccountHistoryRaw($account->getId());
+            if ($raw !== '[]') {
+                self::assertStringContainsString('"id":', $raw);
+                self::assertStringContainsString('"created_at":', $raw);
+                self::assertStringContainsString('"amount":', $raw);
+                self::assertStringContainsString('"balance":', $raw);
+                self::assertStringContainsString('"type":', $raw);
+                self::assertStringContainsString('"details":', $raw);
+            }
+        }
     }
 
     public function testGetAccountHistory()
     {
         $list = $this->accounts->list();
-        $accountHistory = $this->accounts->getAccountHistory($list[0]->getId());
-        $accountHistoryEvent = $accountHistory[0];
 
-        self::assertIsString($accountHistoryEvent->getId());
-        self::assertInstanceOf(\DateTimeInterface::class, $accountHistoryEvent->getCreatedAt());
-        self::assertIsFloat($accountHistoryEvent->getBalance());
-        self::assertIsFloat($accountHistoryEvent->getAmount());
-        self::assertIsString($accountHistoryEvent->getType());
-        self::assertIsArray($accountHistoryEvent->getDetails());
+        foreach ($list as $account) {
+            $accountHistory = $this->accounts->getAccountHistory($account->getId());
+            if (!empty($accountHistory)) {
+                $accountHistoryEvent = $accountHistory[0];
+                self::assertIsString($accountHistoryEvent->getId());
+                self::assertInstanceOf(\DateTimeInterface::class, $accountHistoryEvent->getCreatedAt());
+                self::assertIsFloat($accountHistoryEvent->getBalance());
+                self::assertIsFloat($accountHistoryEvent->getAmount());
+                self::assertIsString($accountHistoryEvent->getType());
+                self::assertIsArray($accountHistoryEvent->getDetails());
+            }
+        }
     }
 
     public function testGetHoldsRaw()

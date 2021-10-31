@@ -205,7 +205,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
             [
                 'CB-ACCESS-KEY' => $signData->getKey(),
                 'CB-ACCESS-SIGN' => $signData->getSignature(),
-                'CB-ACCESS-TIMESTAMP' => $signData->getTimestamp(),
+                'CB-ACCESS-TIMESTAMP' => (string) $signData->getTimestamp(),
                 'CB-ACCESS-PASSPHRASE' => $signData->getPassphrase(),
                 'Content-Type' => 'application/json',
             ],

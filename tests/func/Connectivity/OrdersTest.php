@@ -181,16 +181,16 @@ class OrdersTest extends AbstractTest
         $raw = $this->orders->cancelOrderByClientOrderIdRaw($clientOrderId);
 
         self::assertIsString($raw);
-        self::assertEquals($order->getId(), json_decode($raw, true));
+        self::assertEquals($clientOrderId, json_decode($raw, true));
 
-        $clientOrderId = self::randomUUID();
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
-        $order = $this->orders->placeOrder($limitOrderToPlace);
+        try {
+            $exception = null;
+            $this->orders->cancelOrderByClientOrderIdRaw($clientOrderId);
+        } catch (ApiError $exception) {
+        }
 
-        $raw = $this->orders->cancelOrderByClientOrderIdRaw($clientOrderId, $order->getProductId());
-
-        self::assertIsString($raw);
-        self::assertEquals($order->getId(), json_decode($raw, true));
+        self::assertNotNull($exception);
+        self::assertContains('not found', $exception->getMessage());
     }
 
     public function testDeleteOrderByClientId()
@@ -273,7 +273,7 @@ class OrdersTest extends AbstractTest
 
         foreach ($orders as $order) {
             self::assertIsString($order->getId());
-            self::assertIsFloat($order->getSize());
+            self::assertIsFloat($order->getSize() ?? $order->getFunds());
             self::assertIsString($order->getProductId());
             self::assertIsString($order->getSide());
             self::assertIsString($order->getType());
