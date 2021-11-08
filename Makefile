@@ -1,3 +1,7 @@
+.PHONY: serve-doc
+serve-doc: ## Serve documentation locally, jekyll is required
+	(cd docs && jekyll serve)
+
 .PHONY: chained-tests
 chained-tests: phpstan phpcs-dry-run tests-unit ## Run phpstan, phpcs and PHPUnit tests 'Unit' suite
 

@@ -64,7 +64,7 @@ class VolumeData extends AbstractCreator implements VolumeDataInterface
     }
 
     /**
-     * @{inhetitedDoc}
+     * @{@inheritDoc}
      */
     public static function createFromArray(array $array, ...$extraData)
     {

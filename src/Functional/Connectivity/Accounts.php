@@ -14,6 +14,8 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountHistoryEventData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\HoldData;
+use MockingMagician\CoinbaseProSdk\Functional\Enum\TransferTypeEnum;
+use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class Accounts extends AbstractConnectivity implements AccountsInterface
 {
@@ -38,9 +40,9 @@ class Accounts extends AbstractConnectivity implements AccountsInterface
     /**
      * {@inheritdoc}
      */
-    public function getAccount(string $id): AccountDataInterface
+    public function getAccount(string $accountId): AccountDataInterface
     {
-        return AccountData::createFromJson($this->getAccountRaw($id));
+        return AccountData::createFromJson($this->getAccountRaw($accountId));
     }
 
     public function getAccountHistoryRaw(string $id, ?PaginationInterface $pagination = null): string
@@ -51,9 +53,9 @@ class Accounts extends AbstractConnectivity implements AccountsInterface
     /**
      * {@inheritdoc}
      */
-    public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array
+    public function getAccountLedger(string $accountId, ?PaginationInterface $pagination = null): array
     {
-        return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($id, $pagination));
+        return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($accountId, $pagination));
     }
 
     public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null): string
@@ -64,8 +66,36 @@ class Accounts extends AbstractConnectivity implements AccountsInterface
     /**
      * {@inheritdoc}
      */
-    public function getHolds(string $id, ?PaginationInterface $pagination = null): array
+    public function getHolds(string $accountId, ?PaginationInterface $pagination = null): array
     {
-        return HoldData::createCollectionFromJson($this->getHoldsRaw($id, $pagination));
+        return HoldData::createCollectionFromJson($this->getHoldsRaw($accountId, $pagination));
+    }
+
+    public function getTransfersRaw(string $accountId, ?TransferTypeEnum $type = null, ?PaginationInterface $pagination = null): string
+    {
+        $body = null;
+
+        if ($type) {
+            $body['type'] = $type->value;
+        }
+
+        return $this->getRequestFactory()
+            ->createRequest(
+                'GET',
+                sprintf('/accounts/%s/transfers', $accountId),
+                [],
+                $body ? Json::encode($body) : null,
+                $pagination
+            )
+            ->send()
+            ;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTransfers(string $accountId, ?TransferTypeEnum $type = null, ?PaginationInterface $pagination = null): array
+    {
+        return $this->getTransfers($accountId, $type, $pagination);
     }
 }

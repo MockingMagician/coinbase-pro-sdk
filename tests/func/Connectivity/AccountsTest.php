@@ -105,7 +105,7 @@ class AccountsTest extends AbstractTest
         $list = $this->accounts->list();
 
         foreach ($list as $account) {
-            $accountHistory = $this->accounts->getAccountHistory($account->getId());
+            $accountHistory = $this->accounts->getAccountLedger($account->getId());
             if (!empty($accountHistory)) {
                 $accountHistoryEvent = $accountHistory[0];
                 self::assertIsString($accountHistoryEvent->getId());
@@ -126,7 +126,7 @@ class AccountsTest extends AbstractTest
         );
         $list = $this->accounts->list();
         foreach ($list as $accountData) {
-            $raw = $this->accounts->getHoldsRaw($list[0]->getId());
+            $raw = $this->accounts->getHoldsRaw($accountData->getId());
         }
     }
 
@@ -135,5 +135,15 @@ class AccountsTest extends AbstractTest
         $this->markTestSkipped(
             'Data is missing for tests'
         );
+    }
+
+    public function testGetTransfersRaw()
+    {
+        $list = $this->accounts->list();
+        dump($list);
+        foreach ($list as $accountData) {
+            $raw = $this->accounts->getTransfersRaw($accountData->getId());
+            dump($raw);
+        }
     }
 }

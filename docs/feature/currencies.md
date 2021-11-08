@@ -11,5 +11,5 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
 
-$api->currencies()->getCurrencies();
+$api->currencies()->list();
 ```

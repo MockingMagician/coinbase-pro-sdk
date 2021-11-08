@@ -13,22 +13,19 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDataInterface;
 interface CurrenciesInterface
 {
     /**
-     * Get currencies
-     * List known currencies.
+     * Gets a list of all known currencies.
+     * Note: Not all currencies may be currently in use for trading.
      *
-     * HTTP REQUEST
-     * GET /currencies
-     * Not all currencies may be currently in use for trading.
-     *
-     * CURRENCY CODES
-     * Currency codes will conform to the ISO 4217 standard where possible.
-     * Currencies which have or had no representation in ISO 4217 may use a custom code.
-     * Code	Description
-     * BTC	Bitcoin
-     * ETH	Ether
-     * LTC	Litecoin
+     * Request : GET /currencies
      *
      * @return CurrencyDataInterface[]
      */
-    public function getCurrencies(): array;
+    public function list(): array;
+
+    /**
+     * Gets a single currency by id.
+     *
+     * Request : GET /currencies/{currency_id}
+     */
+    public function getCurrency(string $currencyId): CurrencyDataInterface;
 }

@@ -10,6 +10,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\CommonHelpers;
 
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\CustomAsserts\AssertEmptyOrEquals;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\CustomAsserts\AssertEqualsOneOf;
+use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\CustomAsserts\AssertIsNullOrIsString;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\CustomAsserts\AssertNullOrEquals;
 use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\CustomAsserts\AssertNullOrInstanceOf;
 
@@ -57,5 +58,10 @@ trait TraitAssertMore
             $expected,
             $message
         );
+    }
+
+    public static function assertIsNullOrIsString($actual, string $message = ''): void
+    {
+        static::assertThat($actual, new AssertIsNullOrIsString(), $message);
     }
 }

@@ -188,7 +188,7 @@ class WithdrawalsTest extends AbstractTest
 
     public function testDoWithdrawCoinbaseRaw()
     {
-        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
         $withdrawalDone = 0;
         foreach ($coinbaseAccounts as $ca) {
             try {
@@ -207,7 +207,7 @@ class WithdrawalsTest extends AbstractTest
 
     public function testDoWithdrawCoinbase()
     {
-        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
         $withdrawalDone = 0;
         foreach ($coinbaseAccounts as $ca) {
             try {

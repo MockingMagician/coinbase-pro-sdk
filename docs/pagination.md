@@ -48,7 +48,7 @@ $accountId = '132fb6ae-456b-4654-b4e0-d681ac05cea1';
 $pagination = CoinbaseFacade::createPagination(); // The pagination object
 
 while ($pagination->hasNext()) { // Fetch new page while has next
-    $history = $api->accounts()->getAccountHistory($accountId, $pagination);
+    $history = $api->accounts()->getAccountLedger($accountId, $pagination);
 }
 ```
 Pagination Settings :
@@ -69,6 +69,6 @@ $pagination = CoinbaseFacade::createPagination( // The pagination object
 );
 
 while ($pagination->hasNext()) { // Fetch new page while has next
-    $history = $api->accounts()->getAccountHistory($accountId, $pagination);
+    $history = $api->accounts()->getAccountLedger($accountId, $pagination);
 }
 ```

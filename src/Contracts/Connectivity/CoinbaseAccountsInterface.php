@@ -9,23 +9,30 @@
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CoinbaseAccountDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\CoinbaseDepositAddressDataInterface;
 
 interface CoinbaseAccountsInterface
 {
     /**
-     * Coinbase Accounts.
+     * Gets all the user's available Coinbase wallets
+     * (These are the wallets/accounts that are used for buying and selling on www.coinbase.com).
      *
-     * List Accounts
-     * Get a list of your coinbase accounts.
-     * Visit the Coinbase accounts API for more information.
+     * Request : POST /coinbase-accounts
      *
-     * HTTP REQUEST
-     * GET /coinbase-accounts
-     *
-     * API KEY PERMISSIONS
-     * This endpoint requires either the "view" or "transfer" permission.
+     * API Key Permissions
+     * This endpoint requires either the "view" or "trade" permission.
      *
      * @return CoinbaseAccountDataInterface[]
      */
-    public function listCoinbaseAccounts(): array;
+    public function list(): array;
+
+    /**
+     * Generates a one-time crypto address for depositing crypto.
+     *
+     * Request : POST /coinbase-accounts/{account_id}/addresses
+     *
+     * API Key Permissions
+     * This endpoint requires "trade" permission.
+     */
+    public function generateCryptoAddress(string $accountId): CoinbaseDepositAddressDataInterface;
 }

@@ -17,11 +17,13 @@
     "authors": [
         {
             "name": "Marc MOREAU",
-            "email": "moreau.marc.web@gmail.com"
+            "email": "moreau.marc.web@gmail.com",
+            "role": "owner, maintainer, developer"
         },
         {
             "name": "Roger Thomas",
-            "email": "rogere84@gmail.com"
+            "email": "rogere84@gmail.com",
+            "role": "contributor"
         }
     ],
     "autoload": {
@@ -41,12 +43,13 @@
         "sort-packages": true
     },
     "require": {
-        "amphp/websocket-client": "^1.0",
+        "php": ">=7.2",
         "ext-json": "*",
         "ext-openssl": "*",
+        "amphp/websocket-client": "^1.0",
         "guzzlehttp/guzzle": "^6.0 | ^7.0",
-        "php": ">=7.2",
         "psr/http-client": "^1.0",
+        "spatie/enum": "^3.10",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {

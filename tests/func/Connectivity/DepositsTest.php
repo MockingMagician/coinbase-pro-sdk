@@ -181,7 +181,7 @@ class DepositsTest extends AbstractTest
 
     public function testDoDepositCoinbaseRaw()
     {
-        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
         $depositsDone = 0;
         foreach ($coinbaseAccounts as $ca) {
             try {
@@ -198,7 +198,7 @@ class DepositsTest extends AbstractTest
 
     public function testDoDepositCoinbase()
     {
-        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
         $depositsDone = 0;
         foreach ($coinbaseAccounts as $ca) {
             try {
@@ -215,7 +215,7 @@ class DepositsTest extends AbstractTest
 
     public function testGenerateCryptoDepositAddressRaw()
     {
-        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
         $raw = $this->deposits->generateCryptoDepositAddressRaw($coinbaseAccounts[0]->getId());
 
         self::assertStringContainsString('"id":', $raw);
@@ -228,7 +228,7 @@ class DepositsTest extends AbstractTest
 
     public function testGenerateCryptoDepositAddress()
     {
-        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
         $cryptoAddress = $this->deposits->generateCryptoDepositAddress($coinbaseAccounts[0]->getId());
 
         self::assertIsString($cryptoAddress->getId());

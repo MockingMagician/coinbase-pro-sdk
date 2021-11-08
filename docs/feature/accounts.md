@@ -13,7 +13,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 $api->accounts()->list();
 $api->accounts()->getAccount('BTC');
-$api->accounts()->getAccountHistory('XTZ');
+$api->accounts()->getAccountLedger('XTZ');
 $api->accounts()->getHolds('132fb6ae-456b-4654-b4e0-d681ac05cea1');
 ```
 
@@ -77,7 +77,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
 
-$history = $api->accounts()->getAccountHistory('BTC');
+$history = $api->accounts()->getAccountLedger('BTC');
 
 foreach ($history as $historyEventData) {
     $historyEventData->getId(); // id of the event

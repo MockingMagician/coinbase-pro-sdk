@@ -8,68 +8,88 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
+use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryEventDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HoldDataInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Enum\TransferTypeEnum;
 
 interface AccountsInterface
 {
     /**
-     * HTTP REQUEST
-     * GET /accounts.
+     * Get a list of trading accounts from the profile of the API key.
      *
-     * API KEY PERMISSIONS
+     * Request : GET /accounts
+     *
+     * API Key Permissions
      * This endpoint requires either the "view" or "trade" permission.
      *
-     * RATE LIMITS
+     * Rate Limits
      * This endpoint has a custom rate limit by profile ID: 25 requests per second, up to 50 requests per second in bursts
+     *
+     * Funds on Hold
+     * When you place an order, the funds for the order are placed on hold. They cannot be used for other orders or withdrawn.
+     * Funds will remain on hold until the order is filled or canceled.
      *
      * @return AccountDataInterface[]
      */
     public function list(): array;
 
     /**
-     * HTTP REQUEST
-     * GET /accounts/<account-id>.
+     * Information for a single account. Use this endpoint when you know the account_id.
+     * API key must belong to the same profile as the account.
      *
-     * API KEY PERMISSIONS
+     * Request : GET /accounts/{account_id}
+     *
+     * API Key Permissions
      * This endpoint requires either the "view" or "trade" permission.
      */
-    public function getAccount(string $id): AccountDataInterface;
+    public function getAccount(string $accountId): AccountDataInterface;
 
     /**
-     * !!! This request is paginated.
+     * List the holds of an account that belong to the same profile as the API key.
+     * Holds are placed on an account for any active orders or pending withdraw requests.
+     * As an order is filled, the hold amount is updated. If an order is canceled, any remaining hold is removed.
+     * For withdrawals, the hold is removed after it is completed.
      *
-     * HTTP REQUEST
-     * GET /accounts/<account-id>/ledger
+     * This request is paginated.
      *
-     * API KEY PERMISSIONS
+     * Request :  GET /accounts/{account_id}/holds
+     *
+     * API Key Permissions
      * This endpoint requires either the "view" or "trade" permission.
-     *
-     * @param null|PaginationInterface $pagination null if get history from beginning
-     *
-     * @return AccountHistoryEventDataInterface[]
-     */
-    public function getAccountHistory(string $id, ?PaginationInterface $pagination = null): array;
-
-    /**
-     * !!! This request is paginated.
-     *
-     * HTTP REQUEST
-     * GET /accounts/<account_id>/holds
-     *
-     * API KEY PERMISSIONS
-     * This endpoint requires either the "view" or "trade" permission.
-     *
-     * TYPE
-     * The type of the hold will indicate why the hold exists.
-     * The hold type is order for holds related to open orders and transfer for holds related to a withdraw.
-     *
-     * REF
-     * The ref field contains the id of the order or transfer which created the hold.
      *
      * @return HoldDataInterface[]
      */
-    public function getHolds(string $id, ?PaginationInterface $pagination = null): array;
+    public function getHolds(string $accountId, ?PaginationInterface $pagination = null, ?DateTimeInterface $startDate = null, ?DateTimeInterface $endDate = null): array;
+
+    /**
+     * List account activity of the API key's profile.
+     * Account activity either increases or decreases your account balance.
+     *
+     * This request is paginated.
+     *
+     * Request : GET /accounts/{account_id}/ledger
+     *
+     * API Key Permissions
+     * This endpoint requires either the "view" or "trade" permission.
+     *
+     * @return AccountHistoryEventDataInterface[]
+     */
+    public function getAccountLedger(string $id, ?PaginationInterface $pagination = null): array;
+
+    /**
+     * Lists past withdrawals and deposits for an account.
+     *
+     * This request is paginated.
+     *
+     * Request : GET /accounts/{account_id}/transfers
+     *
+     * API Key Permissions
+     * This endpoint requires either the "view" or "trade" permission.
+     *
+     * @return HoldDataInterface[]
+     */
+    public function getTransfers(string $accountId, ?TransferTypeEnum $type = null, ?PaginationInterface $pagination = null): array;
 }

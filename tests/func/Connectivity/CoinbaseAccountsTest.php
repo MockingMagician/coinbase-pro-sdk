@@ -9,12 +9,15 @@
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\CoinbaseAccounts;
+use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
+use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 
 /**
  * @internal
  */
 class CoinbaseAccountsTest extends AbstractTest
 {
+    use TraitAssertMore;
     /**
      * @var CoinbaseAccounts
      */
@@ -41,7 +44,7 @@ class CoinbaseAccountsTest extends AbstractTest
 
     public function testList()
     {
-        $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
 
         self::assertIsString($coinbaseAccounts[0]->getId());
         self::assertIsString($coinbaseAccounts[0]->getName());
@@ -51,5 +54,58 @@ class CoinbaseAccountsTest extends AbstractTest
         self::assertIsBool($coinbaseAccounts[0]->isPrimary());
         self::assertIsBool($coinbaseAccounts[0]->isActive());
         self::assertIsArray($coinbaseAccounts[0]->getExtraData());
+    }
+
+    public function testGenerateCryptoAddressRaw()
+    {
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
+
+        foreach ($coinbaseAccounts as $coinbaseAccount) {
+            try {
+                $raw = $this->coinbaseAccounts->generateCryptoAddressRaw($coinbaseAccount->getId());
+
+                self::assertStringContainsString('"id":', $raw);
+                self::assertStringContainsString('"address":', $raw);
+                self::assertStringContainsString('"name":', $raw);
+                self::assertStringContainsString('"callback_url":', $raw);
+                self::assertStringContainsString('"created_at":', $raw);
+                self::assertStringContainsString('"updated_at":', $raw);
+                self::assertStringContainsString('"resource":', $raw);
+                self::assertStringContainsString('"resource_path":', $raw);
+                self::assertStringContainsString('"exchange_deposit_address":', $raw);
+            } catch (ApiError $exception) {
+                if ('Internal server error' === $exception->getMessage()) {
+                    continue;
+                }
+
+                throw $exception;
+            }
+        }
+    }
+
+    public function testGenerateCryptoAddress()
+    {
+        $coinbaseAccounts = $this->coinbaseAccounts->list();
+
+        foreach ($coinbaseAccounts as $coinbaseAccount) {
+            try {
+                $address = $this->coinbaseAccounts->generateCryptoAddress($coinbaseAccount->getId());
+                self::assertIsString($address->getId());
+                self::assertIsString($address->getName());
+                self::assertIsString($address->getAddress());
+                self::assertIsNullOrIsString($address->getCallbackUrl());
+                self::assertInstanceOf(\DateTimeImmutable::class, $address->getCreatedAt());
+                self::assertInstanceOf(\DateTimeImmutable::class, $address->getUpdatedAt());
+                self::assertIsNullOrIsString($address->getResource());
+                self::assertIsNullOrIsString($address->getResourcePath());
+                self::assertIsBool($address->isExchangeDepositAddress());
+            } catch (ApiError $exception) {
+                if ('Internal server error' === $exception->getMessage()) {
+                    continue;
+                }
+
+                throw $exception;
+            }
+        }
     }
 }

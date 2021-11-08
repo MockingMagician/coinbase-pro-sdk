@@ -9,11 +9,12 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CurrenciesInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CurrencyData;
 
 class Currencies extends AbstractConnectivity implements CurrenciesInterface
 {
-    public function getCurrenciesRaw(): string
+    public function listRaw(): string
     {
         return $this->getRequestFactory()->createRequest('GET', '/currencies')->setMustBeSigned(false)->send();
     }
@@ -21,8 +22,18 @@ class Currencies extends AbstractConnectivity implements CurrenciesInterface
     /**
      * {@inheritdoc}
      */
-    public function getCurrencies(): array
+    public function list(): array
     {
-        return CurrencyData::createCollectionFromJson($this->getCurrenciesRaw());
+        return CurrencyData::createCollectionFromJson($this->listRaw());
+    }
+
+    public function getCurrencyRaw(string $currencyId): string
+    {
+        return $this->getRequestFactory()->createRequest('GET', sprintf('/currencies/%s', $currencyId))->setMustBeSigned(false)->send();
+    }
+
+    public function getCurrency(string $currencyId): CurrencyDataInterface
+    {
+        return CurrencyData::createFromJson($this->getCurrencyRaw($currencyId));
     }
 }

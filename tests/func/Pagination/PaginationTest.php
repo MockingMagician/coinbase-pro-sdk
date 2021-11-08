@@ -69,7 +69,7 @@ class PaginationTest extends AbstractTest
         $previousIds = [];
 
         while ($pagination->hasNext()) {
-            $currentIds = $this->accounts->getAccountHistory($accountId, $pagination);
+            $currentIds = $this->accounts->getAccountLedger($accountId, $pagination);
             $currentIds = array_map(function (AccountHistoryEventDataInterface $history) {return $history->getId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
@@ -85,7 +85,7 @@ class PaginationTest extends AbstractTest
         $previousIds = [];
 
         while ($pagination->hasNext()) {
-            $currentIds = $this->accounts->getAccountHistory($accountId, $pagination);
+            $currentIds = $this->accounts->getAccountLedger($accountId, $pagination);
             $currentIds = array_map(function (AccountHistoryEventDataInterface $history) {return $history->getId(); }, $currentIds);
 
             foreach ($currentIds as $id) {
