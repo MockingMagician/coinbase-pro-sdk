@@ -13,6 +13,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountHistoryEventDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\HoldDataInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\TransferDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Enum\TransferTypeEnum;
 
 interface AccountsInterface
@@ -57,12 +58,9 @@ interface AccountsInterface
      *
      * Request :  GET /accounts/{account_id}/holds
      *
-     * API Key Permissions
-     * This endpoint requires either the "view" or "trade" permission.
-     *
      * @return HoldDataInterface[]
      */
-    public function getHolds(string $accountId, ?PaginationInterface $pagination = null, ?DateTimeInterface $startDate = null, ?DateTimeInterface $endDate = null): array;
+    public function getHolds(string $accountId, ?PaginationInterface $pagination = null): array;
 
     /**
      * List account activity of the API key's profile.
@@ -77,7 +75,12 @@ interface AccountsInterface
      *
      * @return AccountHistoryEventDataInterface[]
      */
-    public function getAccountLedger(string $id, ?PaginationInterface $pagination = null): array;
+    public function getAccountLedger(
+        string $accountId,
+        ?PaginationInterface $pagination = null,
+        ?DateTimeInterface $startDate = null,
+        ?DateTimeInterface $endDate = null
+    ): array;
 
     /**
      * Lists past withdrawals and deposits for an account.
@@ -86,10 +89,7 @@ interface AccountsInterface
      *
      * Request : GET /accounts/{account_id}/transfers
      *
-     * API Key Permissions
-     * This endpoint requires either the "view" or "trade" permission.
-     *
-     * @return HoldDataInterface[]
+     * @return TransferDataInterface[]
      */
     public function getTransfers(string $accountId, ?TransferTypeEnum $type = null, ?PaginationInterface $pagination = null): array;
 }

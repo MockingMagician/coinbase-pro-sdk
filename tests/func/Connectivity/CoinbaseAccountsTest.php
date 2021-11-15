@@ -74,7 +74,9 @@ class CoinbaseAccountsTest extends AbstractTest
                 self::assertStringContainsString('"resource_path":', $raw);
                 self::assertStringContainsString('"exchange_deposit_address":', $raw);
             } catch (ApiError $exception) {
-                if ('Internal server error' === $exception->getMessage()) {
+                if ('Internal server error' === $exception->getMessage()
+                    || false !== strpos($exception->getMessage(), 'Deposits are not allowed for this currency')
+                ) {
                     continue;
                 }
 
@@ -100,7 +102,9 @@ class CoinbaseAccountsTest extends AbstractTest
                 self::assertIsNullOrIsString($address->getResourcePath());
                 self::assertIsBool($address->isExchangeDepositAddress());
             } catch (ApiError $exception) {
-                if ('Internal server error' === $exception->getMessage()) {
+                if ('Internal server error' === $exception->getMessage()
+                    || false !== strpos($exception->getMessage(), 'Deposits are not allowed for this currency')
+                ) {
                     continue;
                 }
 

@@ -8,12 +8,14 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Connectivity;
 
+use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\AccountsInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\AccountHistoryEventData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\HoldData;
+use MockingMagician\CoinbaseProSdk\Functional\DTO\TransferData;
 use MockingMagician\CoinbaseProSdk\Functional\Enum\TransferTypeEnum;
 use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
@@ -45,22 +47,49 @@ class Accounts extends AbstractConnectivity implements AccountsInterface
         return AccountData::createFromJson($this->getAccountRaw($accountId));
     }
 
-    public function getAccountHistoryRaw(string $id, ?PaginationInterface $pagination = null): string
-    {
-        return $this->getRequestFactory()->createRequest('GET', sprintf('/accounts/%s/ledger', $id), [], null, $pagination)->send();
+    public function getAccountLedgerRaw(
+        string $accountId,
+        ?PaginationInterface $pagination = null,
+        ?DateTimeInterface $startDate = null,
+        ?DateTimeInterface $endDate = null
+    ): string {
+        $query = [];
+        if ($startDate) {
+            $query['start_date'] = $startDate;
+        }
+        if ($endDate) {
+            $query['end_date'] = $endDate;
+        }
+
+        return $this->getRequestFactory()
+            ->createRequest(
+                'GET',
+                sprintf('/accounts/%s/ledger', $accountId),
+                $query,
+                null,
+                $pagination
+            )->send();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAccountLedger(string $accountId, ?PaginationInterface $pagination = null): array
-    {
-        return AccountHistoryEventData::createCollectionFromJson($this->getAccountHistoryRaw($accountId, $pagination));
+    public function getAccountLedger(
+        string $accountId,
+        ?PaginationInterface $pagination = null,
+        ?DateTimeInterface $startDate = null,
+        ?DateTimeInterface $endDate = null
+    ): array {
+        return AccountHistoryEventData::createCollectionFromJson($this->getAccountLedgerRaw($accountId, $pagination));
     }
 
-    public function getHoldsRaw(string $id, ?PaginationInterface $pagination = null): string
+    public function getHoldsRaw(string $accountId, ?PaginationInterface $pagination = null): string
     {
-        return $this->getRequestFactory()->createRequest('GET', sprintf('/accounts/%s/holds', $id), [], null, $pagination)->send();
+        return $this
+            ->getRequestFactory()
+            ->createRequest('GET', sprintf('/accounts/%s/holds', $accountId), [], null, $pagination)
+            ->send()
+        ;
     }
 
     /**
@@ -73,18 +102,18 @@ class Accounts extends AbstractConnectivity implements AccountsInterface
 
     public function getTransfersRaw(string $accountId, ?TransferTypeEnum $type = null, ?PaginationInterface $pagination = null): string
     {
-        $body = null;
+        $query = [];
 
         if ($type) {
-            $body['type'] = $type->value;
+            $query['type'] = $type->value;
         }
 
         return $this->getRequestFactory()
             ->createRequest(
                 'GET',
                 sprintf('/accounts/%s/transfers', $accountId),
-                [],
-                $body ? Json::encode($body) : null,
+                $query,
+                null,
                 $pagination
             )
             ->send()
@@ -96,6 +125,6 @@ class Accounts extends AbstractConnectivity implements AccountsInterface
      */
     public function getTransfers(string $accountId, ?TransferTypeEnum $type = null, ?PaginationInterface $pagination = null): array
     {
-        return $this->getTransfers($accountId, $type, $pagination);
+        return TransferData::createCollectionFromJson($this->getTransfersRaw($accountId, $type, $pagination));
     }
 }

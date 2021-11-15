@@ -32,6 +32,9 @@ class Currencies extends AbstractConnectivity implements CurrenciesInterface
         return $this->getRequestFactory()->createRequest('GET', sprintf('/currencies/%s', $currencyId))->setMustBeSigned(false)->send();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCurrency(string $currencyId): CurrencyDataInterface
     {
         return CurrencyData::createFromJson($this->getCurrencyRaw($currencyId));

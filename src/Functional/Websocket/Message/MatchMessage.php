@@ -14,17 +14,14 @@ class MatchMessage extends AbstractFullChannelMessage
      * @var int
      */
     private $tradeId;
-
     /**
      * @var string
      */
     private $makerOrderId;
-
     /**
      * @var string
      */
     private $takerOrderId;
-
     /**
      * @var float
      */
@@ -107,5 +104,55 @@ class MatchMessage extends AbstractFullChannelMessage
     public function getSize(): float
     {
         return $this->size;
+    }
+
+    public function getSequence(): int
+    {
+        return $this->sequence;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function getUserId(): ?string
+    {
+        return $this->userId;
+    }
+
+    public function getProfileId(): ?string
+    {
+        return $this->profileId;
+    }
+
+    public function getTakerUserId(): ?string
+    {
+        return $this->takerUserId;
+    }
+
+    public function getTakerProfileId(): ?string
+    {
+        return $this->takerProfileId;
+    }
+
+    public function getTakerFeeRate(): ?float
+    {
+        return $this->takerFeeRate;
+    }
+
+    public function getMakerUserId(): ?string
+    {
+        return $this->makerUserId;
+    }
+
+    public function getMakerProfileId(): ?string
+    {
+        return $this->makerProfileId;
+    }
+
+    public function getMakerFeeRate(): ?float
+    {
+        return $this->makerFeeRate;
     }
 }

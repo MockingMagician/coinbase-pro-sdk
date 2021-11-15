@@ -48,7 +48,7 @@ class Request implements RequestInterface, RequestReporterAwareInterface
      */
     private $routePath;
     /**
-     * @var string
+     * @var null|string
      */
     private $body;
     /**

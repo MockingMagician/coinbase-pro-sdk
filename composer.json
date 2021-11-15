@@ -55,7 +55,7 @@
     "require-dev": {
         "ext-pcntl": "*",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpstan/phpstan": "^0.12.42",
+        "phpstan/phpstan": "dev-master",
         "phpunit/phpunit": "^7.5",
         "vlucas/phpdotenv": "^4.0",
         "symfony/var-dumper": "^4.0"

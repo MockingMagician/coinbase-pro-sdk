@@ -17,13 +17,11 @@ interface HoldDataInterface
 {
     public function getId(): string;
 
-    public function getAccountId(): string;
-
     public function getCreatedAt(): DateTimeInterface;
 
-    public function getUpdatedAt(): DateTimeInterface;
+    public function getUpdatedAt(): ?DateTimeInterface;
 
-    public function getAmount(): float;
+    public function getAmount(): ?float;
 
     public function getType(): string;
 

@@ -12,7 +12,6 @@ use MockingMagician\CoinbaseProSdk\Contracts\Connectivity\CoinbaseAccountsInterf
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\CoinbaseDepositAddressDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CoinbaseAccountData;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\CoinbaseDepositAddressData;
-use MockingMagician\CoinbaseProSdk\Functional\Misc\Json;
 
 class CoinbaseAccounts extends AbstractConnectivity implements CoinbaseAccountsInterface
 {
@@ -39,6 +38,6 @@ class CoinbaseAccounts extends AbstractConnectivity implements CoinbaseAccountsI
      */
     public function generateCryptoAddress(string $accountId): CoinbaseDepositAddressDataInterface
     {
-        return CoinbaseDepositAddressData::createFromArray(Json::decode($this->generateCryptoAddressRaw($accountId), true));
+        return CoinbaseDepositAddressData::createFromJson($this->generateCryptoAddressRaw($accountId));
     }
 }

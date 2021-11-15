@@ -27,7 +27,7 @@ use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
 /** @var ApiInterface $api */
 
-$api->accounts()->getAccountHistoryRaw('132fb6ae-456b-4654-b4e0-d681ac05cea1'); // Paginated request
+$api->accounts()->getAccountLedgerRaw('132fb6ae-456b-4654-b4e0-d681ac05cea1'); // Paginated request
 $api->accounts()->getHolds('132fb6ae-456b-4654-b4e0-d681ac05cea1'); // Paginated request
 $api->fills()->listFills(); // Paginated request
 $api->deposits()->listDeposits(); // Paginated request

@@ -8,14 +8,17 @@
 
 namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 
+use DateTimeImmutable;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\AccountDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Accounts;
+use MockingMagician\CoinbaseProSdk\Tests\CommonHelpers\TraitAssertMore;
 
 /**
  * @internal
  */
 class AccountsTest extends AbstractTest
 {
+    use TraitAssertMore;
     /**
      * @var Accounts
      */
@@ -88,7 +91,7 @@ class AccountsTest extends AbstractTest
         $list = $this->accounts->list();
 
         foreach ($list as $account) {
-            $raw = $this->accounts->getAccountHistoryRaw($account->getId());
+            $raw = $this->accounts->getAccountLedgerRaw($account->getId());
             if ('[]' !== $raw) {
                 self::assertStringContainsString('"id":', $raw);
                 self::assertStringContainsString('"created_at":', $raw);
@@ -120,30 +123,79 @@ class AccountsTest extends AbstractTest
 
     public function testGetHoldsRaw()
     {
-        // todo create some hold data by passing order impossible to realize
-        $this->markTestSkipped(
-            'Data is missing for tests'
-        );
         $list = $this->accounts->list();
         foreach ($list as $accountData) {
             $raw = $this->accounts->getHoldsRaw($accountData->getId());
+            if ('[]' === $raw) {
+                continue;
+            }
+            self::assertStringContainsString('"id":', $raw);
+            self::assertStringContainsString('"created_at":', $raw);
+            self::assertStringContainsString('"amount":', $raw);
+            self::assertStringContainsString('"ref":', $raw);
         }
     }
 
     public function testGetHolds()
     {
-        $this->markTestSkipped(
-            'Data is missing for tests'
-        );
+        $list = $this->accounts->list();
+        foreach ($list as $accountData) {
+            $holds = $this->accounts->getHolds($accountData->getId());
+            if (empty($holds)) {
+                continue;
+            }
+            foreach ($holds as $hold) {
+                self::assertIsString($hold->getId());
+                self::assertIsFloat($hold->getAmount());
+                self::assertIsString($hold->getType());
+                self::assertIsString($hold->getRef());
+                self::assertInstanceOf(DateTimeImmutable::class, $hold->getCreatedAt());
+                self::assertNullOrInstanceOf(DateTimeImmutable::class, $hold->getUpdatedAt());
+            }
+        }
     }
 
     public function testGetTransfersRaw()
     {
         $list = $this->accounts->list();
-        dump($list);
         foreach ($list as $accountData) {
             $raw = $this->accounts->getTransfersRaw($accountData->getId());
-            dump($raw);
+            if ('[]' === $raw) {
+                continue;
+            }
+            self::assertStringContainsString('"id":', $raw);
+            self::assertStringContainsString('"type":', $raw);
+            self::assertStringContainsString('"created_at":', $raw);
+            self::assertStringContainsString('"completed_at":', $raw);
+            self::assertStringContainsString('"canceled_at":', $raw);
+            self::assertStringContainsString('"processed_at":', $raw);
+            self::assertStringContainsString('"user_nonce":', $raw);
+            self::assertStringContainsString('"amount":', $raw);
+            self::assertStringContainsString('"details":', $raw);
+            self::assertStringContainsString('"idem":', $raw);
+        }
+    }
+
+    public function testGetTransfers()
+    {
+        $list = $this->accounts->list();
+        foreach ($list as $accountData) {
+            $transfers = $this->accounts->getTransfers($accountData->getId());
+            if (empty($transfers)) {
+                continue;
+            }
+            foreach ($transfers as $transfer) {
+                self::assertIsString($transfer->getId());
+                self::assertIsFloat($transfer->getAmount());
+                self::assertIsString($transfer->getType());
+                self::assertNullOrInstanceOf(DateTimeImmutable::class, $transfer->getCreatedAt());
+                self::assertNullOrInstanceOf(DateTimeImmutable::class, $transfer->getProcessedAt());
+                self::assertNullOrInstanceOf(DateTimeImmutable::class, $transfer->getCompletedAt());
+                self::assertNullOrInstanceOf(DateTimeImmutable::class, $transfer->getCanceledAt());
+                self::assertIsNullOrIsInt($transfer->getUserNonce());
+                self::assertIsNullOrIsString($transfer->getIdem());
+                self::assertIsArray($transfer->getDetails());
+            }
         }
     }
 }

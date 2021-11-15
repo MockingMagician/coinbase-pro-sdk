@@ -19,10 +19,6 @@ class HoldData extends AbstractCreator implements HoldDataInterface
      */
     private $id;
     /**
-     * @var string
-     */
-    private $accountId;
-    /**
      * @var DateTimeInterface
      */
     private $createdAt;
@@ -31,7 +27,7 @@ class HoldData extends AbstractCreator implements HoldDataInterface
      */
     private $updatedAt;
     /**
-     * @var float
+     * @var null|float
      */
     private $amount;
     /**
@@ -45,15 +41,13 @@ class HoldData extends AbstractCreator implements HoldDataInterface
 
     public function __construct(
         string $id,
-        string $accountId,
-        DateTimeInterface $createdAt,
-        DateTimeInterface $updatedAt,
         float $Amount,
         string $type,
-        string $ref
+        string $ref,
+        DateTimeInterface $createdAt,
+        ?DateTimeInterface $updatedAt
     ) {
         $this->id = $id;
-        $this->accountId = $accountId;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->amount = $Amount;
@@ -66,22 +60,17 @@ class HoldData extends AbstractCreator implements HoldDataInterface
         return $this->id;
     }
 
-    public function getAccountId(): string
-    {
-        return $this->accountId;
-    }
-
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function getAmount(): float
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
@@ -100,12 +89,11 @@ class HoldData extends AbstractCreator implements HoldDataInterface
     {
         return new static(
             $array['id'],
-            $array['account_id'],
-            new DateTimeImmutable($array['created_at']),
-            new DateTimeImmutable($array['updated_at']),
             $array['amount'],
             $array['type'],
-            $array['ref']
+            $array['ref'],
+            new DateTimeImmutable($array['created_at']),
+            isset($array['updated_at']) ? new DateTimeImmutable($array['updated_at']) : null
         );
     }
 }

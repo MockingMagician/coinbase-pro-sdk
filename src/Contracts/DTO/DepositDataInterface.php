@@ -19,6 +19,8 @@ interface DepositDataInterface
 
     public function getType(): string;
 
+    public function getAmount(): float;
+
     public function getCreatedAt(): DateTimeInterface;
 
     public function getCompletedAt(): ?DateTimeInterface;
@@ -32,8 +34,6 @@ interface DepositDataInterface
     public function getUserId(): string;
 
     public function getUserNonce(): ?int;
-
-    public function getAmount(): float;
 
     public function getDetails(): array;
 }

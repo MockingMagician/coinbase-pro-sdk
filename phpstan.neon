@@ -1,6 +1,8 @@
 parameters:
 	checkMissingIterableValueType: false
-	excludes_analyse:
+	excludePaths:
 		- src/Functional/Connectivity/Margin.php
 	ignoreErrors:
 		- '#Unsafe usage of new static\(\)#'
+		- '#SecureParams::\$tag is never written#'
+		- '#json_(en|de)code expects int\<1\, max\>#'

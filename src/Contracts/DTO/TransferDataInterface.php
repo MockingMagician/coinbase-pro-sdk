@@ -8,39 +8,34 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
 
-use DateTimeInterface;
+use DateTimeImmutable;
 
 /**
  * Interface DepositDataInterface.
  */
 interface TransferDataInterface
 {
-    public const TYPE_WITHDRAW = 'withdraw';
-    public const TYPE_DEPOSIT = 'deposit';
-    public const TYPES = [
-        self::TYPE_DEPOSIT,
-        self::TYPE_WITHDRAWT,
-    ];
-
     public function getId(): string;
 
     public function getType(): string;
 
-    public function getCreatedAt(): DateTimeInterface;
+    public function getAmount(): float;
 
-    public function getCompletedAt(): ?DateTimeInterface;
+    public function getCreatedAt(): DateTimeImmutable;
 
-    public function getCanceledAt(): ?DateTimeInterface;
+    public function getCompletedAt(): ?DateTimeImmutable;
 
-    public function getProcessedAt(): ?DateTimeInterface;
+    public function getCanceledAt(): ?DateTimeImmutable;
 
-    public function getAccountId(): string;
+    public function getProcessedAt(): ?DateTimeImmutable;
 
-    public function getUserId(): string;
+    public function getAccountId(): ?string;
+
+    public function getUserId(): ?string;
+
+    public function getIdem(): ?string;
 
     public function getUserNonce(): ?int;
-
-    public function getAmount(): float;
 
     public function getDetails(): array;
 }

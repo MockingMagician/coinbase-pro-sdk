@@ -35,7 +35,7 @@ class Conversions extends AbstractConnectivity implements ConversionsInterface
      */
     public function convert(string $from, string $to, float $amount, ?string $nonce = null): ConversionDataInterface
     {
-        return ConversionData::createFromArray(Json::decode($this->convertRaw($from, $to, $amount, $nonce), true));
+        return ConversionData::createFromJson($this->convertRaw($from, $to, $amount, $nonce));
     }
 
     public function getConversionRaw(string $conversionId): string
@@ -45,6 +45,6 @@ class Conversions extends AbstractConnectivity implements ConversionsInterface
 
     public function getConversion(string $conversionId): ConversionDataInterface
     {
-        return ConversionData::createFromArray(Json::decode($this->getConversionRaw($conversionId), true));
+        return ConversionData::createFromJson($this->getConversionRaw($conversionId));
     }
 }

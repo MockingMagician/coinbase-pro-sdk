@@ -9,7 +9,6 @@
 namespace MockingMagician\CoinbaseProSdk\Functional\DTO;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\TransferDataInterface;
 
 class TransferData extends AbstractCreator implements TransferDataInterface
@@ -50,31 +49,45 @@ class TransferData extends AbstractCreator implements TransferDataInterface
      * @var array
      */
     private $details;
+    /**
+     * @var null|string
+     */
+    private $accountId;
+    /**
+     * @var null|string
+     */
+    private $userId;
+    /**
+     * @var null|string
+     */
+    private $idem;
 
     public function __construct(
         string $id,
         string $type,
+        float $amount,
         DateTimeImmutable $createdAt,
         ?DateTimeImmutable $completedAt,
         ?DateTimeImmutable $canceledAt,
         ?DateTimeImmutable $processedAt,
-        string $accountId,
-        string $userId,
+        ?string $accountId,
+        ?string $userId,
+        ?string $idem,
         ?int $userNonce,
-        float $amount,
         array $details
     ) {
         $this->id = $id;
         $this->type = $type;
+        $this->amount = $amount;
         $this->createdAt = $createdAt;
         $this->completedAt = $completedAt;
+        $this->canceledAt = $canceledAt;
         $this->processedAt = $processedAt;
         $this->userNonce = $userNonce;
-        $this->amount = $amount;
-        $this->idem = $accountId;
-        $this->userId = $userId;
         $this->details = $details;
-        $this->canceledAt = $canceledAt;
+        $this->accountId = $accountId;
+        $this->userId = $userId;
+        $this->idem = $idem;
     }
 
     public function getId(): string
@@ -87,51 +100,26 @@ class TransferData extends AbstractCreator implements TransferDataInterface
         return $this->type;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
-    public function getCreatedAt(): DateTimeInterface
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
-    public function getCompletedAt(): ?DateTimeInterface
+    public function getCompletedAt(): ?DateTimeImmutable
     {
         return $this->completedAt;
     }
 
-    /**
-     * @return null|DateTimeImmutable
-     */
-    public function getCanceledAt(): ?DateTimeInterface
+    public function getCanceledAt(): ?DateTimeImmutable
     {
         return $this->canceledAt;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
-    public function getProcessedAt(): ?DateTimeInterface
+    public function getProcessedAt(): ?DateTimeImmutable
     {
         return $this->processedAt;
     }
 
-    public function getAccountId(): string
-    {
-        return $this->accountId;
-    }
-
-    public function getUserId(): string
-    {
-        return $this->userId;
-    }
-
-    /**
-     * @return int
-     */
     public function getUserNonce(): ?int
     {
         return $this->userNonce;
@@ -142,9 +130,24 @@ class TransferData extends AbstractCreator implements TransferDataInterface
         return $this->amount;
     }
 
+    public function getAccountId(): ?string
+    {
+        return $this->accountId;
+    }
+
+    public function getUserId(): ?string
+    {
+        return $this->userId;
+    }
+
     public function getDetails(): array
     {
         return $this->details;
+    }
+
+    public function getIdem(): ?string
+    {
+        return $this->idem;
     }
 
     public static function createFromArray(array $array, ...$extraData)
@@ -152,14 +155,15 @@ class TransferData extends AbstractCreator implements TransferDataInterface
         return new static(
             $array['id'],
             $array['type'],
+            $array['amount'],
             new DateTimeImmutable($array['created_at']),
             isset($array['completed_at']) ? new DateTimeImmutable($array['completed_at']) : null,
             isset($array['canceled_at']) ? new DateTimeImmutable($array['canceled_at']) : null,
             isset($array['processed_at']) ? new DateTimeImmutable($array['processed_at']) : null,
             $array['account_id'],
             $array['user_id'],
+            $array['idem'],
             $array['user_nonce'],
-            $array['amount'],
             $array['details']
         );
     }
