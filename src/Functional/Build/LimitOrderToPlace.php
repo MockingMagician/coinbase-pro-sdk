@@ -8,10 +8,10 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Build;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Build\LimitOrderToPlaceInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\LimitOrderInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class LimitOrderToPlace extends AbstractCommonOrderToPlace implements LimitOrderToPlaceInterface
+class LimitOrderToPlace extends AbstractOrder implements LimitOrderInterface
 {
     /**
      * @var float

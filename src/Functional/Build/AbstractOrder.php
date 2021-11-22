@@ -8,10 +8,10 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Build;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Build\CommonOrderToPlaceInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\OrderInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class AbstractCommonOrderToPlace implements CommonOrderToPlaceInterface
+class AbstractOrder implements OrderInterface
 {
     /**
      * @var string

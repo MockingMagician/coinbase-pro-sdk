@@ -13,13 +13,12 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\FeeDataInterface;
 interface FeesInterface
 {
     /**
-     * Get Current Fees.
+     * Get fees rates and 30 days trailing volume.
      *
-     * HTTP REQUEST
-     * GET /fees
+     * Request : GET /fees
      *
-     * This request will return your current maker & taker fee rates, as well as your 30-day trailing volume.
-     * Quoted rates are subject to change. More information on fees can found on our support page.
+     * API Key Permissions
+     * This endpoint requires the "view" permission.
      */
     public function getCurrentFees(): FeeDataInterface;
 }

@@ -8,10 +8,10 @@
 
 namespace MockingMagician\CoinbaseProSdk\Functional\Build;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Build\MarketOrderToPlaceInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\MarketOrderInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
-class MarketOrderToPlace extends AbstractCommonOrderToPlace implements MarketOrderToPlaceInterface
+class MarketOrderToPlace extends AbstractOrder implements MarketOrderInterface
 {
     /**
      * @var null|float

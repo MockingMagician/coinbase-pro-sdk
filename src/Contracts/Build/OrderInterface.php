@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
 /**
  * Class CommonOrderToMakeInterface.
  */
-interface CommonOrderToPlaceInterface
+interface OrderInterface
 {
     const SIDE_BUY = 'buy';
     const SIDE_SELL = 'sell';

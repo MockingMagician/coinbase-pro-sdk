@@ -11,7 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\Build;
 /**
  * Interface LimitOrderToPlace.
  */
-interface LimitOrderToPlaceInterface extends CommonOrderToPlaceInterface
+interface LimitOrderInterface extends OrderInterface
 {
     /*
      * TIME IN FORCE

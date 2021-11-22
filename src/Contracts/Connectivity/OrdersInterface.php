@@ -8,198 +8,114 @@
 
 namespace MockingMagician\CoinbaseProSdk\Contracts\Connectivity;
 
-use MockingMagician\CoinbaseProSdk\Contracts\Build\CommonOrderToPlaceInterface;
+use DateTimeInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\Build\OrderInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Build\PaginationInterface;
+use MockingMagician\CoinbaseProSdk\Contracts\DTO\FillDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderDataInterface;
 use MockingMagician\CoinbaseProSdk\Contracts\Error\ApiErrorInterface;
+use MockingMagician\CoinbaseProSdk\Functional\Enum\OrderSortedBy;
+use MockingMagician\CoinbaseProSdk\Functional\Enum\OrderStatus;
+use MockingMagician\CoinbaseProSdk\Functional\Enum\SortDirection;
 
 interface OrdersInterface
 {
-//    const STATUS_ALL = 'all';
-    const STATUS_OPEN = 'open';
-    const STATUS_PENDING = 'pending';
-    const STATUS_ACTIVE = 'active';
-    const STATUS_DONE = 'done';
-
-    const STATUS = [
-        self::STATUS_DONE,
-        self::STATUS_OPEN,
-        self::STATUS_PENDING,
-        self::STATUS_ACTIVE,
-    ];
+    /**
+     * Get a list of fills. A fill is a partial or complete match on a specific order.
+     *
+     * Request : GET /fills
+     *
+     * API Key Permissions
+     * This endpoint requires either the "view" or "trade" permission.
+     *
+     * Settlement and Fees
+     * Fees are recorded in two stages. Immediately after the matching engine completes a match, the fill is inserted into our datastore.
+     * Once the fill is recorded, a settlement process will settle the fill and credit both trading counterparties.
+     *
+     * The fee field indicates the fees charged for this individual fill.
+     *
+     * Liquidity
+     * The liquidity field indicates if the fill was the result of a liquidity provider or liquidity taker.
+     * M indicates Maker and T indicates Taker.
+     *
+     * @return FillDataInterface[]
+     */
+    public function listFills(?string $orderId = null, ?string $productId = null, ?PaginationInterface $pagination = null): array;
 
     /**
-     * !!! Open orders do not expire and will remain open until they are either filled or canceled.
+     * List your current open orders. Only open or un-settled orders are returned by default.
+     * As soon as an order is no longer open and settled, it will no longer appear in the default request.
+     * Open orders may change state between the request and the response depending on market conditions.
      *
-     * HTTP REQUEST
-     * POST /orders
+     * Request : GET /orders
      *
-     * API KEY PERMISSIONS
+     * API Key Permissions
+     * This endpoint requires either the "view" or "trade" permission.
+     *
+     * Note that orders with a "pending" status have a reduced set of fields in the response.
+     *
+     * "pending" Limit orders will not have stp, time_in_force, expire_time, and post_only.
+     * "pending" Market orders will have the same fields as a "pending" Limit order minus price and size, and no Market specific fields (funds, specified_funds).
+     * "pending" Stop orders will have the same fields as a "pending" Limit order and no Stop specific fields (stop, stop_price).
+     *
+     * Order status and settlement
+     * Orders which are no longer resting on the order book, will be marked with the done status.
+     * There is a small window between an order being done and settled.
+     * An order is settled when all of the fills have settled and the remaining holds (if any) have been removed.
+     *
+     * Polling
+     * For high-volume trading it is strongly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated.
+     * You should poll the open orders endpoint once when you start trading to obtain the current state of any open orders.
+     *
+     * executed_value is the cumulative match size * price and is only present for orders placed after 2016-05-20.
+     *
+     * Open orders may change state between the request and the response depending on market conditions.
+     *
+     * @return OrderDataInterface[]
+     */
+    public function listOrders(
+        OrderStatus $status,
+        string $productId = null,
+        PaginationInterface $pagination = null,
+        OrderSortedBy $sortedBy = null,
+        SortDirection $sortedByDirection = null,
+        ?DateTimeInterface $startDate = null,
+        ?DateTimeInterface $endDate = null
+    ): array;
+
+    /**
+     * With best effort, cancel all open orders.
+     * This may require you to make the request multiple times until all of the open orders are deleted.
+     *
+     * Request : DELETE /orders
+     *
+     * API Key Permissions
+     * This endpoint requires the "trade" permission.
+     */
+    public function cancelAllOrders(string $productId = null): array;
+
+    /**
+     * Create an order. You can place two types of orders: limit and market.
+     * Orders can only be placed if your account has sufficient funds.
+     * Once an order is placed, your account funds will be put on hold for the duration of the order.
+     * How much and which funds are put on hold depends on the order type and parameters specified.
+     *
+     * Request : POST /orders
+     *
+     * API Key Permissions
      * This endpoint requires the "trade" permission.
      *
-     * PARAMETERS
-     * These parameters are common to all order types. Depending on the order type, additional parameters will be required (see below).
-     *
-     * Param    Description
-     * client_oid    [optional] Order ID selected by you to identify your order
-     * type    [optional] limit or market (default is limit)
-     * side    buy or sell
-     * product_id    A valid product id
-     * stp    [optional] Self-trade prevention flag
-     * stop    [optional] Either loss or entry. Requires stop_price to be defined.
-     * stop_price    [optional] Only if stop is defined. Sets trigger price for stop order.
-     * LIMIT ORDER PARAMETERS
-     * Param    Description
-     * price    Price per bitcoin
-     * size    Amount of base currency to buy or sell
-     * time_in_force    [optional] GTC, GTT, IOC, or FOK (default is GTC)
-     * cancel_after    [optional]* min, hour, day
-     * post_only    [optional]** Post only flag
-     *  * Requires time_in_force to be GTT
-     *
-     *  ** Invalid when time_in_force is IOC or FOK
-     *
-     * MARKET ORDER PARAMETERS
-     * Param    Description
-     * size    [optional]* Desired amount in base currency
-     * funds    [optional]* Desired amount of quote currency to use
-     *  * One of size or funds is required.
-     *
-     * PRODUCT ID
-     * The product_id must match a valid product. The products list is available via the /products endpoint.
-     *
-     * CLIENT ORDER ID
-     * The optional client_oid field must be a UUID generated by your trading application.
-     * This field value will be broadcast in the public feed for received messages.
-     * You can use this field to identify your orders in the public feed.
-     *
-     * The client_oid is different than the server-assigned order id.
-     * If you are consuming the public feed and see a received message with your client_oid,
-     * you should record the server-assigned order_id as it will be used for future order status updates.
-     * The client_oid will NOT be used after the received message is sent.
-     *
-     * The server-assigned order id is also returned as the id field to this HTTP POST request.
-     *
-     * TYPE
-     * When placing an order, you can specify the order type.
-     * The order type you specify will influence which other order parameters are required as well as
-     * how your order will be executed by the matching engine.
-     * If type is not specified, the order will default to a limit order.
-     *
-     * limit orders are both the default and basic order type. A limit order requires specifying a price and size.
-     * The size is the number of base currency to buy or sell, and the price is the price per base currency.
-     * The limit order will be filled at the price specified or better.
-     * A sell order can be filled at the specified price per base currency or a higher price per base currency and
-     * a buy order can be filled at the specified price or a lower price depending on market conditions.
-     * If market conditions cannot fill the limit order immediately, then the limit order will become part of
-     * the open order book until filled by another incoming order or canceled by the user.
-     *
-     * market orders differ from limit orders in that they provide no pricing guarantees.
-     * They however do provide a way to buy or sell specific amounts of base currency or
-     * fiat without having to specify the price.
-     * Market orders execute immediately and no part of the market order will go on the open order book.
-     * Market orders are always considered takers and incur taker fees.
-     * When placing a market order you can specify funds and/or size.
-     * Funds will limit how much of your quote currency account balance is used and
-     * size will limit the amount of base currency transacted.
-     *
-     * STOP ORDERS
-     * Stop orders become active and wait to trigger based on the movement of the last trade price.
-     * There are two types of stop orders, stop loss and stop entry:
-     *
-     * stop: 'loss': Triggers when the last trade price changes to a value at or below the stop_price.
-     *
-     * stop: 'entry': Triggers when the last trade price changes to a value at or above the stop_price.
-     *
-     * The last trade price is the last price at which an order was filled.
-     * This price can be found in the latest match message. Note that not all match messages may be received due to dropped messages.
-     *
-     * Note that when stop orders are triggered, they execute as limit orders and are therefore subject to holds.
-     *
-     * PRICE
-     * The price must be specified in quote_increment product units. The quote increment is the smallest unit of price.
-     * For example, the BTC-USD product has a quote increment of 0.01 or 1 penny.
-     * Prices less than 1 penny will not be accepted, and no fractional penny prices will be accepted.
-     * Not required for market orders.
-     *
-     * SIZE
-     * The size must be greater than the base_min_size for the product and no larger than the base_max_size.
-     * The size can be in incremented in units of base_increment.
-     * size indicates the amount of BTC (or base currency) to buy or sell.
-     *
-     * FUNDS
-     * The funds field is optionally used for market orders.
-     * When specified it indicates how much of the product quote currency to buy or sell.
-     * For example, a market buy for BTC-USD with funds specified as 150.00 will spend 150 USD to buy BTC (including any fees).
-     * If the funds field is not specified for a market buy order,
-     * size must be specified and Coinbase Pro will use available funds in your account to buy bitcoin.
-     *
-     * A market sell order can also specify the funds.
-     * If funds is specified, it will limit the sell to the amount of funds specified.
-     * You can use funds with sell orders to limit the amount of quote currency funds received.
-     *
-     * TIME IN FORCE
-     * Time in force policies provide guarantees about the lifetime of an order.
-     * There are four policies: good till canceled GTC, good till time GTT, immediate or cancel IOC, and fill or kill FOK.
-     *
-     * GTC Good till canceled orders remain open on the book until canceled.
-     * This is the default behavior if no policy is specified.
-     *
-     * GTT Good till time orders remain open on the book until canceled or the allotted cancel_after is depleted on the matching engine.
-     * GTT orders are guaranteed to cancel before any other order is processed after the cancel_after timestamp which is returned by the API.
-     * A day is considered 24 hours.
-     *
-     * IOC Immediate or cancel orders instantly cancel the remaining size of the limit order instead of opening it on the book.
-     *
-     * FOK Fill or kill orders are rejected if the entire size cannot be matched.
-     *
-     *  * Note, match also refers to self trades.
-     *
-     * POST ONLY
-     * The post-only flag indicates that the order should only make liquidity.
-     * If any part of the order results in taking liquidity, the order will be rejected and no part of it will execute.
-     *
-     * HOLDS
-     * For limit buy orders, we will hold price x size x (1 + fee-percent) USD. For sell orders,
-     * we will hold the number of base currency you wish to sell. Actual fees are assessed at time of trade.
-     * If you cancel a partially filled or unfilled order, any remaining funds will be released from hold.
-     *
-     * For market buy orders where funds is specified, the funds amount will be put on hold.
-     * If only size is specified, all of your account balance (in the quote account) will be
-     * put on hold for the duration of the market order (usually a trivially short time).
-     * For a sell order, the size in base currency will be put on hold.
-     * If size is not specified (and only funds is specified),
-     * your entire base currency balance will be on hold for the duration of the market order.
-     *
-     * SELF-TRADE PREVENTION
-     * Self-trading is not allowed on Coinbase Pro.
-     * Two orders from the same user will not be allowed to match with one another.
-     * To change the self-trade behavior, specify the stp flag.
-     *
-     * Flag    Name
-     * dc    Decrease and Cancel (default)
-     * co    Cancel oldest
-     * cn    Cancel newest
-     * cb    Cancel both
-     * See the self-trade prevention documentation for details about these fields.
-     *
-     * ORDER LIFECYCLE
-     * The HTTP Request will respond when an order is either rejected (insufficient funds, invalid parameters, etc)
-     * or received (accepted by the matching engine).
-     * A 200 response indicates that the order was received and is active.
-     * Active orders may execute immediately (depending on price and market conditions) either partially or fully.
-     * A partial execution will put the remaining size of the order in the open state. An order that is filled completely,
-     * will go into the done state.
-     *
-     * Users listening to streaming market data are encouraged to use the client_oid field to identify their received messages in the feed.
-     * The REST response with a server order_id may come after the received message in the public data feed.
-     *
-     * RESPONSE
-     * A successful order will be assigned an order id. A successful order is defined as one that has been accepted by the matching engine.
+     * limit order parameters
+     * Param	Description
+     * price	Price per bitcoin
+     * size	Amount of BTC to buy or sell
+     * time_in_force	[optional] GTC, GTT, IOC, or FOK (default is GTC)
+     * cancel_after	[optional] min, hour, day => Requires time_in_force to be GTT
+     * post_only	[optional] Post only flag => Invalid when time_in_force is IOC or FOK
      *
      * @throws ApiErrorInterface
      */
-    public function placeOrder(CommonOrderToPlaceInterface $orderToPlace): OrderDataInterface;
+    public function placeOrder(OrderInterface $orderToPlace): OrderDataInterface;
 
     /**
      * Cancel an Order
@@ -230,74 +146,6 @@ interface OrdersInterface
     public function cancelOrderById(string $orderId, string $productId = null): bool;
 
     public function cancelOrderByClientOrderId(string $clientOrderId, string $productId = null): bool;
-
-    /**
-     * Cancel all
-     * With best effort, cancel all open orders from the profile that the API key belongs to. The response is a list of ids of the canceled orders.
-     *
-     * [
-     *   "144c6f8e-713f-4682-8435-5280fbe8b2b4",
-     *   "debe4907-95dc-442f-af3b-cec12f42ebda",
-     *   "cf7aceee-7b08-4227-a76c-3858144323ab",
-     *   "dfc5ae27-cadb-4c0c-beef-8994936fde8a",
-     *   "34fecfbf-de33-4273-b2c6-baf8e8948be4"
-     * ]
-     *
-     * HTTP REQUEST
-     * DELETE /orders
-     *
-     * API KEY PERMISSIONS
-     * This endpoint requires the "trade" permission.
-     *
-     * QUERY PARAMETERS
-     * Param    Default    Description
-     * product_id    [optional]    Only cancel orders open for a specific product
-     */
-    public function cancelAllOrders(string $productId = null): array;
-
-    /**
-     * !!! This request is paginated.
-     * List Orders.
-     *
-     * List your current open orders from the profile that the API key belongs to.
-     * Only open or un-settled orders are returned. As soon as an order is no longer open and settled, it will no longer appear in the default request.
-     *
-     * HTTP REQUEST
-     * GET /orders
-     *
-     * API KEY PERMISSIONS
-     * This endpoint requires either the "view" or "trade" permission.
-     *
-     * QUERY PARAMETERS
-     * Param    Default    Description
-     * status    [open, pending, active]    Limit list of orders to these statuses. Passing all returns orders of all statuses.
-     * product_id    [optional]    Only list orders for a specific product
-     * To specify multiple statuses, use the status query argument multiple times: /orders?status=done&status=pending.
-     *
-     * This request is paginated.
-     * ORDER STATUS AND SETTLEMENT
-     * Orders which are no longer resting on the order book, will be marked with the done status.
-     * There is a small window between an order being done and settled.
-     * An order is settled when all of the fills have settled and the remaining holds (if any) have been removed.
-     *
-     * POLLING
-     * For high-volume trading it is strongly recommended that you maintain your own list of open orders
-     * and use one of the streaming market data feeds to keep it updated.
-     * You should poll the open orders endpoint once when you start trading to obtain the current state of any open orders.
-     *
-     * executed_value is the cumulative match size * price and is only present for orders placed after 2016-05-20.
-     *
-     * Open orders may change state between the request and the response depending on market conditions.
-     *
-     * @param array $status one or more of self::STATUS
-     *
-     * @return OrderDataInterface[]
-     */
-    public function listOrders(
-        array $status = self::STATUS,
-        string $productId = null,
-        PaginationInterface $pagination = null
-    ): array;
 
     /**
      * Get an Order
