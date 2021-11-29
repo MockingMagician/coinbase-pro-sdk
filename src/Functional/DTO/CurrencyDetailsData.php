@@ -13,11 +13,11 @@ use MockingMagician\CoinbaseProSdk\Contracts\DTO\CurrencyDetailsDataInterface;
 class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsDataInterface
 {
     /**
-     * @var string
+     * @var null|string
      */
     private $type;
     /**
-     * @var string
+     * @var null|string
      */
     private $symbol;
     /**
@@ -25,19 +25,19 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
      */
     private $networkConfirmations;
     /**
-     * @var int
+     * @var null|int
      */
     private $sortOrder;
     /**
-     * @var string
+     * @var null|string
      */
     private $cryptoAddressLink;
     /**
-     * @var string
+     * @var null|string
      */
     private $cryptoTransactionLink;
     /**
-     * @var array
+     * @var null|array
      */
     private $pushPaymentMethods;
     /**
@@ -58,13 +58,13 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
     private $groupTypes;
 
     public function __construct(
-        string $type,
-        string $symbol,
+        ?string $type,
+        ?string $symbol,
         ?int $networkConfirmations,
-        int $sortOrder,
+        ?int $sortOrder,
         ?string $cryptoAddressLink,
         ?string $cryptoTransactionLink,
-        array $pushPaymentMethods,
+        ?array $pushPaymentMethods,
         ?int $processingTimeSeconds,
         ?float $minWithdrawalAmount,
         ?float $maxWithdrawalAmount,
@@ -83,12 +83,12 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
         $this->groupTypes = $groupTypes;
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function getSymbol(): string
+    public function getSymbol(): ?string
     {
         return $this->symbol;
     }
@@ -98,7 +98,7 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
         return $this->networkConfirmations;
     }
 
-    public function getSortOrder(): int
+    public function getSortOrder(): ?int
     {
         return $this->sortOrder;
     }
@@ -113,7 +113,7 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
         return $this->cryptoTransactionLink;
     }
 
-    public function getPushPaymentMethods(): array
+    public function getPushPaymentMethods(): ?array
     {
         return $this->pushPaymentMethods;
     }
@@ -141,13 +141,13 @@ class CurrencyDetailsData extends AbstractCreator implements CurrencyDetailsData
     public static function createFromArray(array $array, ...$extraData)
     {
         return new static(
-            $array['type'],
-            $array['symbol'],
+            $array['type'] ?? null,
+            $array['symbol'] ?? null,
             $array['network_confirmations'] ?? null,
-            $array['sort_order'],
+            $array['sort_order'] ?? null,
             $array['crypto_address_link'] ?? null,
             $array['crypto_transaction_link'] ?? null,
-            $array['push_payment_methods'],
+            $array['push_payment_methods'] ?? null,
             $array['processing_time_seconds'] ?? null,
             $array['min_withdrawal_amount'] ?? null,
             $array['max_withdrawal_amount'] ?? null,
