@@ -49,6 +49,10 @@ class WithdrawalsTest extends AbstractTest
     {
         $raw = $this->withdrawals->listWithdrawalsRaw();
 
+        if ('[]' === $raw) {
+            $this->markTestSkipped('Data is missing for tests');
+        }
+
         self::assertStringContainsString('"id":', $raw);
         self::assertStringContainsString('"type":', $raw);
         self::assertStringContainsString('"created_at":', $raw);
@@ -65,6 +69,10 @@ class WithdrawalsTest extends AbstractTest
     public function testListWithdrawalsTest()
     {
         $withdrawals = $this->withdrawals->listWithdrawals();
+
+        if (empty($withdrawals)) {
+            $this->markTestSkipped('Data is missing for tests');
+        }
 
         self::assertIsString($withdrawals[0]->getId());
         self::assertIsString($withdrawals[0]->getType());
@@ -89,6 +97,11 @@ class WithdrawalsTest extends AbstractTest
     public function testGetWithdrawalRaw()
     {
         $withdrawals = $this->withdrawals->listWithdrawals();
+
+        if (empty($withdrawals)) {
+            $this->markTestSkipped('Data is missing for tests');
+        }
+
         $raw = $this->withdrawals->getWithdrawalRaw($withdrawals[0]->getId());
 
         self::assertStringContainsString('"id":', $raw);
@@ -106,6 +119,11 @@ class WithdrawalsTest extends AbstractTest
     public function testGetWithdrawal()
     {
         $withdrawals = $this->withdrawals->listWithdrawals();
+
+        if (empty($withdrawals)) {
+            $this->markTestSkipped('Data is missing for tests');
+        }
+
         $withdrawal = $this->withdrawals->getWithdrawal($withdrawals[0]->getId());
 
         self::assertIsString($withdrawal->getId());
@@ -128,62 +146,82 @@ class WithdrawalsTest extends AbstractTest
     public function testDoWithdrawRaw()
     {
         $paymentMethods = $this->paymentMethods->listPaymentMethods();
+        $withdrawalDone = 0;
         foreach ($paymentMethods as $paymentMethod) {
             if ($paymentMethod->isAllowWithdraw()) {
                 try {
                     $raw = $this->withdrawals->doWithdrawRaw(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
                     self::assertStringContainsString('"id":', $raw);
+                    ++$withdrawalDone;
 
                     break;
                 } catch (ApiError $exception) {
                 }
             }
+        }
+        if (0 === $withdrawalDone) {
+            $this->markTestSkipped('Data is missing for tests');
         }
     }
 
     public function testDoWithdraw()
     {
         $paymentMethods = $this->paymentMethods->listPaymentMethods();
+        $withdrawalDone = 0;
         foreach ($paymentMethods as $paymentMethod) {
             if ($paymentMethod->isAllowWithdraw()) {
                 try {
                     $id = $this->withdrawals->doWithdraw(15, $paymentMethod->getCurrency(), $paymentMethod->getId());
                     self::assertIsString($id);
                     self::assertNotEmpty($id);
+                    ++$withdrawalDone;
 
                     break;
                 } catch (ApiError $exception) {
                 }
             }
         }
+        if (0 === $withdrawalDone) {
+            $this->markTestSkipped('Data is missing for tests');
+        }
     }
 
     public function testDoWithdrawCoinbaseRaw()
     {
         $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $withdrawalDone = 0;
         foreach ($coinbaseAccounts as $ca) {
             try {
                 $raw = $this->withdrawals->doWithdrawToCoinbaseRaw(5, $ca->getCurrency(), $ca->getId());
                 self::assertStringContainsString('"id":', $raw);
+                ++$withdrawalDone;
 
                 break;
-            } catch (\Throwable $e) {
+            } catch (ApiError $e) {
             }
+        }
+        if (0 === $withdrawalDone) {
+            $this->markTestSkipped('Data is missing for tests');
         }
     }
 
     public function testDoWithdrawCoinbase()
     {
         $coinbaseAccounts = $this->coinbaseAccounts->listCoinbaseAccounts();
+        $withdrawalDone = 0;
         foreach ($coinbaseAccounts as $ca) {
             try {
                 $id = $this->withdrawals->doWithdrawToCoinbase(5, $ca->getCurrency(), $ca->getId());
                 self::assertIsString($id);
                 self::assertNotEmpty($id);
+                ++$withdrawalDone;
 
                 break;
-            } catch (\Throwable $e) {
+            } catch (ApiError $e) {
             }
+        }
+        if (0 === $withdrawalDone) {
+            $this->markTestSkipped('Data is missing for tests');
         }
     }
 
@@ -205,15 +243,23 @@ class WithdrawalsTest extends AbstractTest
 
     public function testGetFeeEstimateRaw()
     {
-        $raw = $this->withdrawals->getFeeEstimateRaw('BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
+        try {
+            $raw = $this->withdrawals->getFeeEstimateRaw('BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
 
-        self::assertStringContainsString('"fee":', $raw);
+            self::assertStringContainsString('"fee":', $raw);
+        } catch (ApiError $exception) {
+            self::assertEquals('Forbidden', $exception->getMessage());
+        }
     }
 
     public function testGetFeeEstimate()
     {
-        $fee = $this->withdrawals->getFeeEstimate('BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
+        try {
+            $fee = $this->withdrawals->getFeeEstimate('BTC', 'bc1q6m6j6m970gedw68rhzjcj437lquyhh2tzptahw');
 
-        self::assertIsFloat($fee);
+            self::assertIsFloat($fee);
+        } catch (ApiError $exception) {
+            self::assertEquals('Forbidden', $exception->getMessage());
+        }
     }
 }

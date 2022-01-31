@@ -13,19 +13,19 @@ namespace MockingMagician\CoinbaseProSdk\Contracts\DTO;
  */
 interface CurrencyDetailsDataInterface
 {
-    public function getType(): string;
+    public function getType(): ?string;
 
-    public function getSymbol(): string;
+    public function getSymbol(): ?string;
 
     public function getNetworkConfirmations(): ?int;
 
-    public function getSortOrder(): int;
+    public function getSortOrder(): ?int;
 
     public function getCryptoAddressLink(): ?string;
 
     public function getCryptoTransactionLink(): ?string;
 
-    public function getPushPaymentMethods(): array;
+    public function getPushPaymentMethods(): ?array;
 
     public function getProcessingTimeSeconds(): ?int;
 

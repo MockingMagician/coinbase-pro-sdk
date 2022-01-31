@@ -123,7 +123,7 @@ class CurrencyData extends AbstractCreator implements CurrencyDataInterface
             $array['status'] ?? null,
             ($array['status_message'] ?? $array['message']) ?? null,
             $array['max_precision'] ?? null,
-            CurrencyDetailsData::createFromArray($array['details']),
+            CurrencyDetailsData::createFromArray($array['details'] ?? []),
             $extraData
         );
     }

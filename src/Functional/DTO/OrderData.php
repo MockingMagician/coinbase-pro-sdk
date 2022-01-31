@@ -242,7 +242,7 @@ class OrderData extends AbstractCreator implements OrderDataInterface
             $array['stp'] ?? null,
             $array['type'],
             $array['time_in_force'] ?? null,
-            $array['post_only'],
+            $array['post_only'] ?? false,
             new DateTimeImmutable($array['created_at']),
             isset($array['done_at']) ? new DateTimeImmutable($array['done_at']) : null,
             $array['done_reason'] ?? null,

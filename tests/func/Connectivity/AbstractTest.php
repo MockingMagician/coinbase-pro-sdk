@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTest extends TestCase
 {
-    const API_TEST_ENDPOINT = 'https://api-public.sandbox.pro.coinbase.com';
+    const API_TEST_ENDPOINT = 'https://api-public.sandbox.exchange.coinbase.com';
     const INSPECTOR_RECORD_PATH = __DIR__.'/../../fixtures_from_test_api';
 
     /**
