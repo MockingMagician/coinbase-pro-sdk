@@ -223,7 +223,10 @@ final class WebsocketTest extends AbstractTest
     public function testSubscribeChannelUser()
     {
         if (is_null($this->authenticatedWebsocket)) {
-            $this->markTestSkipped('Functional tests for websocket require REAL(production) key, secret, passphrase.');
+            $this->markTestSkipped(sprintf(
+                'Functional test `%s` for websocket require REAL(production) key, secret, passphrase.',
+                __METHOD__
+            ));
 
             return;
         }

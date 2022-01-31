@@ -72,6 +72,8 @@ getAccountHistory(
 </code>
 </h2>
 
+### And the AccountHistoryEventData object
+
 ```php
 use MockingMagician\CoinbaseProSdk\Contracts\Api\ApiInterface;
 
