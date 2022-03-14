@@ -1,5 +1,4 @@
 remote_theme: just-the-docs/just-the-docs # github pages
-theme: just-the-docs # local
 layout: default
 title: Coinbase Pro PHP sdk - documentation
 logo: './assets/images/coinbase-pro-sdk-min.png'
