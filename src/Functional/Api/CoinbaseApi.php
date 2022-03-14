@@ -131,9 +131,17 @@ class CoinbaseApi implements ApiInterface
      * @var Websocket
      */
     private $websocket;
+    /**
+     * @var array
+     */
+    private $config = [];
 
     public function __construct(CoinbaseConfig $config)
     {
+        $this->config['isManageRateLimits'] = $config->isManageRateLimits();
+        $this->config['isUseCoinbaseRemoteTime'] = $config->isUseCoinbaseRemoteTime();
+        $this->config['isUseSecurityLayerForParams'] = $config->isUseSecurityLayerForParams();
+
         $this->requestFactory = $config->getBuildRequestFactory();
 
         $this->accounts = $config->getConnectivityConfig()->isAccountsActivate() ? new Accounts($this->requestFactory) : null;
@@ -155,6 +163,78 @@ class CoinbaseApi implements ApiInterface
         $this->withdrawals = $config->getConnectivityConfig()->isWithdrawalsActivate() ? new Withdrawals($this->requestFactory) : null;
 
         $this->websocket = new Websocket(new WebsocketRunner(), $this, $config->isUseCoinbaseRemoteTime() ? new Time($this->requestFactory) : null);
+    }
+
+    public function __serialize()
+    {
+        return [
+            'endpoint' => $this->requestFactory->getParams()->getEndPoint(),
+            'key' => $this->requestFactory->getParams()->getKey(),
+            'secret' => $this->requestFactory->getParams()->getSecret(),
+            'passphrase' => $this->requestFactory->getParams()->getPassphrase(),
+            'endpoints' => [
+                'accounts' => (bool) $this->accounts,
+                'coinbaseAccounts' => (bool) $this->coinbaseAccounts,
+                'currencies' => (bool) $this->currencies,
+                'deposits' => (bool) $this->deposits,
+                'fees' => (bool) $this->fees,
+                'fills' => (bool) $this->fills,
+                'limits' => (bool) $this->limits,
+                'margin' => (bool) $this->margin,
+                'oracle' => (bool) $this->oracle,
+                'orders' => (bool) $this->orders,
+                'paymentMethods' => (bool) $this->paymentMethods,
+                'products' => (bool) $this->products,
+                'profiles' => (bool) $this->profiles,
+                'reports' => (bool) $this->reports,
+                'stableCoinConversions' => (bool) $this->stableCoinConversions,
+                'time' => (bool) $this->time,
+                'withdrawals' => (bool) $this->withdrawals,
+            ],
+            'config' => [
+                'isManageRateLimits' => $this->config['isManageRateLimits'],
+                'isUseCoinbaseRemoteTime' => $this->config['isUseCoinbaseRemoteTime'],
+                'isUseSecurityLayerForParams' => $this->config['isUseSecurityLayerForParams'],
+            ],
+        ];
+    }
+
+    public function __unserialize(array $data)
+    {
+        $config = CoinbaseConfig::createDefault(
+            $data['endpoint'],
+            $data['key'],
+            $data['secret'],
+            $data['passphrase']
+        );
+
+        $config->setManageRateLimits($data['config']['isManageRateLimits']);
+        $config->setUseCoinbaseRemoteTime($data['config']['isUseCoinbaseRemoteTime']);
+        $config->setUseSecurityLayerForParams($data['config']['isUseSecurityLayerForParams']);
+
+        $this->config = $data['config'];
+
+        $this->requestFactory = $config->getBuildRequestFactory();
+
+        $this->accounts = $data['endpoints']['accounts'] ? new Accounts($this->requestFactory) : null;
+        $this->coinbaseAccounts = $data['endpoints']['coinbaseAccounts'] ? new CoinbaseAccounts($this->requestFactory) : null;
+        $this->currencies = $data['endpoints']['currencies'] ? new Currencies($this->requestFactory) : null;
+        $this->deposits = $data['endpoints']['deposits'] ? new Deposits($this->requestFactory) : null;
+        $this->fees = $data['endpoints']['fees'] ? new Fees($this->requestFactory) : null;
+        $this->fills = $data['endpoints']['fills'] ? new Fills($this->requestFactory) : null;
+        $this->limits = $data['endpoints']['limits'] ? new Limits($this->requestFactory) : null;
+        $this->margin = $data['endpoints']['margin'] ? new MarginApiReadyCheckDecorator(new Margin($this->requestFactory)) : null;
+        $this->oracle = $data['endpoints']['oracle'] ? new Oracle($this->requestFactory) : null;
+        $this->orders = $data['endpoints']['orders'] ? new Orders($this->requestFactory) : null;
+        $this->paymentMethods = $data['endpoints']['paymentMethods'] ? new PaymentMethods($this->requestFactory) : null;
+        $this->products = $data['endpoints']['products'] ? new Products($this->requestFactory) : null;
+        $this->profiles = $data['endpoints']['profiles'] ? new Profiles($this->requestFactory) : null;
+        $this->reports = $data['endpoints']['reports'] ? new Reports($this->requestFactory) : null;
+        $this->stableCoinConversions = $data['endpoints']['stableCoinConversions'] ? new StableCoinConversions($this->requestFactory) : null;
+        $this->time = $data['endpoints']['time'] ? new Time($this->requestFactory) : null;
+        $this->withdrawals = $data['endpoints']['withdrawals'] ? new Withdrawals($this->requestFactory) : null;
+
+        $this->websocket = new Websocket(new WebsocketRunner(), $this, $data['config']['isUseCoinbaseRemoteTime'] ? new Time($this->requestFactory) : null);
     }
 
     public function accounts(): AccountsInterface
