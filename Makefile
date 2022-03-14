@@ -33,6 +33,10 @@ phpcs-dry-run: ## Coding style checks
 phpstan: ## Static analysis
 	vendor/bin/phpstan analyse --level=7 src
 
+.PHONY: documentation
+documentation: ## Build and serve docs
+	cd docs && jekyll serve
+
 .PHONY: docker-test-php-72
 docker-test-php-72: ## Docker test on PHP 7.2
 	docker build -t php-test-env:7.2 tests/env/PHP_7.2
