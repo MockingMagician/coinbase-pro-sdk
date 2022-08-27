@@ -11,6 +11,7 @@ namespace MockingMagician\CoinbaseProSdk\Tests\Func\Connectivity;
 use MockingMagician\CoinbaseProSdk\Contracts\DTO\OrderBookDetailsDataInterface;
 use MockingMagician\CoinbaseProSdk\Functional\Connectivity\Products;
 use MockingMagician\CoinbaseProSdk\Functional\DTO\TradeData;
+use MockingMagician\CoinbaseProSdk\Functional\Error\ApiError;
 
 /**
  * @internal
@@ -38,10 +39,6 @@ class ProductsTest extends AbstractTest
         self::assertStringContainsString('"quote_currency":', $raw);
         self::assertStringContainsString('"base_increment":', $raw);
         self::assertStringContainsString('"quote_increment":', $raw);
-        self::assertStringContainsString('"base_min_size":', $raw);
-        self::assertStringContainsString('"base_max_size":', $raw);
-        self::assertStringContainsString('"min_market_funds":', $raw);
-        self::assertStringContainsString('"max_market_funds":', $raw);
         self::assertStringContainsString('"status":', $raw);
         self::assertStringContainsString('"status_message":', $raw);
         self::assertStringContainsString('"cancel_only":', $raw);
@@ -60,10 +57,6 @@ class ProductsTest extends AbstractTest
         self::assertIsString($products->getQuoteCurrency(), 'QuoteCurrency');
         self::assertIsFloat($products->getBaseIncrement(), 'BaseIncrement');
         self::assertIsFloat($products->getQuoteIncrement(), 'QuoteIncrement');
-        self::assertIsFloat($products->getBaseMinSize(), 'BaseMinSize');
-        self::assertIsFloat($products->getBaseMaxSize(), 'BaseMaxSize');
-        self::assertIsFloat($products->getMinMarketFunds(), 'MinMarketFunds');
-        self::assertIsFloat($products->getMaxMarketFunds(), 'MaxMarketFunds');
         self::assertIsString($products->getStatus(), 'Status');
         self::assertIsString($products->getStatusMessage(), 'StatusMessage');
         self::assertIsBool($products->isCancelOnly(), 'CancelOnly');
@@ -83,10 +76,6 @@ class ProductsTest extends AbstractTest
         self::assertStringContainsString('"quote_currency":', $raw);
         self::assertStringContainsString('"base_increment":', $raw);
         self::assertStringContainsString('"quote_increment":', $raw);
-        self::assertStringContainsString('"base_min_size":', $raw);
-        self::assertStringContainsString('"base_max_size":', $raw);
-        self::assertStringContainsString('"min_market_funds":', $raw);
-        self::assertStringContainsString('"max_market_funds":', $raw);
         self::assertStringContainsString('"status":', $raw);
         self::assertStringContainsString('"status_message":', $raw);
         self::assertStringContainsString('"cancel_only":', $raw);
@@ -106,10 +95,6 @@ class ProductsTest extends AbstractTest
         self::assertIsString($product->getQuoteCurrency(), 'QuoteCurrency');
         self::assertIsFloat($product->getBaseIncrement(), 'BaseIncrement');
         self::assertIsFloat($product->getQuoteIncrement(), 'QuoteIncrement');
-        self::assertIsFloat($product->getBaseMinSize(), 'BaseMinSize');
-        self::assertIsFloat($product->getBaseMaxSize(), 'BaseMaxSize');
-        self::assertIsFloat($product->getMinMarketFunds(), 'MinMarketFunds');
-        self::assertIsFloat($product->getMaxMarketFunds(), 'MaxMarketFunds');
         self::assertIsString($product->getStatus(), 'Status');
         self::assertIsString($product->getStatusMessage(), 'StatusMessage');
         self::assertIsBool($product->isCancelOnly(), 'CancelOnly');
@@ -120,8 +105,19 @@ class ProductsTest extends AbstractTest
 
     public function testGetProductOrderBookRaw()
     {
-        $products = $this->products->getProducts()[0];
-        $raw = $this->products->getProductOrderBookRaw($products->getId());
+        $products = $this->products->getProducts();
+        foreach ($products as $product) {
+            try {
+                $raw = $this->products->getProductOrderBookRaw($product->getId());
+                break;
+            } catch (ApiError $exception) {
+                continue;
+            }
+        }
+
+        if (!isset($raw)) {
+            $this->markTestSkipped('Can not be tested');
+        }
 
         self::assertStringContainsString('"bids":', $raw);
         self::assertStringContainsString('"asks":', $raw);
@@ -130,8 +126,19 @@ class ProductsTest extends AbstractTest
 
     public function testGetProductOrderBook()
     {
-        $products = $this->products->getProducts()[0];
-        $productOrderBook = $this->products->getProductOrderBook($products->getId());
+        $products = $this->products->getProducts();
+        foreach ($products as $product) {
+            try {
+                $productOrderBook = $this->products->getProductOrderBook($product->getId());
+                break;
+            } catch (ApiError $exception) {
+                continue;
+            }
+        }
+
+        if (!isset($productOrderBook)) {
+            $this->markTestSkipped('Can not be tested');
+        }
 
         self::assertIsInt($productOrderBook->getSequence());
         self::assertIsArray($productOrderBook->getBids());
@@ -142,8 +149,19 @@ class ProductsTest extends AbstractTest
 
     public function testGetProductTickerRaw()
     {
-        $product = $this->products->getProducts()[0];
-        $raw = $this->products->getProductTickerRaw($product->getId());
+        $products = $this->products->getProducts();
+        foreach ($products as $product) {
+            try {
+                $raw = $this->products->getProductTickerRaw($product->getId());
+                break;
+            } catch (ApiError $exception) {
+                continue;
+            }
+        }
+
+        if (!isset($raw)) {
+            self::markTestSkipped('Can not be tested');
+        }
 
         self::assertStringContainsString('"trade_id":', $raw);
         self::assertStringContainsString('"price":', $raw);
@@ -156,8 +174,19 @@ class ProductsTest extends AbstractTest
 
     public function testGetProductTicker()
     {
-        $product = $this->products->getProducts()[0];
-        $productTicker = $this->products->getProductTicker($product->getId());
+        $products = $this->products->getProducts();
+        foreach ($products as $product) {
+            try {
+                $productTicker = $this->products->getProductTicker($product->getId());
+                break;
+            } catch (ApiError $exception) {
+                continue;
+            }
+        }
+
+        if (!isset($productTicker)) {
+            self::markTestSkipped('Can not be tested');
+        }
 
         self::assertIsInt($productTicker->getTradeId());
         self::assertIsFloat($productTicker->getPrice());
@@ -170,8 +199,22 @@ class ProductsTest extends AbstractTest
 
     public function testGetTradesRaw()
     {
-        $product = $this->products->getProducts()[0];
-        $raw = $this->products->getTradesRaw($product->getId());
+        $products = $this->products->getProducts();
+        foreach ($products as $product) {
+            try {
+                $raw = $this->products->getTradesRaw($product->getId());
+                if ($raw === '[]') {
+                    continue;
+                }
+                break;
+            } catch (ApiError $exception) {
+                continue;
+            }
+        }
+
+        if (!isset($raw)) {
+            self::markTestSkipped('Can not be tested');
+        }
 
         self::assertStringContainsString('"time":', $raw);
         self::assertStringContainsString('"trade_id":', $raw);
@@ -182,8 +225,22 @@ class ProductsTest extends AbstractTest
 
     public function testGetTrades()
     {
-        $product = $this->products->getProducts()[0];
-        $trades = $this->products->getTrades($product->getId());
+        $products = $this->products->getProducts();
+        foreach ($products as $product) {
+            try {
+                $trades = $this->products->getTrades($product->getId());
+                if (!count($trades)) {
+                    continue;
+                }
+                break;
+            } catch (ApiError $exception) {
+                continue;
+            }
+        }
+
+        if (!isset($trades)) {
+            self::markTestSkipped('Can not be tested');
+        }
 
         self::assertNotCount(0, $trades);
         foreach ($trades as $trade) {
@@ -237,8 +294,19 @@ class ProductsTest extends AbstractTest
 
     public function testGet24hrStatsRaw()
     {
-        $product = $this->products->getProducts()[0];
-        $raw = $this->products->get24hrStatsRaw($product->getId());
+        $products = $this->products->getProducts();
+        foreach ($products as $product) {
+            try {
+                $raw = $this->products->get24hrStatsRaw($product->getId());
+                break;
+            } catch (ApiError $exception) {
+                continue;
+            }
+        }
+
+        if (!isset($raw)) {
+            $this->markTestSkipped('Could not be tested');
+        }
 
         self::assertStringContainsString('"open":', $raw);
         self::assertStringContainsString('"high":', $raw);
@@ -250,8 +318,19 @@ class ProductsTest extends AbstractTest
 
     public function testGet24hrStats()
     {
-        $product = $this->products->getProducts()[0];
-        $stats24hrData = $this->products->get24hrStats($product->getId());
+        $products = $this->products->getProducts();
+        foreach ($products as $product) {
+            try {
+                $stats24hrData = $this->products->get24hrStats($product->getId());
+                break;
+            } catch (ApiError $exception) {
+                continue;
+            }
+        }
+
+        if (!isset($stats24hrData)) {
+            $this->markTestSkipped('Could not be tested');
+        }
 
         self::assertIsFloat($stats24hrData->getOpen());
         self::assertIsFloat($stats24hrData->getHigh());

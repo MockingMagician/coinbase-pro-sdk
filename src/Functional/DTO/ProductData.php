@@ -38,19 +38,19 @@ class ProductData extends AbstractCreator implements ProductDataInterface
      */
     private $quoteIncrement;
     /**
-     * @var float
+     * @var float|null
      */
     private $baseMinSize;
     /**
-     * @var float
+     * @var float|null
      */
     private $baseMaxSize;
     /**
-     * @var float
+     * @var float|null
      */
     private $minMarketFunds;
     /**
-     * @var float
+     * @var float|null
      */
     private $maxMarketFunds;
     /**
@@ -93,10 +93,10 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         string $quoteCurrency,
         float $baseIncrement,
         float $quoteIncrement,
-        float $baseMinSize,
-        float $baseMaxSize,
-        float $minMarketFunds,
-        float $maxMarketFunds,
+        ?float $baseMinSize,
+        ?float $baseMaxSize,
+        ?float $minMarketFunds,
+        ?float $maxMarketFunds,
         string $status,
         string $statusMessage,
         bool $cancelOnly,
@@ -156,22 +156,22 @@ class ProductData extends AbstractCreator implements ProductDataInterface
         return $this->quoteIncrement;
     }
 
-    public function getBaseMinSize(): float
+    public function getBaseMinSize(): ?float
     {
         return $this->baseMinSize;
     }
 
-    public function getBaseMaxSize(): float
+    public function getBaseMaxSize(): ?float
     {
         return $this->baseMaxSize;
     }
 
-    public function getMinMarketFunds(): float
+    public function getMinMarketFunds(): ?float
     {
         return $this->minMarketFunds;
     }
 
-    public function getMaxMarketFunds(): float
+    public function getMaxMarketFunds(): ?float
     {
         return $this->maxMarketFunds;
     }
@@ -237,10 +237,10 @@ class ProductData extends AbstractCreator implements ProductDataInterface
             $array['quote_currency'],
             $array['base_increment'],
             $array['quote_increment'],
-            $array['base_min_size'],
-            $array['base_max_size'],
-            $array['min_market_funds'],
-            $array['max_market_funds'],
+            $array['base_min_size'] ?? null,
+            $array['base_max_size'] ?? null,
+            $array['min_market_funds'] ?? null,
+            $array['max_market_funds'] ?? null,
             $array['status'],
             $array['status_message'],
             $array['cancel_only'],

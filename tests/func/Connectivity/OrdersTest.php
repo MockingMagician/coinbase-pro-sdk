@@ -52,7 +52,7 @@ class OrdersTest extends AbstractTest
 
     public function testPlaceOrderRawWithMarketOrder()
     {
-        $marketOrder = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 0.001, null);
+        $marketOrder = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 1, null);
         $raw = $this->orders->placeOrderRaw($marketOrder);
 
         self::assertStringContainsString('"id":', $raw);
@@ -71,7 +71,7 @@ class OrdersTest extends AbstractTest
 
     public function testPlaceOrderRawWithLimitOrder()
     {
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 8000, 0.001);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 8000, 1);
         $raw = $this->orders->placeOrderRaw($limitOrderToPlace);
 
         self::assertStringContainsString('"id":', $raw);
@@ -92,7 +92,7 @@ class OrdersTest extends AbstractTest
 
     public function testPlaceOrderWithMarketOrder()
     {
-        $marketOrder = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 0.001, null);
+        $marketOrder = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 1, null);
         $order = $this->orders->placeOrder($marketOrder);
 
         self::assertIsString($order->getId());
@@ -113,7 +113,7 @@ class OrdersTest extends AbstractTest
 
     public function testPlaceOrderWithLimitOrder()
     {
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 8000, 0.001);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 8000, 1);
         $order = $this->orders->placeOrder($limitOrderToPlace);
 
         self::assertIsString($order->getId());
@@ -135,14 +135,14 @@ class OrdersTest extends AbstractTest
 
     public function testDeleteOrderRaw()
     {
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $order = $this->orders->placeOrder($limitOrderToPlace);
         $raw = $this->orders->cancelOrderByIdRaw($order->getId());
 
         self::assertIsString($raw);
         self::assertEquals($order->getId(), json_decode($raw, true));
 
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $order = $this->orders->placeOrder($limitOrderToPlace);
         $raw = $this->orders->cancelOrderByIdRaw($order->getId(), $order->getProductId());
 
@@ -159,13 +159,13 @@ class OrdersTest extends AbstractTest
 
     public function testDeleteOrder()
     {
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $order = $this->orders->placeOrder($limitOrderToPlace);
         $isCancelled = $this->orders->cancelOrderById($order->getId());
 
         self::assertTrue($isCancelled);
 
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $order = $this->orders->placeOrder($limitOrderToPlace);
         $isCancelled = $this->orders->cancelOrderById($order->getId(), $order->getProductId());
 
@@ -175,7 +175,7 @@ class OrdersTest extends AbstractTest
     public function testDeleteOrderByClientIdRaw()
     {
         $clientOrderId = self::randomUUID();
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1, null, null, false, null, null, null, $clientOrderId);
         $order = $this->orders->placeOrder($limitOrderToPlace);
 
         $raw = $this->orders->cancelOrderByClientOrderIdRaw($clientOrderId);
@@ -196,14 +196,14 @@ class OrdersTest extends AbstractTest
     public function testDeleteOrderByClientId()
     {
         $clientOrderId = self::randomUUID();
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1, null, null, false, null, null, null, $clientOrderId);
         $this->orders->placeOrder($limitOrderToPlace);
 
         $isCancelled = $this->orders->cancelOrderByClientOrderId($clientOrderId);
         self::assertTrue($isCancelled);
 
         $clientOrderId = self::randomUUID();
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1, null, null, false, null, null, null, $clientOrderId);
         $order = $this->orders->placeOrder($limitOrderToPlace);
 
         $isCancelled = $this->orders->cancelOrderByClientOrderId($clientOrderId, $order->getProductId());
@@ -213,7 +213,7 @@ class OrdersTest extends AbstractTest
     public function testDeleteAllOrdersRaw()
     {
         $this->orders->cancelAllOrdersRaw();
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $orders = [];
         for ($i = 0; $i < 3; ++$i) {
             $orders[] = $this->orders->placeOrder($limitOrderToPlace)->getId();
@@ -229,7 +229,7 @@ class OrdersTest extends AbstractTest
     public function testDeleteAllOrder()
     {
         $this->orders->cancelAllOrders();
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $orders = [];
         for ($i = 0; $i < 3; ++$i) {
             $orders[] = $this->orders->placeOrder($limitOrderToPlace)->getId();
@@ -244,9 +244,9 @@ class OrdersTest extends AbstractTest
 
     public function testListOrdersRaw()
     {
-        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.1, 1);
         $this->orders->placeOrder($orderToPlace);
-        $orderToPlace = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 0.001, null);
+        $orderToPlace = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 1, null);
         $this->orders->placeOrder($orderToPlace);
         $raw = $this->orders->listOrdersRaw();
 
@@ -265,9 +265,9 @@ class OrdersTest extends AbstractTest
 
     public function testListOrders()
     {
-        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $this->orders->placeOrder($orderToPlace);
-        $orderToPlace = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 0.001, null);
+        $orderToPlace = new MarketOrderToPlace(MarketOrderToPlace::SIDE_BUY, 'BTC-USD', 1, null);
         $this->orders->placeOrder($orderToPlace);
         $orders = $this->orders->listOrders();
 
@@ -289,7 +289,7 @@ class OrdersTest extends AbstractTest
 
     public function testGetAnOrderRaw()
     {
-        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $order = $this->orders->placeOrder($orderToPlace);
         $raw = $this->orders->getOrderByIdRaw($order->getId());
 
@@ -308,7 +308,7 @@ class OrdersTest extends AbstractTest
 
     public function testGetAnOrder()
     {
-        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001);
+        $orderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1);
         $orderPlaced = $this->orders->placeOrder($orderToPlace);
         $order = $this->orders->getOrderById($orderPlaced->getId());
 
@@ -329,7 +329,7 @@ class OrdersTest extends AbstractTest
     public function testGetOrderByClientOrderIdRaw()
     {
         $clientOrderId = self::randomUUID();
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1, null, null, false, null, null, null, $clientOrderId);
         $this->orders->placeOrder($limitOrderToPlace);
 
         $raw = $this->orders->getOrderByClientOrderIdRaw($clientOrderId);
@@ -350,7 +350,7 @@ class OrdersTest extends AbstractTest
     public function testGetOrderByClientOrderId()
     {
         $clientOrderId = self::randomUUID();
-        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 0.01, 0.001, null, null, false, null, null, null, $clientOrderId);
+        $limitOrderToPlace = new LimitOrderToPlace(LimitOrderToPlace::SIDE_BUY, 'BTC-USD', 1, 1, null, null, false, null, null, null, $clientOrderId);
         $this->orders->placeOrder($limitOrderToPlace);
 
         $order = $this->orders->getOrderByClientOrderId($clientOrderId);

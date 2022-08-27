@@ -25,13 +25,13 @@ interface ProductDataInterface
 
     public function getQuoteIncrement(): float;
 
-    public function getBaseMinSize(): float;
+    public function getBaseMinSize(): ?float;
 
-    public function getBaseMaxSize(): float;
+    public function getBaseMaxSize(): ?float;
 
-    public function getMinMarketFunds(): float;
+    public function getMinMarketFunds(): ?float;
 
-    public function getMaxMarketFunds(): float;
+    public function getMaxMarketFunds(): ?float;
 
     public function getStatus(): string;
 
